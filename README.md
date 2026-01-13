@@ -2,7 +2,7 @@
 
 ## Rebuilt documentation
 
-- [Game Manual](https://firstfrc.blob.core.windows.net/frc2025/Manual/2025GameManual.pdf)
+- [Game Manual](https://firstfrc.blob.core.windows.net/frc2026/Manual/2026GameManual.pdf)
 - [Full drawing package](https://firstfrc.blob.core.windows.net/frc2026/FieldAssets/2026-field-dimension-dwgs.pdf)
 - [April Tags](https://firstfrc.blob.core.windows.net/frc2026/FieldAssets/2026-apriltag-images-user-guide.pdf)
 
