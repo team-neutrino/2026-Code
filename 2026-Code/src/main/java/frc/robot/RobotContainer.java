@@ -22,10 +22,12 @@ public class RobotContainer {
 
   private void configureDefaultCommands() {
     shooter.setDefaultCommand(shooter.defaultCommand());
+    intake.setDefaultCommand(intake.defaultCommand());
   }
 
   private void configureBindings() {
     m_buttonController.a().whileTrue(shooter.runShooter());
+    m_buttonController.x().whileTrue(intake.runIntake());
   }
 
   public Command getAutonomousCommand() {
