@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
   private final CANBus m_CANbus = new CANBus("rio");
   private TalonFX m_motor1 = new TalonFX(11, m_CANbus);
   private TalonFX m_motor2 = new TalonFX(12, m_CANbus);
-  private TalonFX m_indexer = new TalonFX(13, m_CANbus);
+  private TalonFX m_indexer = new TalonFX(15, m_CANbus);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
@@ -68,6 +68,5 @@ public class Shooter extends SubsystemBase {
     m_motor1.setVoltage(m_motorVoltage);
     m_motor2.setVoltage(-m_motorVoltage);
     m_indexer.setVoltage(m_indexerVoltage);
-    System.out.println(getVelocity());
   }
 }

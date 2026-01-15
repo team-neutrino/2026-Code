@@ -16,7 +16,7 @@ import static frc.robot.util.Constants.IntakeConstants.*;
 
 public class Intake extends SubsystemBase {
   private final CANBus m_CANbus = new CANBus("rio");
-  private TalonFX m_motor = new TalonFX(10, m_CANbus);
+  private TalonFX m_motor = new TalonFX(13, m_CANbus);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
