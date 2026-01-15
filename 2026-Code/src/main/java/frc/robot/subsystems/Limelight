@@ -37,66 +37,65 @@ public class Limelight extends SubsystemBase {
     m_limelightHelpers = new LimelightHelpers();
     // fake pipeline number
     // LimelightHelpers.setPipelineIndex(LIMELIGHT_1, 1);
-    LimelightHelpers.setLEDMode_ForceOff(LL_BL);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_BL,
-        BL_FORWARD_OFFSET, // Forward offset (meters)
-        BL_SIDE_OFFSET, // Side offset (meters) left is positive
-        BL_HEIGHT_OFFSET, // Height offset (meters)
-        BL_ROLL_OFFSET, // Roll (degrfees)
-        BL_PITCH_OFFSET, // Pitch (degrees)
-        BL_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.setLEDMode_ForceOff(Constants.LL_BL);
+    LimelightHelpers.setCameraPose_RobotSpace(Constants.LL_BL,
+        Constants.BL_FORWARD_OFFSET, // Forward offset (meters)
+        Constants.BL_SIDE_OFFSET, // Side offset (meters) left is positive
+        Constants.BL_HEIGHT_OFFSET, // Height offset (meters)
+        Constants.BL_ROLL_OFFSET, // Roll (degrfees)
+        Constants.BL_PITCH_OFFSET, // Pitch (degrees)
+        Constants.BL_YAW_OFFSET // Yaw (degrees)
     );
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_BL, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(Constants.LL_BL, 3);
 
-    LimelightHelpers.setLEDMode_ForceOff(LL_BR);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_BR,
-        BR_FORWARD_OFFSET, // Forward offset (meters)
-        BR_SIDE_OFFSET, // Side offset (meters) left is positive
-        BR_HEIGHT_OFFSET, // Height offset (meters)
-        BR_ROLL_OFFSET, // Roll (degrees)
-        BR_PITCH_OFFSET, // Pitch (degrees)
-        BR_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.setLEDMode_ForceOff(Constants.LL_BR);
+    LimelightHelpers.setCameraPose_RobotSpace(Constants.LL_BR,
+        Constants.BR_FORWARD_OFFSET, // Forward offset (meters)
+        Constants.BR_SIDE_OFFSET, // Side offset (meters) left is positive
+        Constants.BR_HEIGHT_OFFSET, // Height offset (meters)
+        Constants.BR_ROLL_OFFSET, // Roll (degrees)
+        Constants.BR_PITCH_OFFSET, // Pitch (degrees)
+        Constants.BR_YAW_OFFSET // Yaw (degrees)
     );
     LimelightHelpers.SetFiducialDownscalingOverride(LL_BR, 3);
 
-    LimelightHelpers.setLEDMode_ForceOff(LL_FL);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_FL,
-        FL_FORWARD_OFFSET, // Forward offset (meters)
-        FL_SIDE_OFFSET, // Side offset (meters) left is positive
-        FL_HEIGHT_OFFSET, // Height offset (meters)
-        FL_ROLL_OFFSET, // Roll (degrees)
-        FL_PITCH_OFFSET, // Pitch (degrees)
-        FL_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.setLEDMode_ForceOff(Constants.LL_FL);
+    LimelightHelpers.setCameraPose_RobotSpace(Constants.LL_FL,
+        Constants.FL_FORWARD_OFFSET, // Forward offset (meters)
+        Constants.FL_SIDE_OFFSET, // Side offset (meters) left is positive
+        Constants.FL_HEIGHT_OFFSET, // Height offset (meters)
+        Constants.FL_ROLL_OFFSET, // Roll (degrees)
+        Constants.FL_PITCH_OFFSET, // Pitch (degrees)
+        Constants.FL_YAW_OFFSET // Yaw (degrees)
     );
 
-    LimelightHelpers.SetFiducialDownscalingOverride(FL, 3);
-
-    LimelightHelpers.setLEDMode_ForceOff(LL_FR);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_FR,
-        FR_FORWARD_OFFSET, // Forward offset (meters)
-        FR_SIDE_OFFSET, // Side offset (meters) left is positive
-        FR_HEIGHT_OFFSET, // Height offset (meters)
-        FR_ROLL_OFFSET, // Roll (degrees)
-        FR_PITCH_OFFSET, // Pitch (degrees)
-        FR_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.SetFiducialDownscalingOverride(Constants.LL_FL, 3);
+    LimelightHelpers.setLEDMode_ForceOff(Constants.LL_FR);
+    LimelightHelpers.setCameraPose_RobotSpace(Constants.LL_FR,
+        Constants.FR_FORWARD_OFFSET, // Forward offset (meters)
+        Constants.FR_SIDE_OFFSET, // Side offset (meters) left is positive
+        Constants.FR_HEIGHT_OFFSET, // Height offset (meters)
+        Constants.FR_ROLL_OFFSET, // Roll (degrees)
+        Constants.FR_PITCH_OFFSET, // Pitch (degrees)
+        Constants.FR_YAW_OFFSET // Yaw (degrees)
     );
 
-    LimelightHelpers.SetFiducialDownscalingOverride(FR, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(Constants.LL_FR, 3);
 
-    LimelightHelpers.setLEDMode_ForceOff(LL_SHOOTER);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_SHOOTER,
-        SHOOTER_FORWARD_OFFSET, // Forward offset (meters)
-        SHOOTER_SIDE_OFFSET, // Side offset (meters) left is positive
-        SHOOTER_HEIGHT_OFFSET, // Height offset (meters)
-        SHOOTER_ROLL_OFFSET, // Roll (degrees)
-        SHOOTER_PITCH_OFFSET, // Pitch (degrees)
-        SHOOTER_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.setLEDMode_ForceOff(Constants.LL_SHOOTER);
+    LimelightHelpers.setCameraPose_RobotSpace(Constants.LL_SHOOTER,
+        Constants.SHOOTER_FORWARD_OFFSET, // Forward offset (meters)
+        Constants.SHOOTER_SIDE_OFFSET, // Side offset (meters) left is positive
+        Constants.SHOOTER_HEIGHT_OFFSET, // Height offset (meters)
+        Constants.SHOOTER_ROLL_OFFSET, // Roll (degrees)
+        Constants.SHOOTER_PITCH_OFFSET, // Pitch (degrees)
+        Constants.SHOOTER_YAW_OFFSET // Yaw (degrees)
     );
 
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_SHOOTER, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(Constants.LL_SHOOTER, 3);
 
-    LimelightHelpers.SetIMUMode(LL_SHOOTER, 1);
-    LimelightHelpers.SetIMUMode(LL_FR, 1);
+  LimelightHelpers.SetIMUMode(Constants.LL_SHOOTER, 1);
+  LimelightHelpers.SetIMUMode(Constants.LL_FR, 1);
     // use external IMU yaw submitted via setRobotOrientation() and configure the
     // LL4 internal IMU's fused yaw to match the submitted yaw value
   }
@@ -152,8 +151,8 @@ public class Limelight extends SubsystemBase {
 
   private void updateOdometryFr() {
     LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
-        .getBotPoseEstimate_wpiBlue_MegaTag2(LL_FR);
-    double frame = getFrame(LL_FR);
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_FR);
+    double frame = getFrame(Constants.LL_FR);
     if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameFr) {
@@ -164,8 +163,8 @@ public class Limelight extends SubsystemBase {
 
   private void updateOdometryFl() {
     LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
-        .getBotPoseEstimate_wpiBlue_MegaTag2(LL_FL);
-    double frame = getFrame(LL_FL);
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_FL);
+    double frame = getFrame(Constants.LL_FL);
     if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameFl) {
@@ -176,8 +175,8 @@ public class Limelight extends SubsystemBase {
 
   private void updateOdometryBr() {
     LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
-        .getBotPoseEstimate_wpiBlue_MegaTag2(LL_BR);
-    double frame = getFrame(LL_BR);
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_BR);
+    double frame = getFrame(Constants.LL_BR);
     if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameBr) {
@@ -188,8 +187,8 @@ public class Limelight extends SubsystemBase {
 
   private void updateOdometryBl() {
     LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
-        .getBotPoseEstimate_wpiBlue_MegaTag2(LL_BL);
-    double frame = getFrame(LL_BL);
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_BL);
+    double frame = getFrame(Constants.LL_BL);
     if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameBl) {
@@ -200,8 +199,8 @@ public class Limelight extends SubsystemBase {
 
   private void updateOdometryShooter() {
     LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
-        .getBotPoseEstimate_wpiBlue_MegaTag2(LL_SHOOTER);
-    double frame = getFrame(LL_SHOOTER);
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_SHOOTER);
+    double frame = getFrame(Constants.LL_SHOOTER);
     if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameShooter) {
@@ -212,27 +211,27 @@ public class Limelight extends SubsystemBase {
 
 
   public double getTargetYawFromFr() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_FR);
+    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(Constants.LL_FR);
     return temp.length == 0 ? 0 : temp[4];
   }
 
   public double getTargetYawFromFl() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_FL);
+    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(Constants.LL_FL);
     return temp.length == 0 ? 0 : temp[4];
   }
 
   public double getTargetYawFromBr() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_BR);
+    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(Constants.LL_BR);
     return temp.length == 0 ? 0 : temp[4];
   }
 
   public double getTargetYawFromBl() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_BL);
+    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(Constants.LL_BL);
     return temp.length == 0 ? 0 : temp[4];
   }
 
   public double getTargetYawFromShooter() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_SHOOTER);
+    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(Constants.LL_SHOOTER);
     return temp.length == 0 ? 0 : temp[4];
   }
 
@@ -287,11 +286,11 @@ public class Limelight extends SubsystemBase {
     m_enabled = DriverStation.isEnabled();
   final int throttle = m_enabled ? 0 : 169;
   // Apply throttle to all five configured Limelights
-  LimelightHelpers.SetThrottle(LL_SHOOTER, throttle);
-  LimelightHelpers.SetThrottle(LL_FR, throttle);
-  LimelightHelpers.SetThrottle(LL_FL, throttle);
-  LimelightHelpers.SetThrottle(LL_BR, throttle);
-  LimelightHelpers.SetThrottle(LL_BL, throttle);
+  LimelightHelpers.SetThrottle(Constants.LL_SHOOTER, throttle);
+  LimelightHelpers.SetThrottle(Constants.LL_FR, throttle);
+  LimelightHelpers.SetThrottle(Constants.LL_FL, throttle);
+  LimelightHelpers.SetThrottle(Constants.LL_BR, throttle);
+  LimelightHelpers.SetThrottle(Constants.LL_BL, throttle);
   }
 
   public Command limelightDefaultCommand() {
@@ -304,20 +303,20 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
     ManageLimelightTemperature();
   // read the five Limelight tables and store whether each currently sees a target
-  m_has_shooter_tag = LimelightHelpers.getTV(LL_SHOOTER);
-  m_has_fr_tag = LimelightHelpers.getTV(LL_FR);
-  m_has_fl_tag = LimelightHelpers.getTV(LL_FL);
-  m_has_br_tag = LimelightHelpers.getTV(LL_BR);
-  m_has_bl_tag = LimelightHelpers.getTV(LL_BL);
+  m_has_shooter_tag = LimelightHelpers.getTV(Constants.LL_SHOOTER);
+  m_has_fr_tag = LimelightHelpers.getTV(Constants.LL_FR);
+  m_has_fl_tag = LimelightHelpers.getTV(Constants.LL_FL);
+  m_has_br_tag = LimelightHelpers.getTV(Constants.LL_BR);
+  m_has_bl_tag = LimelightHelpers.getTV(Constants.LL_BL);
 
 
     //changed - when enabled configure IMU mode for all Limelights we use
     if (m_enabled) {
-      LimelightHelpers.SetIMUMode(LL_SHOOTER, 2);
-      LimelightHelpers.SetIMUMode(LL_FR, 2);
-      LimelightHelpers.SetIMUMode(LL_FL, 2);
-      LimelightHelpers.SetIMUMode(LL_BR, 2);
-      LimelightHelpers.SetIMUMode(LL_BL, 2);
+      LimelightHelpers.SetIMUMode(Constants.LL_SHOOTER, 2);
+      LimelightHelpers.SetIMUMode(Constants.LL_FR, 2);
+      LimelightHelpers.SetIMUMode(Constants.LL_FL, 2);
+      LimelightHelpers.SetIMUMode(Constants.LL_BR, 2);
+      LimelightHelpers.SetIMUMode(Constants.LL_BL, 2);
     }
 
     if (m_swerve == null) {
@@ -330,11 +329,11 @@ public class Limelight extends SubsystemBase {
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
   // supply current robot orientation to every Limelight before asking for pose estimates
-  LimelightHelpers.SetRobotOrientation(LL_SHOOTER, yaw_degrees, 0, 0, 0, 0, 0);
-  LimelightHelpers.SetRobotOrientation(LL_FR, yaw_degrees, 0, 0, 0, 0, 0);
-  LimelightHelpers.SetRobotOrientation(LL_FL, yaw_degrees, 0, 0, 0, 0, 0);
-  LimelightHelpers.SetRobotOrientation(LL_BR, yaw_degrees, 0, 0, 0, 0, 0);
-  LimelightHelpers.SetRobotOrientation(LL_BL, yaw_degrees, 0, 0, 0, 0, 0);
+  LimelightHelpers.SetRobotOrientation(Constants.LL_SHOOTER, yaw_degrees, 0, 0, 0, 0, 0);
+  LimelightHelpers.SetRobotOrientation(Constants.LL_FR, yaw_degrees, 0, 0, 0, 0, 0);
+  LimelightHelpers.SetRobotOrientation(Constants.LL_FL, yaw_degrees, 0, 0, 0, 0, 0);
+  LimelightHelpers.SetRobotOrientation(Constants.LL_BR, yaw_degrees, 0, 0, 0, 0, 0);
+  LimelightHelpers.SetRobotOrientation(Constants.LL_BL, yaw_degrees, 0, 0, 0, 0, 0);
     updateOdometry();
   }
 
