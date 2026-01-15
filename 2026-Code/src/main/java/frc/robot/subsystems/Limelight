@@ -125,86 +125,62 @@ public class Limelight extends SubsystemBase {
     return m_has_bl_tag;
   }
 
-  // Backwards-compatible helpers used by existing odometry logic.
-  // Map the old reef/station checks onto the new camera booleans so
-  // existing updateOdometry() behavior continues to work.
-  public boolean getTvFr() {
-    return m_has_fr_tag;
-  }
-
-  public boolean getTvFl() {
-    return m_has_fl_tag;
-  }
-
-  public boolean getTvShooter() {
-    return m_has_shooter_tag;
-  }
-
-  public boolean getTvLr() {
-    return m_has_fr_tag;
-  }
-
-  public boolean getTvLl() {
-    return m_has_fl_tag;
-  }
-
-
   private void updateOdometryFr() {
-    LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
+    LimelightHelpers.PoseEstimate estimate = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_FR);
     double frame = getFrame(Constants.LL_FR);
-    if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
+    if (estimate != null && estimate.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameFr) {
-      m_swerve.addVisionMeasurement(limePoseEstReef.pose, limePoseEstReef.timestampSeconds);
+      m_swerve.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
     }
     m_lastFrameFr = frame;
   }
 
   private void updateOdometryFl() {
-    LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
+    LimelightHelpers.PoseEstimate estimate = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_FL);
     double frame = getFrame(Constants.LL_FL);
-    if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
+    if (estimate != null && estimate.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameFl) {
-      m_swerve.addVisionMeasurement(limePoseEstReef.pose, limePoseEstReef.timestampSeconds);
+      m_swerve.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
     }
     m_lastFrameFl = frame;
   }
 
   private void updateOdometryBr() {
-    LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
+    LimelightHelpers.PoseEstimate estimate = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_BR);
     double frame = getFrame(Constants.LL_BR);
-    if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
+    if (estimate != null && estimate.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameBr) {
-      m_swerve.addVisionMeasurement(limePoseEstReef.pose, limePoseEstReef.timestampSeconds);
+      m_swerve.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
     }
     m_lastFrameBr = frame;
   }
 
   private void updateOdometryBl() {
-    LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
+    LimelightHelpers.PoseEstimate estimate = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_BL);
     double frame = getFrame(Constants.LL_BL);
-    if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
+    if (estimate != null && estimate.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameBl) {
-      m_swerve.addVisionMeasurement(limePoseEstReef.pose, limePoseEstReef.timestampSeconds);
+      m_swerve.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
     }
     m_lastFrameBl = frame;
   }
 
   private void updateOdometryShooter() {
-    LimelightHelpers.PoseEstimate limePoseEstReef = LimelightHelpers
+    LimelightHelpers.PoseEstimate estimate = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_SHOOTER);
     double frame = getFrame(Constants.LL_SHOOTER);
-    if (limePoseEstReef != null && limePoseEstReef.tagCount != 0
+    if (estimate != null && estimate.tagCount != 0
         && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameShooter) {
-      m_swerve.addVisionMeasurement(limePoseEstReef.pose, limePoseEstReef.timestampSeconds);
+      m_swerve.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
     }
     m_lastFrameShooter = frame;
   }
@@ -312,11 +288,11 @@ public class Limelight extends SubsystemBase {
 
     //changed - when enabled configure IMU mode for all Limelights we use
     if (m_enabled) {
-      LimelightHelpers.SetIMUMode(Constants.LL_SHOOTER, 2);
-      LimelightHelpers.SetIMUMode(Constants.LL_FR, 2);
-      LimelightHelpers.SetIMUMode(Constants.LL_FL, 2);
-      LimelightHelpers.SetIMUMode(Constants.LL_BR, 2);
-      LimelightHelpers.SetIMUMode(Constants.LL_BL, 2);
+      LimelightHelpers.SetIMUMode(Constants.LL_SHOOTER, 3);
+      LimelightHelpers.SetIMUMode(Constants.LL_FR, 3);
+      LimelightHelpers.SetIMUMode(Constants.LL_FL, 3);
+      LimelightHelpers.SetIMUMode(Constants.LL_BR, 3);
+      LimelightHelpers.SetIMUMode(Constants.LL_BL, 3);
     }
 
     if (m_swerve == null) {
