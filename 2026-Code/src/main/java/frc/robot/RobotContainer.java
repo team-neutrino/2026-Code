@@ -27,7 +27,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_buttonController.a().whileTrue(shooter.runShooter());
+    m_buttonController.y().whileTrue(shooter.runIndexer());
     m_buttonController.x().whileTrue(intake.runIntake());
+    m_buttonController.b().whileTrue(intake.runOuttake());
   }
 
   public Command getAutonomousCommand() {

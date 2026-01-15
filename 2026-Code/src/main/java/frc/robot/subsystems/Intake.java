@@ -42,6 +42,12 @@ public class Intake extends SubsystemBase {
     });
   }
 
+  public Command runOuttake() {
+    return run(() -> {
+      m_motorVoltage = -INTAKE_VOLTAGE;
+    });
+  }
+
   public Command defaultCommand() {
     return run(() -> {
       m_motorVoltage = 0;
