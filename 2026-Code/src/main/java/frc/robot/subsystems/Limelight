@@ -312,7 +312,7 @@ public class Limelight extends SubsystemBase {
 
 
     //changed - when enabled configure IMU mode for all Limelights we use
-    if (DriverStation.isEnabled()) {
+    if (m_enabled) {
       LimelightHelpers.SetIMUMode(LL_SHOOTER, 2);
       LimelightHelpers.SetIMUMode(LL_FR, 2);
       LimelightHelpers.SetIMUMode(LL_FL, 2);
