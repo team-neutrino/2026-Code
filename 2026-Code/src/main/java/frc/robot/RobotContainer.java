@@ -18,13 +18,17 @@ import frc.robot.alpha_subsystems.AlphabotIntake;
 import frc.robot.alpha_subsystems.AlphabotShooter;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.AlphaSubsystem;
 import frc.robot.util.Subsystem;
 
+import static frc.robot.util.AlphaSubsystem.*;
 import static frc.robot.util.Subsystem.*;
 
 public class RobotContainer {
   private CommandXboxController m_buttonController = new CommandXboxController(1);
-  private Subsystem m_subsystemContainer = new Subsystem();
+  private AlphaSubsystem m_subsystemContainer = new AlphaSubsystem();
+  // private Subsystem m_subsystemContainer = new Subsystem();
+  // comment out whichever subsystem container you're not testing 
   private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
                                                                                       // speed
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max
