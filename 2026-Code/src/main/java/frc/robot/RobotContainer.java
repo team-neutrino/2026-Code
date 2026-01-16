@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.AlphabotIndexer;
+import frc.robot.subsystems.AlphabotIntake;
+import frc.robot.subsystems.AlphabotShooter;
 import frc.robot.util.Subsystem;
 
 import static frc.robot.util.Subsystem.*;
@@ -42,8 +45,8 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands() {
-    shooter.setDefaultCommand(shooter.defaultCommand());
-    intake.setDefaultCommand(intake.defaultCommand());
+    alphaShooter.setDefaultCommand(alphaShooter.defaultCommand());
+    alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
@@ -60,10 +63,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_buttonController.a().whileTrue(shooter.runShooter());
-    m_buttonController.y().whileTrue(indexer.runIndexer());
-    m_buttonController.x().whileTrue(intake.runIntake());
-    m_buttonController.b().whileTrue(intake.runOuttake());
+    m_buttonController.a().whileTrue(alphaShooter.runShooter());
+    m_buttonController.y().whileTrue(alphaIndexer.runIndexer());
+    m_buttonController.x().whileTrue(alphaIntake.runIntake());
+    m_buttonController.b().whileTrue(alphaIntake.runOuttake());
   }
 
   public Command getAutonomousCommand() {
