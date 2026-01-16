@@ -17,9 +17,11 @@ import static frc.robot.util.Constants.IntakeConstants.*;
 
 public class AlphabotIntake extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(13, RIO_BUS);
+  private TalonFX m_indexerMotor = new TalonFX(14, m_CANbus);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
+  private double m_indexerVoltage;
 
   public AlphabotIntake() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -29,7 +31,9 @@ public class AlphabotIntake extends SubsystemBase {
     m_motorConfig.CurrentLimits = m_currentLimitConfig;
 
     m_motor.getConfigurator().apply(m_motorConfig);
+    m_indexerMotor.getConfigurator().apply(m_motorConfig);
     m_motor.setNeutralMode(NeutralModeValue.Coast);
+    m_indexerMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
   public double getVelocity() {
@@ -39,24 +43,28 @@ public class AlphabotIntake extends SubsystemBase {
   public Command runIntake() {
     return run(() -> {
       m_motorVoltage = INTAKE_VOLTAGE;
+      m_indexerVoltage = INDEXER_VOLTAGE;
     });
   }
 
   public Command runOuttake() {
     return run(() -> {
       m_motorVoltage = -INTAKE_VOLTAGE;
+      m_indexerVoltage = -INDEXER_VOLTAGE;
     });
   }
 
   public Command defaultCommand() {
     return run(() -> {
       m_motorVoltage = 0;
+      m_indexerVoltage = 0;
     });
   }
 
   @Override
   public void periodic() {
     m_motor.setVoltage(m_motorVoltage);
+    m_indexerMotor.setVoltage(m_indexerVoltage);
   }
 
   public boolean isEmpty() {

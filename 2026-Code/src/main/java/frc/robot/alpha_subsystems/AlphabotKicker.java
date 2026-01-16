@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.util.Constants.RioConstants.*;
 import static frc.robot.util.Constants.IndexerConstants.*;
+import static frc.robot.util.Constants.KickerConstants.*;
 
 public class AlphabotKicker extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(15, RIO_BUS);
@@ -38,9 +39,9 @@ public class AlphabotKicker extends SubsystemBase {
     return m_motor.getVelocity().getValueAsDouble();
   }
 
-  public Command runIndexer() {
+  public Command runKicker() {
     return run(() -> {
-      m_motorVoltage = INDEXING_VOLTAGE;
+      m_motorVoltage = KICKING_VOLTAGE;
     });
   }
 

@@ -47,6 +47,7 @@ public class RobotContainer {
     alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
     alphabotLimelight.setDefaultCommand(alphabotLimelight.AlphaLimelightDefaultCommand());
     swerve.setDefaultCommand(
+    alphaKicker.setDefaultCommand(alphaKicker.defaultCommand());
         // Drivetrain will execute this command periodically
         swerve.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
                                                                                        // negative Y (forward)
@@ -62,8 +63,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_buttonController.a().whileTrue(alphaShooter.runShooter());
-    m_buttonController.y().whileTrue(alphaKicker.runIndexer());
+    m_buttonController.y().whileTrue(alphaShooter.runShooter());
+    m_buttonController.a().whileTrue(alphaKicker.runKicker());
     m_buttonController.x().whileTrue(alphaIntake.runIntake());
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
     joystick.start().whileTrue(swerve.resetYaw());
