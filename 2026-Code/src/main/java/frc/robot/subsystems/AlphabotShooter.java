@@ -12,39 +12,36 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.util.Constants.IntakeConstants.*;
+import static frc.robot.util.Constants.ShooterConstants.*;
 
-public class Intake extends SubsystemBase {
+public class AlphabotShooter extends SubsystemBase {
   private final CANBus m_CANbus = new CANBus("rio");
-  private TalonFX m_motor = new TalonFX(13, m_CANbus);
+  private TalonFX m_motor1 = new TalonFX(11, m_CANbus);
+  private TalonFX m_motor2 = new TalonFX(12, m_CANbus);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
 
-  public Intake() {
+  public AlphabotShooter() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
         .withStatorCurrentLimit(CURRENT_LIMIT)
         .withStatorCurrentLimitEnable(true);
     m_motorConfig.CurrentLimits = m_currentLimitConfig;
 
-    m_motor.getConfigurator().apply(m_motorConfig);
-    m_motor.setNeutralMode(NeutralModeValue.Coast);
+    m_motor1.getConfigurator().apply(m_motorConfig);
+    m_motor2.getConfigurator().apply(m_motorConfig);
+    m_motor1.setNeutralMode(NeutralModeValue.Coast);
+    m_motor2.setNeutralMode(NeutralModeValue.Coast);
   }
 
   public double getVelocity() {
-    return m_motor.getVelocity().getValueAsDouble();
+    return m_motor1.getVelocity().getValueAsDouble();
   }
 
-  public Command runIntake() {
+  public Command runShooter() {
     return run(() -> {
-      m_motorVoltage = INTAKE_VOLTAGE;
-    });
-  }
-
-  public Command runOuttake() {
-    return run(() -> {
-      m_motorVoltage = -INTAKE_VOLTAGE;
+      m_motorVoltage = SHOOTING_VOLTAGE;
     });
   }
 
@@ -56,6 +53,7 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    m_motor.setVoltage(m_motorVoltage);
+    m_motor1.setVoltage(m_motorVoltage);
+    m_motor2.setVoltage(-m_motorVoltage);
   }
 }

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
 
-public class Indexer extends SubsystemBase {
+public class AlphabotIndexer extends SubsystemBase {
   private final CANBus m_CANbus = new CANBus("rio");
   private TalonFX m_motor = new TalonFX(15, m_CANbus);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
@@ -23,7 +23,7 @@ public class Indexer extends SubsystemBase {
   private double m_motorVoltage;
 
   /** Creates a new Indexer. */
-  public Indexer() {
+  public AlphabotIndexer() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
         .withStatorCurrentLimit(CURRENT_LIMIT)
