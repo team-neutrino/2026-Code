@@ -10,9 +10,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
+import frc.robot.util.LimelightHelpers;
+import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.Subsystem;
-import static frc.robot.Constants.LimelightConstants.*;
+import frc.robot.Constants.LimelightConstants;
 
 public class Limelight extends SubsystemBase {
   LimelightHelpers m_limelightHelpers;
@@ -37,7 +38,7 @@ public class Limelight extends SubsystemBase {
     m_limelightHelpers = new LimelightHelpers();
     // fake pipeline number
     // LimelightHelpers.setPipelineIndex(LIMELIGHT_1, 1);
-    LimelightHelpers.setLEDMode_ForceOff(Constants.LL_BL);
+    LimelightHelpers.setLEDMode_ForceOff(Constants.LimelightConstants.LL_BL);
     LimelightHelpers.setCameraPose_RobotSpace(Constants.LL_BL,
         Constants.BL_FORWARD_OFFSET, // Forward offset (meters)
         Constants.BL_SIDE_OFFSET, // Side offset (meters) left is positive
@@ -190,9 +191,9 @@ public class Limelight extends SubsystemBase {
     m_lastFrameShooter = frame;
   }
 
-  private void updateFrame(PoseEstimate x, double frame){
+  private void updateFrame(PoseEstimate x, double frame, String name){
     if(x.tagCount > 0){
-      switch(x.limelightName){
+      switch(name){
         case Constants.LL_FR:
           m_lastFrameFr = frame;
           break;
@@ -231,7 +232,7 @@ public class Limelight extends SubsystemBase {
     Triplet<PoseEstimate,Double,String> [] limelights = {BL, BR, FL, FR};
 
     for(Triplet<PoseEstimate,Double,String> limelight:limelights) {
-      updateFrame(limelight.first(), getFrame(limelight.limelightName));
+      updateFrame(limelight.first(), getFrame(limelight.second()),limelight.third());
       if(!verifyLimelightValidity(limelight.first(), getFrame(limelight.limelightName))){
         continue;
       }
