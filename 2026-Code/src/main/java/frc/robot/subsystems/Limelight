@@ -173,6 +173,11 @@ public class Limelight extends SubsystemBase {
     m_lastFrameBl = frame;
   }
 
+  public boolean verifyLimelightValidity(PoseEstimate estimate, double frame){
+    return (estimate != null && estimate.tagCount != 0
+        && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
+        && frame > m_lastFrameShooter);
+  }
   private void updateOdometryShooter() {
     LimelightHelpers.PoseEstimate estimate = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_SHOOTER);
@@ -183,6 +188,63 @@ public class Limelight extends SubsystemBase {
       m_swerve.addVisionMeasurement(estimate.pose, estimate.timestampSeconds);
     }
     m_lastFrameShooter = frame;
+  }
+
+  private void updateFrame(PoseEstimate x, double frame){
+    if(x.tagCount > 0){
+      switch(x.limelightName){
+        case Constants.LL_FR:
+          m_lastFrameFr = frame;
+          break;
+        case Constants.LL_FL:
+          m_lastFrameFl = frame;
+          break;
+        case Constants.LL_BR:
+          m_lastFrameBr = frame;
+          break;
+        case Constants.LL_BL:
+          m_lastFrameBl = frame;
+          break;
+        case Constants.LL_SHOOTER:
+          m_lastFrameShooter = frame;
+          break;
+      }
+    }
+  }
+  
+  private void updateFusionOdometry() {
+    Subsystem.swerve.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
+    LimelightHelpers.PoseEstimate estimateBL = LimelightHelpers
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_BL);
+    LimelightHelpers.PoseEstimate estimateBR = LimelightHelpers
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_BR);
+    LimelightHelpers.PoseEstimate estimateFL = LimelightHelpers
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_FL);
+    LimelightHelpers.PoseEstimate estimateFR = LimelightHelpers
+        .getBotPoseEstimate_wpiBlue_MegaTag2(Constants.LL_FR);
+
+    Triplet<PoseEstimate,Double,String> BL = new Triplet<>(estimateBL, getFrame(Constants.LL_BL), Constants.LL_BL);
+    Triplet<PoseEstimate,Double,String> BR = new Triplet<>(estimateBR, getFrame(Constants.LL_BR), Constants.LL_BR);
+    Triplet<PoseEstimate,Double,String> FL = new Triplet<>(estimateFL, getFrame(Constants.LL_FL), Constants.LL_FL);
+    Triplet<PoseEstimate,Double,String> FR = new Triplet<>(estimateFR, getFrame(Constants.LL_FR), Constants.LL_FR);
+
+    Triplet<PoseEstimate,Double,String> [] limelights = {BL, BR, FL, FR};
+
+    for(Triplet<PoseEstimate,Double,String> limelight:limelights) {
+      updateFrame(limelight.first(), getFrame(limelight.limelightName));
+      if(!verifyLimelightValidity(limelight.first(), getFrame(limelight.limelightName))){
+        continue;
+      }
+      double numberOfTags = limelight.first().tagCount;
+      double distance = limelight.first().avgTagDistance;
+      double xystdev = Math.max(Constants.Minimum_XY_Std_Dev_LL4,(distance*Constants.ErrorFactor_LL4)/numberOfTags);
+      double theta = Math.max(Constants.Minimum_Theta_Std_Dev_LL4,(distance*Constants.ErrorFactor_LL4_Angle)/numberOfTags);
+      
+      
+    //check 1st and 2nd argument
+      m_swerve.addVisionMeasurement(limelight.pose, limelight.timestampSeconds,VectorBuilder.fill(xystdev, xystdev, theta));
+    }
+  }
   }
 
 
@@ -211,43 +273,6 @@ public class Limelight extends SubsystemBase {
     return temp.length == 0 ? 0 : temp[4];
   }
 
-  private void updateOdometry() {
-//     Subsystem.swerve.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
-//     // if aligning to an algae position, force odometry updates from reef.
-//     if (getTvReef1() && (m_deAlgaefying || Subsystem.coral.hasCoral() || Subsystem.algae.hasAlgae())) {
-//       updateOdometryReef1();
-//       return;
-//     } else if (getTvReef2() && (m_deAlgaefying || Subsystem.coral.hasCoral() || Subsystem.algae.hasAlgae())) {
-//       updateOdometryReef2();
-//       return;
-//     }
-//     if (getTvStation()) {
-//       updateOdometryStation();
-//     }
-//   }
-    if (getTvFr()) {
-      updateOdometryFr();
-      return;
-    }
-    if (getTvFl()) {
-      updateOdometryFl();
-      return;
-    }
-    if (getTvBr()) {
-      updateOdometryBr();
-      return;
-    }
-    if (getTvBl()) {
-      updateOdometryBl();
-      return;
-    }
-    if (getTvShooter()) {
-      updateOdometryShooter();
-      return;
-    }
-
-    // boilerplate 
-  }
 
   private double getFrame(String limelight) {
     return NetworkTableInstance.getDefault().getTable(limelight).getEntry("hb").getDouble(-1);
@@ -259,7 +284,7 @@ public class Limelight extends SubsystemBase {
       return;
     }
     // update at 1Hz or when disabled
-    m_enabled = DriverStation.isEnabled();
+  m_enabled = DriverStation.isEnabled();
   final int throttle = m_enabled ? 0 : 169;
   // Apply throttle to all five configured Limelights
   LimelightHelpers.SetThrottle(Constants.LL_SHOOTER, throttle);
@@ -317,4 +342,3 @@ public class Limelight extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
-}
