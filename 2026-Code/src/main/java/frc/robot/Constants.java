@@ -50,6 +50,16 @@ public final class Constants {
         public static final double BL_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double BL_PITCH_OFFSET = 0; // Pitch (degrees)
         public static final double BL_YAW_OFFSET = 0; // Yaw (degrees)
+        public static final int Minimum_XY_Std_Dev_LL4 = 0;
+        public static final int Minimum_Theta_Std_Dev_LL4 = 0;
+        public static final double ErrorFactor_LL4 = 0;
+        public static final double ErrorFactor_LL4_Angle = 0;
+        public static final double SHOOTER_FORWARD_OFFSET = 0;
+        public static final double SHOOTER_SIDE_OFFSET = 0;
+        public static final double SHOOTER_HEIGHT_OFFSET = 0;
+        public static final double SHOOTER_ROLL_OFFSET = 0;
+        public static final double SHOOTER_PITCH_OFFSET = 0;
+        public static final double SHOOTER_YAW_OFFSET = 0;
 
     }
 
