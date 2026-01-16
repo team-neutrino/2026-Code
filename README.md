@@ -14,8 +14,15 @@
 - [LimeLight](https://docs.limelightvision.io/docs/docs-limelight/apis/limelight-lib)
 
 ## Rio Bus CAN IDs
-| Subsystem | Description    | CAN ID | Node Type        |
-| --------- | -------------- | ------ | ---------------- |
+| Subsystem | Description | CAN ID  | Device      |
+| --------- | ----------- | ------- | ----------- |
+| Swerve    |-------------| 0       | Pigeon      |
+| Swerve    | ----------- | 1 to 4  | CANencoders |
+| Swerve    | ----------- | 5 to 12 | Motors      |
+| Intake    | ------------| 12, 13  | Motors      |
+| Indexer   | ----------- | 14, 15  | Motors      |
+| Shooter   | ----------- | 16, 17  | Motors      |
+| Climb     | ----------- | ------- |             |
 
 ## DIO
 | Subsystem | Description          | Port   |
