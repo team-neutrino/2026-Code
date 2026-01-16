@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.alpha_subsystems.AlphabotIndexer;
+import frc.robot.alpha_subsystems.AlphabotIntake;
+import frc.robot.alpha_subsystems.AlphabotShooter;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.AlphabotIndexer;
-import frc.robot.subsystems.AlphabotIntake;
-import frc.robot.subsystems.AlphabotShooter;
 import frc.robot.util.Subsystem;
 
 import static frc.robot.util.Subsystem.*;
