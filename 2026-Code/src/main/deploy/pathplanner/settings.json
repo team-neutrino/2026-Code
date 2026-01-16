@@ -1,9 +1,15 @@
 {
-  "robotWidth": 0.8,
-  "robotLength": 0.8,
+  "robotWidth": 0.9,
+  "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [],
-  "autoFolders": [],
+  "autoFolders": [
+    "Neutral Zone",
+    "Nothing",
+    "Depot",
+    "Outpost",
+    "Preload Only"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
