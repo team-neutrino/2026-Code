@@ -16,8 +16,8 @@ import static frc.robot.util.Constants.ShooterConstants.*;
 
 public class AlphabotShooter extends SubsystemBase {
   private final CANBus m_CANbus = new CANBus("rio");
-  private TalonFX m_motor1 = new TalonFX(11, m_CANbus);
-  private TalonFX m_motor2 = new TalonFX(12, m_CANbus);
+  private TalonFX m_motor1 = new TalonFX(16, m_CANbus);
+  private TalonFX m_motor2 = new TalonFX(17, m_CANbus);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;

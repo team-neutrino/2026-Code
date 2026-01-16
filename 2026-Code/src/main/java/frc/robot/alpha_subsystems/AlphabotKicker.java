@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.util.Constants.IndexerConstants.*;
+import static frc.robot.util.Constants.KickerConstants.*;
 
 public class AlphabotKicker extends SubsystemBase {
   private final CANBus m_CANbus = new CANBus("rio");
@@ -38,9 +38,9 @@ public class AlphabotKicker extends SubsystemBase {
     return m_motor.getVelocity().getValueAsDouble();
   }
 
-  public Command runIndexer() {
+  public Command runKicker() {
     return run(() -> {
-      m_motorVoltage = INDEXING_VOLTAGE;
+      m_motorVoltage = KICKING_VOLTAGE;
     });
   }
 

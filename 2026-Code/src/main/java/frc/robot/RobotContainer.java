@@ -48,6 +48,7 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     alphaShooter.setDefaultCommand(alphaShooter.defaultCommand());
     alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
+    alphaKicker.setDefaultCommand(alphaKicker.defaultCommand());
     drivetrain.setDefaultCommand(
         // Drivetrain will execute this command periodically
         drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
@@ -64,8 +65,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_buttonController.a().whileTrue(alphaShooter.runShooter());
-    m_buttonController.y().whileTrue(alphaKicker.runIndexer());
+    m_buttonController.y().whileTrue(alphaShooter.runShooter());
+    m_buttonController.a().whileTrue(alphaKicker.runKicker());
     m_buttonController.x().whileTrue(alphaIntake.runIntake());
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
   }
