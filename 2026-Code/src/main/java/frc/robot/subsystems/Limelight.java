@@ -154,6 +154,39 @@ public class Limelight extends SubsystemBase {
       }
   }
 
+  private double setxytdev(double distance, double numberOfTags, String name){
+    double xyStdv;
+    if(name.equals(LimelightConstants.LL_BL)){
+      xyStdv = Math.max(LimelightConstants.Minimum_XY_Std_Dev_LL3,(distance*LimelightConstants.ErrorFactor_LL3)/numberOfTags);
+    }
+    else if(name.equals(LimelightConstants.LL_BR)){
+      xyStdv = Math.max(LimelightConstants.Minimum_XY_Std_Dev_LL2,(distance*LimelightConstants.ErrorFactor_LL2)/numberOfTags);
+    }
+    else if(name.equals(LimelightConstants.LL_FL)){
+      xyStdv = Math.max(LimelightConstants.Minimum_XY_Std_Dev_LL3g,(distance*LimelightConstants.ErrorFactor_LL3g)/numberOfTags);
+    }
+    else{
+      xyStdv = Math.max(LimelightConstants.Minimum_XY_Std_Dev_LL4,(distance*LimelightConstants.ErrorFactor_LL4)/numberOfTags);
+    }
+  }
+
+  private double setthetastdev(double distance, double numberOfTags, String name){
+    double thetaStdv;
+    if(name.equals(LimelightConstants.LL_BL)){
+      thetaStdv = Math.max(LimelightConstants.Minimum_Theta_Std_Dev_LL3,(distance*LimelightConstants.ErrorFactor_LL3_Angle)/numberOfTags);
+    }
+    else if(name.equals(LimelightConstants.LL_BR)){
+      thetaStdv = Math.max(LimelightConstants.Minimum_Theta_Std_Dev_LL2,(distance*LimelightConstants.ErrorFactor_LL2_Angle)/numberOfTags);
+    }
+    else if(name.equals(LimelightConstants.LL_FL)){
+      thetaStdv = Math.max(LimelightConstants.Minimum_Theta_Std_Dev_LL3g,(distance*LimelightConstants.ErrorFactor_LL3g_Angle)/numberOfTags);
+    }
+    else{
+      thetaStdv = Math.max(LimelightConstants.Minimum_Theta_Std_Dev_LL4,(distance*LimelightConstants.ErrorFactor_LL4_Angle)/numberOfTags);
+    }
+    return thetaStdv;
+  }
+
   
   private void updateFusionOdometry() {
     m_swerve.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
@@ -181,10 +214,9 @@ public class Limelight extends SubsystemBase {
       }
       double numberOfTags = limelight.estimate().tagCount;
       double distance = limelight.estimate().avgTagDist;
-      double xystdev = Math.max(LimelightConstants.Minimum_XY_Std_Dev_LL4,(distance*LimelightConstants.ErrorFactor_LL4)/numberOfTags);
-      double thetastdev = Math.max(LimelightConstants.Minimum_Theta_Std_Dev_LL4,(distance*LimelightConstants.ErrorFactor_LL4_Angle)/numberOfTags);
-      
-      
+      double xystdev = setxytdev(distance, numberOfTags, limelight.limelightId());
+      double thetastdev = setthetastdev(distance, numberOfTags, limelight.limelightId());
+
     //check 1st and 2nd argument
       m_swerve.addVisionMeasurement(limelight.estimate().pose, limelight.estimate().timestampSeconds,VecBuilder.fill(xystdev, xystdev, thetastdev));
     }
