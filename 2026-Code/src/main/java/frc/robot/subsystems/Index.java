@@ -15,7 +15,9 @@ import static frc.robot.util.Constants.IndexerConstants.*;
 public class Index extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
     private TalonFX m_spindexerMotor = new TalonFX(SPINDEXER_MOTOR_ID, m_CANbus);
+    private TalonFX m_outputMotor = new TalonFX(OUTPUT_MOTOR_ID, m_CANbus);
     private double m_spindexerMotorVoltage;
+    private double m_outputMotorVoltage;
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
@@ -28,12 +30,16 @@ public class Index extends SubsystemBase {
 
         m_spindexerMotor.getConfigurator().apply(m_motorConfig);
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
+        m_outputMotor.getConfigurator().apply(m_motorConfig);
+        m_outputMotor.setNeutralMode(NeutralModeValue.Coast);
     }
 
     @Override
     public void periodic() {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
+        m_outputMotor.setVoltage(m_outputMotorVoltage);
     }
+    
 
     public Command runSpindexer(double speed) {
         return run(() -> {
@@ -48,6 +54,7 @@ public class Index extends SubsystemBase {
     public Command defaultCommand() {
         return run(() -> {
             m_spindexerMotorVoltage = 0;
+            m_outputMotorVoltage = 0;
         });
     }
 }
