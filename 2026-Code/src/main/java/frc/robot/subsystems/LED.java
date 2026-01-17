@@ -1,0 +1,60 @@
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import edu.wpi.first.wpilibj.DriverStation;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StringTopic;
+import edu.wpi.first.networktables.StringPublisher;
+
+public class LED extends SubsystemBase {
+
+    private String gameData;
+    private double gameTime;
+
+    private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
+    private StringTopic m_color_topic = m_nt.getStringTopic("/LED/color");
+    private StringTopic m_state_topic = m_nt.getStringTopic("/LED/state");
+
+    private final StringPublisher m_color_pub;
+    private final StringPublisher m_state_pub;
+
+    public LED() {
+        m_color_pub = m_color_topic.publish();
+        m_state_pub = m_state_topic.publish();
+    }
+
+    // LED Color indicates with alliance is activated
+    public void setAllianceColor() {
+        gameData = DriverStation.getGameSpecificMessage(); // update gameData
+        if (gameData.length() > 0) {
+            switch (gameData.charAt(0)) {
+                case 'B':
+                    // blue color turn on
+                    break;
+                case 'R':
+                    // red color turn on
+                    break;
+                default:
+                    // turn off
+                    break;
+            }
+        } else {
+            // turn off
+        }
+    }
+
+    public void setTransition() {
+        gameTime = DriverStation.getMatchTime();
+        if (gameTime < 0) {
+            // math
+        }
+
+    }
+
+    public void periodic() {
+        setAllianceColor();
+        setTransition();
+    }
+}
