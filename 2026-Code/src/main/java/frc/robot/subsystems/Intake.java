@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
 
+
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -13,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase{
     private final CANBus m_CANbus = new CANBus("rio");
-    private TalonFX m_rollerMotor = new TalonFX(12, m_CANbus);
-    private TalonFX m_deployMotor = new TalonFX(13, m_CANbus);
+    private TalonFX m_rollerMotor = new TalonFX(ROLLER_MOTOR_ID, m_CANbus);
+    private TalonFX m_deployMotor = new TalonFX(DEPLOY_MOTOR_ID, m_CANbus);
     private double m_rollerMotorVoltage;
     private double m_deployMotorVoltage;
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
@@ -37,7 +38,6 @@ public class Intake extends SubsystemBase{
     public void periodic() {
         m_rollerMotor.setVoltage(m_rollerMotorVoltage);
         m_deployMotor.setVoltage(m_deployMotorVoltage);
-  
     }
 
     public Command runIntake(double speed){
