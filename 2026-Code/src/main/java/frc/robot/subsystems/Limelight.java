@@ -157,16 +157,16 @@ public class Limelight extends SubsystemBase {
   private double setxytdev(double distance, double numberOfTags, String name){
     double xyStdv;
     if(name.equals(LL_BL)){
-      xyStdv = Math.max(Minimum_XY_Std_Dev_LL3,(distance*ErrorFactor_LL3)/numberOfTags);
+      xyStdv = Math.max(MINIMUM_THETA_STD_DEV_LL3,(distance*ERROR_FACTOR_LL3)/numberOfTags);
     }
     else if(name.equals(LL_BR)){
-      xyStdv = Math.max(Minimum_XY_Std_Dev_LL2,(distance*ErrorFactor_LL2)/numberOfTags);
+      xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL2,(distance*ERROR_FACTOR_LL2)/numberOfTags);
     }
     else if(name.equals(LL_FL)){
-      xyStdv = Math.max(Minimum_XY_Std_Dev_LL3g,(distance*ErrorFactor_LL3g)/numberOfTags);
+      xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL3G,(distance*ERROR_FACTOR_LL3G)/numberOfTags);
     }
     else{
-      xyStdv = Math.max(Minimum_XY_Std_Dev_LL4,(distance*ErrorFactor_LL4)/numberOfTags);
+      xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL4,(distance*ERROR_FACTOR_LL4)/numberOfTags);
     }
     return xyStdv;
   }
@@ -174,16 +174,16 @@ public class Limelight extends SubsystemBase {
   private double setthetastdev(double distance, double numberOfTags, String name){
     double thetaStdv;
     if(name.equals(LL_BL)){
-      thetaStdv = Math.max(Minimum_Theta_Std_Dev_LL3,(distance*ErrorFactor_LL3_Angle)/numberOfTags);
+      thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL3,(distance*ERROR_FACTOR_LL3_ANGLE)/numberOfTags);
     }
     else if(name.equals(LL_BR)){
-      thetaStdv = Math.max(Minimum_Theta_Std_Dev_LL2,(distance*ErrorFactor_LL2_Angle)/numberOfTags);
+      thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL2,(distance*ERROR_FACTOR_LL2_ANGLE)/numberOfTags);
     }
     else if(name.equals(LL_FL)){
-      thetaStdv = Math.max(Minimum_Theta_Std_Dev_LL3g,(distance*ErrorFactor_LL3g_Angle)/numberOfTags);
+      thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL3G,(distance*ERROR_FACTOR_LL3G_ANGLE)/numberOfTags);
     }
     else{
-      thetaStdv = Math.max(Minimum_Theta_Std_Dev_LL4,(distance*ErrorFactor_LL4_Angle)/numberOfTags);
+      thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL4,(distance*ERROR_FACTOR_LL4_ANGLE)/numberOfTags);
     }
     return thetaStdv;
   }
