@@ -12,7 +12,7 @@ import frc.robot.util.Subsystem;
 public class DriveToPoint extends Command {
   /** Creates a new DriveToPoint. */
   public DriveToPoint() {
-    // addRequirements(Subsystem.swerve);
+    addRequirements(Subsystem.swerve);
   }
 
   private void setTarget() {
