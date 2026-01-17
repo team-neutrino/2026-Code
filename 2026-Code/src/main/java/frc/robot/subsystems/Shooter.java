@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.util.Constants.ShooterConstants.*;
+
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -12,7 +14,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.ShooterConstants.*;
 
 public class Shooter extends SubsystemBase {
   private final CANBus m_CANbus = new CANBus("rio");

@@ -5,4 +5,6 @@
 package frc.robot.command_factories;
 
 /** Add your docs here. */
-public class ShooterFactory {}
+public class ShooterFactory {
+    
+}
