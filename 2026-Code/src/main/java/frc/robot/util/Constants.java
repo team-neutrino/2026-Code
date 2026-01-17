@@ -1,7 +1,11 @@
 package frc.robot.util;
 
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
+
 public class Constants {
-    public static class ClimbConstants{
+    public static class ClimbConstants {
         public static final int CLIMB_MOTOR_ID_1 = 18;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
@@ -37,7 +41,7 @@ public class Constants {
         public static final double RETRACT_VOLTAGE = 0;
     }
 
-    public static class LimelightConstants{
+    public static class LimelightConstants {
         public static final String LL_FR = "limelight-frontRight";
         public static final String LL_FL = "limelight-frontLeft";
         public static final String LL_BR = "limelight-backRight";
@@ -97,7 +101,11 @@ public class Constants {
 
     }
 
-    public static class SwerveConstants{
+    public static class SwerveConstants {
         public static final double GYRO_SCALAR_Z = -3.9;
+    }
+
+    public static class DriveToPointConstants {
+        public static final List<Pose2d> RADIAL_SHOOTING_POSES = List.of();
     }
 }
