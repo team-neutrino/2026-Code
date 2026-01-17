@@ -40,15 +40,27 @@ public class Intake extends SubsystemBase{
         m_deployMotor.setVoltage(m_deployMotorVoltage);
     }
 
-    public Command runIntake(double speed){
+    public Command runIntake(){
         return run(() -> {
-            m_rollerMotorVoltage = speed;
+            m_rollerMotorVoltage = INTAKE_VOLTAGE;
         });
     }
 
-    public Command deployIntake(double speed){
+    public Command runOuttake(){
+        return run(() -> {
+            m_rollerMotorVoltage = OUTTAKE_VOLTAGE;
+        });
+    }
+
+    public Command deployIntake(){
         return run (() -> {
             m_deployMotorVoltage = DEPLOY_VOLTAGE;
+        });
+    }
+
+    public Command retractIntake(){
+        return run(() -> {
+            m_rollerMotorVoltage = RETRACT_VOLTAGE;
         });
     }
 
