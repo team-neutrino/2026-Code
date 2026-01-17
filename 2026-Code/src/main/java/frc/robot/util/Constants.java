@@ -41,8 +41,32 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double SHOOTING_VOLTAGE = -12;
         public static final double CURRENT_LIMIT = 40;
+        public static final double SHOOTING_KP = 0.1;
+        public static final double SHOOTING_KI = 0.0;
+        public static final double SHOOTING_KD = 0.0;
+        public static final double HOOD_KP = 1.0;
+        public static final double HOOD_KI = 0;
+        public static final double HOOD_KD = 0;
+        public static final double ALLOWED_ERROR = 0.1;
+        public static final int SHOOTER_ID = 16;
+        public static final int SHOOTER_FOLLOWER_ID = 17;
+        public static final int HOOD_ID = 15;
+        public static final double START_POSITION = 0;
+        public static final double RADIAL_CLOSE_ANGLE = 0.5;
+        public static final double RADIAL_FAR_ANGLE = 2;
+        public static final double WALL_ANGLE = 1;
+        public static final double DEPOT_ANGLE = 3;
+        public static final double OUTPOST_ANGLE = 0.1;
+        public static final double DEFAULT = 0;
+
+        public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
+            RADIAL_CLOSE,
+            RADIAL_FAR,
+            WALL,
+            DEPOT,
+            OUTPOST
+        };
     }
 
     public static class IndexerConstants {

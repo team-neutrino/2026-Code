@@ -9,4 +9,5 @@ public class Subsystems2026 {
     public static final Intake intake = new Intake();
     public static final Index index = new Index();
     public static final Limelight limelight = new Limelight();
+    public static final Shooter shooter = new Shooter();
 }
