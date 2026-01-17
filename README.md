@@ -22,7 +22,7 @@
 | Intake    | ------------| 12, 13  | Motors      |
 | Indexer   | ----------- | 14, 15  | Motors      |
 | Shooter   | ----------- | 16, 17  | Motors      |
-| Climb     | ----------- | ------- |             |
+| Climb     | ----------- | 18      | Motors      |
 
 ## DIO
 | Subsystem | Description          | Port   |
