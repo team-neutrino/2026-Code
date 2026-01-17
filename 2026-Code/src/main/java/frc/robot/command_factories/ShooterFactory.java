@@ -1,10 +1,12 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.command_factories;
 
-/** Add your docs here. */
+import edu.wpi.first.wpilibj2.command.Command;
+import static frc.robot.util.Subsystem.shooter;
+
+import static frc.robot.util.Constants.ShooterConstants.*;
+
 public class ShooterFactory {
-    
+    public static Command runShooter() {
+        return shooter.runShooter(SHOOTING_VOLTAGE);
+    }
 }

@@ -23,8 +23,7 @@ public class Shooter extends SubsystemBase {
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
 
-  /** Creates a new Shooter. */
-   public Shooter() {
+  public Shooter() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
         .withStatorCurrentLimit(CURRENT_LIMIT)
@@ -41,9 +40,15 @@ public class Shooter extends SubsystemBase {
     return m_motor1.getVelocity().getValueAsDouble();
   }
 
-  public Command runShooter() {
+  @Override
+  public void periodic() {
+    m_motor1.setVoltage(m_motorVoltage);
+    m_motor2.setVoltage(-m_motorVoltage);
+  }
+
+  public Command runShooter(double speed) {
     return run(() -> {
-      m_motorVoltage = SHOOTING_VOLTAGE;
+      m_motorVoltage = speed;
     });
   }
 
@@ -51,11 +56,5 @@ public class Shooter extends SubsystemBase {
     return run(() -> {
       m_motorVoltage = 0;
     });
-  }
-
-  @Override
-  public void periodic() {
-    m_motor1.setVoltage(m_motorVoltage);
-    m_motor2.setVoltage(-m_motorVoltage);
   }
 }
