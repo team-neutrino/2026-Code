@@ -1,8 +1,14 @@
 package frc.robot.util;
 
+import java.util.Optional;
+
 public class Constants {
-    public static class ClimbConstants {
-        public static final int CLIMB_MOTOR_ID_1 = 19;
+    public static class GlobalConstants{
+        public static Optional<Boolean> RED_ALLIANCE = Optional.empty();
+    }
+
+    public static class ClimbConstants{
+        public static final int CLIMB_MOTOR_ID_1 = 18;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
         public static final double CLIMB_kP = 0.0;
@@ -109,5 +115,9 @@ public class Constants {
 
     public static class SwerveConstants {
         public static final double GYRO_SCALAR_Z = -3.9;
+        public static final double MAX_SPEED = 5.7;
+        public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
+        public static final double DRIVE_ASSIST_KP = 8;
+        public static final double AUTO_ALIGN_D = 0;
     }
 }
