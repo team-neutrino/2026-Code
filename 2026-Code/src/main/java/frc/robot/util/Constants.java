@@ -1,6 +1,8 @@
 package frc.robot.util;
 
-import java.util.Optional;
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
 
 public class Constants {
     public static class GlobalConstants {
@@ -158,5 +160,9 @@ public class Constants {
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double DRIVE_ASSIST_KP = 8;
         public static final double AUTO_ALIGN_D = 0;
+    }
+
+    public static class DriveToPointConstants {
+        public static final List<Pose2d> RADIAL_SHOOTING_POSES = List.of();
     }
 }

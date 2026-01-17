@@ -4,13 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.Subsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveToPoint extends Command {
-  /** Creates a new DriveToPoint. */
+  private List<Pose2d> m_targetPoseList;
   public DriveToPoint() {
     addRequirements(Subsystem.swerve);
   }
