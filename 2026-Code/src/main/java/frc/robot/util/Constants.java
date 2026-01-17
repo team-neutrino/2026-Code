@@ -1,6 +1,20 @@
 package frc.robot.util;
 
 public class Constants {
+    public static class ClimbConstants{
+        public static final int CLIMB_MOTOR_ID_1 = 18;
+        public static final int CLIMB_CURRENT_LIMIT = 40;
+
+        public static final double CLIMB_kP = 0.0;
+        public static final double CLIMB_kI = 0.0;
+        public static final double CLIMB_kD = 0.0;
+
+        public static final double ALLOWED_ERROR = 0.1;
+
+        public static final double L1_POSITION = 10;
+        public static final double GROUND_POSITION = 0;
+    }
+
     public static class ShooterConstants {
         public static final double SHOOTING_VOLTAGE = -12;
         public static final double CURRENT_LIMIT = 40;

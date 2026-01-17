@@ -2,7 +2,7 @@ package frc.robot.command_factories;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import static frc.robot.util.Subsystem.climb;
-import static frc.robot.Constants.ClimbConstants.*;
+import static frc.robot.util.Constants.ClimbConstants.*;
 
 public class ClimbFactory {
     public static Command climbL1() {
