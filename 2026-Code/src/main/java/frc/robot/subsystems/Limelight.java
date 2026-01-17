@@ -168,6 +168,7 @@ public class Limelight extends SubsystemBase {
     else{
       xyStdv = Math.max(Minimum_XY_Std_Dev_LL4,(distance*ErrorFactor_LL4)/numberOfTags);
     }
+    return xyStdv;
   }
 
   private double setthetastdev(double distance, double numberOfTags, String name){
