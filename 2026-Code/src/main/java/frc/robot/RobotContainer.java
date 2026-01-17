@@ -25,15 +25,13 @@ public class RobotContainer {
   private CommandXboxController m_buttonController = new CommandXboxController(1);
   private AlphaSubsystem m_subsystemContainer = new AlphaSubsystem();
   // private Subsystem m_subsystemContainer = new Subsystem();
-  // comment out whichever subsystem container you're not testing 
+  // comment out whichever subsystem container you're not testing
   private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
                                                                                       // speed
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max
                                                                                     // angular velocity
   private final Telemetry logger = new Telemetry(MaxSpeed);
   private final CommandXboxController joystick = new CommandXboxController(0);
-
-  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -42,16 +40,16 @@ public class RobotContainer {
   public RobotContainer() {
     configureDefaultCommands();
     configureBindings();
-    drivetrain.registerTelemetry(logger::telemeterize);
+    swerve.registerTelemetry(logger::telemeterize);
   }
 
   private void configureDefaultCommands() {
     alphaShooter.setDefaultCommand(alphaShooter.defaultCommand());
     alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
-    drivetrain.setDefaultCommand(
+    swerve.setDefaultCommand(
         // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
-                                                                                           // negative Y (forward)
+        swerve.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
+                                                                                       // negative Y (forward)
             .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
             .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
         ));
@@ -60,7 +58,7 @@ public class RobotContainer {
     // neutral mode is applied to the drive motors while disabled.
     final var idle = new SwerveRequest.Idle();
     RobotModeTriggers.disabled().whileTrue(
-        drivetrain.applyRequest(() -> idle).ignoringDisable(true));
+        swerve.applyRequest(() -> idle).ignoringDisable(true));
   }
 
   private void configureBindings() {
