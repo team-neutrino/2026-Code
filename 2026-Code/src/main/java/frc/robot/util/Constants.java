@@ -96,4 +96,8 @@ public class Constants {
         public static final double SHOOTER_YAW_OFFSET = 0;
 
     }
+
+    public static class SwerveConstants{
+        public static final double GYRO_SCALAR_Z = -3.9;
+    }
 }
