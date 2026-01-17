@@ -18,6 +18,12 @@ public class Constants {
     public static class ShooterConstants {
         public static final double SHOOTING_VOLTAGE = -12;
         public static final double CURRENT_LIMIT = 40;
+        public static final double SHOOTING_KP = 3;
+        public static final double SHOOTING_KI = 3;
+        public static final double SHOOTING_KD = 3;
+        public static final double HOOD_KP = 3;
+        public static final double HOOD_KI = 3;
+        public static final double HOOD_KD = 3;
     }
 
     public static class IndexerConstants {
