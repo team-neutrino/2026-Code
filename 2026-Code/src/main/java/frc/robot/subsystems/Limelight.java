@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.Subsystem;
+import frc.robot.util.AlphaSubsystem;
 import frc.robot.util.Constants;
 import static frc.robot.util.Constants.LimelightConstants.*;
 
@@ -21,7 +22,7 @@ import static frc.robot.util.Constants.LimelightConstants.*;
 public class Limelight extends SubsystemBase {
   LimelightHelpers m_limelightHelpers;
   double m_robotYaw;
-  // Swerve m_swerve;
+  Swerve m_swerve;
   Rotation2d m_targetYaw;
   private double m_lastFrameFr = -2;
   private double m_lastFrameFl = -2;
@@ -37,7 +38,7 @@ public class Limelight extends SubsystemBase {
   private long m_slow_count = 0;
 
   public Limelight() {
-    // m_swerve = Subsystem.swerve;
+    m_swerve = AlphaSubsystem.swerve;
     m_limelightHelpers = new LimelightHelpers();
     // fake pipeline number
     // LimelightHelpers.setPipelineIndex(LIMELIGHT_1, 1);
@@ -130,7 +131,7 @@ public class Limelight extends SubsystemBase {
 
   private boolean verifyLimelightValidity(PoseEstimate estimate, double frame) {
     return (estimate != null && estimate.tagCount != 0
-    // && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
+    && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameShooter);
   }
 
@@ -209,13 +210,15 @@ public class Limelight extends SubsystemBase {
       }
       double numberOfTags = limelight.estimate().tagCount;
       double distance = limelight.estimate().avgTagDist;
-      double xystdev = setxystdev(distance, numberOfTags, limelight.limelightId());
-      double thetastdev = setthetastdev(distance, numberOfTags, limelight.limelightId());
+      // double xystdev = setxystdev(distance, numberOfTags, limelight.limelightId());
+      double xystdev = 0.01;
+      // double thetastdev = setthetastdev(distance, numberOfTags, limelight.limelightId());
+      double thetastdev = 0.01;
 
       // check 1st and 2nd argument
-      // m_swerve.addVisionMeasurement(limelight.estimate().pose,
-      // limelight.estimate().timestampSeconds,VecBuilder.fill(xystdev, xystdev,
-      // thetastdev));
+      m_swerve.addVisionMeasurement(limelight.estimate().pose,
+      limelight.estimate().timestampSeconds,VecBuilder.fill(xystdev, xystdev,
+      thetastdev));
     }
   }
 
@@ -259,11 +262,11 @@ public class Limelight extends SubsystemBase {
     m_enabled = DriverStation.isEnabled();
     final int throttle = m_enabled ? 0 : 169;
     // Apply throttle to all five configured Limelights
-    // LimelightHelpers.SetThrottle(LimelightConstants.LL_SHOOTER, throttle);
-    // LimelightHelpers.SetThrottle(LimelightConstants.LL_FR, throttle);
-    // LimelightHelpers.SetThrottle(LimelightConstants.LL_FL, throttle);
-    // LimelightHelpers.SetThrottle(LimelightConstants.LL_BR, throttle);
-    // LimelightHelpers.SetThrottle(LimelightConstants.LL_BL, throttle);
+    // LimelightHelpers.SetThrottle(LL_SHOOTER, throttle);
+    // LimelightHelpers.SetThrottle(LL_FR, throttle);
+    // LimelightHelpers.SetThrottle(LL_FL, throttle);
+    // LimelightHelpers.SetThrottle(LL_BR, throttle);
+    // LimelightHelpers.SetThrottle(LL_BL, throttle);
   }
 
   public Command limelightDefaultCommand() {
@@ -296,8 +299,7 @@ public class Limelight extends SubsystemBase {
     // }
 
     // dummy value until swerve is added
-    // final var yaw_degrees = Subsystem.swerve.getYawDegrees();
-    final var yaw_degrees = 0;
+    final var yaw_degrees = m_swerve.getYawDegrees();
 
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
