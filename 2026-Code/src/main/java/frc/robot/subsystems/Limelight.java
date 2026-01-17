@@ -131,7 +131,7 @@ public class Limelight extends SubsystemBase {
   private boolean verifyLimelightValidity(PoseEstimate estimate, double frame) {
     return (estimate != null && estimate.tagCount != 0
     // && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
-        && frame > m_lastFrameShooter);
+        && frame > m_lastFrameShooter); // TODO fix this soon but it doesn't apply to this pull request
   }
 
   private void updateFrame(double frame, String name) {
