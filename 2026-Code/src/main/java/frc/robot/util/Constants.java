@@ -12,7 +12,8 @@ public class Constants {
     }
 
     public static class IntakeConstants {
-        public static final double INTAKE_VOLTAGE = 8;
         public static final double CURRENT_LIMIT = 60;
+        public static final double INTAKE_VOLTAGE = 0;
+        public static final double DEPLOY_VOLTAGE = 0;
     }
 }
