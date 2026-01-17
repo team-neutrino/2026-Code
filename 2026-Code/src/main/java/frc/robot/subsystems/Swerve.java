@@ -1,14 +1,9 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.generated.CommandSwerveDrivetrain;
 
 import com.ctre.phoenix6.configs.GyroTrimConfigs;
-import com.ctre.phoenix6.configs.Pigeon2FeaturesConfigs;
 import com.ctre.phoenix6.hardware.core.CorePigeon2;
-import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
-import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,6 +11,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import frc.robot.generated.TunerConstants;
+
+import static frc.robot.util.Constants.SwerveConstants.*;
+
 
 public class Swerve extends CommandSwerveDrivetrain{
     CorePigeon2 m_pigeon = new CorePigeon2(0);
@@ -38,10 +36,6 @@ public class Swerve extends CommandSwerveDrivetrain{
     public double getYaw360() {
         return getPigeon2().getYaw().getValueAsDouble() % 360;
     }
-
-    public Pose2d getCurrentPose() {
-        return getState().Pose;
-    }
     
     public double getYawDegrees() {
         return Math.toDegrees(getYawRadians());
@@ -50,8 +44,11 @@ public class Swerve extends CommandSwerveDrivetrain{
     public double getYawRadians() {
         return MathUtil.angleModulus(Math.toRadians(getPigeon2().getYaw().getValueAsDouble()));
     }
-
-
+    
+    public Pose2d getCurrentPose() {
+        return getState().Pose;
+    }
+    
     public ChassisSpeeds getChassisSpeeds() {
         return getState().Speeds;
     }
@@ -83,4 +80,9 @@ public class Swerve extends CommandSwerveDrivetrain{
     public void configureRequestPID() {
         //SwerveRequestStash.driveWithVelocity.HeadingController.setPID(DRIVE_ASSIST_KP, 0, AUTO_ALIGN_D);
     }
+
+    public class SwerveRequestStash {
+
+    }
+
 }
