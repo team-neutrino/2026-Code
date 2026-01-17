@@ -16,10 +16,12 @@ import frc.robot.util.Subsystem;
 import frc.robot.util.Constants;
 import static frc.robot.util.Constants.LimelightConstants.*;
 
+  //Uncommment everything with swerve in it when swerve is added
+
 public class Limelight extends SubsystemBase {
   LimelightHelpers m_limelightHelpers;
   double m_robotYaw;
-  Swerve m_swerve;
+  // Swerve m_swerve;
   Rotation2d m_targetYaw;
   private double m_lastFrameFr = -2;
   private double m_lastFrameFl = -2;
@@ -35,7 +37,7 @@ public class Limelight extends SubsystemBase {
   private long m_slow_count = 0;
 
   public Limelight() {
-    m_swerve = Subsystem.swerve;
+    // m_swerve = Subsystem.swerve;
     m_limelightHelpers = new LimelightHelpers();
     // fake pipeline number
     // LimelightHelpers.setPipelineIndex(LIMELIGHT_1, 1);
@@ -128,7 +130,7 @@ public class Limelight extends SubsystemBase {
 
   private boolean verifyLimelightValidity(PoseEstimate estimate, double frame){
     return (estimate != null && estimate.tagCount != 0
-        && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
+        // && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
         && frame > m_lastFrameShooter);
   }
 
@@ -187,7 +189,7 @@ public class Limelight extends SubsystemBase {
 
   
   private void updateFusionOdometry() {
-    m_swerve.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
+    // m_swerve.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
     LimelightHelpers.PoseEstimate estimateBL = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(LL_BL);
     LimelightHelpers.PoseEstimate estimateBR = LimelightHelpers
@@ -216,7 +218,7 @@ public class Limelight extends SubsystemBase {
       double thetastdev = setthetastdev(distance, numberOfTags, limelight.limelightId());
 
     //check 1st and 2nd argument
-      m_swerve.addVisionMeasurement(limelight.estimate().pose, limelight.estimate().timestampSeconds,VecBuilder.fill(xystdev, xystdev, thetastdev));
+      // m_swerve.addVisionMeasurement(limelight.estimate().pose, limelight.estimate().timestampSeconds,VecBuilder.fill(xystdev, xystdev, thetastdev));
     }
   }
 
@@ -251,7 +253,7 @@ public class Limelight extends SubsystemBase {
     return NetworkTableInstance.getDefault().getTable(limelight).getEntry("hb").getDouble(-1);
   }
 
-  //find alternative to this function that. setThrottle no longer exists
+  //find alternative to this function during testing. setThrottle no longer exists
   private void ManageLimelightTemperature() {
     m_slow_count++;
     if (m_enabled && (m_slow_count % 50) != 0) {
@@ -286,19 +288,22 @@ public class Limelight extends SubsystemBase {
 
     //changed - when enabled configure IMU mode for all Limelights we use
     if (m_enabled) {
-      LimelightHelpers.SetIMUMode(LL_SHOOTER, 3);
-      LimelightHelpers.SetIMUMode(LL_FR, 3);
-      LimelightHelpers.SetIMUMode(LL_FL, 3);
-      LimelightHelpers.SetIMUMode(LL_BR, 3);
-      LimelightHelpers.SetIMUMode(LL_BL, 3);
+      LimelightHelpers.SetIMUMode(LL_SHOOTER, 2);
+      LimelightHelpers.SetIMUMode(LL_FR, 2);
+      LimelightHelpers.SetIMUMode(LL_FL, 2);
+      LimelightHelpers.SetIMUMode(LL_BR, 2);
+      LimelightHelpers.SetIMUMode(LL_BL, 2);
     }
 
-    if (m_swerve == null) {
-      return;
-    }
+    // if (m_swerve == null) {
+    //   return;
+    // }
+
+  //dummy value until swerve is added
+  // final var yaw_degrees = Subsystem.swerve.getYawDegrees();
+  final var yaw_degrees = 0;
 
 
-    final var yaw_degrees = Subsystem.swerve.getYawDegrees();
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
   // supply current robot orientation to every Limelight before asking for pose estimates
