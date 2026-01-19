@@ -23,7 +23,7 @@
 | Indexer   | ----------- | 14, 15  | Motors      |
 | Shooter   | ----------- | 16, 17  | Motors      |
 | Climb     | ----------- | 18      | Motors      |
-| Climb     | ----------- | 20      | Canandcolor |
+| Climb     | ----------- | 19      | Canandcolor |
 | Climb     | ----------- | 20      | Canrange    |
 
 ## DIO
