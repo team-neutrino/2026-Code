@@ -4,18 +4,23 @@
 
 package frc.robot;
 
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.Subsystem;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+import static frc.robot.util.Subsystem.*;
+
 public class DriveToPoint extends Command {
   private List<Pose2d> m_targetPoseList;
+
   public DriveToPoint() {
-    addRequirements(Subsystem.swerve);
+    addRequirements(swerve);
   }
 
   private void setTarget() {
-
+    if (RED_ALLIANCE && swerve.getCurrentPose().getX() <= 4 && Sub)
   }
 
   @Override

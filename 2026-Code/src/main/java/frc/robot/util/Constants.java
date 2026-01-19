@@ -164,5 +164,7 @@ public class Constants {
 
     public static class DriveToPointConstants {
         public static final List<Pose2d> RADIAL_SHOOTING_POSES = List.of();
+        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of();
+        public static final List<Pose2d> SHUTTLE_POSES = List.of();
     }
 }
