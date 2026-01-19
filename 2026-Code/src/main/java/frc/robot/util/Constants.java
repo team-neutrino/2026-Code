@@ -42,10 +42,10 @@ public class Constants {
     }
 
     public static class LimelightConstants{
-        public static final String LL_FR = "limelight-frontRight";
-        public static final String LL_FL = "limelight-frontLeft";
-        public static final String LL_BR = "limelight-backRight";
-        public static final String LL_BL = "limelight-backLeft";
+        public static final String LL_FR = "limelight-fr";
+        public static final String LL_FL = "limelight-fl";
+        public static final String LL_BR = "limelight-br";
+        public static final String LL_BL = "limelight-bl";
         public static final String LL_SHOOTER = "limelight-shooter";
 
         // Camera pose offsets
@@ -58,7 +58,7 @@ public class Constants {
 
         public static final double FL_FORWARD_OFFSET = 0.0;
         public static final double FL_SIDE_OFFSET = 0.0;
-        public static final double FL_HEIGHT_OFFSET = 0.0;
+        public static final double FL_HEIGHT_OFFSET = 0.80;
         public static final double FL_ROLL_OFFSET = 0.0;
         public static final double FL_PITCH_OFFSET = 0.0;
         public static final double FL_YAW_OFFSET = 0.0;

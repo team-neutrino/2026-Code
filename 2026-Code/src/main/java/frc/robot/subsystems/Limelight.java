@@ -131,7 +131,7 @@ public class Limelight extends SubsystemBase {
   private boolean verifyLimelightValidity(PoseEstimate estimate, double frame) {
     return (estimate != null && estimate.tagCount != 0
     // && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
-        && frame > m_lastFrameShooter);
+        && frame > m_lastFrameShooter); // TODO fix this soon but it doesn't apply to this pull request
   }
 
   private void updateFrame(double frame, String name) {
@@ -154,15 +154,15 @@ public class Limelight extends SubsystemBase {
     }
   }
 
-  private double setxytdev(double distance, double numberOfTags, String name) {
-    double xyStdv;
+  private double setxystdev(double distance, double numberOfTags, String name) {
+    double xyStdv = 0;
     if (name.equals(LL_BL)) {
       xyStdv = Math.max(MINIMUM_THETA_STD_DEV_LL3, (distance * ERROR_FACTOR_LL3) / numberOfTags);
     } else if (name.equals(LL_BR)) {
       xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL2, (distance * ERROR_FACTOR_LL2) / numberOfTags);
     } else if (name.equals(LL_FL)) {
       xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL3G, (distance * ERROR_FACTOR_LL3G) / numberOfTags);
-    } else {
+    } else if(name.equals(LL_SHOOTER) || name.equals(LL_FR)) {
       xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL4, (distance * ERROR_FACTOR_LL4) / numberOfTags);
     }
     return xyStdv;
@@ -209,7 +209,7 @@ public class Limelight extends SubsystemBase {
       }
       double numberOfTags = limelight.estimate().tagCount;
       double distance = limelight.estimate().avgTagDist;
-      double xystdev = setxytdev(distance, numberOfTags, limelight.limelightId());
+      double xystdev = setxystdev(distance, numberOfTags, limelight.limelightId());
       double thetastdev = setthetastdev(distance, numberOfTags, limelight.limelightId());
 
       // check 1st and 2nd argument
