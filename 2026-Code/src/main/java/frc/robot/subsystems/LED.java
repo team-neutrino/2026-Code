@@ -49,6 +49,7 @@ public class LED extends SubsystemBase {
         gameTime = DriverStation.getMatchTime();
         if (gameTime < 0) {
             // math
+
         }
 
     }
@@ -56,5 +57,22 @@ public class LED extends SubsystemBase {
     public void periodic() {
         setAllianceColor();
         setTransition();
+
+        System.out.println(DriverStation.getMatchTime());
+
+        // zone shift
+        // blink 3 seconds before transition (override)
+        // blink during transition (override)
+        // default to color of active hub - purple when both are active
+
+        // hopper full
+        // when beambreak is broken - turn solid orange
+
+        // hopper empty ?
+
+        // alignment to shoot/pass/climb
+        // moving to point - pink
+        // at point - green
+
     }
 }
