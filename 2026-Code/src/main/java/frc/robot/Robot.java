@@ -6,13 +6,14 @@ package frc.robot;
 
 import com.ctre.phoenix6.HootAutoReplay;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.util.HubActiveStatus;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
+    private HubActiveStatus m_hubState;
 
     private final RobotContainer m_robotContainer;
 
@@ -69,23 +70,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        String gameData;
-        gameData = DriverStation.getGameSpecificMessage();
-        if (gameData.length() > 0) {
-            switch (gameData.charAt(0)) {
-                case 'B':
-                    // Blue case code
-                    break;
-                case 'R':
-                    // Red case code
-                    break;
-                default:
-                    // This is corrupt data
-                    break;
-            }
-        } else {
-            // Code for no data received yet
-        }
+        m_hubState.update();
     }
 
     @Override
