@@ -9,11 +9,13 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -26,10 +28,12 @@ import static frc.robot.util.Constants.SwerveConstants.*;
 
 import java.io.IOException;
 
+public class Swerve extends CommandSwerveDrivetrain {
 
-public class Swerve extends CommandSwerveDrivetrain{
+    private SlewRateLimiter m_slewLimit = new SlewRateLimiter(4, -Integer.MAX_VALUE, 0);
+
     CorePigeon2 m_pigeon = new CorePigeon2(0);
-    
+
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
                 TunerConstants.FrontLeft,
@@ -80,9 +84,10 @@ public class Swerve extends CommandSwerveDrivetrain{
     }
 
     public void setControlAndApplyChassis(ChassisSpeeds speeds) {
-         setControl(
-             SwerveRequestStash.autonDrive.withVelocityX(speeds.vxMetersPerSecond).withVelocityY(speeds.vyMetersPerSecond)
-                 .withRotationalRate(speeds.omegaRadiansPerSecond));
+        setControl(
+                SwerveRequestStash.autonDrive.withVelocityX(speeds.vxMetersPerSecond)
+                        .withVelocityY(speeds.vyMetersPerSecond)
+                        .withRotationalRate(speeds.omegaRadiansPerSecond));
     }
 
     private void configurePathPlanner() {
@@ -98,26 +103,33 @@ public class Swerve extends CommandSwerveDrivetrain{
         try {
             RobotConfig robotConfig = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
-                this::getCurrentPose,
-                this::resetPose,
-                this::getChassisSpeeds,
-                this::setControlAndApplyChassis,
-                new PPHolonomicDriveController(
-                    translationConstants,
-                    rotationConstants),
-                robotConfig,
-                () -> {
-                    return RED_ALLIANCE.isPresent() && RED_ALLIANCE.get();
-                },
-                this);
+                    this::getCurrentPose,
+                    this::resetPose,
+                    this::getChassisSpeeds,
+                    this::setControlAndApplyChassis,
+                    new PPHolonomicDriveController(
+                            translationConstants,
+                            rotationConstants),
+                    robotConfig,
+                    () -> {
+                        return RED_ALLIANCE.isPresent() && RED_ALLIANCE.get();
+                    },
+                    this);
         } catch (IOException | org.json.simple.parser.ParseException e) {
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
         }
     }
 
-    public Command swerveDefaultCommand() {
-        return run (() -> {
+    public Command swerveDefaultCommand(CommandXboxController joystick) {
+        return run(() -> {
+            double forward = -joystick.getLeftY();
+            double left = -joystick.getLeftX();
+            double rotation = -joystick.getRightX();
 
+            setControl(SwerveRequestStash.drive
+                    .withVelocityX(forward * MAX_SPEED)
+                    .withVelocityY(left * MAX_SPEED)
+                    .withRotationalRate(rotation * MAX_ROTATION_SPEED));
         });
     }
 
@@ -132,17 +144,17 @@ public class Swerve extends CommandSwerveDrivetrain{
 
     public class SwerveRequestStash {
         public static final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-        .withDriveRequestType(DriveRequestType.Velocity)
-        .withDeadband(MAX_SPEED * 0.06)
-        .withRotationalDeadband(MAX_ROTATION_SPEED * 0.06)
-        .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
+                .withDriveRequestType(DriveRequestType.Velocity)
+                .withDeadband(MAX_SPEED * 0.06)
+                .withRotationalDeadband(MAX_ROTATION_SPEED * 0.06)
+                .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
 
         public static final SwerveRequest.RobotCentric autonDrive = new SwerveRequest.RobotCentric()
-        .withDriveRequestType(DriveRequestType.Velocity);
-        
+                .withDriveRequestType(DriveRequestType.Velocity);
+
         public static final SwerveRequest.FieldCentricFacingAngle driveWithVelocity = new SwerveRequest.FieldCentricFacingAngle()
-        .withDriveRequestType(DriveRequestType.Velocity)
-        .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
+                .withDriveRequestType(DriveRequestType.Velocity)
+                .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
     }
 
 }
