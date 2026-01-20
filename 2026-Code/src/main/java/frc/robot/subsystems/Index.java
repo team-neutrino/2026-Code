@@ -6,10 +6,13 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
@@ -23,6 +26,7 @@ public class Index extends SubsystemBase {
     private DigitalInput m_beamBreak1 = new DigitalInput(BEAMBREAK_CHANNEL_1);
     private DigitalInput m_beamBreak2 = new DigitalInput(BEAMBREAK_CHANNEL_2);
     private Debouncer m_debouncer = new Debouncer(DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
+    private CommandGenericHID m_rumble = new CommandGenericHID(1);
 
     public Index() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -45,11 +49,26 @@ public class Index extends SubsystemBase {
         return false;
     }
 
-    
+    public void rumbleController(){
+        if(fullCapacity()){
+            double startTime = System.currentTimeMillis();
+            m_rumble.setRumble(RumbleType.kBothRumble, 0.5);
+            if (System.currentTimeMillis() - startTime > 2) {
+                m_rumble.setRumble(RumbleType.kBothRumble, 0);
+            }
+            // use while loop
+        }
+        else {
+            m_rumble.setRumble(RumbleType.kBothRumble, 0);
+        }
+    }
+    // Test next time with good beam breaks
 
     @Override
     public void periodic() {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
+        rumbleController();
+        System.out.println(m_beamBreak1.get());
     }
     
 
