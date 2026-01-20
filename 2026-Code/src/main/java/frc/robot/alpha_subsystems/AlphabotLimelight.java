@@ -212,17 +212,16 @@ public class AlphabotLimelight extends SubsystemBase {
   @Override
   public void periodic() {
     ManageLimelightTemperature();
-    // read the five Limelight tables and store whether each currently sees a target
+    // read the three Limelight tables and store whether each currently sees a target
     m_has_shooter_tag = LimelightHelpers.getTV(AlphaLL_SHOOTER);
     m_has_br_tag = LimelightHelpers.getTV(AlphaLL_BR);
     m_has_bl_tag = LimelightHelpers.getTV(AlphaLL_BL);
 
     // changed - when enabled configure IMU mode for all Limelights we use
-    if (m_enabled) {
-      LimelightHelpers.SetIMUMode(AlphaLL_SHOOTER, 2);
-      LimelightHelpers.SetIMUMode(AlphaLL_BR, 2);
-      LimelightHelpers.SetIMUMode(AlphaLL_BL, 2);
-    }
+    // if (m_enabled) {
+    //   LimelightHelpers.SetIMUMode(AlphaLL_SHOOTER, 1);
+    //   LimelightHelpers.SetIMUMode(AlphaLL_BL, 1);
+    // }
 
     if (m_swerve == null) {
       return;
