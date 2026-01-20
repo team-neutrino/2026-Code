@@ -11,5 +11,5 @@ public class AlphaSubsystem {
     public static final AlphabotShooter alphaShooter = new AlphabotShooter();
     public static final AlphabotIntake alphaIntake = new AlphabotIntake();
     public static final AlphabotKicker alphaKicker = new AlphabotKicker();
-    public static final Swerve swerve = new Swerve(hubState);
+    public static final Swerve swerve = new Swerve();
 }

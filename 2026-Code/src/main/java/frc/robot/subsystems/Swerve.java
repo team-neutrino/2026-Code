@@ -11,15 +11,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import frc.robot.generated.TunerConstants;
-import frc.robot.util.HubActiveStatus;
-import frc.robot.util.Subsystem;
 
 import static frc.robot.util.Constants.SwerveConstants.*;
 
 public class Swerve extends CommandSwerveDrivetrain {
     private CorePigeon2 m_pigeon = new CorePigeon2(0);
 
-    public Swerve(HubActiveStatus hubState) {
+    public Swerve() {
         super(TunerConstants.DrivetrainConstants,
                 TunerConstants.FrontLeft,
                 TunerConstants.FrontRight,
