@@ -9,12 +9,10 @@ import com.ctre.phoenix6.HootAutoReplay;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.util.HubActiveStatus;
+import frc.robot.util.Subsystem;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-    private HubActiveStatus m_hubState;
-
     private final RobotContainer m_robotContainer;
 
     /* log and replay timestamp and joystick data */
@@ -70,7 +68,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        m_hubState.update();
+        Subsystem.hubState.update();
     }
 
     @Override

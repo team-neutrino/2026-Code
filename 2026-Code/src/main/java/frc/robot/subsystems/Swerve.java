@@ -11,19 +11,20 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.HubActiveStatus;
+import frc.robot.util.Subsystem;
 
 import static frc.robot.util.Constants.SwerveConstants.*;
 
+public class Swerve extends CommandSwerveDrivetrain {
+    private CorePigeon2 m_pigeon = new CorePigeon2(0);
 
-public class Swerve extends CommandSwerveDrivetrain{
-    CorePigeon2 m_pigeon = new CorePigeon2(0);
-    
-    public Swerve() {
-        super(TunerConstants.DrivetrainConstants, 
-            TunerConstants.FrontLeft,
-            TunerConstants.FrontRight,
-            TunerConstants.BackLeft,
-            TunerConstants.BackRight);
+    public Swerve(HubActiveStatus hubState) {
+        super(TunerConstants.DrivetrainConstants,
+                TunerConstants.FrontLeft,
+                TunerConstants.FrontRight,
+                TunerConstants.BackLeft,
+                TunerConstants.BackRight);
 
         getPigeon2().getConfigurator().apply(new GyroTrimConfigs().withGyroScalarZ(GYRO_SCALAR_Z));
 
@@ -32,11 +33,11 @@ public class Swerve extends CommandSwerveDrivetrain{
         // swerve's yaw will zero itself but the pigeon will retain its previous value.
         resetRotation(Rotation2d.fromDegrees(getYawDegrees()));
     }
-      
+
     public double getYaw360() {
         return getPigeon2().getYaw().getValueAsDouble() % 360;
     }
-    
+
     public double getYawDegrees() {
         return Math.toDegrees(getYawRadians());
     }
@@ -44,11 +45,11 @@ public class Swerve extends CommandSwerveDrivetrain{
     public double getYawRadians() {
         return MathUtil.angleModulus(Math.toRadians(getPigeon2().getYaw().getValueAsDouble()));
     }
-    
+
     public Pose2d getCurrentPose() {
         return getState().Pose;
     }
-    
+
     public ChassisSpeeds getChassisSpeeds() {
         return getState().Speeds;
     }
@@ -67,18 +68,20 @@ public class Swerve extends CommandSwerveDrivetrain{
 
     public void setControlAndApplyChassis(ChassisSpeeds speeds) {
         // setControl(
-        //     SwerveRequestStash.autonDrive.withVelocityX(speeds.vxMetersPerSecond).withVelocityY(speeds.vyMetersPerSecond)
-        //         .withRotationalRate(speeds.omegaRadiansPerSecond));
+        // SwerveRequestStash.autonDrive.withVelocityX(speeds.vxMetersPerSecond).withVelocityY(speeds.vyMetersPerSecond)
+        // .withRotationalRate(speeds.omegaRadiansPerSecond));
     }
-
 
     @Override
     public void periodic() {
         super.periodic();
+        System.out.println("Blue active: " + Subsystem.hubState.isBlueHubActive() + " Red active: "
+                + Subsystem.hubState.isRedHubActive());
     }
 
     public void configureRequestPID() {
-        //SwerveRequestStash.driveWithVelocity.HeadingController.setPID(DRIVE_ASSIST_KP, 0, AUTO_ALIGN_D);
+        // SwerveRequestStash.driveWithVelocity.HeadingController.setPID(DRIVE_ASSIST_KP,
+        // 0, AUTO_ALIGN_D);
     }
 
     public class SwerveRequestStash {

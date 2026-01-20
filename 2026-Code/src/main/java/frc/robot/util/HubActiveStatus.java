@@ -31,11 +31,11 @@ public class HubActiveStatus {
         }
     }
 
-    public boolean hasValidGameData() {
+    private boolean hasValidGameData() {
         return inactiveFirst != null;
     }
 
-    public boolean isHubActive(Alliance alliance) {
+    private boolean isHubActive(Alliance alliance) {
         if (!hasValidGameData()) {
             return false;
         }
