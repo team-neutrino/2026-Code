@@ -47,10 +47,14 @@ public class Constants {
 
     public static class IndexerConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
-        public static final int OUTPUT_MOTOR_ID = 15;
-        public static final int OUTPUT_WHEEL_VOLTAGE = 0;
+
         public static final double INDEXING_VOLTAGE = 8;
         public static final double CURRENT_LIMIT = 40;
+
+        public static final int BEAMBREAK_CHANNEL_1 = 0;
+        public static final int BEAMBREAK_CHANNEL_2 = 1;
+
+        public static final double DEBOUNCED_TIME = 1.5;
     }
 
     public static class IntakeConstants {
