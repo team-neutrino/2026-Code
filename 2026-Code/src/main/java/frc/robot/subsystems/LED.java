@@ -60,19 +60,45 @@ public class LED extends SubsystemBase {
 
         System.out.println(DriverStation.getMatchTime());
 
-        // zone shift
-        // blink 3 seconds before transition (override)
-        // blink during transition (override)
-        // default to color of active hub - purple when both are active
+        // zone shift. determine based on gameTime
+        //
+        // blink 3 seconds before transition (override) what color?
+        // m_state_pub.set("blink");
+        //
+        // blink during transition (override) what color?
+        // m_state_pub.set("blink");
 
-        // hopper full
-        // when beambreak is broken - turn solid orange
+        // default to color of active hub. determine based on gameTime
+        //
+        // red active - red
+        // m_color_pub.set("red");
+        // m_state_pub.set("solid");
 
-        // hopper empty ?
+        // blue active - blue
+        // m_color_pub.set("blue");
+        // m_state_pub.set("solid");
+        //
+        // both active - purple
+        // m_color_pub.set("purple");
+        // m_state_pub.set("solid");
 
-        // alignment to shoot/pass/climb
+        // hopper full. determine based on sensor in hopper
+        //
+        // when beambreak is broken - orange
+        // m_color_pub.set("orange");
+        // m_state_pub.set("solid");
+
+        // hopper empty ? potentially deteremine based on a robot sensor
+
+        // alignment to shoot/pass/climb. determine based on drive to point
+        //
         // moving to point - pink
+        // m_color_pub.set("pink");
+        // m_state_pub.set("solid");
+        //
         // at point - green
+        // m_color_pub.set("green");
+        // m_state_pub.set("solid");
 
     }
 }
