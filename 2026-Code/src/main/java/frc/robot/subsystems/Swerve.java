@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import frc.robot.generated.CommandSwerveDrivetrain;
 
 import com.ctre.phoenix6.configs.GyroTrimConfigs;
-import com.ctre.phoenix6.hardware.core.CorePigeon2;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
@@ -31,8 +30,6 @@ import java.io.IOException;
 public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(4, -Integer.MAX_VALUE, 0);
-
-    CorePigeon2 m_pigeon = new CorePigeon2(0);
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
