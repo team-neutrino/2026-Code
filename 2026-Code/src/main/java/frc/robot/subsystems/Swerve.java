@@ -75,8 +75,6 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
-        System.out.println("Blue active: " + Subsystem.hubState.isBlueHubActive() + " Red active: "
-                + Subsystem.hubState.isRedHubActive());
     }
 
     public void configureRequestPID() {
