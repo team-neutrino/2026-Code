@@ -20,7 +20,7 @@ public class DriveToPoint extends Command {
   }
 
   private void setTarget() {
-    if (RED_ALLIANCE && swerve.getCurrentPose().getX() <= 4 && Sub)
+    // if (RED_ALLIANCE && swerve.getCurrentPose().getX() <= 4 && Sub)
   }
 
   @Override
