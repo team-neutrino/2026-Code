@@ -1,8 +1,8 @@
 package frc.robot.util;
 
 public class Constants {
-    public static class ClimbConstants{
-        public static final int CLIMB_MOTOR_ID_1 = 18;
+    public static class ClimbConstants {
+        public static final int CLIMB_MOTOR_ID_1 = 19;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
         public static final double CLIMB_kP = 0.0;
@@ -14,10 +14,10 @@ public class Constants {
         public static final double L1_POSITION = 10;
         public static final double GROUND_POSITION = 0;
 
-        public static final int CANANDCOLOR_ID = 19;
+        public static final int CANANDCOLOR_ID = 20;
         public static final double CANANDCOLOR_DISTANCE = 0.05;
 
-        public static final int CANRANGE_ID = 20;
+        public static final int CANRANGE_ID = 21;
     }
 
     public static class ShooterConstants {
@@ -41,7 +41,13 @@ public class Constants {
         public static final double RETRACT_VOLTAGE = 0;
     }
 
-    public static class LimelightConstants{
+    public static class KickerConstants {
+        public static final int KICKER_MOTOR_ID = 18;
+        public static final double KICKER_CURRENT_LIMIT = 40;
+        public static final double KICKER_VOLTAGE = 8;
+    }
+
+    public static class LimelightConstants {
         public static final String LL_FR = "limelight-fr";
         public static final String LL_FL = "limelight-fl";
         public static final String LL_BR = "limelight-br";
@@ -101,7 +107,7 @@ public class Constants {
 
     }
 
-    public static class SwerveConstants{
+    public static class SwerveConstants {
         public static final double GYRO_SCALAR_Z = -3.9;
     }
 }
