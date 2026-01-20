@@ -8,19 +8,23 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Subsystem;
 
 import static frc.robot.util.Subsystem.*;
 
 public class DriveToPoint extends Command {
   private List<Pose2d> m_targetPoseList;
+  private Pose2d m_target;
 
   public DriveToPoint() {
     addRequirements(swerve);
   }
 
-  private void setTarget() {
-    if (RED_ALLIANCE && swerve.getCurrentPose().getX() <= 4 && Sub)
+  private 
+
+  oid setTarget() {
+    // logic for selecting target
   }
 
   @Override
