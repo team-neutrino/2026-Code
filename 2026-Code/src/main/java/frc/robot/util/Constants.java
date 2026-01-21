@@ -61,10 +61,10 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
         public static final double CURRENT_LIMIT = 60;
-        public static final double INTAKE_VOLTAGE = 0;
-        public static final double OUTTAKE_VOLTAGE = 0;
-        public static final double DEPLOY_VOLTAGE = 0;
-        public static final double RETRACT_VOLTAGE = 0;
+        public static final double INTAKE_VOLTAGE = 5;
+        public static final double OUTTAKE_VOLTAGE = 5;
+        public static final double DEPLOY_VOLTAGE = 5;
+        public static final double RETRACT_VOLTAGE = 5;
     }
 
     public static class AlphabotIntakeConstants {
