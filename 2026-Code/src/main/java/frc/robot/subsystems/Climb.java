@@ -13,6 +13,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
+import com.reduxrobotics.canand.CanandEventLoop;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Servo;
@@ -48,25 +50,29 @@ public class Climb extends SubsystemBase {
 
         m_climbMotor.getConfigurator().apply(m_climbMotorConfig);
         m_climbMotor.setNeutralMode(NeutralModeValue.Brake);
+        
+        m_climbMotor.setPosition(0);
 
         m_canandColor.setSettings(m_settings);
+
+        CanandEventLoop.getInstance();
     }
 
     private void moveClimb(double targetPosition) {
         PositionVoltage positionControl = new PositionVoltage(targetPosition);
+        positionControl.FeedForward = CLIMB_kFF;
         m_climbMotor.setControl(positionControl);
     }
 
     private boolean atTargetPosition() {
-        if (getPosition() <= m_climbTargetPosition + ALLOWED_ERROR
-                && getPosition() >= m_climbTargetPosition - ALLOWED_ERROR) {
+        if (getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR) {
             return true;
         } else {
             return false;
         }
     }
 
-    private double getPosition() {
+    private double getClimbPosition() {
         return m_climbMotor.getPosition().getValueAsDouble();
     }
 
@@ -95,6 +101,13 @@ public class Climb extends SubsystemBase {
         });
     }
 
+    public Command defaultClimbCommand() {
+        return run(() -> {
+            m_climbMotor.setVoltage(0);
+            m_runClimb = false;
+        });
+    }
+    
     @Override
     public void periodic() {
         if (m_runClimb) {
@@ -104,5 +117,6 @@ public class Climb extends SubsystemBase {
             }
         }
         m_climbServo.set(m_climbServoTargetPosition);
+        System.out.println(getDistance());
     }
 }

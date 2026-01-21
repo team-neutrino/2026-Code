@@ -7,7 +7,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import frc.robot.util.Subsystems2026;
+import frc.robot.commands.DriveToPoint;
+import frc.robot.commands.SplineToPoint;
+import frc.robot.generated.Telemetry;
+import frc.robot.generated.TunerConstants;
+import frc.robot.util.AlphaSubsystem;
 
 import static frc.robot.util.Subsystems2026.*;
 
@@ -26,9 +30,11 @@ public class RobotContainer {
     private void configureDefaultCommands() {
     }
 
+    climb.setDefaultCommand(climb.defaultClimbCommand());
     private void configureBindings() {
     }
 
+    m_buttonController.leftBumper().whileTrue(ClimbFactory.climbL1());
     public Command getAutonomousCommand() {
         return new InstantCommand();
     }

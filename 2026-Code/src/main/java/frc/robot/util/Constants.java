@@ -21,9 +21,10 @@ public class Constants {
         public static final int CLIMB_MOTOR_ID_1 = 18;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
-        public static final double CLIMB_kP = 0.0;
-        public static final double CLIMB_kI = 0.0;
+        public static final double CLIMB_kP = 0.3;
+        public static final double CLIMB_kI = 0.1;
         public static final double CLIMB_kD = 0.0;
+        public static final double CLIMB_kFF = 0.0;
 
         public static final double ALLOWED_ERROR = 0.1;
 
