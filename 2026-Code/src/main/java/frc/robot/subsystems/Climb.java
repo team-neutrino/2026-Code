@@ -33,9 +33,9 @@ public class Climb extends SubsystemBase {
 
     public Climb() {
         m_currentLimitConfig.withSupplyCurrentLimit(CLIMB_CURRENT_LIMIT)
-            .withSupplyCurrentLimitEnable(true)
-            .withStatorCurrentLimit(CLIMB_CURRENT_LIMIT)
-            .withStatorCurrentLimitEnable(true);
+                .withSupplyCurrentLimitEnable(true)
+                .withStatorCurrentLimit(CLIMB_CURRENT_LIMIT)
+                .withStatorCurrentLimitEnable(true);
         m_climbMotorConfig.CurrentLimits = m_currentLimitConfig;
 
         m_climbMotorConfig.Slot0.kP = CLIMB_kP;
@@ -54,7 +54,8 @@ public class Climb extends SubsystemBase {
     }
 
     private boolean atTargetPosition() {
-        if (getPosition() <= m_climbTargetPosition + ALLOWED_ERROR && getPosition() >= m_climbTargetPosition - ALLOWED_ERROR) {
+        if (getPosition() <= m_climbTargetPosition + ALLOWED_ERROR
+                && getPosition() >= m_climbTargetPosition - ALLOWED_ERROR) {
             return true;
         } else {
             return false;
@@ -70,7 +71,7 @@ public class Climb extends SubsystemBase {
     }
 
     private boolean isClimbOverBar() {
-        if(m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE){
+        if (m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE) {
             return true;
         } else {
             return false;
@@ -83,12 +84,12 @@ public class Climb extends SubsystemBase {
             m_runClimb = true;
         });
     }
-    
+
     @Override
     public void periodic() {
         if (m_runClimb) {
             moveClimb(m_climbTargetPosition);
-            if(atTargetPosition()){
+            if (atTargetPosition()) {
                 m_runClimb = false;
             }
         }

@@ -99,7 +99,7 @@ public class AlphabotLimelight extends SubsystemBase {
 
   private boolean verifyLimelightValidity(PoseEstimate estimate, double frame) {
     return (estimate != null
-    // && estimate.tagCount != 0
+        && estimate.tagCount != 0
     // && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
     // && frame > m_lastFrameShooter
     ); // TODO fix this soon but it doesn't apply to this pull request
@@ -122,7 +122,7 @@ public class AlphabotLimelight extends SubsystemBase {
   private double setxystdev(double distance, double numberOfTags, String name) {
     double xyStdv = 0;
     if (name.equals(AlphaLL_BR)) {
-      xyStdv = Math.max(AlphaMINIMUM_THETA_STD_DEV_LL3G, (distance * AlphaERROR_FACTOR_LL3G) / numberOfTags);
+      xyStdv = Math.max(AlphaMINIMUM_XY_STD_DEV_LL3G, (distance * AlphaERROR_FACTOR_LL3G) / numberOfTags);
     } else if (name.equals(AlphaLL_BL) || name.equals(AlphaLL_SHOOTER)) {
       xyStdv = Math.max(AlphaMINIMUM_XY_STD_DEV_LL4, (distance * AlphaERROR_FACTOR_LL4) / numberOfTags);
     } else {
@@ -148,12 +148,16 @@ public class AlphabotLimelight extends SubsystemBase {
     LimelightHelpers.PoseEstimate estimateBR = LimelightHelpers
         .getBotPoseEstimate_wpiBlue_MegaTag2(AlphaLL_BR);
 
+    LimelightHelpers.PoseEstimate estimateShooter = LimelightHelpers
+        .getBotPoseEstimate_wpiBlue_MegaTag2(AlphaLL_SHOOTER);
+
     record PoseData(PoseEstimate estimate, double frame, String limelightId) {
     }
 
     PoseData BL = new PoseData(estimateBL, getFrame(AlphaLL_BL), AlphaLL_BL);
     PoseData BR = new PoseData(estimateBR, getFrame(AlphaLL_BR), AlphaLL_BR);
-    PoseData[] limelights = { BL, BR };
+    PoseData SHOOTER = new PoseData(estimateShooter, getFrame(AlphaLL_SHOOTER), AlphaLL_SHOOTER);
+    PoseData[] limelights = { BL, BR, SHOOTER };
 
     for (PoseData limelight : limelights) {
       updateFrame(getFrame(limelight.limelightId()), limelight.limelightId());
@@ -170,7 +174,6 @@ public class AlphabotLimelight extends SubsystemBase {
       m_swerve.addVisionMeasurement(limelight.estimate().pose,
           limelight.estimate().timestampSeconds, VecBuilder.fill(xystdev, xystdev,
               thetastdev));
-      System.out.println(xystdev);
     }
   }
 
