@@ -11,7 +11,7 @@ import frc.robot.util.HubActiveStatus;
 import frc.robot.util.Subsystem;
 
 public class LED extends SubsystemBase {
-    private double m_gameTime;
+    private double gameTime;
 
     private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
     private StringTopic m_color_topic = m_nt.getStringTopic("/LED/color");
@@ -22,9 +22,6 @@ public class LED extends SubsystemBase {
 
     private HubActiveStatus m_hub_status = Subsystem.hubState;
 
-    private boolean m_hopperBeam = false;
-    private DigitalInput m_hopperBreambreak = new DigitalInput(5); // random number
-
     public LED() {
         m_color_pub = m_color_topic.publish();
         m_state_pub = m_state_topic.publish();
@@ -32,35 +29,34 @@ public class LED extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_gameTime = DriverStation.getMatchTime();
-        m_hopperBeam = m_hopperBreambreak.get(); // from 2024 intake code, don't really know what it's for?
+        gameTime = DriverStation.getMatchTime();
 
         // blink 5 seconds before alliance shift changes
-        if (m_gameTime <= 135 && m_gameTime >= 130) {
+        if (gameTime <= 135 && gameTime >= 130) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (m_gameTime <= 110 && m_gameTime >= 105) {
+        else if (gameTime <= 110 && gameTime >= 105) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (m_gameTime <= 85 && m_gameTime >= 80) {
+        else if (gameTime <= 85 && gameTime >= 80) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (m_gameTime <= 60 && m_gameTime >= 55) {
+        else if (gameTime <= 60 && gameTime >= 55) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (m_gameTime <= 35 && m_gameTime >= 30) {
+        else if (gameTime <= 35 && gameTime >= 30) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
