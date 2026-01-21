@@ -6,6 +6,10 @@ package frc.robot;
 
 import java.util.List;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.Constants.GlobalConstants;
@@ -21,10 +25,17 @@ public class DriveToPoint extends Command {
     addRequirements(swerve);
   }
 
-  private 
+  public void spline(Pose2d target) {
+    PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+    Command pathCommand = AutoBuilder.pathfindToPose(target, constraints);
+    pathCommand.schedule();
+  }
 
-  oid setTarget() {
+  private
+
+      void setTarget() {
     // logic for selecting target
+
   }
 
   @Override

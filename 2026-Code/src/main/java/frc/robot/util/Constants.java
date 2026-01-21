@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 public class Constants {
     public static class GlobalConstants {
@@ -164,8 +165,19 @@ public class Constants {
     }
 
     public static class DriveToPointConstants {
-        public static final List<Pose2d> RADIAL_SHOOTING_POSES = List.of();
-        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of();
+        public static final Pose2d PAST_BUMP_RIGHT = new Pose2d(-5.7, -2.5, new Rotation2d(45));
+        public static final Pose2d PAST_BUMP_LEFT = new Pose2d(-5.7, -5.57, new Rotation2d(45));
+
+        // Radius 3 meters
+        public static final Pose2d CENTER_SHOT = new Pose2d(-1.6, -4.03, new Rotation2d(0));
+        public static final Pose2d RIGHT_SHOT = new Pose2d(-2.47, -1.91, new Rotation2d(45));
+        public static final Pose2d MID_RIGHT_SHOT = new Pose2d(-2, -2.53, new Rotation2d(45));
+        public static final Pose2d LEFT_SHOT = new Pose2d(-2.47, -6.15, new Rotation2d(45));
+        public static final Pose2d MID_LEFT_SHOT = new Pose2d(-2, -5.53, new Rotation2d(45));
+
+        public static final List<Pose2d> RADIAL_SHOOTING_POSES = List.of(CENTER_SHOT, RIGHT_SHOT, );
+        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BUMP_RIGHT, PAST_BUMP_LEF, MID_RIGHT_SHOTT);
         public static final List<Pose2d> SHUTTLE_POSES = List.of();
+
     }
 }
