@@ -3,11 +3,11 @@ package frc.robot.util;
 import java.util.Optional;
 
 public class Constants {
-    public static class GlobalConstants{
+    public static class GlobalConstants {
         public static Optional<Boolean> RED_ALLIANCE = Optional.empty();
     }
 
-    public static class ClimbConstants{
+    public static class ClimbConstants {
         public static final int CLIMB_MOTOR_ID_1 = 18;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
@@ -139,13 +139,13 @@ public class Constants {
         public static final double AlphaSHOOTER_PITCH_OFFSET = 15;
         public static final double AlphaSHOOTER_YAW_OFFSET = 0;
 
-        public static final double AlphaMINIMUM_XY_STD_DEV_LL4 = 0.4;
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL4 = 0.01;
         public static final double AlphaMINIMUM_THETA_STD_DEV_LL4 = 9999999;
-        public static final double AlphaMINIMUM_XY_STD_DEV_LL3G = 0.6;
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL3G = 0.01;
         public static final double AlphaMINIMUM_THETA_STD_DEV_LL3G = 9999999;
-        public static final double AlphaERROR_FACTOR_LL4 = 0.14;
+        public static final double AlphaERROR_FACTOR_LL4 = 0.014;
         public static final double AlphaERROR_FACTOR_LL4_ANGLE = 2;
-        public static final double AlphaERROR_FACTOR_LL3G = .21;
+        public static final double AlphaERROR_FACTOR_LL3G = .0021;
         public static final double AlphaERROR_FACTOR_LL3G_ANGLE = 2;
     }
 

@@ -22,8 +22,8 @@ import static frc.robot.util.Subsystem.*;
 
 public class RobotContainer {
   private CommandXboxController m_buttonController = new CommandXboxController(1);
-  // private AlphaSubsystem m_subsystemContainer = new AlphaSubsystem();
-  private Subsystem m_subsystemContainer = new Subsystem();
+  private AlphaSubsystem m_subsystemContainer = new AlphaSubsystem();
+  // private Subsystem m_subsystemContainer = new Subsystem();
   // comment out whichever subsystem container you're not testing
 
   private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -46,6 +46,7 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     alphaShooter.setDefaultCommand(alphaShooter.defaultCommand());
     alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
+    alphabotLimelight.setDefaultCommand(alphabotLimelight.AlphaLimelightDefaultCommand());
     swerve.setDefaultCommand(
         // Drivetrain will execute this command periodically
         swerve.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
@@ -66,6 +67,7 @@ public class RobotContainer {
     m_buttonController.y().whileTrue(alphaKicker.runIndexer());
     m_buttonController.x().whileTrue(alphaIntake.runIntake());
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
+    joystick.start().whileTrue(swerve.resetYaw());
   }
 
   public Command getAutonomousCommand() {

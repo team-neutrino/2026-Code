@@ -98,9 +98,11 @@ public class AlphabotLimelight extends SubsystemBase {
   }
 
   private boolean verifyLimelightValidity(PoseEstimate estimate, double frame) {
-    return (estimate != null && estimate.tagCount != 0
-        && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
-        && frame > m_lastFrameShooter); // TODO fix this soon but it doesn't apply to this pull request
+    return (estimate != null
+    // && estimate.tagCount != 0
+    // && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
+    // && frame > m_lastFrameShooter
+    ); // TODO fix this soon but it doesn't apply to this pull request
   }
 
   private void updateFrame(double frame, String name) {
@@ -118,11 +120,13 @@ public class AlphabotLimelight extends SubsystemBase {
   }
 
   private double setxystdev(double distance, double numberOfTags, String name) {
-    double xyStdv = 9999;
+    double xyStdv = 0;
     if (name.equals(AlphaLL_BR)) {
       xyStdv = Math.max(AlphaMINIMUM_THETA_STD_DEV_LL3G, (distance * AlphaERROR_FACTOR_LL3G) / numberOfTags);
     } else if (name.equals(AlphaLL_BL) || name.equals(AlphaLL_SHOOTER)) {
       xyStdv = Math.max(AlphaMINIMUM_XY_STD_DEV_LL4, (distance * AlphaERROR_FACTOR_LL4) / numberOfTags);
+    } else {
+      xyStdv = 0;
     }
     return xyStdv;
   }
@@ -153,7 +157,8 @@ public class AlphabotLimelight extends SubsystemBase {
 
     for (PoseData limelight : limelights) {
       updateFrame(getFrame(limelight.limelightId()), limelight.limelightId());
-      if (!verifyLimelightValidity(limelight.estimate(), getFrame(limelight.limelightId()))) {
+      if (!verifyLimelightValidity(limelight.estimate(),
+          getFrame(limelight.limelightId()))) {
         continue;
       }
       double numberOfTags = limelight.estimate().tagCount;
@@ -165,6 +170,7 @@ public class AlphabotLimelight extends SubsystemBase {
       m_swerve.addVisionMeasurement(limelight.estimate().pose,
           limelight.estimate().timestampSeconds, VecBuilder.fill(xystdev, xystdev,
               thetastdev));
+      System.out.println(xystdev);
     }
   }
 
@@ -203,7 +209,7 @@ public class AlphabotLimelight extends SubsystemBase {
     // LimelightHelpers.SetThrottle(LimelightConstants.LL_BL, throttle);
   }
 
-  public Command limelightDefaultCommand() {
+  public Command AlphaLimelightDefaultCommand() {
     return run(() -> {
 
     });
@@ -212,15 +218,16 @@ public class AlphabotLimelight extends SubsystemBase {
   @Override
   public void periodic() {
     ManageLimelightTemperature();
-    // read the three Limelight tables and store whether each currently sees a target
+    // read the three Limelight tables and store whether each currently sees a
+    // target
     m_has_shooter_tag = LimelightHelpers.getTV(AlphaLL_SHOOTER);
     m_has_br_tag = LimelightHelpers.getTV(AlphaLL_BR);
     m_has_bl_tag = LimelightHelpers.getTV(AlphaLL_BL);
 
     // changed - when enabled configure IMU mode for all Limelights we use
     // if (m_enabled) {
-    //   LimelightHelpers.SetIMUMode(AlphaLL_SHOOTER, 1);
-    //   LimelightHelpers.SetIMUMode(AlphaLL_BL, 1);
+    // LimelightHelpers.SetIMUMode(AlphaLL_SHOOTER, 1);
+    // LimelightHelpers.SetIMUMode(AlphaLL_BL, 1);
     // }
 
     if (m_swerve == null) {
