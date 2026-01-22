@@ -22,8 +22,8 @@ public class LED extends SubsystemBase {
 
     private HubActiveStatus m_hub_status = Subsystem.hubState;
 
-    // private boolean m_beam = false;
-    // private DigitalInput m_beambreak = new DigitalInput()
+    private boolean m_hopperBeam = false;
+    private DigitalInput m_hopperBreambreak = new DigitalInput(5); // random number
 
     public LED() {
         m_color_pub = m_color_topic.publish();
@@ -33,7 +33,7 @@ public class LED extends SubsystemBase {
     @Override
     public void periodic() {
         m_gameTime = DriverStation.getMatchTime();
-        // m_beam = !m_beambreak.get(); pulled from 2024 intake code
+        m_hopperBeam = !m_hopperBreambreak.get(); // from 2024 intake code, don't really know what it's for?
 
         // blink 5 seconds before alliance shift changes
         if (m_gameTime <= 135 && m_gameTime >= 130) {
