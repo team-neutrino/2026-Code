@@ -11,7 +11,7 @@ import frc.robot.util.HubActiveStatus;
 import frc.robot.util.Subsystem;
 
 public class LED extends SubsystemBase {
-    private double gameTime;
+    private double m_gameTime;
 
     private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
     private StringTopic m_color_topic = m_nt.getStringTopic("/LED/color");
@@ -22,7 +22,7 @@ public class LED extends SubsystemBase {
 
     private HubActiveStatus m_hub_status = Subsystem.hubState;
 
-    // private boolean m_beambreak = false;
+    // private boolean m_beam = false;
     // private DigitalInput m_beambreak = new DigitalInput()
 
     public LED() {
@@ -32,34 +32,35 @@ public class LED extends SubsystemBase {
 
     @Override
     public void periodic() {
-        gameTime = DriverStation.getMatchTime();
+        m_gameTime = DriverStation.getMatchTime();
+        // m_beam = !m_beambreak.get(); pulled from 2024 intake code
 
         // blink 5 seconds before alliance shift changes
-        if (gameTime <= 135 && gameTime >= 130) {
+        if (m_gameTime <= 135 && m_gameTime >= 130) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (gameTime <= 110 && gameTime >= 105) {
+        else if (m_gameTime <= 110 && m_gameTime >= 105) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (gameTime <= 85 && gameTime >= 80) {
+        else if (m_gameTime <= 85 && m_gameTime >= 80) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (gameTime <= 60 && gameTime >= 55) {
+        else if (m_gameTime <= 60 && m_gameTime >= 55) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
         }
 
-        else if (gameTime <= 35 && gameTime >= 30) {
+        else if (m_gameTime <= 35 && m_gameTime >= 30) {
             m_color_pub.set("white");
             m_state_pub.set("blink");
             return;
@@ -78,7 +79,7 @@ public class LED extends SubsystemBase {
         // hopper full. determine based on sensor in hopper
         //
         // when beambreak is broken - orange
-        // if (m_breambreak = true)
+        // if (!m_bream)
         // m_color_pub.set("orange");
         // m_state_pub.set("solid");
 
