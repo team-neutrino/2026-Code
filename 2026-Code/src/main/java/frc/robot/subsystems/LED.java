@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringTopic;
 import edu.wpi.first.networktables.StringPublisher;
-
 import frc.robot.util.HubActiveStatus;
 import frc.robot.util.Subsystem;
 
@@ -22,6 +21,9 @@ public class LED extends SubsystemBase {
     private final StringPublisher m_state_pub;
 
     private HubActiveStatus m_hub_status = Subsystem.hubState;
+
+    // private boolean m_beambreak = false;
+    // private DigitalInput m_beambreak = new DigitalInput()
 
     public LED() {
         m_color_pub = m_color_topic.publish();
@@ -76,6 +78,7 @@ public class LED extends SubsystemBase {
         // hopper full. determine based on sensor in hopper
         //
         // when beambreak is broken - orange
+        // if (m_breambreak = true)
         // m_color_pub.set("orange");
         // m_state_pub.set("solid");
 
