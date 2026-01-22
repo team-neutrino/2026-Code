@@ -15,6 +15,7 @@ import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Servo;
 
 public class Climb extends SubsystemBase {
 
@@ -23,12 +24,15 @@ public class Climb extends SubsystemBase {
     private TalonFXConfiguration m_climbMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
+    private Servo m_climbServo = new Servo(CLIMB_SERVO_PORT);
+
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
 
     private double m_climbTargetPosition = 0;
+    private double m_climbServoTargetPosition = 0;
     private boolean m_runClimb = false;
 
     public Climb() {
@@ -85,6 +89,12 @@ public class Climb extends SubsystemBase {
         });
     }
 
+    public Command moveServoCommand(double position) {
+        return run(() -> {
+            m_climbServoTargetPosition = position;
+        });
+    }
+
     @Override
     public void periodic() {
         if (m_runClimb) {
@@ -93,5 +103,6 @@ public class Climb extends SubsystemBase {
                 m_runClimb = false;
             }
         }
+        m_climbServo.set(m_climbServoTargetPosition);
     }
 }
