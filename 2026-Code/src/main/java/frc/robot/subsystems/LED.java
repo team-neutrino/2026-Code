@@ -22,6 +22,9 @@ public class LED extends SubsystemBase {
 
     private HubActiveStatus m_hub_status = Subsystem.hubState;
 
+    // private boolean m_beambreak = false;
+    // private DigitalInput m_beambreak = new DigitalInput()
+
     public LED() {
         m_color_pub = m_color_topic.publish();
         m_state_pub = m_state_topic.publish();
