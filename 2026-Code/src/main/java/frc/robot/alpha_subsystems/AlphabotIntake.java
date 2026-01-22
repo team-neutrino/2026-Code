@@ -4,7 +4,6 @@
 
 package frc.robot.alpha_subsystems;
 
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -17,7 +16,7 @@ import static frc.robot.util.Constants.IntakeConstants.*;
 
 public class AlphabotIntake extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(13, RIO_BUS);
-  private TalonFX m_indexerMotor = new TalonFX(14, m_CANbus);
+  private TalonFX m_indexerMotor = new TalonFX(14, RIO_BUS);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;

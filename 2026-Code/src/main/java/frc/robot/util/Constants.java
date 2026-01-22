@@ -47,16 +47,13 @@ public class Constants {
     public static class IndexerConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
         public static final double INDEXING_VOLTAGE = 8;
-    public static class KickerConstants {
-        public static final double KICKING_VOLTAGE = 8;
-        public static final double CURRENT_LIMIT = 40;
+        public static final double CURRENT_LIMIT = 60;
     }
 
     public static class IntakeConstants {
         public static final double INTAKE_VOLTAGE = -8;
         public static final double INDEXER_VOLTAGE = 4;
         public static final double CURRENT_LIMIT = 60;
-        public static final double INTAKE_VOLTAGE = 0;
         public static final double OUTTAKE_VOLTAGE = 0;
         public static final double DEPLOY_VOLTAGE = 0;
         public static final double RETRACT_VOLTAGE = 0;
