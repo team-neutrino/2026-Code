@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.alpha_subsystems;
 
 import frc.robot.generated.CommandSwerveDrivetrain;
 
@@ -12,7 +12,10 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
@@ -27,11 +30,13 @@ import static frc.robot.util.Constants.SwerveConstants.*;
 
 import java.io.IOException;
 
-public class Swerve extends CommandSwerveDrivetrain {
+import org.json.simple.parser.ParseException;
+
+public class AlphabotSwerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(4, -Integer.MAX_VALUE, 0);
 
-    public Swerve() {
+    public AlphabotSwerve() {
         super(TunerConstants.DrivetrainConstants,
                 TunerConstants.FrontLeft,
                 TunerConstants.FrontRight,
@@ -99,24 +104,30 @@ public class Swerve extends CommandSwerveDrivetrain {
         PIDConstants translationConstants = new PIDConstants(pTranslation, iTranslation, dTranslation);
         PIDConstants rotationConstants = new PIDConstants(pRotation, iRotation, dRotation);
 
+        RobotConfig config = null;
         try {
-            RobotConfig robotConfig = RobotConfig.fromGUISettings();
-            AutoBuilder.configure(
-                    this::getCurrentPose,
-                    this::resetPose,
-                    this::getChassisSpeeds,
-                    this::setControlAndApplyChassis,
-                    new PPHolonomicDriveController(
-                            translationConstants,
-                            rotationConstants),
-                    robotConfig,
-                    () -> {
-                        return RED_ALLIANCE.isPresent() && RED_ALLIANCE.get();
-                    },
-                    this);
-        } catch (IOException | org.json.simple.parser.ParseException e) {
-            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
+            config = RobotConfig.fromGUISettings();
+        } catch (IOException e) {
+            System.out.println("Failed to instantiate RobotConfig config; IOException");
+            e.printStackTrace();
+        } catch (ParseException e) {
+            System.out.println("Failed to instantiate RobotConfig config; ParseException");
+            e.printStackTrace();
         }
+
+        AutoBuilder.configure(
+                this::getCurrentPose,
+                this::resetPose,
+                this::getChassisSpeeds,
+                this::setControlAndApplyChassis,
+                new PPHolonomicDriveController(
+                        translationConstants,
+                        rotationConstants),
+                config,
+                () -> {
+                    return RED_ALLIANCE.isPresent() && RED_ALLIANCE.get();
+                },
+                this);
     }
 
     public Command swerveDefaultCommand(CommandXboxController joystick) {

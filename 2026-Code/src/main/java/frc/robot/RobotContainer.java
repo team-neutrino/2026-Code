@@ -15,14 +15,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.AlphaSubsystem;
-import frc.robot.util.Subsystem;
 
 import static frc.robot.util.AlphaSubsystem.*;
-import static frc.robot.util.Subsystem.*;
 
 public class RobotContainer {
   private CommandXboxController m_buttonController = new CommandXboxController(1);
-  private AlphaSubsystem m_subsystemContainer = new AlphaSubsystem();
+  private AlphaSubsystem m_subsystemContainer;
   // private Subsystem m_subsystemContainer = new Subsystem();
   // comment out whichever subsystem container you're not testing
 
@@ -38,6 +36,7 @@ public class RobotContainer {
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
   public RobotContainer() {
+    m_subsystemContainer = new AlphaSubsystem();
     configureDefaultCommands();
     configureBindings();
     swerve.registerTelemetry(logger::telemeterize);
@@ -68,6 +67,7 @@ public class RobotContainer {
     m_buttonController.x().whileTrue(alphaIntake.runIntake());
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
     joystick.start().whileTrue(swerve.resetYaw());
+    joystick.a().whileTrue(new DriveToPoint());
   }
 
   public Command getAutonomousCommand() {

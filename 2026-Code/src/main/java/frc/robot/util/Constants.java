@@ -1,8 +1,18 @@
 package frc.robot.util;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.ctre.phoenix6.CANBus;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public class Constants {
+    public static class RioConstants {
+        public static final CANBus RIO_BUS = new CANBus("rio");
+    }
+
     public static class GlobalConstants {
         public static Optional<Boolean> RED_ALLIANCE = Optional.empty();
     }
@@ -158,5 +168,60 @@ public class Constants {
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double DRIVE_ASSIST_KP = 8;
         public static final double AUTO_ALIGN_D = 0;
+    }
+
+    public static class DriveToPointConstants {
+        // Could be different multiples of 45
+        public static final Pose2d BLUE_PAST_BUMP_RIGHT = new Pose2d(5.7, 2.5, new Rotation2d(45));
+        public static final Pose2d BLUE_PAST_BUMP_LEFT = new Pose2d(5.7, 5.57, new Rotation2d(45));
+        public static final Pose2d RED_PAST_BUMP_LEFT = new Pose2d(10.84, 2.5, new Rotation2d(45));
+        public static final Pose2d RED_PAST_BUMP_RIGHT = new Pose2d(10.84, 5.57, new Rotation2d(45));
+
+        // Radius 3 meters
+        public static final Pose2d BLUE_CENTER_SHOT = new Pose2d(1.6, 4.03, new Rotation2d(0));
+        public static final Pose2d BLUE_RIGHT_SHOT = new Pose2d(2.47, 1.91, new Rotation2d(45));
+        public static final Pose2d BLUE_MID_RIGHT_SHOT = new Pose2d(2, 2.53, new Rotation2d(30));
+        public static final Pose2d BLUE_LEFT_SHOT = new Pose2d(2.47, 6.15, new Rotation2d(315));
+        public static final Pose2d BLUE_MID_LEFT_SHOT = new Pose2d(2, 5.53, new Rotation2d(330));
+
+        public static final Pose2d RED_CENTER_SHOT = new Pose2d(14.94, 4.03, new Rotation2d(0));
+        public static final Pose2d RED_LEFT_SHOT = new Pose2d(14.07, 1.91, new Rotation2d(315));
+        public static final Pose2d RED_MID_LEFT_SHOT = new Pose2d(14.54, 2.53, new Rotation2d(330));
+        public static final Pose2d RED_RIGHT_SHOT = new Pose2d(14.07, 6.15, new Rotation2d(45));
+        public static final Pose2d RED_MID_RIGHT_SHOT = new Pose2d(14.54, 5.53, new Rotation2d(30));
+
+        // Climb positions (NEED TO BE UPDATED)
+        public static final Pose2d BLUE_CLIMB_CENTER = new Pose2d(1, 4.03, new Rotation2d(0));
+        public static final Pose2d BLUE_CLIMB_LEFT = new Pose2d(1, 4.03, new Rotation2d(0));
+        public static final Pose2d BLUE_CLIMB_RIGHT = new Pose2d(1, 4.03, new Rotation2d(0));
+
+        public static final Pose2d RED_CLIMB_CENTER = new Pose2d(16, 4.03, new Rotation2d(0));
+        public static final Pose2d RED_CLIMB_LEFT = new Pose2d(16, 4.03, new Rotation2d(0));
+        public static final Pose2d RED_CLIMB_RIGHT = new Pose2d(16, 4.03, new Rotation2d(0));
+
+        // Pose lists
+        public static final List<Pose2d> BLUE_RADIAL_SHOOTING_POSES = List.of(BLUE_CENTER_SHOT, BLUE_RIGHT_SHOT,
+                BLUE_MID_RIGHT_SHOT,
+                BLUE_LEFT_SHOT, BLUE_MID_LEFT_SHOT);
+        public static final List<Pose2d> RED_RADIAL_SHOOTING_POSES = List.of(RED_CENTER_SHOT, RED_RIGHT_SHOT,
+                RED_MID_RIGHT_SHOT,
+                RED_LEFT_SHOT, RED_MID_LEFT_SHOT);
+
+        public static final List<Pose2d> BLUE_NEUTRAL_ZONE_POSES = List.of(BLUE_PAST_BUMP_RIGHT, BLUE_PAST_BUMP_LEFT);
+        public static final List<Pose2d> RED_NEUTRAL_ZONE_POSES = List.of(RED_PAST_BUMP_RIGHT, RED_PAST_BUMP_LEFT);
+
+        public static final List<Pose2d> BLUE_SHUTTLE_POSES = List.of();
+        public static final List<Pose2d> RED_SHUTTLE_POSES = List.of();
+
+        public static final List<Pose2d> BLUE_CLIMB_POSES = List.of(BLUE_CLIMB_LEFT, BLUE_CLIMB_CENTER,
+                BLUE_CLIMB_RIGHT);
+        public static final List<Pose2d> RED_CLIMB_POSES = List.of(RED_CLIMB_LEFT, RED_CLIMB_CENTER, RED_CLIMB_RIGHT);
+
+    }
+
+    public static class FieldMeasurementConstants {
+        public static final double ALLIANCE_ZONE_BLUE = 3.978;
+        public static final double ALLIANCE_ZONE_RED = 12.563;
+
     }
 }
