@@ -12,11 +12,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.util.Constants.RioConstants.*;
-import static frc.robot.util.Constants.IntakeConstants.*;
+import static frc.robot.util.Constants.AlphabotIntakeConstants.*;
 
 public class AlphabotIntake extends SubsystemBase {
-  private TalonFX m_motor = new TalonFX(13, RIO_BUS);
-  private TalonFX m_indexerMotor = new TalonFX(14, RIO_BUS);
+  private TalonFX m_motor = new TalonFX(INTAKE_MOTOR_ID, RIO_BUS);
+  private TalonFX m_indexerMotor = new TalonFX(INDEX_MOTOR_ID, RIO_BUS);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
@@ -42,14 +42,14 @@ public class AlphabotIntake extends SubsystemBase {
   public Command runIntake() {
     return run(() -> {
       m_motorVoltage = INTAKE_VOLTAGE;
-      m_indexerVoltage = INDEXER_VOLTAGE;
+      m_indexerVoltage = INDEX_VOLTAGE;
     });
   }
 
   public Command runOuttake() {
     return run(() -> {
       m_motorVoltage = -INTAKE_VOLTAGE;
-      m_indexerVoltage = -INDEXER_VOLTAGE;
+      m_indexerVoltage = -INDEX_VOLTAGE;
     });
   }
 
