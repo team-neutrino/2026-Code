@@ -99,24 +99,26 @@ public class Swerve extends CommandSwerveDrivetrain {
         PIDConstants translationConstants = new PIDConstants(pTranslation, iTranslation, dTranslation);
         PIDConstants rotationConstants = new PIDConstants(pRotation, iRotation, dRotation);
 
+        RobotConfig config = null;
         try {
-            RobotConfig robotConfig = RobotConfig.fromGUISettings();
-            AutoBuilder.configure(
-                    this::getCurrentPose,
-                    this::resetPose,
-                    this::getChassisSpeeds,
-                    this::setControlAndApplyChassis,
-                    new PPHolonomicDriveController(
-                            translationConstants,
-                            rotationConstants),
-                    robotConfig,
-                    () -> {
-                        return RED_ALLIANCE.isPresent() && RED_ALLIANCE.get();
-                    },
-                    this);
-        } catch (IOException | org.json.simple.parser.ParseException e) {
-            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
+            config = RobotConfig.fromGUISettings();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        AutoBuilder.configure(
+                this::getCurrentPose,
+                this::resetPose,
+                this::getChassisSpeeds,
+                this::setControlAndApplyChassis,
+                new PPHolonomicDriveController(
+                        translationConstants,
+                        rotationConstants),
+                config,
+                () -> {
+                    return RED_ALLIANCE.isPresent() && RED_ALLIANCE.get();
+                },
+                this);
     }
 
     public Command swerveDefaultCommand(CommandXboxController joystick) {

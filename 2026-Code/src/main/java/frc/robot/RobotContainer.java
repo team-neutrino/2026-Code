@@ -23,7 +23,7 @@ import static frc.robot.util.Subsystem.swerve;
 
 public class RobotContainer {
   private CommandXboxController m_buttonController = new CommandXboxController(1);
-  private AlphaSubsystem m_subsystemContainer = new AlphaSubsystem();
+  private AlphaSubsystem m_subsystemContainer;
   // private Subsystem m_subsystemContainer = new Subsystem();
   // comment out whichever subsystem container you're not testing
 
@@ -39,6 +39,7 @@ public class RobotContainer {
       .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
 
   public RobotContainer() {
+    m_subsystemContainer = new AlphaSubsystem();
     configureDefaultCommands();
     configureBindings();
     swerve.registerTelemetry(logger::telemeterize);
