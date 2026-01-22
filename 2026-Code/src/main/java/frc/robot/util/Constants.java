@@ -3,10 +3,16 @@ package frc.robot.util;
 import java.util.List;
 import java.util.Optional;
 
+import com.ctre.phoenix6.CANBus;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 public class Constants {
+    public static class RioConstants {
+        public static final CANBus RIO_BUS = new CANBus("rio");
+    }
+
     public static class GlobalConstants {
         public static Optional<Boolean> RED_ALLIANCE = Optional.empty();
     }

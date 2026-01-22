@@ -12,12 +12,12 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import static frc.robot.util.Constants.RioConstants.*;
 import static frc.robot.util.Constants.ShooterConstants.*;
 
 public class AlphabotShooter extends SubsystemBase {
-  private final CANBus m_CANbus = new CANBus("rio");
-  private TalonFX m_motor1 = new TalonFX(11, m_CANbus);
-  private TalonFX m_motor2 = new TalonFX(12, m_CANbus);
+  private TalonFX m_motor1 = new TalonFX(11, RIO_BUS);
+  private TalonFX m_motor2 = new TalonFX(12, RIO_BUS);
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
