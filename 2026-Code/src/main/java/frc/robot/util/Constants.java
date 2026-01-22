@@ -60,7 +60,22 @@ public class Constants {
         public static final double RETRACT_VOLTAGE = 0;
     }
 
+    public static class AlphabotIntakeConstants {
+        public static final int INTAKE_MOTOR_ID = 13;
+        public static final int INDEX_MOTOR_ID = 14;
+
+        public static final double CURRENT_LIMIT = 60;
+        public static final double INTAKE_VOLTAGE = 6;
+        public static final double INDEX_VOLTAGE = 0;
+    }
+
     public static class KickerConstants {
+        public static final int KICKER_MOTOR_ID = 18;
+        public static final double KICKER_CURRENT_LIMIT = 40;
+        public static final double KICKER_VOLTAGE = 8;
+    }
+
+    public static class AlphabotKickerConstants {
         public static final int KICKER_MOTOR_ID = 18;
         public static final double KICKER_CURRENT_LIMIT = 40;
         public static final double KICKER_VOLTAGE = 8;

@@ -4,7 +4,6 @@
 
 package frc.robot.alpha_subsystems;
 
-import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.util.Constants.RioConstants.*;
-import static frc.robot.util.Constants.IndexerConstants.*;
+import static frc.robot.util.Constants.AlphabotKickerConstants.*;
 
 public class AlphabotKicker extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(15, RIO_BUS);
@@ -24,9 +23,9 @@ public class AlphabotKicker extends SubsystemBase {
 
   /** Creates a new Indexer. */
   public AlphabotKicker() {
-    m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
+    m_currentLimitConfig.withSupplyCurrentLimit(KICKER_CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
-        .withStatorCurrentLimit(CURRENT_LIMIT)
+        .withStatorCurrentLimit(KICKER_CURRENT_LIMIT)
         .withStatorCurrentLimitEnable(true);
     m_motorConfig.CurrentLimits = m_currentLimitConfig;
 
@@ -38,9 +37,9 @@ public class AlphabotKicker extends SubsystemBase {
     return m_motor.getVelocity().getValueAsDouble();
   }
 
-  public Command runIndexer() {
+  public Command runKicker() {
     return run(() -> {
-      m_motorVoltage = INDEXING_VOLTAGE;
+      m_motorVoltage = KICKER_VOLTAGE;
     });
   }
 
