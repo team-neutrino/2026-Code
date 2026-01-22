@@ -22,6 +22,9 @@ public class LED extends SubsystemBase {
 
     private HubActiveStatus m_hub_status = Subsystem.hubState;
 
+    // private boolean m_beambreak = false;
+    // private DigitalInput m_beambreak = new DigitalInput()
+
     public LED() {
         m_color_pub = m_color_topic.publish();
         m_state_pub = m_state_topic.publish();
@@ -75,6 +78,7 @@ public class LED extends SubsystemBase {
         // hopper full. determine based on sensor in hopper
         //
         // when beambreak is broken - orange
+        // if (m_breambreak = true)
         // m_color_pub.set("orange");
         // m_state_pub.set("solid");
 
