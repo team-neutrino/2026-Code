@@ -101,6 +101,11 @@ public class Limelight extends SubsystemBase {
     LimelightHelpers.SetIMUMode(LL_FR, 1);
     // use external IMU yaw submitted via setRobotOrientation() and configure the
     // LL4 internal IMU's fused yaw to match the submitted yaw value
+    // 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
+    // localization. The internal IMU is ignored entirely.
+    // 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
+    // the LL4 internal IMU's fused yaw to match the submitted yaw value.
+    // 2 - Use internal IMU for MT2 localization.
   }
 
   /** True when the shooter camera currently sees a fiducial. */
@@ -162,7 +167,7 @@ public class Limelight extends SubsystemBase {
       xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL2, (distance * ERROR_FACTOR_LL2) / numberOfTags);
     } else if (name.equals(LL_FL)) {
       xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL3G, (distance * ERROR_FACTOR_LL3G) / numberOfTags);
-    } else if(name.equals(LL_SHOOTER) || name.equals(LL_FR)) {
+    } else if (name.equals(LL_SHOOTER) || name.equals(LL_FR)) {
       xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL4, (distance * ERROR_FACTOR_LL4) / numberOfTags);
     }
     return xyStdv;
