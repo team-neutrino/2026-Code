@@ -59,8 +59,8 @@ public class Constants {
     }
 
     public static class IntakeConstants {
-        public static final int ROLLER_MOTOR_ID = 16; // 12
-        public static final int DEPLOY_MOTOR_ID = 20; // 13
+        public static final int ROLLER_MOTOR_ID = 12;
+        public static final int DEPLOY_MOTOR_ID = 13;
         public static final double CURRENT_LIMIT = 60;
         public static final double INTAKE_VOLTAGE = 5;
         public static final double OUTTAKE_VOLTAGE = -5;
