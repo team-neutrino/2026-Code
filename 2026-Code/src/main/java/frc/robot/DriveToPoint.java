@@ -110,6 +110,7 @@ public class DriveToPoint extends Command {
     // full
     // logic to re-initialize if we use "bumpers" or equivalent
     // actually drive
+    spline(m_target);
   }
 
   @Override
