@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.AlphaSubsystem;
-import frc.robot.subsystems.Swerve;
+
 import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
 
 //Uncommment everything with swerve in it when swerve is added
@@ -21,7 +21,7 @@ import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
 public class AlphabotLimelight extends SubsystemBase {
   LimelightHelpers m_limelightHelpers;
   double m_robotYaw;
-  Swerve m_swerve;
+  AlphabotSwerve m_swerve;
   Rotation2d m_targetYaw;
   private double m_lastFrameBr = -2;
   private double m_lastFrameBl = -2;

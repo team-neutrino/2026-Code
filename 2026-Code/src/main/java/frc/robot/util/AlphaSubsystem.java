@@ -4,12 +4,12 @@ import frc.robot.alpha_subsystems.AlphabotKicker;
 import frc.robot.alpha_subsystems.AlphabotLimelight;
 import frc.robot.alpha_subsystems.AlphabotIntake;
 import frc.robot.alpha_subsystems.AlphabotShooter;
-import frc.robot.subsystems.Swerve;
+import frc.robot.alpha_subsystems.AlphabotSwerve;
 
 public class AlphaSubsystem {
     public static final HubActiveStatus hubState = new HubActiveStatus();
 
-    public static final Swerve swerve = new Swerve();
+    public static final AlphabotSwerve swerve = new AlphabotSwerve();
     public static final AlphabotShooter alphaShooter = new AlphabotShooter();
     public static final AlphabotIntake alphaIntake = new AlphabotIntake();
     public static final AlphabotKicker alphaKicker = new AlphabotKicker();
