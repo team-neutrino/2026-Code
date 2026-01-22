@@ -184,6 +184,16 @@ public class Constants {
         public static final Pose2d RED_RIGHT_SHOT = new Pose2d(14.07, 6.15, new Rotation2d(45));
         public static final Pose2d RED_MID_RIGHT_SHOT = new Pose2d(14.54, 5.53, new Rotation2d(30));
 
+        // Climb positions (NEED TO BE UPDATED)
+        public static final Pose2d BLUE_CLIMB_CENTER = new Pose2d(1, 4.03, new Rotation2d(0));
+        public static final Pose2d BLUE_CLIMB_LEFT = new Pose2d(1, 4.03, new Rotation2d(0));
+        public static final Pose2d BLUE_CLIMB_RIGHT = new Pose2d(1, 4.03, new Rotation2d(0));
+
+        public static final Pose2d RED_CLIMB_CENTER = new Pose2d(16, 4.03, new Rotation2d(0));
+        public static final Pose2d RED_CLIMB_LEFT = new Pose2d(16, 4.03, new Rotation2d(0));
+        public static final Pose2d RED_CLIMB_RIGHT = new Pose2d(16, 4.03, new Rotation2d(0));
+
+        // Pose lists
         public static final List<Pose2d> BLUE_RADIAL_SHOOTING_POSES = List.of(BLUE_CENTER_SHOT, BLUE_RIGHT_SHOT,
                 BLUE_MID_RIGHT_SHOT,
                 BLUE_LEFT_SHOT, BLUE_MID_LEFT_SHOT);
@@ -194,7 +204,12 @@ public class Constants {
         public static final List<Pose2d> BLUE_NEUTRAL_ZONE_POSES = List.of(BLUE_PAST_BUMP_RIGHT, BLUE_PAST_BUMP_LEFT);
         public static final List<Pose2d> RED_NEUTRAL_ZONE_POSES = List.of(RED_PAST_BUMP_RIGHT, RED_PAST_BUMP_LEFT);
 
-        public static final List<Pose2d> SHUTTLE_POSES = List.of();
+        public static final List<Pose2d> BLUE_SHUTTLE_POSES = List.of();
+        public static final List<Pose2d> RED_SHUTTLE_POSES = List.of();
+
+        public static final List<Pose2d> BLUE_CLIMB_POSES = List.of(BLUE_CLIMB_LEFT, BLUE_CLIMB_CENTER,
+                BLUE_CLIMB_RIGHT);
+        public static final List<Pose2d> RED_CLIMB_POSES = List.of(RED_CLIMB_LEFT, RED_CLIMB_CENTER, RED_CLIMB_RIGHT);
 
     }
 

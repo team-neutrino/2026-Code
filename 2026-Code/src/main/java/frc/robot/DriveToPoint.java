@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,79 +25,75 @@ public class DriveToPoint extends Command {
     addRequirements(swerve);
   }
 
-  public void spline(Pose2d target) {
+  private void spline(Pose2d target) {
     PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
     Command pathCommand = AutoBuilder.pathfindToPose(target, constraints);
     pathCommand.schedule();
   }
 
-  private void setTarget() {
-    // logic for selecting target
-    if (RED_ALLIANCE.get()) {
-      if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() >= ALLIANCE_ZONE_RED
-          && !alphaIntake.isEmpty()) {
-        m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
-        m_target = getClosestPoint(m_targetPoseList);
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
-          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
-          && !alphaIntake.isEmpty()
-          && hubState.isRedHubActive()) {
-        m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
-        m_target = getClosestPoint(m_targetPoseList);
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() >= ALLIANCE_ZONE_RED
-          && alphaIntake.isEmpty()) {
-        m_targetPoseList = RED_NEUTRAL_ZONE_POSES;
-        m_target = getClosestPoint(m_targetPoseList);
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
-          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
-          && alphaIntake.isEmpty()) {
-        m_target = RED_CENTER_SHOT; // Sample to go to climb
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
-          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
-          && !alphaIntake.isEmpty()
-          && !hubState.isRedHubActive()) {
-        // m_targetPoseList = RED_SHUTTLE_POSES;
-        // m_target = getClosestPoint(m_targetPoseList);
-      }
-
-    } else {
-      if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() <= ALLIANCE_ZONE_BLUE
-          && !alphaIntake.isEmpty()) {
-        m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
-        m_target = getClosestPoint(m_targetPoseList);
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
-          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
-          && !alphaIntake.isEmpty()
-          && hubState.isBlueHubActive()) {
-        m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
-        m_target = getClosestPoint(m_targetPoseList);
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() <= ALLIANCE_ZONE_BLUE
-          && alphaIntake.isEmpty()) {
-        m_targetPoseList = BLUE_NEUTRAL_ZONE_POSES;
-        m_target = getClosestPoint(m_targetPoseList);
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
-          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
-          && alphaIntake.isEmpty()) {
-        m_target = BLUE_CENTER_SHOT; // Sample to go to climb
-      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
-          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
-          && !alphaIntake.isEmpty()
-          && !hubState.isBlueHubActive()) {
-        // m_targetPoseList = BLUE_SHUTTLE_POSES;
-        // m_target = getClosestPoint(m_targetPoseList);
-      }
-    }
+  private double getCurrentPoseX() {
+    return swerve.getCurrentPose().getMeasureX().baseUnitMagnitude();
   }
 
-  public Pose2d getClosestPoint(List<Pose2d> list) {
+  private Pose2d getClosestPoint(List<Pose2d> list) {
     return swerve.getCurrentPose().nearest(list);
+  }
+
+  private boolean isHopperEmpty() {
+    return alphaIntake.isEmpty();
+  }
+
+  private void setTarget() {
+    // Red Alliance Cases
+    if (RED_ALLIANCE.get()) {
+      if (getCurrentPoseX() >= ALLIANCE_ZONE_RED && !isHopperEmpty()) {
+        m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
+          && !isHopperEmpty() && hubState.isRedHubActive()) {
+        m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() >= ALLIANCE_ZONE_RED && isHopperEmpty()) {
+        m_targetPoseList = RED_NEUTRAL_ZONE_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
+          && isHopperEmpty()) {
+        m_targetPoseList = RED_CLIMB_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
+          && !isHopperEmpty() && !hubState.isRedHubActive()) {
+        m_targetPoseList = RED_SHUTTLE_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      }
+
+    }
+    // Blue Alliance Cases
+    else {
+      if (getCurrentPoseX() <= ALLIANCE_ZONE_BLUE && !isHopperEmpty()) {
+        m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
+          && !isHopperEmpty() && hubState.isBlueHubActive()) {
+        m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() <= ALLIANCE_ZONE_BLUE && isHopperEmpty()) {
+        m_targetPoseList = BLUE_NEUTRAL_ZONE_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
+          && isHopperEmpty()) {
+        m_targetPoseList = BLUE_CLIMB_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
+          && !isHopperEmpty() && !hubState.isBlueHubActive()) {
+        m_targetPoseList = BLUE_SHUTTLE_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      }
+    }
   }
 
   @Override
   public void initialize() {
     setTarget();
-    // initialize list of points to go through
-    // set driving to point true
   }
 
   @Override
