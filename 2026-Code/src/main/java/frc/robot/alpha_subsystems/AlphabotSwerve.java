@@ -12,7 +12,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
@@ -26,6 +25,8 @@ import static frc.robot.util.Constants.GlobalConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
 
 import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
 
 public class AlphabotSwerve extends CommandSwerveDrivetrain {
 
@@ -102,7 +103,11 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
         RobotConfig config = null;
         try {
             config = RobotConfig.fromGUISettings();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.out.println("Failed to instantiate RobotConfig config; IOException");
+            e.printStackTrace();
+        } catch (ParseException e) {
+            System.out.println("Failed to instantiate RobotConfig config; ParseException");
             e.printStackTrace();
         }
 
