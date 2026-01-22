@@ -20,6 +20,7 @@ import static frc.robot.util.AlphaSubsystem.*;
 public class DriveToPoint extends Command {
   private List<Pose2d> m_targetPoseList;
   private Pose2d m_target;
+  private boolean m_hadNoFuel;
 
   public DriveToPoint() {
     addRequirements(swerve);
@@ -93,15 +94,17 @@ public class DriveToPoint extends Command {
 
   @Override
   public void initialize() {
+    m_hadNoFuel = isHopperEmpty();
     setTarget();
   }
 
   @Override
   public void execute() {
-    // logic to re-initialize if the state of our hopper changes between empty and
-    // full
     // logic to re-initialize if we use "bumpers" or equivalent
     // actually drive
+    if (isHopperEmpty() != m_hadNoFuel) {
+      initialize();
+    }
     spline(m_target);
   }
 
