@@ -12,9 +12,13 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.Constants.GlobalConstants;
+import frc.robot.subsystems.Swerve;
+
 import frc.robot.util.Subsystem;
 
+import static frc.robot.util.Constants.DriveToPointConstants.*;
+import static frc.robot.util.Constants.FieldMeasurementConstants.*;
+import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Subsystem.*;
 
 public class DriveToPoint extends Command {
@@ -31,11 +35,66 @@ public class DriveToPoint extends Command {
     pathCommand.schedule();
   }
 
-  private
-
-      void setTarget() {
+  private void setTarget() {
     // logic for selecting target
+    if (RED_ALLIANCE.get()) {
+      if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() >= ALLIANCE_ZONE_RED
+          && !Subsystem.index.isEmpty()) {
+        m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
+          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
+          && !Subsystem.index.isEmpty()
+          && Subsystem.hubState.isRedHubActive()) {
+        m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() >= ALLIANCE_ZONE_RED
+          && Subsystem.index.isEmpty()) {
+        m_targetPoseList = RED_NEUTRAL_ZONE_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
+          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
+          && Subsystem.index.isEmpty()) {
+        m_target = RED_CENTER_SHOT; // Sample to go to climb
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
+          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
+          && !Subsystem.index.isEmpty()
+          && !Subsystem.hubState.isRedHubActive()) {
+        // m_targetPoseList = RED_SHUTTLE_POSES;
+        // m_target = getClosestPoint(m_targetPoseList);
+      }
 
+    } else {
+      if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() <= ALLIANCE_ZONE_BLUE
+          && !Subsystem.index.isEmpty()) {
+        m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
+          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
+          && !Subsystem.index.isEmpty()
+          && Subsystem.hubState.isBlueHubActive()) {
+        m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() <= ALLIANCE_ZONE_BLUE
+          && Subsystem.index.isEmpty()) {
+        m_targetPoseList = BLUE_NEUTRAL_ZONE_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
+          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
+          && Subsystem.index.isEmpty()) {
+        m_target = BLUE_CENTER_SHOT; // Sample to go to climb
+      } else if (swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() < ALLIANCE_ZONE_RED
+          && swerve.getCurrentPose().getMeasureX().baseUnitMagnitude() > ALLIANCE_ZONE_BLUE
+          && !Subsystem.index.isEmpty()
+          && !Subsystem.hubState.isBlueHubActive()) {
+        // m_targetPoseList = BLUE_SHUTTLE_POSES;
+        // m_target = getClosestPoint(m_targetPoseList);
+      }
+    }
+  }
+
+  public Pose2d getClosestPoint(List<Pose2d> list) {
+    return Subsystem.swerve.getCurrentPose().nearest(list);
   }
 
   @Override

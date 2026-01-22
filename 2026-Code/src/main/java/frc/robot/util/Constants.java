@@ -165,19 +165,42 @@ public class Constants {
     }
 
     public static class DriveToPointConstants {
-        public static final Pose2d PAST_BUMP_RIGHT = new Pose2d(-5.7, -2.5, new Rotation2d(45));
-        public static final Pose2d PAST_BUMP_LEFT = new Pose2d(-5.7, -5.57, new Rotation2d(45));
+        // Could be different multiples of 45
+        public static final Pose2d BLUE_PAST_BUMP_RIGHT = new Pose2d(5.7, 2.5, new Rotation2d(45));
+        public static final Pose2d BLUE_PAST_BUMP_LEFT = new Pose2d(5.7, 5.57, new Rotation2d(45));
+        public static final Pose2d RED_PAST_BUMP_LEFT = new Pose2d(10.84, 2.5, new Rotation2d(45));
+        public static final Pose2d RED_PAST_BUMP_RIGHT = new Pose2d(10.84, 5.57, new Rotation2d(45));
 
         // Radius 3 meters
-        public static final Pose2d CENTER_SHOT = new Pose2d(-1.6, -4.03, new Rotation2d(0));
-        public static final Pose2d RIGHT_SHOT = new Pose2d(-2.47, -1.91, new Rotation2d(45));
-        public static final Pose2d MID_RIGHT_SHOT = new Pose2d(-2, -2.53, new Rotation2d(45));
-        public static final Pose2d LEFT_SHOT = new Pose2d(-2.47, -6.15, new Rotation2d(45));
-        public static final Pose2d MID_LEFT_SHOT = new Pose2d(-2, -5.53, new Rotation2d(45));
+        public static final Pose2d BLUE_CENTER_SHOT = new Pose2d(1.6, 4.03, new Rotation2d(0));
+        public static final Pose2d BLUE_RIGHT_SHOT = new Pose2d(2.47, 1.91, new Rotation2d(45));
+        public static final Pose2d BLUE_MID_RIGHT_SHOT = new Pose2d(2, 2.53, new Rotation2d(30));
+        public static final Pose2d BLUE_LEFT_SHOT = new Pose2d(2.47, 6.15, new Rotation2d(315));
+        public static final Pose2d BLUE_MID_LEFT_SHOT = new Pose2d(2, 5.53, new Rotation2d(330));
 
-        public static final List<Pose2d> RADIAL_SHOOTING_POSES = List.of(CENTER_SHOT, RIGHT_SHOT, );
-        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BUMP_RIGHT, PAST_BUMP_LEF, MID_RIGHT_SHOTT);
+        public static final Pose2d RED_CENTER_SHOT = new Pose2d(14.94, 4.03, new Rotation2d(0));
+        public static final Pose2d RED_LEFT_SHOT = new Pose2d(14.07, 1.91, new Rotation2d(315));
+        public static final Pose2d RED_MID_LEFT_SHOT = new Pose2d(14.54, 2.53, new Rotation2d(330));
+        public static final Pose2d RED_RIGHT_SHOT = new Pose2d(14.07, 6.15, new Rotation2d(45));
+        public static final Pose2d RED_MID_RIGHT_SHOT = new Pose2d(14.54, 5.53, new Rotation2d(30));
+
+        public static final List<Pose2d> BLUE_RADIAL_SHOOTING_POSES = List.of(BLUE_CENTER_SHOT, BLUE_RIGHT_SHOT,
+                BLUE_MID_RIGHT_SHOT,
+                BLUE_LEFT_SHOT, BLUE_MID_LEFT_SHOT);
+        public static final List<Pose2d> RED_RADIAL_SHOOTING_POSES = List.of(RED_CENTER_SHOT, RED_RIGHT_SHOT,
+                RED_MID_RIGHT_SHOT,
+                RED_LEFT_SHOT, RED_MID_LEFT_SHOT);
+
+        public static final List<Pose2d> BLUE_NEUTRAL_ZONE_POSES = List.of(BLUE_PAST_BUMP_RIGHT, BLUE_PAST_BUMP_LEFT);
+        public static final List<Pose2d> RED_NEUTRAL_ZONE_POSES = List.of(RED_PAST_BUMP_RIGHT, RED_PAST_BUMP_LEFT);
+
         public static final List<Pose2d> SHUTTLE_POSES = List.of();
+
+    }
+
+    public static class FieldMeasurementConstants {
+        public static final double ALLIANCE_ZONE_BLUE = 3.978;
+        public static final double ALLIANCE_ZONE_RED = 12.563;
 
     }
 }
