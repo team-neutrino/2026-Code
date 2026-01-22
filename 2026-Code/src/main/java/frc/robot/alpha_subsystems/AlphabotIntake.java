@@ -58,4 +58,8 @@ public class AlphabotIntake extends SubsystemBase {
   public void periodic() {
     m_motor.setVoltage(m_motorVoltage);
   }
+
+  public boolean isEmpty() {
+    return false;
+  }
 }

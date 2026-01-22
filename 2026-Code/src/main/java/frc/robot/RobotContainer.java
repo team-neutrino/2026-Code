@@ -15,11 +15,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.AlphaSubsystem;
-import frc.robot.util.Subsystem;
 
 import static frc.robot.util.AlphaSubsystem.*;
 import static frc.robot.util.Subsystem.*;
-import static frc.robot.util.Subsystem.swerve;
 
 public class RobotContainer {
   private CommandXboxController m_buttonController = new CommandXboxController(1);
