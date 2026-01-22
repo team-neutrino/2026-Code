@@ -28,8 +28,8 @@ public class Climb extends SubsystemBase {
 
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
 
-    private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
-    private CanandcolorSettings m_settings = new CanandcolorSettings();
+    // private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
+    // private CanandcolorSettings m_settings = new CanandcolorSettings();
 
     private double m_climbTargetPosition = 0;
     private boolean m_runClimb = false;

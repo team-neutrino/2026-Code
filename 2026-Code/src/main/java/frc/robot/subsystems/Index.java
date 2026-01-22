@@ -25,8 +25,10 @@ public class Index extends SubsystemBase {
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
     private DigitalInput m_beamBreak1 = new DigitalInput(BEAMBREAK_CHANNEL_1);
     private DigitalInput m_beamBreak2 = new DigitalInput(BEAMBREAK_CHANNEL_2);
-    private Debouncer m_debouncer = new Debouncer(DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
-    private CommandGenericHID m_rumble = new CommandGenericHID(1);
+    private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
+    private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
+    private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
+    private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
 
     public Index() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -39,11 +41,11 @@ public class Index extends SubsystemBase {
     }
 
     public boolean bothBeamsBroken() {
-        return m_beamBreak1.get() && m_beamBreak2.get();
+        return m_beamBreak1.get() && !m_beamBreak2.get();
     }
 
     public boolean fullCapacity() {
-        if (m_debouncer.calculate(bothBeamsBroken())){
+        if (m_startRumbleDebouncer.calculate(bothBeamsBroken())){
             return true;
         }
         return false;
@@ -51,24 +53,27 @@ public class Index extends SubsystemBase {
 
     public void rumbleController(){
         if(fullCapacity()){
-            double startTime = System.currentTimeMillis();
-            m_rumble.setRumble(RumbleType.kBothRumble, 0.5);
-            if (System.currentTimeMillis() - startTime > 2) {
-                m_rumble.setRumble(RumbleType.kBothRumble, 0);
-            }
-            // use while loop
+            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
+            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
         }
         else {
-            m_rumble.setRumble(RumbleType.kBothRumble, 0);
+            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
         }
     }
-    // Test next time with good beam breaks
+
+    public void stopRumble(){
+        if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
+            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
+            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+        }
+    }
 
     @Override
     public void periodic() {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
         rumbleController();
-        System.out.println(m_beamBreak1.get());
+        stopRumble();
     }
     
 

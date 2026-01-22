@@ -51,20 +51,21 @@ public class Constants {
         public static final double INDEXING_VOLTAGE = 8;
         public static final double CURRENT_LIMIT = 40;
 
-        public static final int BEAMBREAK_CHANNEL_1 = 0;
-        public static final int BEAMBREAK_CHANNEL_2 = 1;
+        public static final int BEAMBREAK_CHANNEL_1 = 5;
+        public static final int BEAMBREAK_CHANNEL_2 = 6;
 
-        public static final double DEBOUNCED_TIME = 1;
+        public static final double START_RUMBLE_DEBOUNCED_TIME = 1;
+        public static final double STOP_RUMBLE_DEBOUNCED_TIME = 0.5;
     }
 
     public static class IntakeConstants {
-        public static final int ROLLER_MOTOR_ID = 12;
-        public static final int DEPLOY_MOTOR_ID = 13;
+        public static final int ROLLER_MOTOR_ID = 16; // 12
+        public static final int DEPLOY_MOTOR_ID = 20; // 13
         public static final double CURRENT_LIMIT = 60;
         public static final double INTAKE_VOLTAGE = 5;
-        public static final double OUTTAKE_VOLTAGE = 5;
+        public static final double OUTTAKE_VOLTAGE = -5;
         public static final double DEPLOY_VOLTAGE = 5;
-        public static final double RETRACT_VOLTAGE = 5;
+        public static final double RETRACT_VOLTAGE = -5;
     }
 
     public static class AlphabotIntakeConstants {
