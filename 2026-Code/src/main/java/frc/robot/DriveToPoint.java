@@ -10,6 +10,10 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
@@ -21,6 +25,10 @@ public class DriveToPoint extends Command {
   private List<Pose2d> m_targetPoseList;
   private Pose2d m_target;
   private boolean m_hadNoFuel;
+  NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private final NetworkTable driveStateTable = nt.getTable("DriveToPoint");
+  private final StructPublisher<Pose2d> driveTarget = driveStateTable.getStructTopic("TargetPose", Pose2d.struct)
+      .publish();
 
   public DriveToPoint() {
     addRequirements(swerve);
@@ -106,6 +114,8 @@ public class DriveToPoint extends Command {
       initialize();
     }
     spline(m_target);
+    final long now = NetworkTablesJNI.now();
+    driveTarget.set(m_target, now);
   }
 
   @Override
