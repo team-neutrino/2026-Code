@@ -3,11 +3,11 @@ package frc.robot.util;
 import java.util.Optional;
 
 public class Constants {
-    public static class GlobalConstants{
+    public static class GlobalConstants {
         public static Optional<Boolean> RED_ALLIANCE = Optional.empty();
     }
 
-    public static class ClimbConstants{
+    public static class ClimbConstants {
         public static final int CLIMB_MOTOR_ID_1 = 18;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
@@ -83,19 +83,19 @@ public class Constants {
         public static final double BR_YAW_OFFSET = 0; // Yaw (degrees)
 
         public static final double BL_FORWARD_OFFSET = 0; // Forward offset (meters)
-        public static final double BL_SIDE_OFFSET = 0; // Side offset (meters) left is positive
+        public static final double BL_SIDE_OFFSET = 0; // Side offset (meters) right is positive
         public static final double BL_HEIGHT_OFFSET = 0; // Height offset (meters)
         public static final double BL_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double BL_PITCH_OFFSET = 0; // Pitch (degrees)
         public static final double BL_YAW_OFFSET = 0; // Yaw (degrees)
-        public static final int MINIMUM_XY_STD_DEV_LL4 = 0;
-        public static final int MINIMUM_THETA_STD_DEV_LL4 = 0;
-        public static final int MINIMUM_XY_STD_DEV_LL3G = 0;
-        public static final int MINIMUM_THETA_STD_DEV_LL3G = 0;
-        public static final int MINIMUM_XY_STD_DEV_LL3 = 0;
-        public static final int MINIMUM_THETA_STD_DEV_LL3 = 0;
-        public static final int MINIMUM_XY_STD_DEV_LL2 = 0;
-        public static final int MINIMUM_THETA_STD_DEV_LL2 = 0;
+        public static final double MINIMUM_XY_STD_DEV_LL4 = 0;
+        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0;
+        public static final double MINIMUM_XY_STD_DEV_LL3G = 0;
+        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0;
+        public static final double MINIMUM_XY_STD_DEV_LL3 = 0;
+        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0;
+        public static final double MINIMUM_XY_STD_DEV_LL2 = 0;
+        public static final double MINIMUM_THETA_STD_DEV_LL2 = 0;
         public static final double ERROR_FACTOR_LL4 = 0;
         public static final double ERROR_FACTOR_LL4_ANGLE = 0;
         public static final double ERROR_FACTOR_LL3 = 0;
@@ -110,7 +110,43 @@ public class Constants {
         public static final double SHOOTER_ROLL_OFFSET = 0;
         public static final double SHOOTER_PITCH_OFFSET = 0;
         public static final double SHOOTER_YAW_OFFSET = 0;
+    }
 
+    public static class AlphabotLimelightConstants {
+        public static final String AlphaLL_BR = "limelight-mlksrbr"; // 3G
+        public static final String AlphaLL_BL = "limelight-mlksrbl"; // 4
+        public static final String AlphaLL_SHOOTER = "limelight-ashoot"; // 4
+
+        // Camera pose offsets
+        public static final double AlphaBR_FORWARD_OFFSET = -0.1397;
+        public static final double AlphaBR_SIDE_OFFSET = 0.307975;
+        public static final double AlphaBR_HEIGHT_OFFSET = 0.238125;
+        public static final double AlphaBR_ROLL_OFFSET = 180; // Roll (degrees)
+        public static final double AlphaBR_PITCH_OFFSET = 30; // Pitch (degrees)
+        public static final double AlphaBR_YAW_OFFSET = 180; // Yaw (degrees)
+
+        public static final double AlphaBL_FORWARD_OFFSET = -0.1397; // Forward offset (meters)
+        public static final double AlphaBL_SIDE_OFFSET = -0.307975; // Side offset (meters) right is positive
+        public static final double AlphaBL_HEIGHT_OFFSET = .254; // Height offset (meters)
+        public static final double AlphaBL_ROLL_OFFSET = 0; // Roll (degrees)
+        public static final double AlphaBL_PITCH_OFFSET = 30; // Pitch (degrees)
+        public static final double AlphaBL_YAW_OFFSET = 180; // Yaw (degrees)
+
+        public static final double AlphaSHOOTER_FORWARD_OFFSET = -0.03048;
+        public static final double AlphaSHOOTER_SIDE_OFFSET = -0.130175;
+        public static final double AlphaSHOOTER_HEIGHT_OFFSET = 0.61468;
+        public static final double AlphaSHOOTER_ROLL_OFFSET = 0;
+        public static final double AlphaSHOOTER_PITCH_OFFSET = 15;
+        public static final double AlphaSHOOTER_YAW_OFFSET = 0;
+
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL4 = 0.01;
+        public static final double AlphaMINIMUM_THETA_STD_DEV_LL4 = 9999999;
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL3G = 0.01;
+        public static final double AlphaMINIMUM_THETA_STD_DEV_LL3G = 9999999;
+        public static final double AlphaERROR_FACTOR_LL4 = 0.014;
+        public static final double AlphaERROR_FACTOR_LL4_ANGLE = 2;
+        public static final double AlphaERROR_FACTOR_LL3G = .0021;
+        public static final double AlphaERROR_FACTOR_LL3G_ANGLE = 2;
     }
 
     public static class SwerveConstants {
