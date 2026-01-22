@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -22,8 +22,8 @@ public class LED extends SubsystemBase {
 
     private HubActiveStatus m_hub_status = Subsystem.hubState;
 
-    // private boolean m_beam = false;
-    // private DigitalInput m_beambreak = new DigitalInput()
+    private boolean m_hopperBeam = false;
+    private DigitalInput m_hopperBreambreak = new DigitalInput(5); // random number
 
     public LED() {
         m_color_pub = m_color_topic.publish();
@@ -33,7 +33,7 @@ public class LED extends SubsystemBase {
     @Override
     public void periodic() {
         m_gameTime = DriverStation.getMatchTime();
-        // m_beam = !m_beambreak.get(); pulled from 2024 intake code
+        m_hopperBeam = !m_hopperBreambreak.get(); // from 2024 intake code, don't really know what it's for?
 
         // blink 5 seconds before alliance shift changes
         if (m_gameTime <= 135 && m_gameTime >= 130) {
@@ -77,12 +77,12 @@ public class LED extends SubsystemBase {
         // m_state_pub.set("solid");
 
         // hopper full. determine based on sensor in hopper
-        //
+
         // when beambreak is broken - orange
-        // if (!m_bream) {
-        // m_color_pub.set("orange");
-        // m_state_pub.set("solid");
-        // }
+        if (!m_hopperBeam) {
+            m_color_pub.set("orange");
+            m_state_pub.set("solid");
+        }
 
         // hopper empty ? potentially deteremine based on a robot sensor
 
