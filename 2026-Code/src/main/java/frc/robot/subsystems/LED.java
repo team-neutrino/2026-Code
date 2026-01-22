@@ -79,9 +79,10 @@ public class LED extends SubsystemBase {
         // hopper full. determine based on sensor in hopper
         //
         // when beambreak is broken - orange
-        // if (!m_bream)
+        // if (!m_bream) {
         // m_color_pub.set("orange");
         // m_state_pub.set("solid");
+        // }
 
         // hopper empty ? potentially deteremine based on a robot sensor
 
