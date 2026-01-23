@@ -27,6 +27,7 @@ public class DriveToPoint extends PointControl {
     @Override
     public void initialize() {
         super.initialize();
+        getPIDControl().setTarget(getTarget());
     }
 
     @Override

@@ -1,7 +1,5 @@
 package frc.robot.util;
 
-import java.util.List;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,10 +13,6 @@ public class DriveToPointPID {
 
     public void setTarget(Pose2d target) {
         m_target = target;
-    }
-
-    public Pose2d getTarget() {
-        return m_target;
     }
 
     public double getXDistance() {
@@ -39,14 +33,6 @@ public class DriveToPointPID {
 
     public Rotation2d getRotation() {
         return Rotation2d.fromDegrees(m_target.getRotation().getDegrees());
-    }
-
-    public Pose2d getClosestPoint(List<Pose2d> list) {
-        return AlphaSubsystem.swerve.getCurrentPose().nearest(list);
-    }
-
-    public void setTargetNearest(List<Pose2d> list) {
-        setTarget(getClosestPoint(list));
     }
 
 }
