@@ -6,22 +6,20 @@ package frc.robot;
 
 import java.util.List;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.util.DriveToPointPID;
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.AlphaSubsystem.*;
 
-public class DriveToPoint extends Command {
+public class PointControl extends Command {
   private List<Pose2d> m_targetPoseList;
   private Pose2d m_target;
   private boolean m_hadNoFuel;
@@ -30,14 +28,16 @@ public class DriveToPoint extends Command {
   private final StructPublisher<Pose2d> driveTarget = driveStateTable.getStructTopic("TargetPose", Pose2d.struct)
       .publish();
 
-  public DriveToPoint() {
+  public PointControl() {
     addRequirements(swerve);
   }
 
-  private void spline(Pose2d target) {
-    PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-    Command pathCommand = AutoBuilder.pathfindToPose(target, constraints);
-    pathCommand.schedule();
+  public Pose2d getTarget() {
+    return m_target;
+  }
+
+  public DriveToPointPID getPIDControl() {
+    return new DriveToPointPID();
   }
 
   private double getCurrentPoseX() {
@@ -113,7 +113,6 @@ public class DriveToPoint extends Command {
     if (isHopperEmpty() != m_hadNoFuel) {
       initialize();
     }
-    spline(m_target);
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
   }

@@ -68,7 +68,6 @@ public class RobotContainer {
     m_buttonController.x().whileTrue(alphaIntake.runIntake());
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
     joystick.start().whileTrue(swerve.resetYaw());
-    joystick.a().whileTrue(new DriveToPoint());
   }
 
   public Command getAutonomousCommand() {

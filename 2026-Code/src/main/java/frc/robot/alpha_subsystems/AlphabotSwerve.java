@@ -87,6 +87,14 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
         });
     }
 
+    public void setVelocity(double xVelocity, double yVelocity, Rotation2d targetDirection) {
+        SwerveRequestStash.driveWithVelocity
+                .withVelocityX(xVelocity)
+                .withVelocityY(yVelocity)
+                .withTargetDirection(targetDirection);
+        setControl(SwerveRequestStash.driveWithVelocity);
+    }
+
     public void setControlAndApplyChassis(ChassisSpeeds speeds) {
         setControl(
                 SwerveRequestStash.autonDrive.withVelocityX(speeds.vxMetersPerSecond)
