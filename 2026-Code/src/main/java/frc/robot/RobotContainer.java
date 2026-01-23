@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.command_factories.SwerveFactory;
+import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.AlphaSubsystem;
 
@@ -70,7 +72,7 @@ public class RobotContainer {
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
 
     m_driverController.start().whileTrue(swerve.resetYaw());
-    m_driverController.a().whileTrue(new DriveToPoint());
+    m_driverController.a().whileTrue(SwerveFactory.splineThenDTP());
 
   }
 

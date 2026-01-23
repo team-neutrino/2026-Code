@@ -67,6 +67,6 @@ public class AlphabotIntake extends SubsystemBase {
   }
 
   public boolean isEmpty() {
-    return true;
+    return false;
   }
 }
