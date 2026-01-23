@@ -25,12 +25,12 @@ public class SplineToPoint extends PointControl {
   @Override
   public void initialize() {
     super.initialize();
+    spline(getTarget());
   }
 
   @Override
   public void execute() {
     super.execute();
-    spline(getTarget());
   }
 
   @Override
