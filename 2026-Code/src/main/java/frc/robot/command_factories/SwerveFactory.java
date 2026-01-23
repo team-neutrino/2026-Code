@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveToPoint;
 import frc.robot.commands.SplineToPoint;
 
+import static frc.robot.util.AlphaSubsystem.*;
+
 /** Add your docs here. */
 public class SwerveFactory {
     public static Command splineThenDTP() {
         SplineToPoint spline = new SplineToPoint();
         DriveToPoint dtp = new DriveToPoint();
-        return spline.andThen(dtp);
+        return spline.andThen(swerve.PrintCommand());
     }
 }

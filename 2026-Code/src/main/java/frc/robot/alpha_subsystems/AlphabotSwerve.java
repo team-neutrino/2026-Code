@@ -175,4 +175,10 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
                 .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
     }
 
+    public Command PrintCommand() {
+        return run(() -> {
+            System.out.println("Spline has ended");
+        });
+    }
+
 }
