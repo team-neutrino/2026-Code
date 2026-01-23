@@ -12,15 +12,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.AlphaSubsystem;
-import frc.robot.subsystems.Swerve;
-
 import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
 
 //Uncommment everything with swerve in it when swerve is added
 
 public class AlphabotVision extends SubsystemBase {
 
-  private final Swerve m_swerve;
+  private final AlphabotSwerve m_swerve;
 
   private final Limelight m_bl;
   private final Limelight m_br;
@@ -166,7 +164,7 @@ public class AlphabotVision extends SubsystemBase {
 
     private boolean verifyLimelightValidity() {
       return estimate != null
-          && hasTag() // test
+          && estimate.tagCount != 0 // test
           && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
           && frame > lastFrame
           && !Double.isNaN(estimate.avgTagDist);
@@ -183,16 +181,20 @@ public class AlphabotVision extends SubsystemBase {
       xyStdv = Math.max(
           minimumXyStdDev,
           (distance * errorFactor) / numberOfTags);
+      // System.out.println((distance * errorFactor) / numberOfTags);
+      System.out.println(xyStdv);
       return xyStdv;
     }
 
     private double setthetastdev(double distance, double numberOfTags) {
       double thetaStdv = 999999999;
-      double errorFactor = isLL4 ? AlphaERROR_FACTOR_LL4_ANGLE : AlphaERROR_FACTOR_LL3G_ANGLE;
-      double minimumThetaStdDev = isLL4 ? AlphaMINIMUM_THETA_STD_DEV_LL4 : AlphaMINIMUM_THETA_STD_DEV_LL3G;
-      thetaStdv = Math.max(
-          minimumThetaStdDev,
-          (distance * errorFactor) / numberOfTags);
+      // double errorFactor = isLL4 ? AlphaERROR_FACTOR_LL4_ANGLE :
+      // AlphaERROR_FACTOR_LL3G_ANGLE;
+      // double minimumThetaStdDev = isLL4 ? AlphaMINIMUM_THETA_STD_DEV_LL4 :
+      // AlphaMINIMUM_THETA_STD_DEV_LL3G;
+      // thetaStdv = Math.max(
+      // minimumThetaStdDev,
+      // (distance * errorFactor) / numberOfTags);
       return thetaStdv;
     }
 

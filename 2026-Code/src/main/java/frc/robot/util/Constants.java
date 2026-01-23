@@ -167,13 +167,13 @@ public class Constants {
         public static final double AlphaSHOOTER_PITCH_OFFSET = 15;
         public static final double AlphaSHOOTER_YAW_OFFSET = 0;
 
-        public static final double AlphaMINIMUM_XY_STD_DEV_LL4 = 0.01;
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL4 = 0.15;
         public static final double AlphaMINIMUM_THETA_STD_DEV_LL4 = 9999999;
-        public static final double AlphaMINIMUM_XY_STD_DEV_LL3G = 0.01;
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL3G = 0.15;
         public static final double AlphaMINIMUM_THETA_STD_DEV_LL3G = 9999999;
-        public static final double AlphaERROR_FACTOR_LL4 = 0.014;
+        public static final double AlphaERROR_FACTOR_LL4 = 0.05;
         public static final double AlphaERROR_FACTOR_LL4_ANGLE = 2;
-        public static final double AlphaERROR_FACTOR_LL3G = .0021;
+        public static final double AlphaERROR_FACTOR_LL3G = 0.1;
         public static final double AlphaERROR_FACTOR_LL3G_ANGLE = 2;
     }
 
