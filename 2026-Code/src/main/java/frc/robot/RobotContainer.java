@@ -45,8 +45,8 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     alphaShooter.setDefaultCommand(alphaShooter.defaultCommand());
     alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
-    alphabotLimelight.setDefaultCommand(alphabotLimelight.AlphaLimelightDefaultCommand());
     alphaKicker.setDefaultCommand(alphaKicker.defaultCommand());
+    alphabotVision.setDefaultCommand(alphabotVision.AlphabotVisionDefaultCommand());
     swerve.setDefaultCommand(
         // Drivetrain will execute this command periodically
         swerve.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
