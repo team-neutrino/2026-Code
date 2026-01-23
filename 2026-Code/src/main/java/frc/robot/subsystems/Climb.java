@@ -50,7 +50,7 @@ public class Climb extends SubsystemBase {
 
         m_climbMotor.getConfigurator().apply(m_climbMotorConfig);
         m_climbMotor.setNeutralMode(NeutralModeValue.Brake);
-        
+
         m_climbMotor.setPosition(0);
 
         m_canandColor.setSettings(m_settings);
@@ -65,7 +65,8 @@ public class Climb extends SubsystemBase {
     }
 
     private boolean atTargetPosition() {
-        if (getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR) {
+        if (getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR
+                && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR) {
             return true;
         } else {
             return false;
@@ -107,7 +108,7 @@ public class Climb extends SubsystemBase {
             m_runClimb = false;
         });
     }
-    
+
     @Override
     public void periodic() {
         if (m_runClimb) {
@@ -117,6 +118,6 @@ public class Climb extends SubsystemBase {
             }
         }
         m_climbServo.set(m_climbServoTargetPosition);
-        System.out.println(getDistance());
+        System.out.println(isClimbOverBar());
     }
 }

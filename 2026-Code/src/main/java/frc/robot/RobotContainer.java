@@ -30,6 +30,10 @@ public class RobotContainer {
     private void configureDefaultCommands() {
     }
 
+  private void configureDefaultCommands() {
+    alphaShooter.setDefaultCommand(alphaShooter.defaultCommand());
+    alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
+    alphabotLimelight.setDefaultCommand(alphabotLimelight.AlphaLimelightDefaultCommand());
     climb.setDefaultCommand(climb.defaultClimbCommand());
     private void configureBindings() {
     }

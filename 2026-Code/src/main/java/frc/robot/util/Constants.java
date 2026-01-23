@@ -31,7 +31,7 @@ public class Constants {
         public static final double L1_POSITION = 10;
         public static final double DOWN_POSITION = 0;
 
-        public static final int CANANDCOLOR_ID = 20;
+        public static final int CANANDCOLOR_ID = 28;
         public static final double CANANDCOLOR_DISTANCE = 0.05;
 
         public static final int CANRANGE_ID = 21;
