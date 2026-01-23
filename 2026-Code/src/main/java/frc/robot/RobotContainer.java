@@ -29,7 +29,7 @@ public class RobotContainer {
   private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max
                                                                                     // angular velocity
   private final Telemetry logger = new Telemetry(MaxSpeed);
-  private final CommandXboxController joystick = new CommandXboxController(0);
+  private final CommandXboxController m_driverController = new CommandXboxController(0);
 
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
       .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -49,10 +49,11 @@ public class RobotContainer {
     alphaKicker.setDefaultCommand(alphaKicker.defaultCommand());
     swerve.setDefaultCommand(
         // Drivetrain will execute this command periodically
-        swerve.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with
-                                                                                       // negative Y (forward)
-            .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+        swerve.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with
+            // negative Y (forward)
+            .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with
+                                                                                  // negative X (left)
         ));
 
     // Idle while the robot is disabled. This ensures the configured
@@ -67,7 +68,10 @@ public class RobotContainer {
     m_buttonController.a().whileTrue(alphaKicker.runKicker());
     m_buttonController.x().whileTrue(alphaIntake.runIntake());
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
-    joystick.start().whileTrue(swerve.resetYaw());
+
+    m_driverController.start().whileTrue(swerve.resetYaw());
+    m_driverController.a().whileTrue(new DriveToPoint());
+
   }
 
   public Command getAutonomousCommand() {
