@@ -14,12 +14,9 @@ import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.AlphaSubsystem;
 import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
 
-//Uncommment everything with swerve in it when swerve is added
-
 public class AlphabotVision extends SubsystemBase {
 
   private final AlphabotSwerve m_swerve;
-
   private final Limelight m_bl;
   private final Limelight m_br;
   private final Limelight m_shooter;
@@ -214,6 +211,5 @@ public class AlphabotVision extends SubsystemBase {
     public void setThrottle(int throttle) {
       NetworkTableInstance.getDefault().getTable(name).getEntry("throttle_set").setNumber(throttle);
     }
-
   }
 }
