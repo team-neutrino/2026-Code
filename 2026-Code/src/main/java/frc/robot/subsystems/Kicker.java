@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.KickerConstants.*;
 
@@ -17,7 +18,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class Kicker extends SubsystemBase {
 
-  private final CANBus m_CANbus = new CANBus("rio");
+  private final CANBus m_CANbus = RioConstants.RIO_BUS;
   private TalonFX m_kickerMotor = new TalonFX(KICKER_MOTOR_ID, m_CANbus);
   private TalonFXConfiguration m_kickerMotorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();

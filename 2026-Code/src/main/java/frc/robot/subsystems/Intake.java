@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
 
-
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -11,9 +10,10 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.Constants.RioConstants;
 
-public class Intake extends SubsystemBase{
-    private final CANBus m_CANbus = new CANBus("rio");
+public class Intake extends SubsystemBase {
+    private final CANBus m_CANbus = RioConstants.RIO_BUS;
     private TalonFX m_rollerMotor = new TalonFX(ROLLER_MOTOR_ID, m_CANbus);
     private TalonFX m_deployMotor = new TalonFX(DEPLOY_MOTOR_ID, m_CANbus);
     private double m_rollerMotorVoltage;
@@ -23,16 +23,16 @@ public class Intake extends SubsystemBase{
 
     public Intake() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
-            .withSupplyCurrentLimitEnable(true)
-            .withStatorCurrentLimit(CURRENT_LIMIT)
-            .withStatorCurrentLimitEnable(true);
+                .withSupplyCurrentLimitEnable(true)
+                .withStatorCurrentLimit(CURRENT_LIMIT)
+                .withStatorCurrentLimitEnable(true);
         m_motorConfig.CurrentLimits = m_currentLimitConfig;
 
         m_rollerMotor.getConfigurator().apply(m_motorConfig);
         m_deployMotor.getConfigurator().apply(m_motorConfig);
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
-  }
+    }
 
     @Override
     public void periodic() {
@@ -40,14 +40,14 @@ public class Intake extends SubsystemBase{
         m_deployMotor.setVoltage(m_deployMotorVoltage);
     }
 
-    public Command runIntake(double speed){
+    public Command runIntake(double speed) {
         return run(() -> {
             m_rollerMotorVoltage = speed;
         });
     }
 
-    public Command deployIntake(double speed){
-        return run (() -> {
+    public Command deployIntake(double speed) {
+        return run(() -> {
             m_deployMotorVoltage = speed;
         });
     }

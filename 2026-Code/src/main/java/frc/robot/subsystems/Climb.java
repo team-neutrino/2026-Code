@@ -17,10 +17,11 @@ import com.reduxrobotics.canand.CanandEventLoop;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.Constants.RioConstants;
 
 public class Climb extends SubsystemBase {
 
-    private final CANBus m_CANbus = new CANBus("rio");
+    private final CANBus m_CANbus = RioConstants.RIO_BUS;
     private TalonFX m_climbMotor = new TalonFX(CLIMB_MOTOR_ID_1, m_CANbus);
     private TalonFXConfiguration m_climbMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
