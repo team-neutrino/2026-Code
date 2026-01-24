@@ -94,10 +94,28 @@ public class PointControl extends Command {
     }
   }
 
+  private void setClimbTarget() {
+    if (RED_ALLIANCE.get()) {
+      if (getCurrentPoseX() >= ALLIANCE_ZONE_RED) {
+        m_targetPoseList = RED_CLIMB_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      }
+    } else {
+      if (getCurrentPoseX() <= ALLIANCE_ZONE_BLUE) {
+        m_targetPoseList = BLUE_CLIMB_POSES;
+        m_target = getClosestPoint(m_targetPoseList);
+      }
+    }
+  }
+
   @Override
   public void initialize() {
     m_hadNoFuel = isHopperEmpty();
-    setTarget();
+    if (SplineToPoint.m_isClimbPoint) {
+      setClimbTarget();
+    } else {
+      setTarget();
+    }
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
   }

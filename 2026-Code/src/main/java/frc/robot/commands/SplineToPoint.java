@@ -18,10 +18,12 @@ import frc.robot.util.AlphaSubsystem;
 
 public class SplineToPoint extends PointControl {
   private CommandXboxController m_driverController;
+  public static Boolean m_isClimbPoint;
 
-  public SplineToPoint(CommandXboxController driverController) {
+  public SplineToPoint(CommandXboxController driverController, Boolean isClimbPoint) {
     super();
     m_driverController = driverController;
+    m_isClimbPoint = isClimbPoint;
   }
 
   private void spline(Pose2d target) {
