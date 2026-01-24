@@ -4,9 +4,13 @@ import static frc.robot.util.Constants.ClimbConstants.*;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.ProximityParamsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANrange;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.CANrangeConfigurator;
+import com.ctre.phoenix6.hardware.DeviceIdentifier;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -27,6 +31,7 @@ public class Climb extends SubsystemBase {
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
+    private CANrangeConfiguration m_CANRangeConfiguration = new CANrangeConfiguration();
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
@@ -51,6 +56,10 @@ public class Climb extends SubsystemBase {
         m_climbMotor.setPosition(0);
 
         m_canandColor.setSettings(m_settings);
+
+        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = 0.3;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.2;
+        m_CANRange.getConfigurator().apply(m_CANRangeConfiguration);
 
         CanandEventLoop.getInstance();
     }
@@ -104,6 +113,6 @@ public class Climb extends SubsystemBase {
                 m_runClimb = false;
             }
         }
-
+        System.out.println(getCANRangeDistance());
     }
 }
