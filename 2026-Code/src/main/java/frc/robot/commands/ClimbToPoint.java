@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.alpha_subsystems.AlphabotSwerve.SwerveRequestStash;
 
-import static frc.robot.util.Subsystems2026.swerve;
+import static frc.robot.util.AlphaSubsystem.swerve;
 
 public class ClimbToPoint extends Command {
 
@@ -11,7 +11,7 @@ public class ClimbToPoint extends Command {
 
     }
 
-    private void drive(double velx, double vely) {
+    private void velocityDrive(double velx, double vely) {
         SwerveRequestStash.driveWithVelocity
                 .withVelocityX(velx)
                 .withVelocityY(vely);
@@ -24,7 +24,7 @@ public class ClimbToPoint extends Command {
 
     @Override
     public void execute() {
-
+        
     }
 
     @Override

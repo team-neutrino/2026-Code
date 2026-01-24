@@ -74,6 +74,10 @@ public class Climb extends SubsystemBase {
         return m_CANRange.getDistance().getValueAsDouble();
     }
 
+    public boolean isCANRange() {
+        return getCANRangeDistance() <= ALLOWED_CANRANGE_DISTANCE;
+    }
+
     private boolean isClimbOverBar() {
         return m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE;
     }
