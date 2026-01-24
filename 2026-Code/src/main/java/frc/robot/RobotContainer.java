@@ -37,6 +37,7 @@ public class RobotContainer {
     m_buttonController.rightBumper().whileTrue(ClimbFactory.releaseClimbFromBar()); // Random buttons subject to change
     m_buttonController.leftTrigger().whileTrue(ClimbFactory.raiseClimbArm()); // Random buttons subject to change
     m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
+    m_buttonController.y().whileTrue(IndexFactory.runSpindexer());
     m_buttonController.povUp().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));
     m_buttonController.povDown().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_FAR));
     m_buttonController.povLeft().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.WALL));
