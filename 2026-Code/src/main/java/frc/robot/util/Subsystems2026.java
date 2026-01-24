@@ -2,7 +2,7 @@ package frc.robot.util;
 
 import frc.robot.subsystems.*;
 
-public class Subsystem {
+public class Subsystems2026 {
     public static final HubActiveStatus hubState = new HubActiveStatus();
 
     public static final Climb climb = new Climb();
