@@ -53,6 +53,10 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
         return getPigeon2().getYaw().getValueAsDouble() % 360;
     }
 
+    public double getPitch360() {
+        return getPigeon2().getPitch().getValueAsDouble() % 360;
+    }
+
     public double getYawDegrees() {
         return Math.toDegrees(getYawRadians());
     }

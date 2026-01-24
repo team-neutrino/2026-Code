@@ -115,6 +115,8 @@ public class AlphabotVision extends SubsystemBase {
     private double lastFrame = -2;
     private double frame = -2;
     private PoseEstimate estimate;
+    private static final double FIELD_DIMENSION_X = Units.inchesToMeters(650.12);
+    private static final double FIELD_DIMENSION_Y = Units.inchesToMeters(316.64);
 
     Limelight(String p_name, boolean p_isLL4) {
       name = p_name;
@@ -164,7 +166,8 @@ public class AlphabotVision extends SubsystemBase {
           && estimate.tagCount != 0 // test
           && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
           && frame > lastFrame
-          && !Double.isNaN(estimate.avgTagDist);
+          && !Double.isNaN(estimate.avgTagDist)
+          && poseInField();
     }
 
     private boolean checkPlane(){
@@ -217,7 +220,7 @@ public class AlphabotVision extends SubsystemBase {
     }
 
     public boolean poseInField(){
-      return estimate.pose.getMeasureX() > 0 && estimate.pose.getMeasureX() < Units.inchesToMeters(650.12) && estimate.pose.getMeasureY() > 0 && estimate.pose.getMeasureY() < Units.inchesToMeters(316.64)
+      return estimate.pose.getMeasureX() > 0 && estimate.pose.getMeasureX() < FIELD_DIMENSION_X && estimate.pose.getMeasureY() > 0 && estimate.pose.getMeasureY() < FIELD_DIMENSION_Y
     }
   }
 }
