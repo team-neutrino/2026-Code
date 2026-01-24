@@ -22,7 +22,7 @@ public class Constants {
     }
 
     public static class ClimbConstants {
-        public static final int CLIMB_MOTOR_ID_1 = 18;
+        public static final int CLIMB_MOTOR_ID_1 = 19;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
         public static final double CLIMB_kP = 0.3;
@@ -31,6 +31,7 @@ public class Constants {
         public static final double CLIMB_kFF = 0.0;
 
         public static final double ALLOWED_ERROR = 0.1;
+        public static final double ALLOWED_CANRANGE_DISTANCE = 1.0;
 
         public static final double L1_POSITION = 10;
         public static final double DOWN_POSITION = 0;
@@ -38,7 +39,7 @@ public class Constants {
         public static final int CANANDCOLOR_ID = 28;
         public static final double CANANDCOLOR_DISTANCE = 0.1;
 
-        public static final int CANRANGE_ID = 21;
+        public static final int CANRANGE_ID = 20;
 
         public static final int CLIMB_SERVO_PORT = 0;
         public static final int SERVO_ENDGAME_POSITION = 1;
