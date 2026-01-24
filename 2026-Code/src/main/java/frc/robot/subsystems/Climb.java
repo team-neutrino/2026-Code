@@ -13,9 +13,10 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
+import com.reduxrobotics.canand.CanandEventLoop;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.Servo;
 
 public class Climb extends SubsystemBase {
 
@@ -24,15 +25,12 @@ public class Climb extends SubsystemBase {
     private TalonFXConfiguration m_climbMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
-    private Servo m_climbServo = new Servo(CLIMB_SERVO_PORT);
-
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
 
     private double m_climbTargetPosition = 0;
-    private double m_climbServoTargetPosition = 0;
     private boolean m_runClimb = false;
 
     public Climb() {
@@ -49,24 +47,25 @@ public class Climb extends SubsystemBase {
         m_climbMotor.getConfigurator().apply(m_climbMotorConfig);
         m_climbMotor.setNeutralMode(NeutralModeValue.Brake);
 
+        m_climbMotor.setPosition(0);
+
         m_canandColor.setSettings(m_settings);
+
+        CanandEventLoop.getInstance();
     }
 
     private void moveClimb(double targetPosition) {
         PositionVoltage positionControl = new PositionVoltage(targetPosition);
+        positionControl.FeedForward = CLIMB_kFF;
         m_climbMotor.setControl(positionControl);
     }
 
     private boolean atTargetPosition() {
-        if (getPosition() <= m_climbTargetPosition + ALLOWED_ERROR
-                && getPosition() >= m_climbTargetPosition - ALLOWED_ERROR) {
-            return true;
-        } else {
-            return false;
-        }
+        return getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR
+                && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR;
     }
 
-    private double getPosition() {
+    private double getClimbPosition() {
         return m_climbMotor.getPosition().getValueAsDouble();
     }
 
@@ -75,11 +74,7 @@ public class Climb extends SubsystemBase {
     }
 
     private boolean isClimbOverBar() {
-        if (m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE) {
-            return true;
-        } else {
-            return false;
-        }
+        return m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE;
     }
 
     public Command moveClimbCommand(double position) {
@@ -89,9 +84,10 @@ public class Climb extends SubsystemBase {
         });
     }
 
-    public Command moveServoCommand(double position) {
+    public Command defaultClimbCommand() {
         return run(() -> {
-            m_climbServoTargetPosition = position;
+            m_climbMotor.setVoltage(0);
+            m_runClimb = false;
         });
     }
 
@@ -103,6 +99,6 @@ public class Climb extends SubsystemBase {
                 m_runClimb = false;
             }
         }
-        m_climbServo.set(m_climbServoTargetPosition);
+
     }
 }
