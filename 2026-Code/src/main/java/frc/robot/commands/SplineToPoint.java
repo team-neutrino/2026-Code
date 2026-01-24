@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static frc.robot.util.Constants.DriveToPointConstants.*;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
@@ -23,8 +25,9 @@ public class SplineToPoint extends PointControl {
   }
 
   private void spline(Pose2d target) {
-    PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-    Command pathCommand = AutoBuilder.pathfindToPose(target, constraints);
+    PathConstraints constraints = new PathConstraints(SPLINE_MAX_SPEED, SPLINE_MAX_ACCELERATION,
+        SPLINE_MAX_ANGULAR_VELOCITY, SPLINE_MAX_ANGULAR_ACCELERATION);
+    Command pathCommand = AutoBuilder.pathfindToPose(target, constraints, SPLINE_END_VELOCITY);
     CommandScheduler.getInstance().schedule(
         pathCommand.until(() -> (Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - getTarget().getX()) < 1
             && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - getTarget().getY()) < 1))

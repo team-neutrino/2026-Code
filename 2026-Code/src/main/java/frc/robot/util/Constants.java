@@ -190,6 +190,12 @@ public class Constants {
         public static final double DRIVE_TO_POINT_I = 0;
         public static final double DRIVE_TO_POINT_D = 0;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;
+
+        public static final double SPLINE_MAX_SPEED = 3.0;
+        public static final double SPLINE_MAX_ACCELERATION = 3.0;
+        public static final double SPLINE_MAX_ANGULAR_VELOCITY = 2 * Math.PI;
+        public static final double SPLINE_MAX_ANGULAR_ACCELERATION = 4 * Math.PI;
+        public static final double SPLINE_END_VELOCITY = 1.0;
         // Could be different multiples of 45
         public static final Pose2d BLUE_PAST_BUMP_RIGHT = new Pose2d(5.7, 2.5, new Rotation2d(45));
         public static final Pose2d BLUE_PAST_BUMP_LEFT = new Pose2d(5.7, 5.57, new Rotation2d(45));
