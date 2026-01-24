@@ -8,11 +8,12 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
 
 public class Index extends SubsystemBase {
-    private final CANBus m_CANbus = new CANBus("rio");
+    private final CANBus m_CANbus = RioConstants.RIO_BUS;
     private TalonFX m_spindexerMotor = new TalonFX(SPINDEXER_MOTOR_ID, m_CANbus);
     private double m_spindexerMotorVoltage;
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
