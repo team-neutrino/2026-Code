@@ -186,6 +186,10 @@ public class Constants {
     }
 
     public static class DriveToPointConstants {
+        public static final double DRIVE_TO_POINT_P = 1;
+        public static final double DRIVE_TO_POINT_I = 0;
+        public static final double DRIVE_TO_POINT_D = 0;
+        public static final double MAX_DRIVETOPOINT_SPEED = 5;
         // Could be different multiples of 45
         public static final Pose2d BLUE_PAST_BUMP_RIGHT = new Pose2d(5.7, 2.5, new Rotation2d(45));
         public static final Pose2d BLUE_PAST_BUMP_LEFT = new Pose2d(5.7, 5.57, new Rotation2d(45));
