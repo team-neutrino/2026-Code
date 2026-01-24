@@ -23,7 +23,6 @@ public class SplineToPoint extends PointControl {
   }
 
   private void spline(Pose2d target) {
-    System.out.println("scheduled");
     PathConstraints constraints = new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
     Command pathCommand = AutoBuilder.pathfindToPose(target, constraints);
     CommandScheduler.getInstance().schedule(
@@ -51,10 +50,6 @@ public class SplineToPoint extends PointControl {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println((Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - getTarget().getX()) < 1
-        && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - getTarget().getY()) < 1));
-
-    return (Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - getTarget().getX()) < 1
-        && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - getTarget().getY()) < 1);
+    return false;
   }
 }
