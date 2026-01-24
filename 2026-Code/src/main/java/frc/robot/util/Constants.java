@@ -51,8 +51,8 @@ public class Constants {
         public static final double INDEXING_VOLTAGE = 8;
         public static final double CURRENT_LIMIT = 40;
 
-        public static final int BEAMBREAK_CHANNEL_1 = 5;
-        public static final int BEAMBREAK_CHANNEL_2 = 6;
+        public static final int BEAMBREAK_CHANNEL_1 = 0;
+        public static final int BEAMBREAK_CHANNEL_2 = 1;
 
         public static final double START_RUMBLE_DEBOUNCED_TIME = 1;
         public static final double STOP_RUMBLE_DEBOUNCED_TIME = 0.5;

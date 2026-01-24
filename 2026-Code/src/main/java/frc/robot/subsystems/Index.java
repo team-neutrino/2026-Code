@@ -6,7 +6,6 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -25,7 +24,8 @@ public class Index extends SubsystemBase {
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
     private DigitalInput m_beamBreak1 = new DigitalInput(BEAMBREAK_CHANNEL_1);
     private DigitalInput m_beamBreak2 = new DigitalInput(BEAMBREAK_CHANNEL_2);
-    private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
+    private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
+            Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
     private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
@@ -45,24 +45,20 @@ public class Index extends SubsystemBase {
     }
 
     public boolean fullCapacity() {
-        if (m_startRumbleDebouncer.calculate(bothBeamsBroken())){
-            return true;
-        }
-        return false;
+        return m_startRumbleDebouncer.calculate(bothBeamsBroken());
     }
 
-    public void rumbleController(){
-        if(fullCapacity()){
+    public void rumbleControllers() {
+        if (fullCapacity()) {
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
-        }
-        else {
+        } else {
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
         }
     }
 
-    public void stopRumble(){
+    public void stopRumble() {
         if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
@@ -72,10 +68,9 @@ public class Index extends SubsystemBase {
     @Override
     public void periodic() {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
-        rumbleController();
+        rumbleControllers();
         stopRumble();
     }
-    
 
     public Command runSpindexer(double speed) {
         return run(() -> {
