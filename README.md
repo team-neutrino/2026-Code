@@ -20,14 +20,20 @@
 | Swerve    | ----------- | 1 to 4  | CANencoders |
 | Swerve    | ----------- | 5 to 12 | Motors      |
 | Intake    | ------------| 12, 13  | Motors      |
-| Indexer   | ----------- | 14, 15  | Motors      |
+| Indexer   | ----------- | 14      | Motors      |
 | Shooter   | ----------- | 16, 17  | Motors      |
+| Shooter   | Hood        | 15      | Motors      |
 | Kicker    | ----------- | 18      | Motors      |
 | Climb     | ----------- | 19      | Motors      |
+| Climb     | ----------- | 20      | CANrange    |
+| Climb     | ----------- | 28      | CanandColor |
 
 ## DIO
 | Subsystem | Description          | Port   |
 | --------- | -------------------- | ------ |
+| Indexer   | Beambreak- Top       | 0      |
+| Indexer   | Beambreak- Top       | 1      |
+| Indexer   | Beambreak- Tower     | 2      |
 
 ## PWM
 | Subsystem | Description          | Port   |
