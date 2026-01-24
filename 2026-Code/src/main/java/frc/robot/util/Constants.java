@@ -186,7 +186,7 @@ public class Constants {
     }
 
     public static class DriveToPointConstants {
-        public static final double DRIVE_TO_POINT_P = 1;
+        public static final double DRIVE_TO_POINT_P = 3;
         public static final double DRIVE_TO_POINT_I = 0;
         public static final double DRIVE_TO_POINT_D = 0;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;
