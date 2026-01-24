@@ -70,7 +70,7 @@ public class Climb extends SubsystemBase {
         return m_climbMotor.getPosition().getValueAsDouble();
     }
 
-    private double getDistance() {
+    private double getCANRangeDistance() {
         return m_CANRange.getDistance().getValueAsDouble();
     }
 
