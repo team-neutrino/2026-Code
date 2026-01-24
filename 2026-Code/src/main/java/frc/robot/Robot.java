@@ -18,7 +18,12 @@ import frc.robot.util.Constants;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-    private final RobotContainer m_robotContainer;
+    private RobotContainer m_robotContainer;
+    private AlphaRobotContainer m_alphaRobotContainer;
+
+    private final boolean isAlpha() {
+        return false;
+    }
 
     /* log and replay timestamp and joystick data */
     private final HootAutoReplay m_timeAndJoystickReplay = new HootAutoReplay()
@@ -26,7 +31,11 @@ public class Robot extends TimedRobot {
             .withJoystickReplay();
 
     public Robot() {
-        m_robotContainer = new RobotContainer();
+        if (isAlpha()) {
+            m_alphaRobotContainer = new AlphaRobotContainer();
+        } else {
+            m_robotContainer = new RobotContainer();
+        }
     }
 
     @Override
@@ -53,10 +62,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-        if (m_autonomousCommand != null) {
-            CommandScheduler.getInstance().schedule(m_autonomousCommand);
+        if (isAlpha()) {
+            m_autonomousCommand = m_alphaRobotContainer.getAutonomousCommand();
+            if (m_autonomousCommand != null) {
+                CommandScheduler.getInstance().schedule(m_autonomousCommand);
+            }
         }
     }
 
