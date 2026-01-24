@@ -10,6 +10,7 @@ import com.ctre.phoenix6.HootAutoReplay;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -41,8 +42,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        Threads.setCurrentThreadPriority(true, 99);
         m_timeAndJoystickReplay.update();
         CommandScheduler.getInstance().run();
+        Threads.setCurrentThreadPriority(false, 10);
+
         if (!Constants.GlobalConstants.RED_ALLIANCE.isPresent() && DriverStation.getAlliance().isPresent()) {
             Constants.GlobalConstants.RED_ALLIANCE = Optional
                     .of(DriverStation.getAlliance().get().equals(Alliance.Red));
