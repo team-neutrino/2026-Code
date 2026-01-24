@@ -30,10 +30,10 @@ public class AlphabotVision extends SubsystemBase {
     m_br = new Limelight(AlphaLL_BR, false);
     m_shooter = new Limelight(AlphaLL_SHOOTER, true);
 
-    limelightSettinConstruction();
+    limelightSettingConstruction();
   }
 
-  private void limelightSettinConstruction() {
+  private void limelightSettingConstruction() {
     LimelightHelpers.setLEDMode_ForceOff(m_bl.name);
     LimelightHelpers.setCameraPose_RobotSpace(
         m_bl.name,
@@ -162,9 +162,13 @@ public class AlphabotVision extends SubsystemBase {
     private boolean verifyLimelightValidity() {
       return estimate != null
           && estimate.tagCount != 0 // test
-          && m_swerve.getState().Speeds.omegaRadiansPerSecond < 4 * Math.PI
+          && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
           && frame > lastFrame
           && !Double.isNaN(estimate.avgTagDist);
+    }
+
+    private boolean checkPlane(){
+      return estimate.get
     }
 
     private void updateFrame() {
@@ -177,7 +181,7 @@ public class AlphabotVision extends SubsystemBase {
       double minimumXyStdDev = isLL4 ? AlphaMINIMUM_XY_STD_DEV_LL4 : AlphaMINIMUM_XY_STD_DEV_LL3G;
       xyStdv = Math.max(
           minimumXyStdDev,
-          (distance * errorFactor) / numberOfTags);
+          (Math.pow(distance,2) * errorFactor) / Math.pow(numberOfTags, 2));
       // System.out.println((distance * errorFactor) / numberOfTags);
       System.out.println(xyStdv);
       return xyStdv;
@@ -210,6 +214,10 @@ public class AlphabotVision extends SubsystemBase {
     // test if works
     public void setThrottle(int throttle) {
       NetworkTableInstance.getDefault().getTable(name).getEntry("throttle_set").setNumber(throttle);
+    }
+
+    public boolean poseInField(){
+      return estimate.pose.getMeasureX() > 0 && estimate.pose.getMeasureX() < Units.inchesToMeters(650.12) && estimate.pose.getMeasureY() > 0 && estimate.pose.getMeasureY() < Units.inchesToMeters(316.64)
     }
   }
 }
