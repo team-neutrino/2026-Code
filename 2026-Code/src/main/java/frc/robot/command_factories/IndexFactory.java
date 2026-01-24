@@ -9,5 +9,4 @@ public class IndexFactory {
     public static Command runSpindexer() {
         return index.runSpindexer(INDEXING_VOLTAGE);
     }
-    
 }
