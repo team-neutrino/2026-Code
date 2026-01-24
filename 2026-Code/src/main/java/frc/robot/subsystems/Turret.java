@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.AlphaSubsystem;
-import frc.robot.util.Constants.FieldMeasurementConstants;
 import frc.robot.util.Constants.GlobalConstants;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -17,6 +16,7 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Constants.RioConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
 
@@ -46,7 +46,7 @@ public class Turret extends SubsystemBase {
     slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
 
     var motionMagicConfigs = m_motorConfig.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = 1; // Target cruise velocity of 80 rps
+    motionMagicConfigs.MotionMagicCruiseVelocity = 1; // Target cruise velocity of 1 rps
     motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
@@ -72,15 +72,23 @@ public class Turret extends SubsystemBase {
   private double calculateTargetAngle() {
     double robotX = AlphaSubsystem.swerve.getCurrentPose().getMeasureX().baseUnitMagnitude();
     double robotY = AlphaSubsystem.swerve.getCurrentPose().getMeasureY().baseUnitMagnitude();
-    Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? FieldMeasurementConstants.RED_HUB
-        : FieldMeasurementConstants.BLUE_HUB;
-    double hubDistanceX = hubPose.getX() - robotX;
-    double hubDistanceY = hubPose.getY() - robotY;
 
-    return Math.atan2(hubDistanceY, hubDistanceX);
+    Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+    Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
+        ? (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
+        : (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
+
+    boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
+        || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
+
+    Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
+    double targetDistanceX = targetPose.getX() - robotX; // add turret offset from center
+    double targetDistanceY = targetPose.getY() - robotY;
+
+    return Math.atan2(targetDistanceY, targetDistanceX);
   }
 
-  private Command defaultCommand() {
+  public Command defaultCommand() {
     return run(() -> {
       m_targetAngle = calculateTargetAngle();
     });
