@@ -13,6 +13,7 @@ public class DriveToPoint extends PointControl {
 
     public DriveToPoint() {
         super();
+        addRequirements(AlphaSubsystem.swerve);
     }
 
     private void drive() {

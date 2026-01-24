@@ -29,7 +29,6 @@ public class PointControl extends Command {
       .publish();
 
   public PointControl() {
-    addRequirements(swerve);
   }
 
   public Pose2d getTarget() {
@@ -104,6 +103,8 @@ public class PointControl extends Command {
   public void initialize() {
     m_hadNoFuel = isHopperEmpty();
     setTarget();
+    final long now = NetworkTablesJNI.now();
+    driveTarget.set(m_target, now);
   }
 
   @Override
