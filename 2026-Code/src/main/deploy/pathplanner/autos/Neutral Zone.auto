@@ -1,0 +1,69 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Neutral Top - 1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlphaDeployIntake"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Neutral Top - 2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaRunIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Neutral Top - 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaRetractIntake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AlphaDriveToPoint"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Neutral Zone",
+  "choreoAuto": false
+}
