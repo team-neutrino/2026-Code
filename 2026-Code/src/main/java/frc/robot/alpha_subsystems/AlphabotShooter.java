@@ -12,7 +12,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.util.Constants.RioConstants.*;
-import static frc.robot.util.Constants.ShooterConstants.*;
+import static frc.robot.util.Constants.AlphabotShooterConstants.*;
 
 public class AlphabotShooter extends SubsystemBase {
   private TalonFX m_motor1 = new TalonFX(16, RIO_BUS);

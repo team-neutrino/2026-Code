@@ -113,6 +113,11 @@ public class Constants {
         public static final double KICKER_VOLTAGE = 8;
     }
 
+    public static class AlphabotShooterConstants {
+        public static final double CURRENT_LIMIT = 40;
+        public static final double SHOOTING_VOLTAGE = -7;
+    }
+
     public static class LimelightConstants {
         public static final String LL_FR = "limelight-fr";
         public static final String LL_FL = "limelight-fl";
