@@ -8,12 +8,15 @@ import static edu.wpi.first.units.Units.*;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.command_factories.*;
+import frc.robot.commands.DriveToPoint;
 import frc.robot.commands.SplineToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
@@ -41,6 +44,7 @@ public class AlphaRobotContainer {
     m_subsystemContainer = new AlphaSubsystem();
     configureDefaultCommands();
     configureBindings();
+    configureNamedCommands();
     swerve.registerTelemetry(logger::telemeterize);
     PathfindingCommand.warmupCommand().schedule();
   }
@@ -78,6 +82,16 @@ public class AlphaRobotContainer {
     // uncomment on real robot
     // m_driverController.leftBumper()
     // .whileTrue(new SplineToPoint(m_driverController, TargetMode.CLIMBING));
+  }
+
+  private void configureNamedCommands() {
+    NamedCommands.registerCommand("AlphaDeployIntake", IntakeFactory.deployIntake());
+    NamedCommands.registerCommand("AlphaRetractIntake", IntakeFactory.retractIntake());
+    NamedCommands.registerCommand("AlphaRunIntake", IntakeFactory.runIntake());
+    NamedCommands.registerCommand("AlphaRunOuttake", IntakeFactory.runOuttake());
+    NamedCommands.registerCommand("AlphaRunIndexer", IndexFactory.runSpindexer());
+    NamedCommands.registerCommand("AlphaAutonClimb", ClimbFactory.autoClimb());
+    NamedCommands.registerCommand("AlphaDriveToPoint", new DriveToPoint());
   }
 
   public Command getAutonomousCommand() {
