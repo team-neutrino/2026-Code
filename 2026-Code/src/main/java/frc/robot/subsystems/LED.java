@@ -33,7 +33,7 @@ public class LED extends SubsystemBase {
     @Override
     public void periodic() {
         m_gameTime = DriverStation.getMatchTime();
-        m_hopperBeam = !m_hopperBreambreak.get(); // from 2024 intake code, don't really know what it's for?
+        m_hopperBeam = m_hopperBreambreak.get(); // from 2024 intake code, don't really know what it's for?
 
         // blink 5 seconds before alliance shift changes
         if (m_gameTime <= 135 && m_gameTime >= 130) {
@@ -79,7 +79,7 @@ public class LED extends SubsystemBase {
         // hopper full. determine based on sensor in hopper
 
         // when beambreak is broken - orange
-        if (!m_hopperBeam) {
+        if (m_hopperBeam) {
             m_color_pub.set("orange");
             m_state_pub.set("solid");
         }
