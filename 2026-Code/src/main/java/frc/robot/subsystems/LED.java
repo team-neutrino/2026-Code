@@ -33,7 +33,7 @@ public class LED extends SubsystemBase {
     @Override
     public void periodic() {
         m_gameTime = DriverStation.getMatchTime();
-        m_hopperBeam = !m_hopperBreambreak.get(); // from 2024 intake code, don't really know what it's for?
+        m_hopperBeam = m_hopperBreambreak.get(); // from 2024 intake code, don't really know what it's for?
 
         // blink 5 seconds before alliance shift changes
         if (m_gameTime <= 135 && m_gameTime >= 130) {
