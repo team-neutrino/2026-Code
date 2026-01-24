@@ -12,7 +12,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.DriveToPointPID;
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
@@ -33,10 +32,6 @@ public class PointControl extends Command {
 
   public Pose2d getTarget() {
     return m_target;
-  }
-
-  public DriveToPointPID getPIDControl() {
-    return new DriveToPointPID();
   }
 
   private double getCurrentPoseX() {

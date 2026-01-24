@@ -6,29 +6,32 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import frc.robot.util.AlphaSubsystem;
+import frc.robot.util.DriveToPointPID;
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 
 public class DriveToPoint extends PointControl {
+    private DriveToPointPID m_drivePID;
 
     public DriveToPoint() {
         super();
         addRequirements(AlphaSubsystem.swerve);
+        m_drivePID = new DriveToPointPID();
     }
 
     private void drive() {
-        double xVelocity = getPIDControl().getXVelocity(), yVelocity = getPIDControl().getYVelocity();
+        double xVelocity = m_drivePID.getXVelocity(), yVelocity = m_drivePID.getYVelocity();
 
         xVelocity = MathUtil.clamp(xVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
         yVelocity = MathUtil.clamp(yVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
 
-        AlphaSubsystem.swerve.setVelocity(xVelocity, yVelocity, getPIDControl().getRotation());
+        AlphaSubsystem.swerve.setVelocity(xVelocity, yVelocity, m_drivePID.getRotation());
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        getPIDControl().setTarget(getTarget());
+        m_drivePID.setTarget(getTarget());
     }
 
     @Override
