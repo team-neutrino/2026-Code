@@ -177,6 +177,10 @@ public class AlphabotVision extends SubsystemBase {
           && poseInField();
     }
 
+    private boolean checkPlane(){
+      return estimate.get
+    }
+
     private void updateFrame() {
       lastFrame = frame;
     }
