@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import frc.robot.command_factories.SwerveFactory;
 import frc.robot.commands.DriveToPoint;
 import frc.robot.commands.SplineToPoint;
 import frc.robot.generated.Telemetry;
@@ -75,8 +74,6 @@ public class RobotContainer {
 
     m_driverController.start().whileTrue(swerve.resetYaw());
     m_driverController.a().whileTrue(new SplineToPoint(m_driverController));
-    m_driverController.b().whileTrue(new DriveToPoint());
-
   }
 
   public Command getAutonomousCommand() {
