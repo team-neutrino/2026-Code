@@ -21,7 +21,7 @@ public class AlphabotKicker extends SubsystemBase {
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_motorVoltage;
 
-  /** Creates a new Indexer. */
+  /** Creates a new Kicker. */
   public AlphabotKicker() {
     m_currentLimitConfig.withSupplyCurrentLimit(KICKER_CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
