@@ -69,6 +69,16 @@ public class Constants {
         };
     }
 
+    public static class TurretConstants {
+        public static final int MOTOR_ID = 21;
+        public static final double STARTUP_ANGLE = 135;
+        public static final double CURRENT_LIMIT = 40;
+        public static final double TURRET_P = 1;
+        public static final double TURRET_I = 0;
+        public static final double TURRET_D = 0;
+        public static final double SENSOR_TO_MECHANISM_RATIO = 1;
+    }
+
     public static class IndexerConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
 
@@ -284,6 +294,8 @@ public class Constants {
     public static class FieldMeasurementConstants {
         public static final double ALLIANCE_ZONE_BLUE = 3.978;
         public static final double ALLIANCE_ZONE_RED = 12.563;
+        public static final Pose2d RED_HUB = new Pose2d();
+        public static final Pose2d BLUE_HUB = new Pose2d();
 
     }
 }
