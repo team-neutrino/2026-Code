@@ -58,7 +58,6 @@ public class Climb extends SubsystemBase {
         PositionVoltage positionControl = new PositionVoltage(targetPosition);
         positionControl.FeedForward = CLIMB_kFF;
         m_climbMotor.setControl(positionControl);
-        System.out.println("3");
     }
 
     private boolean atTargetPosition() {
@@ -82,7 +81,6 @@ public class Climb extends SubsystemBase {
         return run(() -> {
             m_climbTargetPosition = position;
             m_runClimb = true;
-            System.out.println("1");
         });
     }
 
@@ -96,11 +94,11 @@ public class Climb extends SubsystemBase {
     @Override
     public void periodic() {
         if (m_runClimb) {
-            System.out.println("2");
             moveClimb(m_climbTargetPosition);
             if (atTargetPosition()) {
                 m_runClimb = false;
             }
         }
+
     }
 }

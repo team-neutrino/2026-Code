@@ -13,8 +13,4 @@ public class ClimbFactory {
     public static Command climbDown() {
         return climb.moveClimbCommand(DOWN_POSITION);
     }
-
-    public static Command endGameClimb() {
-        return new SequentialCommandGroup(climb.moveServoCommand(SERVO_ENDGAME_POSITION), climb.moveClimbCommand(DOWN_POSITION));
-    }
 }
