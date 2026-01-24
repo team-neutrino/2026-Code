@@ -31,6 +31,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    m_buttonController.y().whileTrue(IndexFactory.runSpindexer());
     m_buttonController.leftBumper().whileTrue(ClimbFactory.climbUp()); // Random buttons that are subject to change
     m_buttonController.rightBumper().whileTrue(ClimbFactory.climbDown()); // Random buttons that are subject to change
     m_buttonController.povUp().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));

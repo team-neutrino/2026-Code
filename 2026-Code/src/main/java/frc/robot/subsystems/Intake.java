@@ -55,7 +55,6 @@ public class Intake extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            System.out.println("Default");
             m_rollerMotorVoltage = 0;
             m_deployMotorVoltage = 0;
         });

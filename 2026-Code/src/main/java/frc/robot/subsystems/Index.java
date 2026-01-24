@@ -17,8 +17,6 @@ import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
 
-import java.net.IDN;
-
 public class Index extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
     private TalonFX m_spindexerMotor = new TalonFX(SPINDEXER_MOTOR_ID, m_CANbus);
@@ -78,24 +76,22 @@ public class Index extends SubsystemBase {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
         rumbleControllers();
         stopRumble();
-        // boolean motorDebounce = m_emptyDebouncer.calculate(m_emptyBeamBreak.get());
-        // if (motorDebounce) {
-        // m_spindexerMotor.setVoltage(0);
-        // } else {
-        // m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-        // }
+        boolean motorDebounce = m_emptyDebouncer.calculate(m_emptyBeamBreak.get());
         if (m_emptyBeamBreak.get()) {
             m_isHopperEmpty = false;
-            m_spindexerMotor.setVoltage(0);
+            m_spindexerMotorVoltage = 0;
             m_indexTimer.stop();
             m_indexTimer.reset();
+            System.out.println("Fuel found");
         } else {
-            if (m_indexTimer.isRunning() && m_indexTimer.hasElapsed(3)) {
+            if (m_indexTimer.isRunning() && m_indexTimer.hasElapsed(MOTOR_START_TIME)) {
                 m_isHopperEmpty = true;
-                m_spindexerMotor.setVoltage(0);
-            } else {
-                m_spindexerMotor.setVoltage(INDEXING_VOLTAGE);
+                m_spindexerMotorVoltage = 0;
+                System.out.println("No fuel");
+            } else if (motorDebounce) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
                 m_indexTimer.start();
+                System.out.println("Looking for fuel");
             }
         }
     }
