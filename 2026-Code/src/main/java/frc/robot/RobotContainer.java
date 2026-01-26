@@ -18,7 +18,7 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
 
-  private Subsystems2026 m_subsystemContainer = new Subsystems2026();
+  private Subsystems2026 m_subsystemContainer;
 
   public RobotContainer() {
     m_subsystemContainer = new Subsystems2026();
