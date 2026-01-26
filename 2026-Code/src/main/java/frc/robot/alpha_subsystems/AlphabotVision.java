@@ -119,12 +119,11 @@ public class AlphabotVision extends SubsystemBase {
     private double lastFrame = -2;
     private double frame = -2;
     private double BumpScaleFactor = 1;
-    private PoseEstimate estimate; 
+    private PoseEstimate estimate;
     private static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
     private static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
     private static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     private static final double BUMP_MINIMUM_THRESHOLD = 7;
-
 
     Limelight(String p_name, boolean p_isLL4) {
       name = p_name;
@@ -189,7 +188,7 @@ public class AlphabotVision extends SubsystemBase {
       double minimumXyStdDev = isLL4 ? AlphaMINIMUM_XY_STD_DEV_LL4 : AlphaMINIMUM_XY_STD_DEV_LL3G;
       xyStdv = Math.max(
           minimumXyStdDev,
-          (Math.pow(distance,2) * errorFactor) * BumpScaleFactor/ Math.pow(numberOfTags, 2));
+          (Math.pow(distance, 2) * errorFactor) * BumpScaleFactor / Math.pow(numberOfTags, 2));
       // System.out.println((distance * errorFactor) / numberOfTags);
       System.out.println(xyStdv);
       return xyStdv;
@@ -224,19 +223,22 @@ public class AlphabotVision extends SubsystemBase {
       NetworkTableInstance.getDefault().getTable(name).getEntry("throttle_set").setNumber(throttle);
     }
 
-    public boolean onBump(){
+    public boolean onBump() {
       return Math.abs(m_swerve.getPitch()) > BUMP_MINIMUM_THRESHOLD;
     }
 
-    private void setBumpScaleFactor(){
-      if(onBump()){
+    private void setBumpScaleFactor() {
+      if (onBump()) {
         BumpScaleFactor = .5;
       }
       BumpScaleFactor = 1;
     }
 
-    public boolean poseInField(){
-      return estimate.pose.getMeasureX().compareTo(ZERO) >= 0 && estimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0 && estimate.pose.getMeasureY().compareTo(ZERO) >= 0 && estimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
+    public boolean poseInField() {
+      return estimate.pose.getMeasureX().compareTo(ZERO) >= 0
+          && estimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
+          && estimate.pose.getMeasureY().compareTo(ZERO) >= 0
+          && estimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
     }
   }
 }
