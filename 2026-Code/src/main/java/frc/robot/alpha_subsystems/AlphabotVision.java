@@ -125,7 +125,6 @@ public class AlphabotVision extends SubsystemBase {
     private static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     private static final double BUMP_MINIMUM_THRESHOLD = 7;
 
-
     Limelight(String p_name, boolean p_isLL4) {
       name = p_name;
       isLL4 = p_isLL4;
