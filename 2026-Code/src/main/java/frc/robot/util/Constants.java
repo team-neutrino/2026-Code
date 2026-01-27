@@ -99,6 +99,10 @@ public class Constants {
         public static final double DEPLOYED_POSITION = 110; // placeholder value
         public static final double ALLOWED_TARGET_ERROR = 5; // placeholder value
         public static final double ALLOWED_INTAKE_ERROR = 5; // placeholder value
+
+        public static final double INTAKE_kP = 0.2; // placeholder value
+        public static final double INTAKE_kI = 0.0; // placeholder value
+        public static final double INTAKE_kD = 0.0; // placeholder value
     }
 
     public static class AlphabotIntakeConstants {
