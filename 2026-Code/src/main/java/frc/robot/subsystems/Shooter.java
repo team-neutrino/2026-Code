@@ -46,7 +46,6 @@ public class Shooter extends SubsystemBase {
         .withStatorCurrentLimit(CURRENT_LIMIT)
         .withStatorCurrentLimitEnable(true);
     m_shooterMotorConfig.CurrentLimits = m_currentLimitConfig;
-    m_hoodMotorConfig.CurrentLimits = m_currentLimitConfig;
 
     m_shooterMotorConfig.Slot0.kP = SHOOTING_KP;
     m_shooterMotorConfig.Slot0.kI = SHOOTING_KI;
@@ -139,15 +138,14 @@ public class Shooter extends SubsystemBase {
     m_shooterMotor.setControl(velocityControl);
   }
 
-  // /** Brakes the hood motor to keep stability if it is at the target position.
-  // */
-  // public void stableShot() {
-  // if (atTargetPosition()) {
-  // m_hoodMotor.setNeutralMode(NeutralModeValue.Brake);
-  // } else {
-  // m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
-  // }
-  // }
+  /** Brakes the hood motor to keep stability if it is at the target position. */
+  public void stableShot() {
+    if (atTargetPosition()) {
+      m_hoodMotor.setNeutralMode(NeutralModeValue.Brake);
+    } else {
+      m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
+    }
+  }
 
   @Override
   public void periodic() {
@@ -158,16 +156,6 @@ public class Shooter extends SubsystemBase {
   public Command shootingAngle(double target) {
     return run(() -> {
       m_targetAngle = target;
-    });
-  }
-
-  public Command stableShot() {
-    return run(() -> {
-      if (atTargetPosition()) {
-        m_hoodMotor.setNeutralMode(NeutralModeValue.Brake);
-      } else {
-        m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
-      }
     });
   }
 

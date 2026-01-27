@@ -5,6 +5,4 @@
 package frc.robot.command_factories;
 
 /** Add your docs here. */
-public class SuperstructureFactory {
-
-}
+public class SuperstructureFactory {}
