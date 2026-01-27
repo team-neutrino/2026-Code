@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import static edu.wpi.first.units.Units.Meter;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +9,8 @@ import com.ctre.phoenix6.CANBus;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Distance;
 
 public class Constants {
     public static class RioConstants {
@@ -184,15 +188,15 @@ public class Constants {
 
         // Camera pose offsets
         public static final double AlphaBR_FORWARD_OFFSET = -0.1397;
-        public static final double AlphaBR_SIDE_OFFSET = 0.307975;
-        public static final double AlphaBR_HEIGHT_OFFSET = 0.238125;
+        public static final double AlphaBR_SIDE_OFFSET = 0.295;
+        public static final double AlphaBR_HEIGHT_OFFSET = 0.235;
         public static final double AlphaBR_ROLL_OFFSET = 180; // Roll (degrees)
         public static final double AlphaBR_PITCH_OFFSET = 30; // Pitch (degrees)
         public static final double AlphaBR_YAW_OFFSET = 180; // Yaw (degrees)
 
         public static final double AlphaBL_FORWARD_OFFSET = -0.1397; // Forward offset (meters)
-        public static final double AlphaBL_SIDE_OFFSET = -0.307975; // Side offset (meters) right is positive
-        public static final double AlphaBL_HEIGHT_OFFSET = .254; // Height offset (meters)
+        public static final double AlphaBL_SIDE_OFFSET = -0.295; // Side offset (meters) right is positive
+        public static final double AlphaBL_HEIGHT_OFFSET = .23876; // Height offset (meters)
         public static final double AlphaBL_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double AlphaBL_PITCH_OFFSET = 30; // Pitch (degrees)
         public static final double AlphaBL_YAW_OFFSET = 180; // Yaw (degrees)
@@ -204,14 +208,20 @@ public class Constants {
         public static final double AlphaSHOOTER_PITCH_OFFSET = 15;
         public static final double AlphaSHOOTER_YAW_OFFSET = 0;
 
-        public static final double AlphaMINIMUM_XY_STD_DEV_LL4 = 0.15;
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL4 = 1.1;
         public static final double AlphaMINIMUM_THETA_STD_DEV_LL4 = 9999999;
-        public static final double AlphaMINIMUM_XY_STD_DEV_LL3G = 0.15;
+        public static final double AlphaMINIMUM_XY_STD_DEV_LL3G = 1.9;
         public static final double AlphaMINIMUM_THETA_STD_DEV_LL3G = 9999999;
-        public static final double AlphaERROR_FACTOR_LL4 = 0.05;
+        public static final double AlphaERROR_FACTOR_LL4 = 0.5;
         public static final double AlphaERROR_FACTOR_LL4_ANGLE = 2;
-        public static final double AlphaERROR_FACTOR_LL3G = 0.1;
+        public static final double AlphaERROR_FACTOR_LL3G = 0.9;
         public static final double AlphaERROR_FACTOR_LL3G_ANGLE = 2;
+
+        public static final double BUMP_MINIMUM_THRESHOLD = 7;
+
+        public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
+        public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
+        public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     }
 
     public static class SwerveConstants {
