@@ -89,15 +89,20 @@ public class Constants {
     public static class IntakeConstants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
+
         public static final double CURRENT_LIMIT = 60;
+
         public static final double INTAKE_VOLTAGE = 5;
         public static final double OUTTAKE_VOLTAGE = -5;
-        public static final double DEPLOY_VOLTAGE = 5;
-        public static final double RETRACT_VOLTAGE = -5;
+
+        public static final double STARTING_POSITION = 0;
+        public static final double DEPLOYED_POSITION = 110; // placeholder value
+        public static final double ALLOWED_TARGET_ERROR = 5; // placeholder value
+        public static final double ALLOWED_INTAKE_ERROR = 5; // placeholder value
     }
 
     public static class AlphabotIntakeConstants {
-        public static final int INTAKE_MOTOR_ID = 13;
+        public static final int INTAKE_MOTOR_ID = 99;
         public static final int INDEX_MOTOR_ID = 14;
 
         public static final double CURRENT_LIMIT = 60;
