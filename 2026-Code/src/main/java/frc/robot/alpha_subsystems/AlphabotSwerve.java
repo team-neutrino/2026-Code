@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.Constants.GlobalConstants;
 
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -23,6 +24,7 @@ import com.pathplanner.lib.config.RobotConfig;
 
 import static frc.robot.util.Constants.GlobalConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
+import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import java.io.IOException;
 
@@ -100,6 +102,25 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
                 SwerveRequestStash.autonDrive.withVelocityX(speeds.vxMetersPerSecond)
                         .withVelocityY(speeds.vyMetersPerSecond)
                         .withRotationalRate(speeds.omegaRadiansPerSecond));
+    }
+
+    public double getDistanceFromHub() {
+        double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude();
+        double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude();
+
+        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+        Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
+                ? (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
+                : (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
+
+        boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
+                || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
+
+        Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
+        double targetDistanceX = targetPose.getX() - robotX; // add turret offset from center
+        double targetDistanceY = targetPose.getY() - robotY;
+
+        return Math.atan2(targetDistanceY, targetDistanceX);
     }
 
     private void configurePathPlanner() {
