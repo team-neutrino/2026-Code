@@ -94,6 +94,23 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
+   * Sets a new PID controller for the hood motor. Should only be used for tuning the PID controller.
+   * @param new_P The new P value for the hood motor.
+   * @param new_I The new I value for the hood motor.
+   * @param new_D The new D value for the hood motor.
+   */
+
+  public void setHoodPID(double new_P, double new_I, double new_D) {
+    Slot0Configs newSlot0Configs = new Slot0Configs();
+
+    newSlot0Configs.kP = new_P;
+    newSlot0Configs.kI = new_I;
+    newSlot0Configs.kD = new_D;
+
+    m_hoodMotor.getConfigurator().apply(newSlot0Configs);
+  }
+
+  /**
    * Gets the current position of the hood motor.
    * 
    * @return The current position of the hood motor as a double.
