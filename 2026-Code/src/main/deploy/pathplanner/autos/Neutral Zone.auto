@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Over Bump"
+            "pathName": "Neutral Top - 1"
           }
         },
         {
@@ -15,44 +15,24 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Neutral To Fuel"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Neutral Top - 2"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "AlphaRunIntake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Neutral Top - 2"
                 }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Neutral Top - 3"
-                }
-              }
-            ]
+            "pathName": "Neutral Top - 3"
           }
         },
         {
