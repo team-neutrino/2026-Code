@@ -9,6 +9,7 @@ import frc.robot.util.Constants.RioConstants;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -73,6 +74,23 @@ public class Shooter extends SubsystemBase {
    */
   public double getVelocity() {
     return m_shooterMotor.getVelocity().getValueAsDouble();
+  }
+
+/**
+   * Sets a new PID controller for the shooter motor. Should only be used for tuning the PID controller.
+   * @param new_P The new P value for the shooter motor.
+   * @param new_I The new I value for the shooter motor.
+   * @param new_D The new D value for the shooter motor.
+   */
+
+  public void setShooterPID(double new_P, double new_I, double new_D) {
+    Slot0Configs newSlot0Configs = new Slot0Configs();
+
+    newSlot0Configs.kP = new_P;
+    newSlot0Configs.kI = new_I;
+    newSlot0Configs.kD = new_D;
+
+    m_shooterMotor.getConfigurator().apply(newSlot0Configs);
   }
 
   /**
