@@ -15,7 +15,7 @@ public class ClimbNT extends Climb {
 
     DoubleTopic actualClimbPosition = nt.getDoubleTopic("/climb/actual_climb_position");
     DoubleTopic targetClimbPosition = nt.getDoubleTopic("/climb/target_climb_position");
-    DoubleTopic climbCurrent = nt.getDoubleTopic("/climb/climb_velocity");
+    DoubleTopic climbCurrent = nt.getDoubleTopic("/climb/climb_current");
     DoubleTopic CANRangeDistance = nt.getDoubleTopic("/climb/climb_CANRange_distance");
     BooleanTopic CANRangeDetection = nt.getBooleanTopic("/climb/climb_CANRange_detection");
     BooleanTopic CANAndColorDetection = nt.getBooleanTopic("/climb/climb_CANandColor_detection");
