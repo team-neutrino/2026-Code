@@ -9,21 +9,9 @@ from networktables import NetworkTables
 
 logging.basicConfig(level=logging.DEBUG)
 
+ip = "10.39.28.2"
 NetworkTables.setDashboardMode(1735)
 NetworkTables.initialize(server=ip)
-
-def connectionListener(connected, info):
-    print(info, "; Connected=%s" % connected)
-
-NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
-led = NetworkTables.getTable("/LED")
-color = led.getAutoUpdateValue("color", "")
-state = led.getAutoUpdateValue("state", "")
-
-color.addListener(valueColorChanged, NetworkTables.NotifyFlags.UPDATE)
-state.addListener(valueStateChanged, NetworkTables.NotifyFlags.UPDATE)
-
-ip = "10.39.28.2"
 
 pixels = neopixel.NeoPixel(board.D18, 298, auto_write=False)
 
@@ -63,7 +51,7 @@ def blinkColor(rgb):
     global previousBlinkTime
     global amount # how many times the LEDs blink
 
-    timePassed = time.time() - previousBlinkTime
+    timePassed = time.time() - previousBlinkTime # timePassed counts up
 
     # on for half a second and off for half a second
     if timePassed < 0.5:
@@ -76,9 +64,8 @@ def blinkColor(rgb):
             blink = False
             setNewColor(rgb) 
 
-def ramp(rgb): #gradually change to new color 
+def ramp(rgb): # gradually change to new color 
     global newColorRGB
-
     rgb2 = newColorRGB
     rate = 10 # how much added/subtracted to rgb value 
 
@@ -143,6 +130,17 @@ def valueStateChanged(table, key, value, isNew):
     #     amount = 2 
     if value == "solid":
         blink = False
+
+def connectionListener(connected, info):
+    print(info, "; Connected=%s" % connected)
+
+NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
+led = NetworkTables.getTable("/LED")
+color = led.getAutoUpdateValue("color", "")
+state = led.getAutoUpdateValue("state", "")
+
+color.addListener(valueColorChanged, NetworkTables.NotifyFlags.UPDATE)
+state.addListener(valueStateChanged, NetworkTables.NotifyFlags.UPDATE)
 
 # def printRGB():
     # print("rc %d" % targetColorRGB[0])
