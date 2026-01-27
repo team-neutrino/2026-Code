@@ -21,7 +21,7 @@ import frc.robot.util.Subsystems2026;
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
-    private AlphaRobotContainer m_alphaRobotContainer;
+    // private AlphaRobotContainer m_alphaRobotContainer;
 
     private final boolean isAlpha() {
         return false;
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         if (isAlpha()) {
-            m_alphaRobotContainer = new AlphaRobotContainer();
+            // m_alphaRobotContainer = new AlphaRobotContainer();
         } else {
             m_robotContainer = new RobotContainer();
         }
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         if (isAlpha()) {
-            m_autonomousCommand = m_alphaRobotContainer.getAutonomousCommand();
+            // m_autonomousCommand = m_alphaRobotContainer.getAutonomousCommand();
             if (m_autonomousCommand != null) {
                 CommandScheduler.getInstance().schedule(m_autonomousCommand);
             }
