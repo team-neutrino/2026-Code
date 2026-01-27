@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.*;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.commands.PathfindingCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,13 +22,15 @@ import frc.robot.commands.SplineToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.AlphaSubsystem;
-import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
+import frc.robot.util.Constants.AutonConstants;
+import frc.robot.util.Constants.ShooterConstants.fakeEnum;
 
 import static frc.robot.util.AlphaSubsystem.*;
 
 public class AlphaRobotContainer {
   private CommandXboxController m_buttonController = new CommandXboxController(1);
   private AlphaSubsystem m_subsystemContainer;
+  private Command m_autonPath;
 
   private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
                                                                                       // speed
@@ -47,6 +50,7 @@ public class AlphaRobotContainer {
     configureNamedCommands();
     swerve.registerTelemetry(logger::telemeterize);
     PathfindingCommand.warmupCommand().schedule();
+    m_autonPath = new PathPlannerAuto(AutonConstants.CURRENT_AUTON);
   }
 
   private void configureDefaultCommands() {
@@ -90,11 +94,26 @@ public class AlphaRobotContainer {
     NamedCommands.registerCommand("AlphaRunIntake", IntakeFactory.runIntake());
     NamedCommands.registerCommand("AlphaRunOuttake", IntakeFactory.runOuttake());
     NamedCommands.registerCommand("AlphaRunIndexer", IndexFactory.runSpindexer());
-    NamedCommands.registerCommand("AlphaAutonClimb", ClimbFactory.autoClimb());
+    NamedCommands.registerCommand("AlphaAutonClimb", ClimbFactory.climbUp());
     NamedCommands.registerCommand("AlphaDriveToPoint", new DriveToPoint());
+    NamedCommands.registerCommand("AlphaDepotShoot", ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
+    NamedCommands.registerCommand("AlphaOutpostShoot", ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
+    NamedCommands.registerCommand("AlphaRadialCloseShoot",
+        ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));
+    NamedCommands.registerCommand("AlphaRadialFarShoot",
+        ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_FAR));
+
   }
 
   public Command getAutonomousCommand() {
-    return new InstantCommand();
+    Command auto;
+    try {
+      auto = m_autonPath;
+    } catch (Exception e) {
+      System.err.println("Caught exception when loading auto");
+      auto = new InstantCommand();
+    }
+
+    return auto;
   }
 }

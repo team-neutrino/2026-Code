@@ -319,4 +319,8 @@ public class Constants {
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 0, new Rotation2d(0));
 
     }
+
+    public static class AutonConstants {
+        public static final String CURRENT_AUTON = "Neutral Zone";
+    }
 }
