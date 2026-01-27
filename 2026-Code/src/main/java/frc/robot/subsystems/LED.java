@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringTopic;
 import edu.wpi.first.networktables.StringPublisher;
 import frc.robot.util.HubActiveStatus;
-import frc.robot.util.Subsystem;
+import frc.robot.util.Subsystems2026;
 
 public class LED extends SubsystemBase {
     private double m_gameTime;
@@ -20,7 +20,7 @@ public class LED extends SubsystemBase {
     private final StringPublisher m_color_pub;
     private final StringPublisher m_state_pub;
 
-    private HubActiveStatus m_hub_status = Subsystem.hubState;
+    private HubActiveStatus m_hub_status = Subsystems2026.hubState;
 
     private boolean m_hopperBeam = false;
     private DigitalInput m_hopperBreambreak = new DigitalInput(5); // random number
