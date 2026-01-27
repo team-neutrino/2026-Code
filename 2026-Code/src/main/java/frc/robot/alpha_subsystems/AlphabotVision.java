@@ -5,13 +5,17 @@
 package frc.robot.alpha_subsystems;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.AlphaSubsystem;
+
+import static edu.wpi.first.units.Units.Meter;
 import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
 
 public class AlphabotVision extends SubsystemBase {
@@ -114,9 +118,13 @@ public class AlphabotVision extends SubsystemBase {
     private final boolean isLL4;
     private double lastFrame = -2;
     private double frame = -2;
-    private PoseEstimate estimate;
-    private static final double FIELD_DIMENSION_X = Units.inchesToMeters(650.12);
-    private static final double FIELD_DIMENSION_Y = Units.inchesToMeters(316.64);
+    private double BumpScaleFactor = 1;
+    private PoseEstimate estimate; 
+    private static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
+    private static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
+    private static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
+    private static final double BUMP_MINIMUM_THRESHOLD = 7;
+
 
     Limelight(String p_name, boolean p_isLL4) {
       name = p_name;
@@ -170,21 +178,18 @@ public class AlphabotVision extends SubsystemBase {
           && poseInField();
     }
 
-    private boolean checkPlane(){
-      return estimate.get
-    }
-
     private void updateFrame() {
       lastFrame = frame;
     }
 
     private double setxystdev(double distance, double numberOfTags) {
+      setBumpScaleFactor();
       double xyStdv = 0;
       double errorFactor = isLL4 ? AlphaERROR_FACTOR_LL4 : AlphaERROR_FACTOR_LL3G;
       double minimumXyStdDev = isLL4 ? AlphaMINIMUM_XY_STD_DEV_LL4 : AlphaMINIMUM_XY_STD_DEV_LL3G;
       xyStdv = Math.max(
           minimumXyStdDev,
-          (Math.pow(distance,2) * errorFactor) / Math.pow(numberOfTags, 2));
+          (Math.pow(distance,2) * errorFactor) * BumpScaleFactor/ Math.pow(numberOfTags, 2));
       // System.out.println((distance * errorFactor) / numberOfTags);
       System.out.println(xyStdv);
       return xyStdv;
@@ -219,8 +224,19 @@ public class AlphabotVision extends SubsystemBase {
       NetworkTableInstance.getDefault().getTable(name).getEntry("throttle_set").setNumber(throttle);
     }
 
+    public boolean onBump(){
+      return Math.abs(m_swerve.getPitch()) > BUMP_MINIMUM_THRESHOLD;
+    }
+
+    private void setBumpScaleFactor(){
+      if(onBump()){
+        BumpScaleFactor = .5;
+      }
+      BumpScaleFactor = 1;
+    }
+
     public boolean poseInField(){
-      return estimate.pose.getMeasureX() > 0 && estimate.pose.getMeasureX() < FIELD_DIMENSION_X && estimate.pose.getMeasureY() > 0 && estimate.pose.getMeasureY() < FIELD_DIMENSION_Y
+      return estimate.pose.getMeasureX().compareTo(ZERO) >= 0 && estimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0 && estimate.pose.getMeasureY().compareTo(ZERO) >= 0 && estimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
     }
   }
 }
