@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import static edu.wpi.first.units.Units.Meter;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +9,8 @@ import com.ctre.phoenix6.CANBus;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Distance;
 
 public class Constants {
     public static class RioConstants {
@@ -212,6 +216,12 @@ public class Constants {
         public static final double AlphaERROR_FACTOR_LL4_ANGLE = 2;
         public static final double AlphaERROR_FACTOR_LL3G = 0.9;
         public static final double AlphaERROR_FACTOR_LL3G_ANGLE = 2;
+
+        public static final double BUMP_MINIMUM_THRESHOLD = 7;
+
+        public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
+        public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
+        public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     }
 
     public static class SwerveConstants {
