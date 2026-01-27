@@ -57,8 +57,8 @@ public class Climb extends SubsystemBase {
 
         m_canandColor.setSettings(m_settings);
 
-        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = 0.3;
-        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.2;
+        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = 0.6;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.05;
         m_CANRange.getConfigurator().apply(m_CANRangeConfiguration);
 
         CanandEventLoop.getInstance();
@@ -79,12 +79,12 @@ public class Climb extends SubsystemBase {
         return m_climbMotor.getPosition().getValueAsDouble();
     }
 
-    private double getCANRangeDistance() {
+    public double getCANRangeDistance() {
         return m_CANRange.getDistance().getValueAsDouble();
     }
 
-    public boolean isCANRange() {
-        return getCANRangeDistance() <= ALLOWED_CANRANGE_DISTANCE;
+    public boolean isCANRangeDetected() {
+        return m_CANRange.getIsDetected().getValue();
     }
 
     private boolean isClimbOverBar() {
@@ -113,6 +113,5 @@ public class Climb extends SubsystemBase {
                 m_runClimb = false;
             }
         }
-        System.out.println(getCANRangeDistance());
     }
 }
