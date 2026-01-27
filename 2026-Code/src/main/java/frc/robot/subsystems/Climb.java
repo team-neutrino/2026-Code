@@ -66,8 +66,16 @@ public class Climb extends SubsystemBase {
                 && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR;
     }
 
-    private double getClimbPosition() {
+    public double getClimbPosition() {
         return m_climbMotor.getPosition().getValueAsDouble();
+    }
+
+    public double getClimbTargetPosition() {
+        return m_climbMotor.getPosition().getValueAsDouble();
+    }
+
+    public double getClimbCurrent() {
+        return m_climbMotor.getSupplyCurrent().getValueAsDouble();
     }
 
     public double getCANRangeDistance() {
@@ -78,7 +86,7 @@ public class Climb extends SubsystemBase {
         return m_CANRange.getIsDetected().getValue();
     }
 
-    private boolean isClimbOverBar() {
+    public boolean isClimbOverBar() {
         return m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE;
     }
 
