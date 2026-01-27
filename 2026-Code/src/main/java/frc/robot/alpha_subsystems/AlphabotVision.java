@@ -5,6 +5,7 @@
 package frc.robot.alpha_subsystems;
 
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Distance;
@@ -14,6 +15,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.AlphaSubsystem;
+import edu.wpi.first.networktables.DoubleArrayPublisher;
+import edu.wpi.first.networktables.DoubleArrayTopic;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
+import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.networktables.StructTopic;
 
 import static edu.wpi.first.units.Units.Meter;
 import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
@@ -27,14 +34,28 @@ public class AlphabotVision extends SubsystemBase {
   private boolean m_enabled = false;
   private long m_slow_count = 0;
 
+  private NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private StructTopic<Pose2d> m_ashootPose = nt.getStructTopic("/limelight_poses/ashoot", Pose2d.struct);
+  private StructTopic<Pose2d> m_mlksrblPose = nt.getStructTopic("/limelight_poses/mlksrbl", Pose2d.struct);
+  private StructTopic<Pose2d> m_mlksrbrPose = nt.getStructTopic("/limelight_poses/mlksrbr", Pose2d.struct);
+  private StructPublisher<Pose2d> m_ashootPosePublisher;
+  private StructPublisher<Pose2d> m_mlksrblPosePublisher;
+  private StructPublisher<Pose2d> m_mlksrbrPosePublisher;
+  private Pose2d blank = new Pose2d();
+
   public AlphabotVision() {
     m_swerve = AlphaSubsystem.swerve;
-
     m_bl = new Limelight(AlphaLL_BL, true);
     m_br = new Limelight(AlphaLL_BR, false);
     m_shooter = new Limelight(AlphaLL_SHOOTER, true);
 
     limelightSettingConstruction();
+    m_ashootPosePublisher = m_ashootPose.publish();
+    m_ashootPosePublisher.setDefault(blank);
+    m_mlksrblPosePublisher = m_mlksrblPose.publish();
+    m_mlksrblPosePublisher.setDefault(blank);
+    m_mlksrbrPosePublisher = m_mlksrbrPose.publish();
+    m_mlksrbrPosePublisher.setDefault(blank);
   }
 
   private void limelightSettingConstruction() {
@@ -106,6 +127,10 @@ public class AlphabotVision extends SubsystemBase {
     m_shooter.updateFusionOdometry();
     m_br.updateFusionOdometry();
     m_bl.updateFusionOdometry();
+
+    m_ashootPosePublisher.set(m_shooter.getEstimatePose());
+    m_mlksrblPosePublisher.set(m_bl.getEstimatePose());
+    m_mlksrbrPosePublisher.set(m_br.getEstimatePose());
   }
 
   @Override
@@ -168,6 +193,13 @@ public class AlphabotVision extends SubsystemBase {
       updateFrame();
     }
 
+    public Pose2d getEstimatePose() {
+      if (estimate == null) {
+        return new Pose2d();
+      }
+      return estimate.pose;
+    }
+
     private boolean verifyLimelightValidity() {
       return estimate != null
           && estimate.tagCount != 0 // test
@@ -189,8 +221,6 @@ public class AlphabotVision extends SubsystemBase {
       xyStdv = Math.max(
           minimumXyStdDev,
           (Math.pow(distance, 2) * errorFactor) * BumpScaleFactor / Math.pow(numberOfTags, 2));
-      // System.out.println((distance * errorFactor) / numberOfTags);
-      System.out.println(xyStdv);
       return xyStdv;
     }
 
@@ -207,6 +237,13 @@ public class AlphabotVision extends SubsystemBase {
     }
 
     private double getFrame() {
+      return NetworkTableInstance.getDefault()
+          .getTable(name)
+          .getEntry("hb")
+          .getDouble(-1);
+    }
+
+    public double p() {
       return NetworkTableInstance.getDefault()
           .getTable(name)
           .getEntry("hb")
