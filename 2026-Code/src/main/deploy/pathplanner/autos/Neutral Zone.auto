@@ -7,23 +7,30 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Neutral Top - 1"
+            "pathName": "Over Bump"
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "AlphaDeployIntake"
-          }
-        },
-        {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Neutral Top - 2"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Neutral To Fuel"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Neutral Top - 2"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -44,20 +51,27 @@
                 "data": {
                   "pathName": "Neutral Top - 3"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AlphaRetractIntake"
-                }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "AlphaDriveToPoint"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaDriveToPoint"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaRadialCloseShoot"
+                }
+              }
+            ]
           }
         }
       ]

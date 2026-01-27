@@ -352,4 +352,8 @@ public class Constants {
         public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
         public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     }
+
+    public static class AutonConstants {
+        public static final String CURRENT_AUTON = "Neutral Zone";
+    }
 }
