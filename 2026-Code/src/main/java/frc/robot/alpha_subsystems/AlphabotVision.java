@@ -220,7 +220,7 @@ public class AlphabotVision extends SubsystemBase {
       double minimumXyStdDev = isLL4 ? AlphaMINIMUM_XY_STD_DEV_LL4 : AlphaMINIMUM_XY_STD_DEV_LL3G;
       xyStdv = Math.max(
           minimumXyStdDev,
-          (Math.pow(distance, 2) * errorFactor) * BumpScaleFactor / Math.pow(numberOfTags, 2));
+          (Math.pow(distance, 3) * errorFactor) * BumpScaleFactor / Math.pow(numberOfTags, 2));
       return xyStdv;
     }
 
