@@ -243,13 +243,6 @@ public class AlphabotVision extends SubsystemBase {
           .getDouble(-1);
     }
 
-    public double p() {
-      return NetworkTableInstance.getDefault()
-          .getTable(name)
-          .getEntry("hb")
-          .getDouble(-1);
-    }
-
     public double getTargetYaw() {
       double[] temp = LimelightHelpers.getTargetPose_RobotSpace(name);
       return temp.length == 0 ? 0 : temp[4];
