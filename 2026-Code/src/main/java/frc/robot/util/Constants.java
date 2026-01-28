@@ -83,10 +83,7 @@ public class Constants {
                 Map.entry(35.0, 2.0),
                 Map.entry(50.0, 3.0));
 
-        public static final InterpolatingDoubleTreeMap INTERPOLATION_SHOOTER = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 1000.0),
-                Map.entry(5.0, 1000.0),
-                Map.entry(5.01, 3000.0));
+        public static final double ZONE_1 = 5;
     }
 
     public static class IndexerConstants {
