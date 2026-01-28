@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.Constants.GlobalConstants;
 
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -23,6 +24,7 @@ import com.pathplanner.lib.config.RobotConfig;
 
 import static frc.robot.util.Constants.GlobalConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
+import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import java.io.IOException;
 
@@ -100,6 +102,18 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
                 SwerveRequestStash.autonDrive.withVelocityX(speeds.vxMetersPerSecond)
                         .withVelocityY(speeds.vyMetersPerSecond)
                         .withRotationalRate(speeds.omegaRadiansPerSecond));
+    }
+
+    public double getDistanceFromHub() {
+        double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude();
+        double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude();
+
+        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+
+        double hubDistanceX = hubPose.getX() - robotX;
+        double hubDistanceY = hubPose.getY() - robotY;
+
+        return Math.sqrt(Math.pow(hubDistanceX, 2) + Math.pow(hubDistanceY, 2));
     }
 
     private void configurePathPlanner() {
