@@ -3,12 +3,14 @@ package frc.robot.util;
 import static edu.wpi.first.units.Units.Meter;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.ctre.phoenix6.CANBus;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Distance;
 
@@ -75,6 +77,7 @@ public class Constants {
         public static final double DEPOT_ANGLE = 3;
         public static final double OUTPOST_ANGLE = 0.1;
         public static final double DEFAULT = 0;
+        public static final double DEFAULT_SHOOTING_SPEED = 3000;
 
         public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
             RADIAL_CLOSE,
@@ -83,6 +86,19 @@ public class Constants {
             DEPOT,
             OUTPOST
         };
+
+        public static final InterpolatingDoubleTreeMap INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 0.0),
+                Map.entry(5.0, 0.5),
+                Map.entry(15.0, 1.0),
+                Map.entry(25.0, 1.5),
+                Map.entry(35.0, 2.0),
+                Map.entry(50.0, 3.0));
+
+        public static final InterpolatingDoubleTreeMap INTERPOLATION_SHOOTER = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 1000.0),
+                Map.entry(5.0, 1000.0),
+                Map.entry(5.01, 3000.0));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
