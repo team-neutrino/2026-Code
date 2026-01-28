@@ -89,19 +89,24 @@ public class AlphaRobotContainer {
   }
 
   private void configureNamedCommands() {
-    NamedCommands.registerCommand("AlphaDeployIntake", IntakeFactory.deployIntake());
-    NamedCommands.registerCommand("AlphaRetractIntake", IntakeFactory.retractIntake());
-    NamedCommands.registerCommand("AlphaRunIntake", IntakeFactory.runIntake());
-    NamedCommands.registerCommand("AlphaRunOuttake", IntakeFactory.runOuttake());
-    NamedCommands.registerCommand("AlphaRunIndexer", IndexFactory.runSpindexer());
-    NamedCommands.registerCommand("AlphaAutonClimb", ClimbFactory.climbUp());
+    // NamedCommands.registerCommand("AlphaDeployIntake",
+    // IntakeFactory.deployIntake());
+    // NamedCommands.registerCommand("AlphaRetractIntake",
+    // IntakeFactory.retractIntake());
+    // NamedCommands.registerCommand("AlphaRunIntake", IntakeFactory.runIntake());
+    // NamedCommands.registerCommand("AlphaRunOuttake", IntakeFactory.runOuttake());
+    // NamedCommands.registerCommand("AlphaRunIndexer",
+    // IndexFactory.runSpindexer());
+    // NamedCommands.registerCommand("AlphaAutonClimb", ClimbFactory.climbUp());
     NamedCommands.registerCommand("AlphaDriveToPoint", new DriveToPoint());
-    NamedCommands.registerCommand("AlphaDepotShoot", ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
-    NamedCommands.registerCommand("AlphaOutpostShoot", ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
-    NamedCommands.registerCommand("AlphaRadialCloseShoot",
-        ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));
-    NamedCommands.registerCommand("AlphaRadialFarShoot",
-        ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_FAR));
+    // NamedCommands.registerCommand("AlphaDepotShoot",
+    // ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
+    // NamedCommands.registerCommand("AlphaOutpostShoot",
+    // ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
+    // NamedCommands.registerCommand("AlphaRadialCloseShoot",
+    // ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));
+    // NamedCommands.registerCommand("AlphaRadialFarShoot",
+    // ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_FAR));
 
   }
 
