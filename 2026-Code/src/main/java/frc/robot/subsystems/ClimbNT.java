@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
-import frc.robot.subsystems.Climb;
 
 public class ClimbNT extends Climb {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
@@ -16,13 +15,16 @@ public class ClimbNT extends Climb {
     DoubleTopic actualClimbPosition = nt.getDoubleTopic("/climb/actual_climb_position");
     DoubleTopic targetClimbPosition = nt.getDoubleTopic("/climb/target_climb_position");
     DoubleTopic climbCurrent = nt.getDoubleTopic("/climb/climb_current");
+    BooleanTopic atTargetClimbPosition = nt.getBooleanTopic("/climb/at_target_climb_position");
     DoubleTopic CANRangeDistance = nt.getDoubleTopic("/climb/climb_CANRange_distance");
     BooleanTopic CANRangeDetection = nt.getBooleanTopic("/climb/climb_CANRange_detection");
     BooleanTopic CANAndColorDetection = nt.getBooleanTopic("/climb/climb_CANandColor_detection");
+    
 
     final DoublePublisher actualClimbPositionPub;
     final DoublePublisher targetClimbPositionPub;
     final DoublePublisher climbCurrentPub;
+    final BooleanPublisher atTargetClimbPositionPub;
     final DoublePublisher CANRangeDistancePub;
     final BooleanPublisher CANRangeDetectionPub;
     final BooleanPublisher CANAndColorDetectionPub;
@@ -40,6 +42,9 @@ public class ClimbNT extends Climb {
 
         climbCurrentPub = climbCurrent.publish();
         climbCurrentPub.setDefault(0.0);
+
+        atTargetClimbPositionPub = atTargetClimbPosition.publish();
+        atTargetClimbPositionPub.setDefault(false);
 
         CANRangeDistancePub = CANRangeDistance.publish();
         CANRangeDistancePub.setDefault(0.0);
@@ -64,9 +69,11 @@ public class ClimbNT extends Climb {
         actualClimbPositionPub.set(getClimbPosition(), now);
         targetClimbPositionPub.set(getClimbTargetPosition(), now);
         climbCurrentPub.set(getClimbCurrent(), now);
+        atTargetClimbPositionPub.set(atTargetPosition(), now);
         CANRangeDistancePub.set(getDistance(), now);
         CANRangeDetectionPub.set(isClimbOverBar(), now); // Change later
         CANAndColorDetectionPub.set(isClimbOverBar(), now);
+    
 
         // if (m_PIDTuner.isDifferentValues(m_previousClimbP, m_previousClimbI,
         // m_previousClimbD)) {

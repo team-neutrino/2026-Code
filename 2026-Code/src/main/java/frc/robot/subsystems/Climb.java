@@ -61,7 +61,7 @@ public class Climb extends SubsystemBase {
         m_climbMotor.setControl(positionControl);
     }
 
-    private boolean atTargetPosition() {
+    public boolean atTargetPosition() {
         return getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR
                 && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR;
     }
