@@ -91,7 +91,7 @@ public class Constants {
     }
 
     public static class IndexerConstants {
-        public static final int SPINDEXER_MOTOR_ID = 13;
+        public static final int SPINDEXER_MOTOR_ID = 14;
 
         public static final double INDEXING_VOLTAGE = 5;
         public static final double CURRENT_LIMIT = 40;
@@ -102,7 +102,8 @@ public class Constants {
 
         public static final double START_RUMBLE_DEBOUNCED_TIME = 1;
         public static final double STOP_RUMBLE_DEBOUNCED_TIME = 0.5;
-        public static final double MOTOR_START_TIME = 2;
+        public static final double MOTOR_START_TIME = 1.5;
+        public static final double HOPPER_CHECK_TIME = 2.5;
     }
 
     public static class IntakeConstants {
