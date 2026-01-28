@@ -41,6 +41,7 @@ public class Intake extends SubsystemBase {
         m_deployMotor.getConfigurator().apply(m_motorConfig);
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
+        m_deployMotor.setPosition(0);
     }
 
     public double getMotorAngle() {
@@ -64,7 +65,9 @@ public class Intake extends SubsystemBase {
 
     public Command runIntake(double speed) {
         return run(() -> {
-            m_rollerMotorVoltage = speed;
+            if (!index.fullCapacity()) {
+                m_rollerMotorVoltage = speed;
+            }
         });
     }
 

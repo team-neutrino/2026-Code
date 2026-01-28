@@ -30,4 +30,10 @@ public class IntakeFactory {
                 intake.deployIntake(DEPLOYED_POSITION),
                 intake.runIntake(OUTTAKE_VOLTAGE));
     }
+
+    public static Command shakeBallsInHopper() {
+        return new SequentialCommandGroup(
+                intake.deployIntake(INTERMEDIATE_POSITION_1),
+                intake.deployIntake(INTERMEDIATE_POSITION_2));
+    }
 }

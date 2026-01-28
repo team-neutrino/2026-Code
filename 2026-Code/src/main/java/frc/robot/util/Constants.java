@@ -97,6 +97,8 @@ public class Constants {
 
         public static final double STARTING_POSITION = 0;
         public static final double DEPLOYED_POSITION = 110; // placeholder value
+        public static final double INTERMEDIATE_POSITION_1 = 80; // placeholder value
+        public static final double INTERMEDIATE_POSITION_2 = 45; // placeholder value
         public static final double ALLOWED_TARGET_ERROR = 5; // placeholder value
         public static final double ALLOWED_INTAKE_ERROR = 5; // placeholder value
 
