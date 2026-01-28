@@ -3,12 +3,11 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.ClimbConstants.*;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
-import com.ctre.phoenix6.configs.CANrangeConfigurator;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -54,7 +53,7 @@ public class Climb extends SubsystemBase {
         m_canandColor.setSettings(m_settings);
 
         m_CANRangeConfiguration.ProximityParams.ProximityThreshold = 0.6;
-        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.01;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.05;
         m_CANRange.getConfigurator().apply(m_CANRangeConfiguration);
     }
 
@@ -81,7 +80,7 @@ public class Climb extends SubsystemBase {
         return m_climbMotor.getSupplyCurrent().getValueAsDouble();
     }
 
-    public double getCANDistance() {
+    public double getCANRangeDistance() {
         return m_CANRange.getDistance().getValueAsDouble();
     }
 

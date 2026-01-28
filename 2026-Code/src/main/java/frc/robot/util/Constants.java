@@ -39,9 +39,6 @@ public class Constants {
         public static final double CANANDCOLOR_DISTANCE = 0.1;
 
         public static final int CANRANGE_ID = 20;
-
-        public static final int CLIMB_SERVO_PORT = 0;
-        public static final int SERVO_ENDGAME_POSITION = 1;
     }
 
     public static class ShooterConstants {
