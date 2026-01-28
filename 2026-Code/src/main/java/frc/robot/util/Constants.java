@@ -246,8 +246,8 @@ public class Constants {
         public static final Pose2d BLUE_LEFT_SHOT = new Pose2d(2.505, 6.156, new Rotation2d(315));
 
         public static final Pose2d RED_CENTER_SHOT = new Pose2d(14.915, 4.035, new Rotation2d(0));
-        public static final Pose2d RED_LEFT_SHOT = new Pose2d(14.036, 1.914, new Rotation2d(315));
-        public static final Pose2d RED_RIGHT_SHOT = new Pose2d(14.036, 6.156, new Rotation2d(45));
+        public static final Pose2d RED_LEFT_SHOT = new Pose2d(14.036, 1.914, new Rotation2d(135));
+        public static final Pose2d RED_RIGHT_SHOT = new Pose2d(14.036, 6.156, new Rotation2d(225));
 
         // Climb positions (NEED TO BE UPDATED)
         public static final Pose2d BLUE_CLIMB_CENTER = new Pose2d(1, 4.03, new Rotation2d(0));
