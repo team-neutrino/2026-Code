@@ -39,7 +39,15 @@ public class ShooterFactory {
      * @return A command to prepare to shoot based on distance.
      */
     public static Command shootFromInterpolationTable(double distance) {
+        double speed; // please speed I need this
+
+        if (distance > ZONE_1) {
+            speed = 1500;
+        } else {
+            speed = 3000;
+        }
+
         return shooter.shootingAngle(INTERPOLATION_HOOD.get(distance))
-                .alongWith(shooter.shootingSpeed(INTERPOLATION_SHOOTER.get(distance)));
+                .alongWith(shooter.shootingSpeed(speed));
     }
 }
