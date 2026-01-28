@@ -70,8 +70,12 @@ public class Climb extends SubsystemBase {
         return m_climbMotor.getPosition().getValueAsDouble();
     }
 
-    private double getDistance() {
+    public double getCANRangeDistance() {
         return m_CANRange.getDistance().getValueAsDouble();
+    }
+
+    public boolean isCANRangeDetected() {
+        return m_CANRange.getIsDetected().getValue();
     }
 
     private boolean isClimbOverBar() {

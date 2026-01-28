@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
     private AlphaRobotContainer m_alphaRobotContainer;
 
     private final boolean isAlpha() {
-        return false;
+        return true;
     }
 
     /* log and replay timestamp and joystick data */
