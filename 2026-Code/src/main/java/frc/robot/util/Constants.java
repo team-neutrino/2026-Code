@@ -269,9 +269,9 @@ public class Constants {
         public static final Pose2d RED_MID_RIGHT_SHOT = new Pose2d(14.54, 5.53, new Rotation2d(30));
 
         // Climb positions (NEED TO BE UPDATED)
-        public static final Pose2d BLUE_CLIMB_CENTER = new Pose2d(1, 4.03, new Rotation2d(0));
-        public static final Pose2d BLUE_CLIMB_LEFT = new Pose2d(1, 4.03, new Rotation2d(0));
-        public static final Pose2d BLUE_CLIMB_RIGHT = new Pose2d(1, 4.03, new Rotation2d(0));
+        public static final Pose2d BLUE_CLIMB_CENTER = new Pose2d(2, 4, new Rotation2d(0));
+        public static final Pose2d BLUE_CLIMB_LEFT = new Pose2d(2, 3, new Rotation2d(0));
+        public static final Pose2d BLUE_CLIMB_RIGHT = new Pose2d(2, 5, new Rotation2d(0));
 
         public static final Pose2d RED_CLIMB_CENTER = new Pose2d(16, 4.03, new Rotation2d(0));
         public static final Pose2d RED_CLIMB_LEFT = new Pose2d(16, 4.03, new Rotation2d(0));
