@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.ClimbConstants.*;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
+import com.ctre.phoenix6.configs.CANrangeConfigurator;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -13,8 +15,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
-import com.reduxrobotics.canand.CanandEventLoop;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
@@ -22,11 +22,12 @@ import frc.robot.util.Constants.RioConstants;
 public class Climb extends SubsystemBase {
 
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
-    private TalonFX m_climbMotor = new TalonFX(CLIMB_MOTOR_ID_1, m_CANbus);
+    private TalonFX m_climbMotor = new TalonFX(CLIMB_MOTOR_ID, m_CANbus);
     private TalonFXConfiguration m_climbMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
+    private CANrangeConfiguration m_CANRangeConfiguration = new CANrangeConfiguration();
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
@@ -52,7 +53,9 @@ public class Climb extends SubsystemBase {
 
         m_canandColor.setSettings(m_settings);
 
-        CanandEventLoop.getInstance();
+        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = 0.6;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.01;
+        m_CANRange.getConfigurator().apply(m_CANRangeConfiguration);
     }
 
     private void moveClimb(double targetPosition) {
@@ -78,8 +81,12 @@ public class Climb extends SubsystemBase {
         return m_climbMotor.getSupplyCurrent().getValueAsDouble();
     }
 
-    public double getDistance() {
+    public double getCANDistance() {
         return m_CANRange.getDistance().getValueAsDouble();
+    }
+
+    public boolean isCANRangeDetected() {
+        return m_CANRange.getIsDetected().getValue();
     }
 
     public boolean isClimbOverBar() {

@@ -70,8 +70,8 @@ public class ClimbNT extends Climb {
         targetClimbPositionPub.set(getClimbTargetPosition(), now);
         climbCurrentPub.set(getClimbCurrent(), now);
         atTargetClimbPositionPub.set(atTargetPosition(), now);
-        CANRangeDistancePub.set(getDistance(), now);
-        CANRangeDetectionPub.set(isClimbOverBar(), now); // Change later
+        CANRangeDistancePub.set(getCANDistance(), now);
+        CANRangeDetectionPub.set(isCANRangeDetected(), now);
         CANAndColorDetectionPub.set(isClimbOverBar(), now);
     
 

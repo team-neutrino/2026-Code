@@ -22,7 +22,7 @@ public class Constants {
     }
 
     public static class ClimbConstants {
-        public static final int CLIMB_MOTOR_ID_1 = 19;
+        public static final int CLIMB_MOTOR_ID = 19;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
         public static final double CLIMB_kP = 0.3;
