@@ -84,13 +84,11 @@ public class Shooter extends SubsystemBase {
    */
 
   public void setShooterPID(double new_P, double new_I, double new_D) {
-    Slot0Configs newSlot0Configs = new Slot0Configs();
+    m_shooterMotorConfig.Slot0.kP = new_P;
+    m_shooterMotorConfig.Slot0.kI = new_I;
+    m_shooterMotorConfig.Slot0.kD = new_D;
 
-    newSlot0Configs.kP = new_P;
-    newSlot0Configs.kI = new_I;
-    newSlot0Configs.kD = new_D;
-
-    m_shooterMotor.getConfigurator().apply(newSlot0Configs);
+    m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
   }
 
   /**
@@ -101,13 +99,11 @@ public class Shooter extends SubsystemBase {
    */
 
   public void setHoodPID(double new_P, double new_I, double new_D) {
-    Slot0Configs newSlot0Configs = new Slot0Configs();
+    m_hoodMotorConfig.Slot0.kP = new_P;
+    m_hoodMotorConfig.Slot0.kI = new_I;
+    m_hoodMotorConfig.Slot0.kD = new_D;
 
-    newSlot0Configs.kP = new_P;
-    newSlot0Configs.kI = new_I;
-    newSlot0Configs.kD = new_D;
-
-    m_hoodMotor.getConfigurator().apply(newSlot0Configs);
+    m_hoodMotor.getConfigurator().apply(m_hoodMotorConfig);
   }
 
   /**
