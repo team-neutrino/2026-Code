@@ -71,7 +71,7 @@ public class Climb extends SubsystemBase {
     }
 
     public double getClimbTargetPosition() {
-        return m_climbMotor.getPosition().getValueAsDouble();
+        return m_climbTargetPosition;
     }
 
     public double getClimbCurrent() {
