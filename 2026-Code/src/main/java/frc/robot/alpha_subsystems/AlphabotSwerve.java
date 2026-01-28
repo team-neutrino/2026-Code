@@ -110,11 +110,10 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
 
         Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
 
-        double hubDistanceX = hubPose.getX() - robotX; // add turret offset from center
+        double hubDistanceX = hubPose.getX() - robotX;
         double hubDistanceY = hubPose.getY() - robotY;
 
         return Math.sqrt(Math.pow(hubDistanceX, 2) + Math.pow(hubDistanceY, 2));
-
     }
 
     private void configurePathPlanner() {
