@@ -15,12 +15,6 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "AlphaRunIntake"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Neutral Top - 2"
@@ -43,12 +37,6 @@
                 "type": "named",
                 "data": {
                   "name": "AlphaDriveToPoint"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AlphaRadialCloseShoot"
                 }
               }
             ]
