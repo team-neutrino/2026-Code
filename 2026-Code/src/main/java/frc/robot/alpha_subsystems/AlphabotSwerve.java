@@ -109,18 +109,12 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
         double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude();
 
         Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
-        Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
-                ? (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
-                : (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
 
-        boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
-                || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
+        double hubDistanceX = hubPose.getX() - robotX; // add turret offset from center
+        double hubDistanceY = hubPose.getY() - robotY;
 
-        Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
-        double targetDistanceX = targetPose.getX() - robotX; // add turret offset from center
-        double targetDistanceY = targetPose.getY() - robotY;
+        return Math.sqrt(Math.pow(hubDistanceX, 2) + Math.pow(hubDistanceY, 2));
 
-        return Math.atan2(targetDistanceY, targetDistanceX);
     }
 
     private void configurePathPlanner() {
