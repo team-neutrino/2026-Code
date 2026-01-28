@@ -233,6 +233,9 @@ public class Constants {
     }
 
     public static class DriveToPointConstants {
+        public enum TargetMode {
+            SHOOTING, SHUTTLING, CLIMBING
+        }
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 

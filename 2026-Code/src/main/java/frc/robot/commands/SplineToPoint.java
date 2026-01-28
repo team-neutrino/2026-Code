@@ -18,7 +18,6 @@ import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.AlphaSubsystem.*;
 
@@ -31,6 +30,7 @@ public class SplineToPoint extends Command {
   private List<Pose2d> m_targetPoseList;
   private Pose2d m_target;
   private boolean m_hadNoFuel;
+  private boolean m_wasActive;
   private TargetMode m_targetMode;
   NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private final NetworkTable driveStateTable = nt.getTable("DriveToPoint");
@@ -40,10 +40,6 @@ public class SplineToPoint extends Command {
   public SplineToPoint(CommandXboxController driverController, TargetMode targetMode) {
     m_driverController = driverController;
     m_targetMode = targetMode;
-  }
-
-  private double getCurrentPoseX() {
-    return swerve.getCurrentPose().getMeasureX().baseUnitMagnitude();
   }
 
   private Pose2d getClosestPoint(List<Pose2d> list) {
@@ -80,37 +76,33 @@ public class SplineToPoint extends Command {
     switch (m_targetMode) {
       case SHOOTING:
         if (RED_ALLIANCE.get()) {
-          if (getCurrentPoseX() >= ALLIANCE_ZONE_RED && !isHopperEmpty()) {
+          if (!isHopperEmpty()) {
             m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
             m_target = getClosestPoint(m_targetPoseList);
-          } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
-              && !isHopperEmpty() && hubState.isRedHubActive()) {
-            m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
-            m_target = getClosestPoint(m_targetPoseList);
-          } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
-              && !isHopperEmpty() && !hubState.isRedHubActive()) {
-            m_targetPoseList = RED_SHUTTLE_POSES;
-            m_target = getClosestPoint(m_targetPoseList);
-          } else if (getCurrentPoseX() >= ALLIANCE_ZONE_RED && isHopperEmpty()) {
+          } else if (isHopperEmpty() && !hubState.isRedHubActive()) {
             m_targetPoseList = RED_NEUTRAL_ZONE_POSES;
             m_target = getClosestPoint(m_targetPoseList);
+          } else if (isHopperEmpty() && hubState.isRedHubActive()) {
+            // Do nothing
           }
         } else {
-          if (getCurrentPoseX() <= ALLIANCE_ZONE_BLUE && !isHopperEmpty()) {
+          if (!isHopperEmpty()) {
             m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
             m_target = getClosestPoint(m_targetPoseList);
-          } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
-              && !isHopperEmpty() && hubState.isBlueHubActive()) {
-            m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
-            m_target = getClosestPoint(m_targetPoseList);
-          } else if (getCurrentPoseX() < ALLIANCE_ZONE_RED && getCurrentPoseX() > ALLIANCE_ZONE_BLUE
-              && !isHopperEmpty() && !hubState.isBlueHubActive()) {
-            m_targetPoseList = BLUE_SHUTTLE_POSES;
-            m_target = getClosestPoint(m_targetPoseList);
-          } else if (getCurrentPoseX() <= ALLIANCE_ZONE_BLUE && isHopperEmpty()) {
+          } else if (isHopperEmpty() && !hubState.isRedHubActive()) {
             m_targetPoseList = BLUE_NEUTRAL_ZONE_POSES;
             m_target = getClosestPoint(m_targetPoseList);
+          } else if (isHopperEmpty() && hubState.isRedHubActive()) {
+            // Do nothing
           }
+        }
+      case SHUTTLING:
+        if (RED_ALLIANCE.get()) {
+          m_targetPoseList = RED_SHUTTLE_POSES;
+          m_target = getClosestPoint(m_targetPoseList);
+        } else {
+          m_targetPoseList = BLUE_SHUTTLE_POSES;
+          m_target = getClosestPoint(m_targetPoseList);
         }
       case CLIMBING:
         if (RED_ALLIANCE.get()) {
@@ -126,6 +118,7 @@ public class SplineToPoint extends Command {
   @Override
   public void initialize() {
     m_hadNoFuel = isHopperEmpty();
+    m_wasActive = RED_ALLIANCE.get() ? hubState.isRedHubActive() : hubState.isBlueHubActive();
     setTarget();
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
@@ -135,9 +128,10 @@ public class SplineToPoint extends Command {
   @Override
   public void execute() {
     // logic to re-initialize if we use "bumpers" or equivalent
-    if (isHopperEmpty() != m_hadNoFuel) {
+    if (isHopperEmpty() != m_hadNoFuel || RED_ALLIANCE.get() ? hubState.isRedHubActive()
+        : hubState.isBlueHubActive() != m_wasActive) {
       initialize();
-    }
+    } // re-initialize if the state of our hopper or hub changes
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
   }
