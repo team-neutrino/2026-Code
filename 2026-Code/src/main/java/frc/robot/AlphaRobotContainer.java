@@ -18,6 +18,7 @@ import frc.robot.commands.SplineToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.AlphaSubsystem;
+import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
 
 import static frc.robot.util.AlphaSubsystem.*;
 
@@ -72,7 +73,7 @@ public class AlphaRobotContainer {
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
 
     m_driverController.start().whileTrue(swerve.resetYaw());
-    m_driverController.a().whileTrue(new SplineToPoint(m_driverController));
+    m_driverController.a().whileTrue(new SplineToPoint(m_driverController, TargetMode.SHOOTING));
   }
 
   public Command getAutonomousCommand() {
