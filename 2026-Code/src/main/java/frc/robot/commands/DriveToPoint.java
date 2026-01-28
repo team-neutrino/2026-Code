@@ -5,16 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.util.AlphaSubsystem;
 import frc.robot.util.DriveToPointPID;
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 
-public class DriveToPoint extends PointControl {
+public class DriveToPoint extends Command {
     private DriveToPointPID m_drivePID;
+    private Pose2d m_target;
 
-    public DriveToPoint() {
-        super();
+    public DriveToPoint(Pose2d target) {
         addRequirements(AlphaSubsystem.swerve);
         m_drivePID = new DriveToPointPID();
     }
@@ -30,19 +32,16 @@ public class DriveToPoint extends PointControl {
 
     @Override
     public void initialize() {
-        super.initialize();
-        m_drivePID.setTarget(getTarget());
+        m_drivePID.setTarget(m_target);
     }
 
     @Override
     public void execute() {
-        super.execute();
         drive();
     }
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
     }
 
     // Returns true when the command should end.
