@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase {
 
   private double m_targetAngle = START_POSITION;
 
-  private double m_targetShooterRpm;
+  private double m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
 
   /**
    * Creates a new Shooter.
@@ -153,15 +153,32 @@ public class Shooter extends SubsystemBase {
     controlHoodMotor();
   }
 
+  /**
+   * A command to set the target shooting angle to a certain target.
+   * 
+   * @param target The target shooting angle in rotations.
+   * @return A command to set the target shooting angle to a certain target.
+   */
   public Command shootingAngle(double target) {
     return run(() -> {
       m_targetAngle = target;
     });
   }
 
+  /**
+   * A command to set the target shooting speed to a certain target.
+   * 
+   * @param speed The target shooting speed in rotations per minute.
+   * @return A command to set the target shooting speed to a certain target.
+   */
+  public Command shootingSpeed(double speed) {
+    return run(() -> {
+      m_targetShooterRpm = speed;
+    });
+  }
+
   public Command defaultCommand() {
     return run(() -> {
-      m_targetShooterRpm = 1500; // pew
     });
   }
 }
