@@ -54,22 +54,21 @@ public class SplineToPoint extends Command {
     PathConstraints constraints = new PathConstraints(SPLINE_MAX_SPEED, SPLINE_MAX_ACCELERATION,
         SPLINE_MAX_ANGULAR_VELOCITY, SPLINE_MAX_ANGULAR_ACCELERATION);
     Command pathCommand = AutoBuilder.pathfindToPose(target, constraints, SPLINE_END_VELOCITY);
+
     switch (m_targetMode) {
-      case SHOOTING:
-        CommandScheduler.getInstance().schedule(
-            pathCommand.until(() -> (Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - m_target.getX()) < 1
-                && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - m_target.getY()) < 1))
-                .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getAButton()));
+      case SHOOTING, SHUTTLING:
+        CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
+            .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getAButton()));
       case CLIMBING:
-        CommandScheduler.getInstance().schedule(
-            pathCommand.until(() -> (Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - m_target.getX()) < 1
-                && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - m_target.getY()) < 1))
-                .andThen(new DriveToPoint(target)
-                    .until(() -> (Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - m_target.getX()) < 1
-                        && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - m_target.getY()) < 0.1)))
-                .andThen(new AlignToClimb()));
+        CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
+            .andThen(new DriveToPoint(target).until(() -> swerveWithinDistance(0.1))).andThen(new AlignToClimb()));
     }
 
+  }
+
+  private boolean swerveWithinDistance(double distance) {
+    return Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - m_target.getX()) < distance
+        && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - m_target.getY()) < distance;
   }
 
   private void setTarget() {
