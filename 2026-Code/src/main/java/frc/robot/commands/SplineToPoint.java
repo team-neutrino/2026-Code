@@ -130,7 +130,7 @@ public class SplineToPoint extends Command {
     if (isHopperEmpty() != m_hadNoFuel || RED_ALLIANCE.get() ? hubState.isRedHubActive()
         : hubState.isBlueHubActive() != m_wasActive) {
       initialize();
-    } // re-initialize if the state of our hopper or hub changes
+    }
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
   }
