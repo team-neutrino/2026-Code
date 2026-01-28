@@ -29,7 +29,7 @@ public class Index extends SubsystemBase {
     private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
             Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
-    private Debouncer m_emptyDebouncer = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kFalling);
+    private Debouncer m_emptyDebouncer = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
     private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
 
@@ -76,7 +76,7 @@ public class Index extends SubsystemBase {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
         rumbleControllers();
         stopRumble();
-        boolean motorDebounce = m_emptyDebouncer.calculate(m_emptyBeamBreak.get());
+        boolean motorDebounce = m_emptyDebouncer.calculate(!m_emptyBeamBreak.get());
         if (m_emptyBeamBreak.get()) {
             m_isHopperEmpty = false;
             m_spindexerMotorVoltage = 0;
@@ -84,7 +84,7 @@ public class Index extends SubsystemBase {
             m_indexTimer.reset();
             System.out.println("Fuel found");
         } else {
-            if (m_indexTimer.isRunning() && m_indexTimer.hasElapsed(MOTOR_START_TIME)) {
+            if (m_indexTimer.isRunning() && m_indexTimer.hasElapsed(HOPPER_CHECK_TIME)) {
                 m_isHopperEmpty = true;
                 m_spindexerMotorVoltage = 0;
                 System.out.println("No fuel");
@@ -108,7 +108,9 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            m_spindexerMotorVoltage = 0;
+            if (!m_indexTimer.isRunning()) {
+                m_spindexerMotorVoltage = 0;
+            }
         });
     }
 }
