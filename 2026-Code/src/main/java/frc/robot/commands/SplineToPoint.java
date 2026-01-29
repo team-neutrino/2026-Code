@@ -59,12 +59,16 @@ public class SplineToPoint extends Command {
       case SHOOTING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
             .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getXButton()));
+        break;
       case SHUTTLING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
             .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getYButton()));
+        break;
       case CLIMBING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
-            .andThen(new DriveToPoint(target).until(() -> swerveWithinDistance(0.1))).andThen(new AlignToClimb()));
+            .andThen(new DriveToPoint(target).until(() -> swerveWithinDistance(0.1))).andThen(new AlignToClimb())
+            .until(() -> !m_driverController.getHID().getLeftBumperButton()));
+        break;
     }
 
   }
@@ -98,6 +102,7 @@ public class SplineToPoint extends Command {
             // Do nothing
           }
         }
+        break;
       case SHUTTLING:
         if (RED_ALLIANCE.get()) {
           m_targetPoseList = RED_SHUTTLE_POSES;
@@ -106,6 +111,7 @@ public class SplineToPoint extends Command {
           m_targetPoseList = BLUE_SHUTTLE_POSES;
           m_target = getClosestPoint(m_targetPoseList);
         }
+        break;
       case CLIMBING:
         if (RED_ALLIANCE.get()) {
           m_targetPoseList = RED_CLIMB_POSES;
@@ -114,6 +120,7 @@ public class SplineToPoint extends Command {
           m_targetPoseList = BLUE_CLIMB_POSES;
           m_target = getClosestPoint(m_targetPoseList);
         }
+        break;
     }
   }
 

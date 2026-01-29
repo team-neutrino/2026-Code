@@ -75,8 +75,9 @@ public class AlphaRobotContainer {
     m_driverController.start().whileTrue(swerve.resetYaw());
     m_driverController.x().whileTrue(new SplineToPoint(m_driverController, TargetMode.SHOOTING));
     m_driverController.y().whileTrue(new SplineToPoint(m_driverController, TargetMode.SHUTTLING));
-    m_driverController.leftTrigger().and(m_driverController.rightTrigger())
-        .whileTrue(new SplineToPoint(m_driverController, TargetMode.CLIMBING));
+    // uncomment on real robot
+    // m_driverController.leftBumper()
+    // .whileTrue(new SplineToPoint(m_driverController, TargetMode.CLIMBING));
   }
 
   public Command getAutonomousCommand() {
