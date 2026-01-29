@@ -41,9 +41,6 @@ public class Constants {
 
         public static final int CANRANGE_ID = 20;
 
-        public static final int CLIMB_SERVO_PORT = 0;
-        public static final int SERVO_ENDGAME_POSITION = 1;
-
         public static final double CLIMB_VELOCITY = 4.0;
         public static final double DISTANCE_FROM_CLIMB = 0.1;
     }
