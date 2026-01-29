@@ -11,32 +11,70 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "Neutral Top - 2"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Neutral Top - 2"
+                  "pathName": "Neutral Top - 3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Neutral Top - 3"
-          }
-        },
-        {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "AlphaDriveToPoint"
+                  "name": "DriveToShootBlue"
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "AlphaSpinUp"
+                      }
+                    },
+                    {
+                      "type": "parallel",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 4.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "AlphaKick"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               }
             ]
