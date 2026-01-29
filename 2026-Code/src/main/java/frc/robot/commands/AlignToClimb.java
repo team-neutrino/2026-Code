@@ -4,6 +4,7 @@ import static frc.robot.util.Constants.ClimbConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.alpha_subsystems.AlphabotSwerve.SwerveRequestStash;
+import frc.robot.util.AlphaSubsystem;
 
 import static frc.robot.util.AlphaSubsystem.swerve;
 import static frc.robot.util.Subsystems2026.climb;
@@ -16,7 +17,7 @@ public class AlignToClimb extends Command {
   private double currentXVelocity = 0;
 
   public AlignToClimb() {
-
+    addRequirements(AlphaSubsystem.swerve);
   }
 
   private void velocityDrive(double velx, double vely) {
