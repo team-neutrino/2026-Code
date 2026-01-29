@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
 
+import static frc.robot.util.Subsystems2026.*;
+
 public class Intake extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
     private TalonFX m_rollerMotor = new TalonFX(ROLLER_MOTOR_ID, m_CANbus);
@@ -72,6 +74,8 @@ public class Intake extends SubsystemBase {
             if (!index.fullCapacity()) {
                 m_rollerMotorVoltage = speed;
             }
+            index.m_isHopperEmpty = false;
+            index.m_hopperCheckTimer.reset();
         });
     }
 
