@@ -33,8 +33,8 @@ public class Index extends SubsystemBase {
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
     private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
 
-    private boolean m_isHopperEmpty;
-    private Timer m_indexTimer = new Timer();
+    public boolean m_isHopperEmpty;
+    public Timer m_hopperCheckTimer = new Timer();
 
     public Index() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -71,29 +71,33 @@ public class Index extends SubsystemBase {
         }
     }
 
+    public void checkHopperCapacity(double motorVoltage) {
+        boolean motorDebounce = m_emptyDebouncer.calculate(!m_emptyBeamBreak.get());
+        if (m_emptyBeamBreak.get()) {
+            m_isHopperEmpty = false;
+            motorVoltage = 0;
+            m_hopperCheckTimer.stop();
+            m_hopperCheckTimer.reset();
+            System.out.println("Fuel found");
+        } else {
+            if (m_hopperCheckTimer.isRunning() && m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
+                m_isHopperEmpty = true;
+                motorVoltage = 0;
+                System.out.println("No fuel");
+            } else if (motorDebounce) {
+                motorVoltage = INDEXING_VOLTAGE;
+                m_hopperCheckTimer.start();
+                System.out.println("Looking for fuel");
+            }
+        }
+    }
+
     @Override
     public void periodic() {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
         rumbleControllers();
         stopRumble();
-        boolean motorDebounce = m_emptyDebouncer.calculate(!m_emptyBeamBreak.get());
-        if (m_emptyBeamBreak.get()) {
-            m_isHopperEmpty = false;
-            m_spindexerMotorVoltage = 0;
-            m_indexTimer.stop();
-            m_indexTimer.reset();
-            System.out.println("Fuel found");
-        } else {
-            if (m_indexTimer.isRunning() && m_indexTimer.hasElapsed(HOPPER_CHECK_TIME)) {
-                m_isHopperEmpty = true;
-                m_spindexerMotorVoltage = 0;
-                System.out.println("No fuel");
-            } else if (motorDebounce) {
-                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-                m_indexTimer.start();
-                System.out.println("Looking for fuel");
-            }
-        }
+        checkHopperCapacity(m_spindexerMotorVoltage);
     }
 
     public Command runSpindexer(double speed) {
@@ -108,7 +112,7 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            if (!m_indexTimer.isRunning()) {
+            if (!m_hopperCheckTimer.isRunning()) {
                 m_spindexerMotorVoltage = 0;
             }
         });

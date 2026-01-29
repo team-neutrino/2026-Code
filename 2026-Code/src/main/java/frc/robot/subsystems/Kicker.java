@@ -16,6 +16,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import static frc.robot.util.Subsystems2026.*;
+
 public class Kicker extends SubsystemBase {
 
   private final CANBus m_CANbus = RioConstants.RIO_BUS;
@@ -51,5 +53,6 @@ public class Kicker extends SubsystemBase {
   @Override
   public void periodic() {
     m_kickerMotor.setVoltage(m_kickerMotorVoltage);
+    index.checkHopperCapacity(m_kickerMotorVoltage);
   }
 }
