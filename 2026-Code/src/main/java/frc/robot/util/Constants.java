@@ -83,7 +83,6 @@ public class Constants {
         public static final double CURRENT_LIMIT = 40;
 
         public static final int BEAMBREAK_CHANNEL_1 = 0;
-        public static final int BEAMBREAK_CHANNEL_2 = 1;
 
         public static final double START_RUMBLE_DEBOUNCED_TIME = 1;
         public static final double STOP_RUMBLE_DEBOUNCED_TIME = 0.5;
@@ -239,6 +238,7 @@ public class Constants {
         public enum TargetMode {
             SHOOTING, SHUTTLING, CLIMBING
         }
+
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 

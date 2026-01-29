@@ -22,8 +22,7 @@ public class Index extends SubsystemBase {
     private double m_spindexerMotorVoltage;
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
-    private DigitalInput m_beamBreak1 = new DigitalInput(BEAMBREAK_CHANNEL_1);
-    private DigitalInput m_beamBreak2 = new DigitalInput(BEAMBREAK_CHANNEL_2);
+    private DigitalInput m_capacityBeamBreak = new DigitalInput(BEAMBREAK_CHANNEL_1);
     private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
             Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
@@ -40,12 +39,8 @@ public class Index extends SubsystemBase {
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
     }
 
-    public boolean bothBeamsBroken() {
-        return m_beamBreak1.get() && !m_beamBreak2.get();
-    }
-
     public boolean fullCapacity() {
-        return m_startRumbleDebouncer.calculate(bothBeamsBroken());
+        return m_startRumbleDebouncer.calculate(m_capacityBeamBreak.get());
     }
 
     public void rumbleControllers() {
