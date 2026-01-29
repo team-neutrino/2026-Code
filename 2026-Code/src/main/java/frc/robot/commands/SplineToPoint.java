@@ -30,7 +30,7 @@ public class SplineToPoint extends Command {
   private List<Pose2d> m_targetPoseList;
   private Pose2d m_target;
   private boolean m_hadNoFuel;
-  private boolean m_wasActive;
+  private boolean m_hubWasActive;
   private TargetMode m_targetMode;
   NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private final NetworkTable driveStateTable = nt.getTable("DriveToPoint");
@@ -127,7 +127,7 @@ public class SplineToPoint extends Command {
   @Override
   public void initialize() {
     m_hadNoFuel = isHopperEmpty();
-    m_wasActive = RED_ALLIANCE.get() ? hubState.isRedHubActive() : hubState.isBlueHubActive();
+    m_hubWasActive = RED_ALLIANCE.get() ? hubState.isRedHubActive() : hubState.isBlueHubActive();
     setTarget();
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
@@ -138,7 +138,7 @@ public class SplineToPoint extends Command {
   public void execute() {
     // logic to re-initialize if we use "bumpers" or equivalent
     if (isHopperEmpty() != m_hadNoFuel || RED_ALLIANCE.get() ? hubState.isRedHubActive()
-        : hubState.isBlueHubActive() != m_wasActive) {
+        : hubState.isBlueHubActive() != m_hubWasActive) {
       initialize();
     }
     final long now = NetworkTablesJNI.now();
