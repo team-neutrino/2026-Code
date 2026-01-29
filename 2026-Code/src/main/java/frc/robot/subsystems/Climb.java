@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANrange;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -27,6 +28,7 @@ public class Climb extends SubsystemBase {
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
+    private CANrangeConfiguration m_CANRangeConfiguration = new CANrangeConfiguration();
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
@@ -52,6 +54,10 @@ public class Climb extends SubsystemBase {
 
         m_canandColor.setSettings(m_settings);
 
+        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = 0.6;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.05;
+        m_CANRange.getConfigurator().apply(m_CANRangeConfiguration);
+
         CanandEventLoop.getInstance();
     }
 
@@ -70,8 +76,12 @@ public class Climb extends SubsystemBase {
         return m_climbMotor.getPosition().getValueAsDouble();
     }
 
-    private double getDistance() {
+    public double getCANRangeDistance() {
         return m_CANRange.getDistance().getValueAsDouble();
+    }
+
+    public boolean isCANRangeDetected() {
+        return m_CANRange.getIsDetected().getValue();
     }
 
     private boolean isClimbOverBar() {
@@ -100,6 +110,5 @@ public class Climb extends SubsystemBase {
                 m_runClimb = false;
             }
         }
-
     }
 }

@@ -73,7 +73,7 @@ public class AlphaRobotContainer {
     m_buttonController.b().whileTrue(alphaIntake.runOuttake());
 
     m_driverController.start().whileTrue(swerve.resetYaw());
-    m_driverController.a().whileTrue(new SplineToPoint(m_driverController));
+    m_driverController.a().whileTrue(new SplineToPoint(m_driverController, false));
   }
 
   public Command getAutonomousCommand() {
