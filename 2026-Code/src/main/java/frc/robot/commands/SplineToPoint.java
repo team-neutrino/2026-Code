@@ -56,9 +56,12 @@ public class SplineToPoint extends Command {
     Command pathCommand = AutoBuilder.pathfindToPose(target, constraints, SPLINE_END_VELOCITY);
 
     switch (m_targetMode) {
-      case SHOOTING, SHUTTLING:
+      case SHOOTING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
-            .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getAButton()));
+            .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getXButton()));
+      case SHUTTLING:
+        CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
+            .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getYButton()));
       case CLIMBING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
             .andThen(new DriveToPoint(target).until(() -> swerveWithinDistance(0.1))).andThen(new AlignToClimb()));
