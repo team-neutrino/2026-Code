@@ -25,24 +25,32 @@ public class DriveToPointPID {
 
     public double getYVelocity() {
         Pose2d error = AlphaSubsystem.swerve.getCurrentPose().relativeTo(m_target);
-        if (error.getTranslation().getNorm() < 0.1) {
-            m_xControl.setP(DRIVE_TO_POINT_P * 0.05);
-            m_yControl.setP(DRIVE_TO_POINT_P * 0.05);
+        if (error.getTranslation().getNorm() < GAIN_SCHEDULE_THRESHOLD) {
+            m_xControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
+            m_yControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
+            m_xControl.setD(0);
+            m_yControl.setD(0);
         } else {
             m_xControl.setP(DRIVE_TO_POINT_P);
             m_yControl.setP(DRIVE_TO_POINT_P);
+            m_xControl.setD(DRIVE_TO_POINT_D);
+            m_yControl.setD(DRIVE_TO_POINT_D);
         }
         return m_yControl.calculate(AlphaSubsystem.swerve.getCurrentPose().getY() - m_target.getY());
     }
 
     public double getXVelocity() {
         Pose2d error = AlphaSubsystem.swerve.getCurrentPose().relativeTo(m_target);
-        if (error.getTranslation().getNorm() < 0.1) {
-            m_xControl.setP(DRIVE_TO_POINT_P * 0.05);
-            m_yControl.setP(DRIVE_TO_POINT_P * 0.05);
+        if (error.getTranslation().getNorm() < GAIN_SCHEDULE_THRESHOLD) {
+            m_xControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
+            m_yControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
+            m_xControl.setD(0);
+            m_yControl.setD(0);
         } else {
             m_xControl.setP(DRIVE_TO_POINT_P);
             m_yControl.setP(DRIVE_TO_POINT_P);
+            m_xControl.setD(DRIVE_TO_POINT_D);
+            m_yControl.setD(DRIVE_TO_POINT_D);
         }
         return m_xControl.calculate(AlphaSubsystem.swerve.getCurrentPose().getX() - m_target.getX());
     }

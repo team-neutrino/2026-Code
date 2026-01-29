@@ -171,7 +171,7 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
     }
 
     public void configureRequestPID() {
-        SwerveRequestStash.driveWithVelocity.HeadingController.setPID(DRIVE_ASSIST_KP, 0, AUTO_ALIGN_D);
+        SwerveRequestStash.driveWithVelocity.HeadingController.setPID(ROTATIONAL_P, 0, AUTO_ALIGN_D);
     }
 
     public class SwerveRequestStash {

@@ -228,14 +228,17 @@ public class Constants {
         public static final double GYRO_SCALAR_Z = -3.9;
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
-        public static final double DRIVE_ASSIST_KP = 8;
+        public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
     }
 
     public static class DriveToPointConstants {
-        public static final double DRIVE_TO_POINT_P = 3;
+        public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
+        public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
+
+        public static final double DRIVE_TO_POINT_P = 4;
         public static final double DRIVE_TO_POINT_I = 0;
-        public static final double DRIVE_TO_POINT_D = 0;
+        public static final double DRIVE_TO_POINT_D = 0.5;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;
 
         public static final double SPLINE_MAX_SPEED = 3.0;
