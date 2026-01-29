@@ -19,6 +19,7 @@ public class DriveToPoint extends Command {
     public DriveToPoint(Pose2d target) {
         addRequirements(AlphaSubsystem.swerve);
         m_drivePID = new DriveToPointPID();
+        m_target = target;
     }
 
     private void drive() {
