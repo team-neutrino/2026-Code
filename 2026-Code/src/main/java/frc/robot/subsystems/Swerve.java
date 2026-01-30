@@ -405,6 +405,18 @@ public class Swerve extends CommandSwerveDrivetrain {
         SwerveRequestStash.driveWithVelocity.HeadingController.setPID(ROTATIONAL_P, 0, AUTO_ALIGN_D);
     }
 
+    public double calculateTargetAngleBlue(double p_robotX, double p_robotY) {
+        double robotX = p_robotX;
+        double robotY = p_robotY;
+
+        Pose2d hubPose = BLUE_HUB;
+
+        double targetDistanceX = hubPose.getX() - robotX;
+        double targetDistanceY = hubPose.getY() - robotY;
+
+        return Math.atan2(targetDistanceY, targetDistanceX);
+    }
+
     public class SwerveRequestStash {
         public static final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
                 .withDriveRequestType(DriveRequestType.Velocity)
