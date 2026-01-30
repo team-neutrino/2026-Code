@@ -18,15 +18,15 @@ public class PIDTuner {
     private DoubleTopic m_I;
     private DoubleTopic m_D;
 
-    // private DoublePublisher m_P_Publisher;
+    private DoublePublisher m_P_Publisher;
     private DoublePublisher m_I_Publisher;
     private DoublePublisher m_D_Publisher;
 
-    // private DoubleSubscriber m_P_Subscriber;
+    private DoubleSubscriber m_P_Subscriber;
     private DoubleSubscriber m_I_Subscriber;
     private DoubleSubscriber m_D_Subscriber;
 
-    private DoubleEntry m_P_Entry;
+    // private DoubleEntry m_P_Entry;
 
     /**
      * A generic class for tuning PID controllers. Uses network tables to modify
@@ -38,36 +38,25 @@ public class PIDTuner {
      * 
      */
     public PIDTuner(String subsystemName) { // probably still the best way to do this
-        m_globalNetworkTable.addListener(
-                new String[] { "/" + subsystemName + "/P" },
-                EnumSet.of(NetworkTableEvent.Kind.kTopic),
-                event -> {
-                    if (event.is(NetworkTableEvent.Kind.kPublish)) {
-                        System.out.println("***************** We have just updated " + event.topicInfo.name
-                                + " and its new value is "
-                                + event.valueData.value.getDouble());
-                    }
-                });
-
         m_P = m_globalNetworkTable.getDoubleTopic("/" + subsystemName + "/P");
         m_I = m_globalNetworkTable.getDoubleTopic("/" + subsystemName + "/I");
         m_D = m_globalNetworkTable.getDoubleTopic("/" + subsystemName + "/D");
 
+        m_P_Subscriber = m_P.subscribe(0.0);
         m_I_Subscriber = m_I.subscribe(0.0);
         m_D_Subscriber = m_D.subscribe(0.0);
-
-        // m_P_Publisher = m_P.publish();
+        m_P_Publisher = m_P.publish();
         m_I_Publisher = m_I.publish();
         m_D_Publisher = m_D.publish();
 
-        // m_P_Publisher.setDefault(0.1);
+        m_P_Publisher.setDefault(0.1);
         m_I_Publisher.setDefault(0.0);
         m_D_Publisher.setDefault(0.0);
 
         // m_P_Subscriber = m_P.subscribe(0.1);
 
-        m_P_Entry = m_P.getEntry(0.1);
-        System.out.println("************** P ENTRY " + m_P_Entry.get());
+        // m_P_Entry = m_P.getEntry(0.1);
+        // System.out.println("************** P ENTRY " + m_P_Entry.get());
 
     }
 
@@ -77,8 +66,9 @@ public class PIDTuner {
      * @return The set P value for this PID tuner.
      */
     public double getP() {
-        System.out.println("************** P ENTRY " + m_P_Entry.get());
-        return m_P_Entry.get();
+        // System.out.println("************** P ENTRY " + m_P_Entry.get());
+        // return m_P_Entry.get();
+        return m_P_Subscriber.get();
     }
 
     /**
@@ -105,7 +95,7 @@ public class PIDTuner {
      * @param newPValue The new P value to set the PID tuner to.
      */
     public void setP(double newPValue) {
-        m_P_Entry.set(newPValue);
+        m_P_Publisher.set(newPValue);
     }
 
     /**
@@ -123,7 +113,7 @@ public class PIDTuner {
      * @param newDValue The new D value to set the PID tuner to.
      */
     public void setD(double newDValue) {
-        m_P_Entry.set(newDValue);
+        m_D_Publisher.set(newDValue);
     }
 
     /**
