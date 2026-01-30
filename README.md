@@ -13,20 +13,37 @@
 - [Rev](https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html)
 - [LimeLight](https://docs.limelightvision.io/docs/docs-limelight/apis/limelight-lib)
 
-## Rio Bus CAN IDs
+## Drivetrain CANivore Bus CAN IDs
 | Subsystem | Description | CAN ID  | Device      |
 | --------- | ----------- | ------- | ----------- |
-| Swerve    |-------------| 0       | Pigeon      |
-| Swerve    | ----------- | 1 to 4  | CANencoders |
-| Swerve    | ----------- | 5 to 12 | Motors      |
-| Intake    | ------------| 12, 13  | Motors      |
-| Indexer   | ----------- | 14      | Motors      |
-| Shooter   | ----------- | 16, 17  | Motors      |
-| Shooter   | Hood        | 15      | Motors      |
-| Kicker    | ----------- | 18      | Motors      |
-| Climb     | ----------- | 19      | Motors      |
-| Climb     | ----------- | 20      | CANrange    |
-| Climb     | ----------- | 28      | CanandColor |
+| Swerve    | IMU         | 0       | Pigeon v2   |
+| Swerve    | FL Encoder  | 1       | CANCoder    |
+| Swerve    | FR Encoder  | 2       | CANCoder    |
+| Swerve    | BR Encoder  | 3       | CANCoder    |
+| Swerve    | BL Encoder  | 4       | CANCoder    |
+| Swerve    | FL Angle    | 5       | Kraken x44  |
+| Swerve    | FL Speed    | 6       | Kraken x60  |
+| Swerve    | FR Angle    | 7       | Kraken x44  |
+| Swerve    | FR Speed    | 8       | Kraken x60  |
+| Swerve    | BR Angle    | 9       | Kraken x44  |
+| Swerve    | BR Speed    | 10      | Kraken x60  |
+| Swerve    | BL Angle    | 11      | Kraken x44  |
+| Swerve    | BL Speed    | 12      | Kraken x60  |
+
+## Rio Bus CAN IDs
+| Subsystem | Description       | CAN ID  | Device      |
+| --------- | ----------------- | ------- | ----------- |
+| Intake    | Roller            | 12      | Kraken x60  |
+| Intake    | Deploy            | 13      | Kraken x44  |
+| Indexer   | Spindexer         | 14      | Kraken x44  |
+| Shooter   | Hood              | 15      | Kraken x44  |
+| Shooter   | Flywheel Main     | 16      | Kraken x60  |
+| Shooter   | Flywheel Follower | 17      | Kraken x60  |
+| Kicker    | Kicker            | 18      | Kraken x60  |
+| Climb     |                   | 19      | Kraken x60  |
+| Climb     |                   | 20      | CANrange    |
+| Climb     |                   | 28      | CanandColor |
+| Turret    |                   | 29      | Kraken x44  |
 
 ## DIO
 | Subsystem | Description          | Port   |
