@@ -32,7 +32,7 @@ red = (64, 0, 0) # red hub
 orange = (84, 18, 0) # full hopper
 yellow = (64, 64, 0)
 green = (0, 64, 0)
-blue = (65, 105, 255) # blue hub
+blue = (0, 0, 64) # blue hub
 purple = (64, 0, 64) # default to purple (during auton, transition shift, endgame)
 black = (0, 0, 0)
 
@@ -123,7 +123,7 @@ def valueStateChanged(table, key, value, isNew):
     if value == "blink":
         blink = True
         previousBlinkTime = time.time()
-        amount = 5
+        amount = 1
     # if value== "blinktwice":
     #     blink = True
     #     previousBlinkTime = time.time()

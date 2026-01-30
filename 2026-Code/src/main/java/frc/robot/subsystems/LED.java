@@ -73,7 +73,7 @@ public class LED extends SubsystemBase {
         // m_state_pub.set("solid");
 
         // when hopper beambreaks are broken (hopper full) - orange
-        if (m_index.fullCapacity()) {
+        if (m_index.bothBeamsBroken()) {
             m_color_pub.set("orange");
             m_state_pub.set("solid");
             return;
