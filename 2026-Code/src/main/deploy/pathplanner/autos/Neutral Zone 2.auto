@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot"
+            "pathName": "Neutral Top - 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Neutral Top - 2"
           }
         },
         {
@@ -17,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Depot To Shoot"
+                  "pathName": "Neutral Back"
                 }
               },
               {
@@ -36,7 +42,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "DriveToShootBlueTop"
+                  "name": "DriveToShootBlue"
                 }
               },
               {
@@ -54,15 +60,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
-                            "data": {
-                              "name": "AlphaKick"
-                            }
-                          },
-                          {
                             "type": "wait",
                             "data": {
                               "waitTime": 4.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "AlphaKick"
                             }
                           }
                         ]
@@ -78,6 +84,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Depot",
+  "folder": "Neutral Zone",
   "choreoAuto": false
 }
