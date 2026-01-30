@@ -12,6 +12,8 @@ import frc.robot.util.DriveToPointPID;
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 
+import java.util.List;
+
 public class DriveToPoint extends Command {
     private DriveToPointPID m_drivePID;
     private Pose2d m_target;
@@ -19,7 +21,7 @@ public class DriveToPoint extends Command {
     public DriveToPoint(Pose2d target) {
         addRequirements(swerve);
         m_drivePID = new DriveToPointPID();
-        m_target = target;
+        m_target = AlphaSubsystem.swerve.getCurrentPose().nearest(targetPoseList);
     }
 
     private void drive() {

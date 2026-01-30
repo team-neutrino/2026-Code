@@ -50,23 +50,25 @@ public class SplineToPoint extends Command {
     return false;
   }
 
-  private void spline(Pose2d target) {
+  private void spline() {
     PathConstraints constraints = new PathConstraints(SPLINE_MAX_SPEED, SPLINE_MAX_ACCELERATION,
         SPLINE_MAX_ANGULAR_VELOCITY, SPLINE_MAX_ANGULAR_ACCELERATION);
-    Command pathCommand = AutoBuilder.pathfindToPose(target, constraints, SPLINE_END_VELOCITY);
+    Command pathCommand = AutoBuilder.pathfindToPose(getClosestPoint(m_targetPoseList), constraints,
+        SPLINE_END_VELOCITY);
 
     switch (m_targetMode) {
       case SHOOTING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
-            .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getXButton()));
+            .andThen(new DriveToPoint(m_targetPoseList)).until(() -> !m_driverController.getHID().getXButton()));
         break;
       case SHUTTLING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
-            .andThen(new DriveToPoint(target)).until(() -> !m_driverController.getHID().getYButton()));
+            .andThen(new DriveToPoint(m_targetPoseList)).until(() -> !m_driverController.getHID().getYButton()));
         break;
       case CLIMBING:
         CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
-            .andThen(new DriveToPoint(target).until(() -> swerveWithinDistance(0.1))).andThen(new AlignToClimb())
+            .andThen(new DriveToPoint(m_targetPoseList).until(() -> swerveWithinDistance(0.1)))
+            .andThen(new AlignToClimb())
             .until(() -> !m_driverController.getHID().getLeftBumperButton()));
         break;
     }
@@ -132,7 +134,7 @@ public class SplineToPoint extends Command {
     setTarget();
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
-    spline(m_target);
+    spline();
   }
 
   @Override
