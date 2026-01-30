@@ -17,7 +17,10 @@ public class ShooterNT extends Shooter {
     private double m_previousHoodKI;
     private double m_previousHoodKD;
 
-    /** Creates a new class to organize network tables related to the Shooter subsystem.
+    /**
+     * Creates a new class to organize network tables related to the Shooter
+     * subsystem.
+     * 
      * @return An object to manage Shooter network tables.
      */
     public ShooterNT() {
@@ -32,24 +35,33 @@ public class ShooterNT extends Shooter {
         m_hoodPIDTuner.setI(HOOD_KI);
         m_hoodPIDTuner.setD(HOOD_KD);
 
-        m_previousShootingKP = SHOOTING_KP;
-        m_previousShootingKI = SHOOTING_KI;
-        m_previousShootingKD = SHOOTING_KD;
+        // m_previousShootingKP = SHOOTING_KP;
+        // m_previousShootingKI = SHOOTING_KI;
+        // m_previousShootingKD = SHOOTING_KD;
 
-        m_previousHoodKP = HOOD_KP;
-        m_previousHoodKI = HOOD_KI;
-        m_previousHoodKD = HOOD_KD;
+        // m_previousHoodKP = HOOD_KP;
+        // m_previousHoodKI = HOOD_KI;
+        // m_previousHoodKD = HOOD_KD;
+        // setShooterPID(m_shooterPIDTuner.getP(), m_shooterPIDTuner.getI(),
+        // m_shooterPIDTuner.getD());
     }
 
     @Override
     public void periodic() {
         super.periodic();
-
+        // m_shooterPIDTuner.setP(SHOOTING_KP);
         if (m_shooterPIDTuner.isDifferentValues(m_previousShootingKP, m_previousShootingKI, m_previousShootingKD)) {
+            System.out.println("*********** 1");
+            System.out.println(m_previousShootingKP);
+            System.out.println(m_previousShootingKI);
+            System.out.println(m_previousShootingKD);
             m_previousShootingKP = m_shooterPIDTuner.getP();
             m_previousShootingKI = m_shooterPIDTuner.getI();
             m_previousShootingKD = m_shooterPIDTuner.getD();
-
+            System.out.println("*********** 2");
+            System.out.println(m_previousShootingKP);
+            System.out.println(m_previousShootingKI);
+            System.out.println(m_previousShootingKD);
             setShooterPID(m_shooterPIDTuner.getP(), m_shooterPIDTuner.getI(), m_shooterPIDTuner.getD());
         }
 
@@ -57,11 +69,10 @@ public class ShooterNT extends Shooter {
             m_previousHoodKP = m_hoodPIDTuner.getP();
             m_previousHoodKI = m_hoodPIDTuner.getI();
             m_previousHoodKD = m_hoodPIDTuner.getD();
+            System.out.println("*********** hood");
 
             setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(), m_hoodPIDTuner.getD());
         }
     }
-
-
 
 }

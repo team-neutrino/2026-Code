@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
     public Command runIntake(double speed) {
         return run(() -> {
             m_rollerMotorVoltage = speed;
-            System.out.println("intake");
+            // System.out.println("intake");
         });
     }
 
@@ -55,7 +55,7 @@ public class Intake extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            System.out.println("Default");
+            // System.out.println("Default");
             m_rollerMotorVoltage = 0;
             m_deployMotorVoltage = 0;
         });

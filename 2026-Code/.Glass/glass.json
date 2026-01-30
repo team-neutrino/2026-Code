@@ -1,0 +1,25 @@
+{
+  "NetworkTables": {
+    "transitory": {
+      "shooter": {
+        "open": true,
+        "{tuning}hoodMotor": {
+          "open": true
+        },
+        "{tuning}shooterMotor": {
+          "open": true
+        }
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "127.0.0.1"
+  }
+}
