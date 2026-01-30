@@ -25,20 +25,31 @@ public class Constants {
         public static final int CLIMB_MOTOR_ID = 19;
         public static final int CLIMB_CURRENT_LIMIT = 40;
 
-        public static final double CLIMB_kP = 0.3;
-        public static final double CLIMB_kI = 0.1;
-        public static final double CLIMB_kD = 0.0;
+        public static final double CLIMB_kP_1 = 0.3;
+        public static final double CLIMB_kI_1 = 0.1;
+        public static final double CLIMB_kD_1 = 0.0;
+        public static final double CLIMB_kP_2 = 0.1;
+        public static final double CLIMB_kI_2 = 0.1;
+        public static final double CLIMB_kD_2 = 0.0;
         public static final double CLIMB_kFF = 0.0;
 
         public static final double ALLOWED_ERROR = 0.1;
 
-        public static final double L1_POSITION = 10;
-        public static final double DOWN_POSITION = 0;
+        public static final double RAISE_POSITION = 9;
+        public static final double LOWER_POSITION = 0;
+        public static final double CLIMB_POSITION = 3;
+        public static final double RELEASE_POSITION = 10;
+
+        public static final int RAISE_UP_SLOT = 0;
+        public static final int LOWER_DOWN_SLOT = 1;
 
         public static final int CANANDCOLOR_ID = 28;
         public static final double CANANDCOLOR_DISTANCE = 0.1;
 
         public static final int CANRANGE_ID = 20;
+
+        public static final double CANRANGE_THRESHOLD = 0.6;
+        public static final double CANRANGE_HYSTERSIS = 0.05;
 
         public static final double CLIMB_VELOCITY = 4.0;
         public static final double DISTANCE_FROM_CLIMB = 0.1;
@@ -236,6 +247,7 @@ public class Constants {
         public enum TargetMode {
             SHOOTING, SHUTTLING, CLIMBING
         }
+
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 

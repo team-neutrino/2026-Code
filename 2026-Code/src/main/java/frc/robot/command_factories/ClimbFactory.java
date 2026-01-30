@@ -6,11 +6,19 @@ import static frc.robot.util.Subsystems2026.climb;
 import static frc.robot.util.Constants.ClimbConstants.*;
 
 public class ClimbFactory {
-    public static Command climbUp() {
-        return climb.moveClimbCommand(L1_POSITION);
+    public static Command raiseClimb() {
+        return climb.moveClimbCommand(RAISE_POSITION, RAISE_UP_SLOT);
     }
 
-    public static Command climbDown() {
-        return climb.moveClimbCommand(DOWN_POSITION);
+    public static Command lowerClimb() {
+        return climb.moveClimbCommand(LOWER_POSITION, RAISE_UP_SLOT);
+    }
+
+    public static Command climbUp() {
+        return climb.moveClimbCommand(CLIMB_POSITION, RAISE_UP_SLOT);
+    }
+
+    public static Command releaseClimb() {
+        return climb.moveClimbCommand(RELEASE_POSITION, LOWER_DOWN_SLOT);
     }
 }

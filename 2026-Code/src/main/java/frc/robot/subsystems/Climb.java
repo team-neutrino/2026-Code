@@ -33,6 +33,7 @@ public class Climb extends SubsystemBase {
 
     private double m_climbTargetPosition = 0;
     private boolean m_runClimb = false;
+    private int m_slot = 0;
 
     public Climb() {
         m_currentLimitConfig.withSupplyCurrentLimit(CLIMB_CURRENT_LIMIT)
@@ -41,9 +42,13 @@ public class Climb extends SubsystemBase {
                 .withStatorCurrentLimitEnable(true);
         m_climbMotorConfig.CurrentLimits = m_currentLimitConfig;
 
-        m_climbMotorConfig.Slot0.kP = CLIMB_kP;
-        m_climbMotorConfig.Slot0.kI = CLIMB_kI;
-        m_climbMotorConfig.Slot0.kD = CLIMB_kD;
+        m_climbMotorConfig.Slot0.kP = CLIMB_kP_1;
+        m_climbMotorConfig.Slot0.kI = CLIMB_kI_1;
+        m_climbMotorConfig.Slot0.kD = CLIMB_kD_1;
+
+        m_climbMotorConfig.Slot1.kP = CLIMB_kP_2;
+        m_climbMotorConfig.Slot1.kI = CLIMB_kI_2;
+        m_climbMotorConfig.Slot1.kD = CLIMB_kD_2;
 
         m_climbMotor.getConfigurator().apply(m_climbMotorConfig);
         m_climbMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -52,13 +57,13 @@ public class Climb extends SubsystemBase {
 
         m_canandColor.setSettings(m_settings);
 
-        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = 0.6;
-        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = 0.05;
+        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = CANRANGE_THRESHOLD;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = CANRANGE_HYSTERSIS;
         m_CANRange.getConfigurator().apply(m_CANRangeConfiguration);
     }
 
     private void moveClimb(double targetPosition) {
-        PositionVoltage positionControl = new PositionVoltage(targetPosition);
+        PositionVoltage positionControl = new PositionVoltage(targetPosition).withSlot(m_slot);
         positionControl.FeedForward = CLIMB_kFF;
         m_climbMotor.setControl(positionControl);
     }
@@ -84,6 +89,10 @@ public class Climb extends SubsystemBase {
         return m_CANRange.getDistance().getValueAsDouble();
     }
 
+    public boolean getRunClimb() {
+        return m_runClimb;
+    }
+
     public boolean isCANRangeDetected() {
         return m_CANRange.getIsDetected().getValue();
     }
@@ -92,9 +101,10 @@ public class Climb extends SubsystemBase {
         return m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE;
     }
 
-    public Command moveClimbCommand(double position) {
+    public Command moveClimbCommand(double position, int slot) {
         return run(() -> {
             m_climbTargetPosition = position;
+            m_slot = slot;
             m_runClimb = true;
         });
     }
