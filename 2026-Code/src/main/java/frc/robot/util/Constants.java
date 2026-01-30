@@ -97,10 +97,14 @@ public class Constants {
         public static final double CURRENT_LIMIT = 40;
 
         public static final int BEAMBREAK_CHANNEL_1 = 0;
-        public static final int BEAMBREAK_CHANNEL_2 = 1;
-        public static final int BEAMBREAK_CHANNEL_3 = 2;
+        public static final int BEAMBREAK_CHANNEL_2 = 5;
+        public static final int CANRANGE_CAN_ID_1 = 30;
+        public static final int CANRANGE_CAN_ID_2 = 31;
+        public static final int CANANDCOLOR_ID = 32;
 
-        public static final double START_RUMBLE_DEBOUNCED_TIME = 1;
+        public static final double FULL_CAPACITY_DISTANCE = 0.3;
+
+        public static final double START_RUMBLE_DEBOUNCED_TIME = 0.75;
         public static final double STOP_RUMBLE_DEBOUNCED_TIME = 0.5;
         public static final double MOTOR_START_TIME = 1.5;
         public static final double HOPPER_CHECK_TIME = 2.5;

@@ -4,7 +4,10 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.core.CoreCANrange;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.reduxrobotics.sensors.canandcolor.Canandcolor;
+import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -24,13 +27,21 @@ public class Index extends SubsystemBase {
     private double m_spindexerMotorVoltage;
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
+
     private DigitalInput m_capacityBeamBreak1 = new DigitalInput(BEAMBREAK_CHANNEL_1);
-    private DigitalInput m_capacityBeamBreak2 = new DigitalInput(BEAMBREAK_CHANNEL_2);
-    private DigitalInput m_emptyBeamBreak = new DigitalInput(BEAMBREAK_CHANNEL_3);
+    private DigitalInput m_emptyBeamBreak = new DigitalInput(BEAMBREAK_CHANNEL_2);
+
+    private CoreCANrange m_canRange1 = new CoreCANrange(CANRANGE_CAN_ID_1, m_CANbus);
+    private CoreCANrange m_canRange2 = new CoreCANrange(CANRANGE_CAN_ID_2, m_CANbus);
+
+    private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
+    private CanandcolorSettings m_settings = new CanandcolorSettings();
+
     private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
             Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
     private Debouncer m_emptyDebouncer = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
+
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
     private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
 
@@ -45,18 +56,37 @@ public class Index extends SubsystemBase {
         m_motorConfig.CurrentLimits = m_currentLimitConfig;
         m_spindexerMotor.getConfigurator().apply(m_motorConfig);
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
+
+        m_canandColor.setSettings(m_settings);
     }
 
-    public boolean bothBeamsBroken() {
-        return m_capacityBeamBreak1.get() && !m_capacityBeamBreak2.get();
+    public double getCanRangeDistance(CoreCANrange canRange) {
+        return canRange.getDistance().getValueAsDouble();
+    }
+
+    public boolean bothCanRangesDetect() {
+        return getCanRangeDistance(m_canRange1) < FULL_CAPACITY_DISTANCE
+                && getCanRangeDistance(m_canRange2) < FULL_CAPACITY_DISTANCE;
+    }
+
+    public boolean fullCapacityCanRange() {
+        return m_startRumbleDebouncer.calculate(bothCanRangesDetect());
+    }
+
+    public boolean canandColorDetect() {
+        return m_canandColor.getProximity() < 0.1;
     }
 
     public boolean fullCapacity() {
-        return m_startRumbleDebouncer.calculate(bothBeamsBroken());
+        return m_startRumbleDebouncer.calculate(m_capacityBeamBreak1.get());
+    }
+
+    public boolean isHopperEmpty() {
+        return m_isHopperEmpty;
     }
 
     public void rumbleControllers() {
-        if (fullCapacity()) {
+        if (fullCapacityCanRange()) {
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
         } else {
@@ -66,36 +96,34 @@ public class Index extends SubsystemBase {
     }
 
     public void stopRumble() {
-        if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
+        if (m_stopRumbleDebouncer.calculate(fullCapacityCanRange())) {
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
         }
     }
 
     public void checkHopperCapacity(double motorVoltage) {
-        boolean motorDebounce = m_emptyDebouncer.calculate(!m_emptyBeamBreak.get());
-        if (m_emptyBeamBreak.get()) {
+        boolean motorDebounce = m_emptyDebouncer.calculate(canandColorDetect());
+        if (canandColorDetect()) {
             m_isHopperEmpty = false;
             motorVoltage = 0;
             m_hopperCheckTimer.stop();
             m_hopperCheckTimer.reset();
-            System.out.println("Fuel found");
         } else {
-            if (m_hopperCheckTimer.isRunning() && m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
+            if (m_hopperCheckTimer.isRunning() &&
+                    m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
                 m_isHopperEmpty = true;
                 motorVoltage = 0;
-                System.out.println("No fuel");
             } else if (motorDebounce) {
                 motorVoltage = INDEXING_VOLTAGE;
                 m_hopperCheckTimer.start();
-                System.out.println("Looking for fuel");
             }
         }
+        m_spindexerMotor.setVoltage(motorVoltage);
     }
 
     @Override
     public void periodic() {
-        m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
         rumbleControllers();
         stopRumble();
         checkHopperCapacity(m_spindexerMotorVoltage);
