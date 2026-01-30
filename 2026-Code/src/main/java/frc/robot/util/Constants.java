@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.Meter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.ctre.phoenix6.CANBus;
 
@@ -95,7 +96,10 @@ public class Constants {
                 Map.entry(35.0, 2.0),
                 Map.entry(50.0, 3.0));
 
-        public static final double ZONE_1 = 5;
+        public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
+                Map.entry(0.0, 3000.0),
+                Map.entry(4.0, 3928.0),
+                Map.entry(23.9, 5800.0)));
         public static final InterpolatingDoubleTreeMap INTERPOLATION_SHOOTER = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 1000.0),
                 Map.entry(5.0, 1000.0),
