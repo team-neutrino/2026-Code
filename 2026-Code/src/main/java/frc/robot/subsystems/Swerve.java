@@ -405,11 +405,15 @@ public class Swerve extends CommandSwerveDrivetrain {
         SwerveRequestStash.driveWithVelocity.HeadingController.setPID(ROTATIONAL_P, 0, AUTO_ALIGN_D);
     }
 
-    public double calculateTargetAngleBlue(double p_robotX, double p_robotY) {
+    private boolean isInBlueHalf() {
+        return getCurrentPose().getMeasureX().baseUnitMagnitude() < MID_FIELD_X;
+    }
+
+    public double calculateTargetAngle(double p_robotX, double p_robotY) {
         double robotX = p_robotX;
         double robotY = p_robotY;
 
-        Pose2d hubPose = BLUE_HUB;
+        Pose2d hubPose = isInBlueHalf() ? BLUE_HUB : RED_HUB;
 
         double targetDistanceX = hubPose.getX() - robotX;
         double targetDistanceY = hubPose.getY() - robotY;
