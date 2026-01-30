@@ -1,16 +1,10 @@
 package frc.robot.util;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
-
-import java.util.EnumSet;
-
-import edu.wpi.first.networktables.DoubleEntry;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
-import edu.wpi.first.networktables.NetworkTableEvent;
 import edu.wpi.first.networktables.DoubleSubscriber;
 
-// stealing code from last year? I would never
 public class PIDTuner {
     private NetworkTableInstance m_globalNetworkTable = NetworkTableInstance.getDefault();
 
@@ -26,8 +20,6 @@ public class PIDTuner {
     private DoubleSubscriber m_I_Subscriber;
     private DoubleSubscriber m_D_Subscriber;
 
-    // private DoubleEntry m_P_Entry;
-
     /**
      * A generic class for tuning PID controllers. Uses network tables to modify
      * them during runtime.
@@ -37,7 +29,7 @@ public class PIDTuner {
      * @return Returns a PIDTuner object which can be used to tune PID controllers.
      * 
      */
-    public PIDTuner(String subsystemName) { // probably still the best way to do this
+    public PIDTuner(String subsystemName) {
         m_P = m_globalNetworkTable.getDoubleTopic("/" + subsystemName + "/P");
         m_I = m_globalNetworkTable.getDoubleTopic("/" + subsystemName + "/I");
         m_D = m_globalNetworkTable.getDoubleTopic("/" + subsystemName + "/D");
@@ -52,12 +44,6 @@ public class PIDTuner {
         m_P_Publisher.setDefault(0.1);
         m_I_Publisher.setDefault(0.0);
         m_D_Publisher.setDefault(0.0);
-
-        // m_P_Subscriber = m_P.subscribe(0.1);
-
-        // m_P_Entry = m_P.getEntry(0.1);
-        // System.out.println("************** P ENTRY " + m_P_Entry.get());
-
     }
 
     /**
@@ -66,8 +52,6 @@ public class PIDTuner {
      * @return The set P value for this PID tuner.
      */
     public double getP() {
-        // System.out.println("************** P ENTRY " + m_P_Entry.get());
-        // return m_P_Entry.get();
         return m_P_Subscriber.get();
     }
 
@@ -128,12 +112,5 @@ public class PIDTuner {
     public boolean isDifferentValues(double previousP, double previousI, double previousD) {
         return getP() != previousP || getI() != previousI ||
                 getD() != previousD;
-    }
-
-    /**
-     * Likely unnecessary, but I'm not taking my chances
-     */
-    public void periodic() {
-
     }
 }
