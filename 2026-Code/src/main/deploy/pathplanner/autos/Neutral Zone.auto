@@ -42,39 +42,38 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "DriveToPointFinite"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "DriveToShoot"
                 }
               },
               {
-                "type": "parallel",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AlphaSpinUp"
-                      }
-                    },
-                    {
-                      "type": "parallel",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 4.0
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "AlphaKick"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "name": "AlphaSpinUp"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaKick"
                 }
               }
             ]
