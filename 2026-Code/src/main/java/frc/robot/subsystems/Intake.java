@@ -2,10 +2,9 @@ package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
 
-import java.io.ObjectInputFilter.Status;
+import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -24,7 +23,7 @@ public class Intake extends SubsystemBase {
     private double m_rollerMotorVoltage;
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
-    private double m_targetAngle = STARTING_POSITION;
+    private double m_targetAngle;
 
     public Intake() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -52,6 +51,16 @@ public class Intake extends SubsystemBase {
         return m_targetAngle;
     }
 
+    public boolean isAtTarget() {
+        return getMotorAngle() >= getTargetAngle() - ALLOWED_TARGET_ERROR
+                && getMotorAngle() <= getTargetAngle() + ALLOWED_TARGET_ERROR;
+    }
+
+    public BooleanSupplier getValueAsBooleanSupplier(boolean bool) {
+        BooleanSupplier booleanSupplier = () -> bool;
+        return booleanSupplier;
+    }
+
     private void moveToIntake(double targetPosition) {
         PositionVoltage positionControl = new PositionVoltage(targetPosition);
         m_deployMotor.setControl(positionControl);
@@ -73,6 +82,14 @@ public class Intake extends SubsystemBase {
 
     public Command deployIntake(double targetAngle) {
         return run(() -> {
+            m_targetAngle = targetAngle;
+            System.out.println("running");
+        });
+    }
+
+    public Command deployAndRunIntake(double speed, double targetAngle) {
+        return run(() -> {
+            m_rollerMotorVoltage = speed;
             m_targetAngle = targetAngle;
         });
     }

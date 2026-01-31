@@ -14,7 +14,7 @@ import static frc.robot.util.Subsystems2026.*;
 
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
-  private final CommandXboxController m_buttonController = new CommandXboxController(1);
+  public final CommandXboxController m_buttonController = new CommandXboxController(1);
 
   private Subsystems2026 m_subsystemContainer;
 
@@ -41,7 +41,7 @@ public class RobotContainer {
     m_buttonController.povLeft().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.WALL));
     m_buttonController.povRight().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
     m_buttonController.a().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
-    m_buttonController.y().whileTrue(IntakeFactory.deployIntake());
+    m_buttonController.x().whileTrue(IntakeFactory.shakeBallsInHopper());
   }
 
   public Command getAutonomousCommand() {

@@ -107,13 +107,13 @@ public class Constants {
         public static final double OUTTAKE_VOLTAGE = -5;
 
         public static final double STARTING_POSITION = 0;
-        public static final double DEPLOYED_POSITION = 110; // placeholder value
-        public static final double INTERMEDIATE_POSITION_1 = 80; // placeholder value
-        public static final double INTERMEDIATE_POSITION_2 = 45; // placeholder value
-        public static final double ALLOWED_TARGET_ERROR = 5; // placeholder value
-        public static final double ALLOWED_INTAKE_ERROR = 5; // placeholder value
+        public static final double DEPLOYED_POSITION = 80; // placeholder value
+        public static final double INTERMEDIATE_POSITION_1 = 60; // placeholder value
+        public static final double INTERMEDIATE_POSITION_2 = 30; // placeholder value
+        public static final double ALLOWED_TARGET_ERROR = 4; // placeholder value
+        public static final double ALLOWED_INTAKE_ERROR = 4; // placeholder value
 
-        public static final double INTAKE_kP = 0.2; // placeholder value
+        public static final double INTAKE_kP = 0.1; // placeholder value
         public static final double INTAKE_kI = 0.0; // placeholder value
         public static final double INTAKE_kD = 0.0; // placeholder value
     }
