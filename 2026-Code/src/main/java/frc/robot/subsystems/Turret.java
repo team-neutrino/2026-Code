@@ -57,7 +57,7 @@ public class Turret extends SubsystemBase {
     slot1Configs.kI = TURRET_I;
     slot1Configs.kD = TURRET_D;
 
-    m_motor.getConfigurator().apply(slot1Configs);
+    m_motor.getConfigurator().apply(slot0Configs);
     m_motor.setNeutralMode(NeutralModeValue.Brake);
     m_motor.setPosition(STARTUP_ANGLE);
   }
@@ -69,7 +69,8 @@ public class Turret extends SubsystemBase {
   private void adjustTurret(double targetAngle) {
     double robotAngularVelocity = AlphaSubsystem.swerve.getPigeon2().getAngularVelocityZDevice()
         .getValueAsDouble();
-    m_motor.setControl(m_positionVoltageRequest.withPosition(targetAngle).withVelocity(-robotAngularVelocity));
+    m_motor
+        .setControl(m_motionMagicRequest.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * TURRET_FF));
   }
 
   private double getAdjustedTargetAngle() {
