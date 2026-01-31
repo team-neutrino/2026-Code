@@ -9,6 +9,10 @@ import static frc.robot.util.Constants.ShooterConstants.SOFT_SHOT_ANGLE;
 import static frc.robot.util.Constants.ShooterConstants.SOFT_SHOT_SPEED;
 import static frc.robot.util.Subsystems.*;
 
+import static frc.robot.util.Constants.DriveToPointConstants.SHOOT_POSES;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.DriveToPoint;
+import static frc.robot.util.Constants.DriveToPointConstants;
 /** Add your docs here. */
 public class SuperstructureFactory {
     public static Command shuttle() {
@@ -20,4 +24,11 @@ public class SuperstructureFactory {
                 .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE));
     }
 
+}
+public class SuperstructureFactory {
+    public static Command DriveToPointFinite() {
+        DriveToPoint drive = new DriveToPoint(SHOOT_POSES);
+        return drive.until(() -> AlphaSubsystem.swerve.getCurrentPose().getX() - drive.getTarget().getX() <= .1
+                        && AlphaSubsystem.swerve.getCurrentPose().getY() - drive.getTarget().getY() <= .1);
+    }
 }

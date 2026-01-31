@@ -33,6 +33,10 @@ public class DriveToPoint extends Command {
         swerve.setVelocity(xVelocity, yVelocity, m_drivePID.getRotation());
     }
 
+    public Pose2d getTarget() {
+        return m_target;
+    }
+
     @Override
     public void initialize() {
         m_drivePID.setTarget(m_target);

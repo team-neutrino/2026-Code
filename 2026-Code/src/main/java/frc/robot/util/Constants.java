@@ -372,6 +372,6 @@ public class Constants {
     }
 
     public static class AutonConstants {
-        public static final String CURRENT_AUTON = "Neutral Zone";
+        public static final String CURRENT_AUTON = "Neutral Zone 2";
     }
 }

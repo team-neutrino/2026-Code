@@ -23,6 +23,25 @@
               {
                 "type": "path",
                 "data": {
+                  "pathName": "New Path"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
                   "pathName": "Neutral Back"
                 }
               },
