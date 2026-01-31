@@ -3,17 +3,16 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.ClimbConstants.*;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.hardware.CANrange;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
-
-import com.reduxrobotics.canand.CanandEventLoop;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,17 +21,19 @@ import frc.robot.util.Constants.RioConstants;
 public class Climb extends SubsystemBase {
 
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
-    private TalonFX m_climbMotor = new TalonFX(CLIMB_MOTOR_ID_1, m_CANbus);
+    private TalonFX m_climbMotor = new TalonFX(CLIMB_MOTOR_ID, m_CANbus);
     private TalonFXConfiguration m_climbMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
+    private CANrangeConfiguration m_CANRangeConfiguration = new CANrangeConfiguration();
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
 
     private double m_climbTargetPosition = 0;
     private boolean m_runClimb = false;
+    private int m_slot = 0;
 
     public Climb() {
         m_currentLimitConfig.withSupplyCurrentLimit(CLIMB_CURRENT_LIMIT)
@@ -41,9 +42,13 @@ public class Climb extends SubsystemBase {
                 .withStatorCurrentLimitEnable(true);
         m_climbMotorConfig.CurrentLimits = m_currentLimitConfig;
 
-        m_climbMotorConfig.Slot0.kP = CLIMB_kP;
-        m_climbMotorConfig.Slot0.kI = CLIMB_kI;
-        m_climbMotorConfig.Slot0.kD = CLIMB_kD;
+        m_climbMotorConfig.Slot0.kP = CLIMB_kP_1;
+        m_climbMotorConfig.Slot0.kI = CLIMB_kI_1;
+        m_climbMotorConfig.Slot0.kD = CLIMB_kD_1;
+
+        m_climbMotorConfig.Slot1.kP = CLIMB_kP_2;
+        m_climbMotorConfig.Slot1.kI = CLIMB_kI_2;
+        m_climbMotorConfig.Slot1.kD = CLIMB_kD_2;
 
         m_climbMotor.getConfigurator().apply(m_climbMotorConfig);
         m_climbMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -52,22 +57,28 @@ public class Climb extends SubsystemBase {
 
         m_canandColor.setSettings(m_settings);
 
-        CanandEventLoop.getInstance();
+        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = CANRANGE_THRESHOLD;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = CANRANGE_HYSTERSIS;
+        m_CANRange.getConfigurator().apply(m_CANRangeConfiguration);
     }
 
     private void moveClimb(double targetPosition) {
-        PositionVoltage positionControl = new PositionVoltage(targetPosition);
+        PositionVoltage positionControl = new PositionVoltage(targetPosition).withSlot(m_slot);
         positionControl.FeedForward = CLIMB_kFF;
         m_climbMotor.setControl(positionControl);
     }
 
-    private boolean atTargetPosition() {
+    public boolean atTargetPosition() {
         return getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR
                 && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR;
     }
 
-    private double getClimbPosition() {
+    public double getClimbPosition() {
         return m_climbMotor.getPosition().getValueAsDouble();
+    }
+
+    public double getClimbTargetPosition() {
+        return m_climbTargetPosition;
     }
 
     public double getCANRangeDistance() {
@@ -78,13 +89,14 @@ public class Climb extends SubsystemBase {
         return m_CANRange.getIsDetected().getValue();
     }
 
-    private boolean isClimbOverBar() {
+    public boolean isClimbOverBar() {
         return m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE;
     }
 
-    public Command moveClimbCommand(double position) {
+    public Command moveClimbCommand(double position, int slot) {
         return run(() -> {
             m_climbTargetPosition = position;
+            m_slot = slot;
             m_runClimb = true;
         });
     }
