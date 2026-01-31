@@ -72,8 +72,10 @@ public class Shooter extends SubsystemBase {
     m_shooterFollowerMotor.setNeutralMode(NeutralModeValue.Coast);
     m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
 
-    Follower followRequest = new Follower(SHOOTER_ID, MotorAlignmentValue.Aligned);
+    Follower followRequest = new Follower(SHOOTER_ID, MotorAlignmentValue.Opposed);
     m_shooterFollowerMotor.setControl(followRequest);
+
+    m_hoodMotor.setPosition(0.0);
   }
 
   /**
