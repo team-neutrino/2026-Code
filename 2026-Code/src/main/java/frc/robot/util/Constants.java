@@ -64,6 +64,7 @@ public class Constants {
         public static final double HOOD_KI = 0;
         public static final double HOOD_KD = 0;
         public static final double ALLOWED_ERROR = 0.1;
+        public static final double ALLOWED_RPM_ERROR = 25;
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
@@ -85,7 +86,10 @@ public class Constants {
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
-
+            HOOD_ANGLE_CORRECT,
+            HUB_ACTIVE,
+            IN_ALLIANCE_ZONE,
+            NO_JOYSTICK,
         }
     }
 
@@ -257,6 +261,7 @@ public class Constants {
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
+        public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
     }
 
     public static class DriveToPointConstants {

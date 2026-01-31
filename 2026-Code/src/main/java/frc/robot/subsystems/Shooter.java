@@ -5,9 +5,15 @@
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.ShooterConstants.*;
+import static frc.robot.util.Subsystems2026.hubState;
+import static frc.robot.util.Subsystems2026.shooterArbiter;
+
+import javax.lang.model.util.ElementScanner14;
+
 import frc.robot.util.Constants.RioConstants;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.HootEpilogueBackend;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -17,6 +23,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -76,8 +83,10 @@ public class Shooter extends SubsystemBase {
     return m_shooterMotor.getVelocity().getValueAsDouble();
   }
 
-/**
-   * Sets a new PID controller for the shooter motor. Should only be used for tuning the PID controller.
+  /**
+   * Sets a new PID controller for the shooter motor. Should only be used for
+   * tuning the PID controller.
+   * 
    * @param new_P The new P value for the shooter motor.
    * @param new_I The new I value for the shooter motor.
    * @param new_D The new D value for the shooter motor.
@@ -92,7 +101,9 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * Sets a new PID controller for the hood motor. Should only be used for tuning the PID controller.
+   * Sets a new PID controller for the hood motor. Should only be used for tuning
+   * the PID controller.
+   * 
    * @param new_P The new P value for the hood motor.
    * @param new_I The new I value for the hood motor.
    * @param new_D The new D value for the hood motor.
@@ -116,6 +127,15 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
+   * Gets the current RPM of the shooter motor.
+   * 
+   * @return The current RPM of the shooter motor as a double.
+   */
+  public double getShooterRPM() {
+    return m_shooterMotor.getVelocity().getValueAsDouble() * 60.0;
+  }
+
+  /**
    * Gets the target position for the hood motor.
    * 
    * @return The target position for the hood motor.
@@ -131,6 +151,15 @@ public class Shooter extends SubsystemBase {
    */
   public boolean atTargetPosition() {
     return Math.abs(getHoodAngle() - m_targetAngle) <= ALLOWED_ERROR;
+  }
+
+  /**
+   * Returns whether or not we are at the target RPM.
+   * 
+   * @return True if the shooter is at the target RPM, false if it is not.
+   */
+  public boolean atTargetRPM() {
+    return Math.abs(getShooterRPM() - m_targetShooterRpm) <= ALLOWED_RPM_ERROR;
   }
 
   /**
@@ -182,6 +211,15 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     controlShooterMotor();
     controlHoodMotor();
+
+    shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
+    shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
+
+    if (RED_ALLIANCE.get()) {
+      shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, hubState.isRedHubActive());
+    } else {
+      shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, hubState.isBlueHubActive());
+    }
   }
 
   public Command shootingAngle(double target) {
