@@ -1,0 +1,40 @@
+package frc.robot.util;
+
+import java.util.HashMap;
+import static frc.robot.util.Constants.ShooterConstants.*;
+
+public class ShooterArbiter {
+    private HashMap<shooterConditions, Boolean> m_conditions = new HashMap<shooterConditions, Boolean>();
+
+    /**
+     * Creates a new ShooterArbiter, which will check whether or not the shooter is
+     * ready to fire.
+     */
+    ShooterArbiter() {
+        for (shooterConditions condition : shooterConditions.values()) {
+            m_conditions.put(condition, false);
+        }
+    }
+
+    /**
+     * Check whether or not the shooter is ready to fire.
+     * 
+     * @return Whether or not the shooter is ready to fire. Will be false if any
+     *         conditions are unmet.
+     */
+    public boolean readyToFire() {
+        return !(m_conditions.containsValue(false));
+    }
+
+    /**
+     * Set one of the conditions in the shooter arbiter to true or false. If any are
+     * false, the shooter will not run.
+     * 
+     * @param condition The condition to set, from the shooterConditions enum in
+     *                  ShooterConstants.
+     * @param newValue  The boolean value to set it to.
+     */
+    public void setCondition(shooterConditions condition, boolean newValue) {
+        m_conditions.put(condition, newValue);
+    }
+}
