@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase {
 
   private double m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
 
-  public double tuningDistance = 5;
+  private double m_tuningDistance = 5;
 
   /**
    * Creates a new Shooter.
@@ -135,6 +135,25 @@ public class Shooter extends SubsystemBase {
    */
   public double getShooterRPM() {
     return m_shooterMotor.getVelocity().getValueAsDouble() * 60.0;
+  }
+
+  /**
+   * Sets a new tuning distance for the tuning button on the controller to input
+   * into the interpolation table.
+   * 
+   * @param newDistance The new distance for the tuning button.
+   */
+  public void setTuningDistance(double newDistance) {
+    m_tuningDistance = newDistance;
+  }
+
+  /**
+   * Gets the current tuning distance for the tuning button.
+   * 
+   * @return The current tuning distance for the tuning button.
+   */
+  public double getTuningDistance() {
+    return m_tuningDistance;
   }
 
   /**
