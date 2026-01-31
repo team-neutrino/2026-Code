@@ -83,7 +83,6 @@ public class Intake extends SubsystemBase {
     public Command deployIntake(double targetAngle) {
         return run(() -> {
             m_targetAngle = targetAngle;
-            System.out.println("running");
         });
     }
 

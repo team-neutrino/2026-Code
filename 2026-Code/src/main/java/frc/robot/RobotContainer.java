@@ -41,7 +41,6 @@ public class RobotContainer {
     m_buttonController.povLeft().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.WALL));
     m_buttonController.povRight().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
     m_buttonController.a().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
-    m_buttonController.x().whileTrue(IntakeFactory.shakeBallsInHopper());
   }
 
   public Command getAutonomousCommand() {
