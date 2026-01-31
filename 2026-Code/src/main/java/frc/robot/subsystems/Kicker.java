@@ -37,6 +37,9 @@ public class Kicker extends SubsystemBase {
     m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
+  // preserved in case someone wants to change kicker to something different later
+  // (also it needs a default command to work)
+
   public Command runKicker() {
     return run(() -> {
       // m_kickerMotorVoltage = KICKER_VOLTAGE;

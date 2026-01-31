@@ -29,6 +29,7 @@ public class RobotContainer {
     shooter.setDefaultCommand(shooter.defaultCommand());
     intake.setDefaultCommand(intake.defaultCommand());
     index.setDefaultCommand(index.defaultCommand());
+    kicker.setDefaultCommand(kicker.defaultCommand());
   }
 
   private void configureBindings() {
