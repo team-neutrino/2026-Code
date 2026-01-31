@@ -65,14 +65,30 @@
 | ---------- | ----------- |
 
 ## Buttons Controller
-| Button     | Function       |
-| ---------- | -------------- |
+| Button        | Function        |
+| ------------- | --------------- |
+| Left Trigger  | Intake          |
+| Right Trigger | Outtake         |
+| Y             | Gentle shot     |
+| Back Button   | Engage Climb    |
+| Start Button  | Disengage Climb |
 
 ## Driver Controller
-| Button     | Function        |
-| ---------- | --------------- |
+| Button        | Function        |
+| ------------- | --------------- |
+| Left Stick    | Manual Driving  |
+| Right Stick   | Manual Rotation |
+| Left Bumper   | Drive + Climb   |
+| Y             | Drive + Shuttle |
+| X             | Drive + Score   |
+| B             | Drive + Intake  |
+| Back          | Reset Yaw       |
+| D-Pad         | Change target   |
+
 
 ## Auton Paths
--
+Neutral Zone Paths:
+- Depot-side start + end
+- Depot-side start, outpost-side end
 
 ## Raspberry Pi
