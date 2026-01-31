@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.NetworkTables.ClimbNT;
 import frc.robot.subsystems.NetworkTables.ShooterNT;
 
 public class Subsystems2026 {

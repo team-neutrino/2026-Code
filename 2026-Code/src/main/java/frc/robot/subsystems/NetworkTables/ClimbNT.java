@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.NetworkTables;
 
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanTopic;
@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
+import frc.robot.subsystems.Climb;
 
 public class ClimbNT extends Climb {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
