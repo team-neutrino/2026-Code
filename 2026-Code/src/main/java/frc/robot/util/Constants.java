@@ -157,7 +157,6 @@ public class Constants {
         public static final String LL_FL = "limelight-fl";
         public static final String LL_BR = "limelight-br";
         public static final String LL_BL = "limelight-bl";
-        public static final String LL_SHOOTER = "limelight-shooter";
 
         // Camera pose offsets
         public static final double FR_FORWARD_OFFSET = 0.0;
@@ -187,28 +186,25 @@ public class Constants {
         public static final double BL_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double BL_PITCH_OFFSET = 0; // Pitch (degrees)
         public static final double BL_YAW_OFFSET = 0; // Yaw (degrees)
+
         public static final double MINIMUM_XY_STD_DEV_LL4 = 0;
         public static final double MINIMUM_THETA_STD_DEV_LL4 = 0;
         public static final double MINIMUM_XY_STD_DEV_LL3G = 0;
         public static final double MINIMUM_THETA_STD_DEV_LL3G = 0;
         public static final double MINIMUM_XY_STD_DEV_LL3 = 0;
         public static final double MINIMUM_THETA_STD_DEV_LL3 = 0;
-        public static final double MINIMUM_XY_STD_DEV_LL2 = 0;
-        public static final double MINIMUM_THETA_STD_DEV_LL2 = 0;
         public static final double ERROR_FACTOR_LL4 = 0;
         public static final double ERROR_FACTOR_LL4_ANGLE = 0;
         public static final double ERROR_FACTOR_LL3 = 0;
         public static final double ERROR_FACTOR_LL3_ANGLE = 0;
         public static final double ERROR_FACTOR_LL3G = 0;
         public static final double ERROR_FACTOR_LL3G_ANGLE = 0;
-        public static final double ERROR_FACTOR_LL2 = 0;
-        public static final double ERROR_FACTOR_LL2_ANGLE = 0;
-        public static final double SHOOTER_FORWARD_OFFSET = 0;
-        public static final double SHOOTER_SIDE_OFFSET = 0;
-        public static final double SHOOTER_HEIGHT_OFFSET = 0;
-        public static final double SHOOTER_ROLL_OFFSET = 0;
-        public static final double SHOOTER_PITCH_OFFSET = 0;
-        public static final double SHOOTER_YAW_OFFSET = 0;
+
+        public static final double BUMP_MINIMUM_THRESHOLD = 7;
+
+        public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
+        public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
+        public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     }
 
     public static class SwerveConstants {
