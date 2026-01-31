@@ -43,6 +43,8 @@ public class Shooter extends SubsystemBase {
 
   private double m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
 
+  public double tuningDistance = 5;
+
   /**
    * Creates a new Shooter.
    * 

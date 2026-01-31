@@ -3,6 +3,9 @@ package frc.robot.subsystems.NetworkTables;
 import frc.robot.util.PIDTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
 
+import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.DoublePublisher;
@@ -22,6 +25,11 @@ public class ShooterNT extends Shooter {
     private double m_previousHoodKP;
     private double m_previousHoodKI;
     private double m_previousHoodKD;
+
+    private NetworkTableInstance m_globalNT = NetworkTableInstance.getDefault();
+
+    private DoubleTopic m_DistanceTopic = m_globalNT.getDoubleTopic("shooter/{tuning}distance");
+    private DoubleSubscriber m_distanceSubscriber = m_DistanceTopic.subscribe(5);
 
     private DoubleTopic m_shooterSpeedTopic;
     private DoublePublisher m_shooterSpeedPublisher;
@@ -84,6 +92,8 @@ public class ShooterNT extends Shooter {
             m_previousHoodKD = m_hoodPIDTuner.getD();
             setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(), m_hoodPIDTuner.getD());
         }
+
+        tuningDistance = m_distanceSubscriber.get();
 
         m_shooterSpeedPublisher.set(getShooterRPM());
         m_shooterTargetPublisher.set(getTargetRPM());

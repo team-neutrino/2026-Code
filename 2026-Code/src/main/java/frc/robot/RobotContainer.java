@@ -33,15 +33,15 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_buttonController.leftBumper().whileTrue(ClimbFactory.climbOnBar()); // Random buttons subject to change
-    m_buttonController.rightBumper().whileTrue(ClimbFactory.releaseClimbFromBar()); // Random buttons subject to change
-    m_buttonController.leftTrigger().whileTrue(ClimbFactory.raiseClimbArm()); // Random buttons subject to change
+    m_buttonController.povUp().whileTrue(ShooterFactory.shootFromInterpolationTable(1.2));
+    m_buttonController.povDown().whileTrue(ShooterFactory.shootFromInterpolationTable(3.9));
+    m_buttonController.povLeft().whileTrue(ShooterFactory.shootFromInterpolationTable(6.7)); // : )
+    m_buttonController.povRight().whileTrue(ShooterFactory.shootFromInterpolationTable(8.8));
+    m_buttonController.a().whileTrue(ShooterFactory.shootFromInterpolationTable(shooter.tuningDistance));
     m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
-    m_buttonController.povUp().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));
-    m_buttonController.povDown().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_FAR));
-    m_buttonController.povLeft().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.WALL));
-    m_buttonController.povRight().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
-    m_buttonController.a().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
+    m_buttonController.leftTrigger().whileTrue(ClimbFactory.raiseClimbArm()); // Random buttons subject to change
+    m_buttonController.rightBumper().whileTrue(ClimbFactory.releaseClimbFromBar()); // Random buttons subject to change
+    m_buttonController.leftBumper().whileTrue(ClimbFactory.climbOnBar()); // Random buttons subject to change
   }
 
   public Command getAutonomousCommand() {
