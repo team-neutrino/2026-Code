@@ -82,6 +82,11 @@ public class Constants {
             DEPOT,
             OUTPOST
         };
+
+        public static enum shooterConditions {
+            SHOOTER_SPEED_CORRECT,
+
+        }
     }
 
     public static class IndexerConstants {
