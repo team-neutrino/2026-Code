@@ -44,13 +44,13 @@ public class Kicker extends SubsystemBase {
 
   public Command runKicker() {
     return run(() -> {
-      // m_kickerMotorVoltage = KICKER_VOLTAGE;
+      m_kickerMotorVoltage = KICKER_VOLTAGE;
     });
   }
 
   public Command defaultCommand() {
     return run(() -> {
-      // m_kickerMotorVoltage = 0;
+      m_kickerMotorVoltage = 0;
     });
   }
 
@@ -58,10 +58,7 @@ public class Kicker extends SubsystemBase {
   public void periodic() {
     if (shooterArbiter.readyToFire()) {
       m_kickerMotor.setVoltage(KICKER_VOLTAGE);
-    } else {
-      m_kickerMotor.setVoltage(0);
     }
-    m_kickerMotor.setVoltage(m_kickerMotorVoltage);
     index.checkEmptyHopper(m_kickerMotor, m_kickerMotorVoltage,
         HOPPER_CHECK_VOLTAGE);
   }

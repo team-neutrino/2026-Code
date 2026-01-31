@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -15,8 +13,6 @@ import static frc.robot.util.Subsystems2026.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
-
-import static frc.robot.util.Subsystems2026.*;
 
 public class Intake extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
@@ -69,15 +65,15 @@ public class Intake extends SubsystemBase {
         moveToIntake(m_targetAngle);
     }
 
-    // public Command runIntake(double speed) {
-    // return run(() -> {
-    // if (!index.fullCapacityCanRange()) {
-    // m_rollerMotorVoltage = speed;
-    // index.m_isHopperEmpty = false;
-    // index.m_hopperCheckTimer.reset();
-    // }
-    // });
-    // }
+    public Command runIntake(double speed) {
+        return run(() -> {
+            if (!index.fullCapacityCanRange()) {
+                m_rollerMotorVoltage = speed;
+                index.m_isHopperEmpty = false;
+                index.m_hopperCheckTimer.reset();
+            }
+        });
+    }
 
     public Command deployIntake(double targetAngle) {
         return run(() -> {
@@ -88,22 +84,22 @@ public class Intake extends SubsystemBase {
     public Command deployAndRunIntake(double speed, double targetAngle) {
         return run(() -> {
             m_targetAngle = targetAngle;
-            // if (!index.fullCapacityCanRange()) {
-            m_rollerMotorVoltage = speed;
-            if (speed > 0) {
-                index.m_isHopperEmpty = false;
-                index.m_hopperCheckTimer.reset();
+            if (!index.fullCapacityCanRange()) {
+                m_rollerMotorVoltage = speed;
+                if (speed > 0) {
+                    index.m_isHopperEmpty = false;
+                    index.m_hopperCheckTimer.reset();
+                }
             }
-            // }
         });
     }
 
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
-            // if (!index.fullCapacityCanRange()) {
-            m_targetAngle = STARTING_POSITION;
-            // }
+            if (!index.fullCapacityCanRange()) {
+                m_targetAngle = STARTING_POSITION;
+            }
         });
     }
 }

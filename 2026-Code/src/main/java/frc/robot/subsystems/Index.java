@@ -10,7 +10,6 @@ import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -67,10 +66,10 @@ public class Index extends SubsystemBase {
                 && getCanRangeDistance(m_canRange2) < FULL_CAPACITY_DISTANCE;
     }
 
-    // public boolean fullCapacityCanRange() {
-    // m_isHopperEmpty = false;
-    // return m_startRumbleDebouncer.calculate(bothCanRangesDetect());
-    // }
+    public boolean fullCapacityCanRange() {
+        m_isHopperEmpty = false;
+        return m_startRumbleDebouncer.calculate(bothCanRangesDetect());
+    }
 
     public double getCanAndColorDistance() {
         return m_canandColor.getProximity();
@@ -84,22 +83,22 @@ public class Index extends SubsystemBase {
         return m_isHopperEmpty;
     }
 
-    // public void rumbleControllers() {
-    // if (fullCapacityCanRange()) {
-    // m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
-    // m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
-    // } else {
-    // m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
-    // m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
-    // }
-    // }
+    public void rumbleControllers() {
+        if (fullCapacityCanRange()) {
+            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
+            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
+        } else {
+            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
+        }
+    }
 
-    // public void stopRumble() {
-    // if (m_stopRumbleDebouncer.calculate(fullCapacityCanRange())) {
-    // m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
-    // m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
-    // }
-    // }
+    public void stopRumble() {
+        if (m_stopRumbleDebouncer.calculate(fullCapacityCanRange())) {
+            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
+            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+        }
+    }
 
     public void checkEmptyHopper(TalonFX motor, double motorVoltage, double runningVoltage) {
         boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
@@ -124,8 +123,8 @@ public class Index extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // rumbleControllers();
-        // stopRumble();
+        rumbleControllers();
+        stopRumble();
         checkEmptyHopper(m_spindexerMotor, m_spindexerMotorVoltage, HOPPER_CHECK_VOLTAGE);
     }
 
@@ -141,10 +140,7 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            if (shooterArbiter.readyToFire()) {
-                m_spindexerMotorVoltage = 0;
-            } else {
-            if (!m_hopperCheckTimer.isRunning()) {
+            if (shooterArbiter.readyToFire() || !m_hopperCheckTimer.isRunning()) {
                 m_spindexerMotorVoltage = 0;
             }
         });
