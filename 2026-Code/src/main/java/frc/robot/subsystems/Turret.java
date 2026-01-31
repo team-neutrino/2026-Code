@@ -60,6 +60,9 @@ public class Turret extends SubsystemBase {
   }
 
   private void adjustTurret(double targetAngle) {
+    // swap this with calculating what voltage the motor would need to apply to
+    // counteract the angular velocity and then directly adding it into the control
+    // V = -angularvelocity/500 + torque load*0.0328
     double robotAngularVelocity = AlphaSubsystem.swerve.getPigeon2().getAngularVelocityZDevice()
         .getValueAsDouble();
     m_motor.setControl(m_request.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * TURRET_FF));
