@@ -60,8 +60,9 @@ public class Turret extends SubsystemBase {
   }
 
   private void adjustTurret(double targetAngle) {
-    m_motor.setControl(m_request.withPosition(targetAngle));
-
+    double robotAngularVelocity = AlphaSubsystem.swerve.getPigeon2().getAngularVelocityZDevice()
+        .getValueAsDouble();
+    m_motor.setControl(m_request.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * TURRET_FF));
   }
 
   @Override

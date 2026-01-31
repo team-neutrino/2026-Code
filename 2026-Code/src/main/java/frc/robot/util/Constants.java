@@ -121,6 +121,7 @@ public class Constants {
         public static final double TURRET_P = 1;
         public static final double TURRET_I = 0;
         public static final double TURRET_D = 0;
+        public static final double TURRET_FF = 1;
         public static final double SENSOR_TO_MECHANISM_RATIO = 1;
     }
 
