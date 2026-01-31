@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -68,9 +69,13 @@ public class Turret extends SubsystemBase {
     m_motor.setControl(m_request.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * TURRET_FF));
   }
 
+  private double getAdjustedTargetAngle() {
+    return m_targetAngle;
+  }
+
   @Override
   public void periodic() {
-    adjustTurret(m_targetAngle);
+    adjustTurret(getAdjustedTargetAngle());
   }
 
   private double calculateTargetAngle() {
