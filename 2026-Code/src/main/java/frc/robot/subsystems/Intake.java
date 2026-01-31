@@ -56,11 +56,6 @@ public class Intake extends SubsystemBase {
                 && getMotorAngle() <= getTargetAngle() + ALLOWED_TARGET_ERROR;
     }
 
-    public BooleanSupplier getValueAsBooleanSupplier(boolean bool) {
-        BooleanSupplier booleanSupplier = () -> bool;
-        return booleanSupplier;
-    }
-
     private void moveToIntake(double targetPosition) {
         PositionVoltage positionControl = new PositionVoltage(targetPosition);
         m_deployMotor.setControl(positionControl);
