@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Neutral Top - 1"
+            "pathName": "Neutral Top - 1R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Neutral Top - 2"
+            "pathName": "Neutral Top - 2R"
           }
         },
         {
@@ -23,13 +23,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Neutral Back"
+                  "pathName": "Neutral BackR"
                 }
               },
               {
                 "type": "wait",
                 "data": {
                   "waitTime": 1.0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
                 }
               }
             ]

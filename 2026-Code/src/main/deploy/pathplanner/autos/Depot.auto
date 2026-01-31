@@ -30,6 +30,25 @@
           }
         },
         {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToPointFinite"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -40,35 +59,15 @@
                 }
               },
               {
-                "type": "parallel",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AlphaSpinUp"
-                      }
-                    },
-                    {
-                      "type": "parallel",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "AlphaKick"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 4.0
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "name": "AlphaKick"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
                 }
               }
             ]
