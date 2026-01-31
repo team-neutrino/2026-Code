@@ -3,8 +3,6 @@ package frc.robot.subsystems.NetworkTables;
 import frc.robot.util.PIDTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
 
-import org.opencv.dnn.Net;
-
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.DoublePublisher;

@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Constants.GlobalConstants;
-import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -25,7 +24,6 @@ import com.pathplanner.lib.config.RobotConfig;
 
 import static frc.robot.util.Constants.GlobalConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
-import static frc.robot.util.Subsystems2026.shooterArbiter;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import java.io.IOException;
@@ -164,23 +162,12 @@ public class AlphabotSwerve extends CommandSwerveDrivetrain {
                     .withVelocityX(forward * MAX_SPEED)
                     .withVelocityY(left * MAX_SPEED)
                     .withRotationalRate(rotation * MAX_ROTATION_SPEED));
-
-            shooterArbiter.setCondition(shooterConditions.NO_JOYSTICK, forward < JOYSTICK_REST_ALLOWED_ERROR
-                    & left < JOYSTICK_REST_ALLOWED_ERROR & rotation < JOYSTICK_REST_ALLOWED_ERROR);
         });
     }
 
     @Override
     public void periodic() {
         super.periodic();
-
-        if (RED_ALLIANCE.get()) {
-            shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE,
-                    getCurrentPose().getX() < ALLIANCE_ZONE_RED);
-        } else {
-            shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE,
-                    getCurrentPose().getX() > ALLIANCE_ZONE_BLUE);
-        }
     }
 
     public void configureRequestPID() {
