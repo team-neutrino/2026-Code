@@ -37,7 +37,7 @@ public class Index extends SubsystemBase {
     private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
             Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
-    private Debouncer m_emptyDebouncer = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
+    private Debouncer m_emptyDebouncer1 = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
     private Debouncer m_emptyDebouncer2 = new Debouncer(MOTOR_STOP_TIME, Debouncer.DebounceType.kRising);
 
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
@@ -67,9 +67,10 @@ public class Index extends SubsystemBase {
                 && getCanRangeDistance(m_canRange2) < FULL_CAPACITY_DISTANCE;
     }
 
-    public boolean fullCapacityCanRange() {
-        return m_startRumbleDebouncer.calculate(bothCanRangesDetect());
-    }
+    // public boolean fullCapacityCanRange() {
+    // m_isHopperEmpty = false;
+    // return m_startRumbleDebouncer.calculate(bothCanRangesDetect());
+    // }
 
     public double getCanAndColorDistance() {
         return m_canandColor.getProximity();
@@ -83,25 +84,25 @@ public class Index extends SubsystemBase {
         return m_isHopperEmpty;
     }
 
-    public void rumbleControllers() {
-        if (fullCapacityCanRange()) {
-            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
-            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
-        } else {
-            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
-            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
-        }
-    }
+    // public void rumbleControllers() {
+    // if (fullCapacityCanRange()) {
+    // m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
+    // m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
+    // } else {
+    // m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+    // m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
+    // }
+    // }
 
-    public void stopRumble() {
-        if (m_stopRumbleDebouncer.calculate(fullCapacityCanRange())) {
-            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
-            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
-        }
-    }
+    // public void stopRumble() {
+    // if (m_stopRumbleDebouncer.calculate(fullCapacityCanRange())) {
+    // m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
+    // m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+    // }
+    // }
 
-    public void checkHopperCapacity(TalonFX motor, double motorVoltage, double runningVoltage) {
-        boolean motorStartDebounce = m_emptyDebouncer.calculate(!canandColorDetect());
+    public void checkEmptyHopper(TalonFX motor, double motorVoltage, double runningVoltage) {
+        boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
         boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
         if (motorStopDebounce) {
             m_isHopperEmpty = false;
@@ -123,9 +124,9 @@ public class Index extends SubsystemBase {
 
     @Override
     public void periodic() {
-        rumbleControllers();
-        stopRumble();
-        checkHopperCapacity(m_spindexerMotor, m_spindexerMotorVoltage, INDEXING_VOLTAGE);
+        // rumbleControllers();
+        // stopRumble();
+        checkEmptyHopper(m_spindexerMotor, m_spindexerMotorVoltage, HOPPER_CHECK_VOLTAGE);
     }
 
     public Command runSpindexer(double speed) {

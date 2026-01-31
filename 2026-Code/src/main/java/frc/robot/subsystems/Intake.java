@@ -69,15 +69,15 @@ public class Intake extends SubsystemBase {
         moveToIntake(m_targetAngle);
     }
 
-    public Command runIntake(double speed) {
-        return run(() -> {
-            if (!index.fullCapacityCanRange()) {
-                m_rollerMotorVoltage = speed;
-            }
-            index.m_isHopperEmpty = false;
-            index.m_hopperCheckTimer.reset();
-        });
-    }
+    // public Command runIntake(double speed) {
+    // return run(() -> {
+    // if (!index.fullCapacityCanRange()) {
+    // m_rollerMotorVoltage = speed;
+    // index.m_isHopperEmpty = false;
+    // index.m_hopperCheckTimer.reset();
+    // }
+    // });
+    // }
 
     public Command deployIntake(double targetAngle) {
         return run(() -> {
@@ -87,17 +87,23 @@ public class Intake extends SubsystemBase {
 
     public Command deployAndRunIntake(double speed, double targetAngle) {
         return run(() -> {
-            m_rollerMotorVoltage = speed;
             m_targetAngle = targetAngle;
+            // if (!index.fullCapacityCanRange()) {
+            m_rollerMotorVoltage = speed;
+            if (speed > 0) {
+                index.m_isHopperEmpty = false;
+                index.m_hopperCheckTimer.reset();
+            }
+            // }
         });
     }
 
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
-            if (!index.fullCapacityCanRange()) {
-                m_targetAngle = STARTING_POSITION;
-            }
+            // if (!index.fullCapacityCanRange()) {
+            m_targetAngle = STARTING_POSITION;
+            // }
         });
     }
 }
