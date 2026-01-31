@@ -42,15 +42,13 @@
 | Kicker    | Kicker            | 18      | Kraken x60  |
 | Climb     |                   | 19      | Kraken x60  |
 | Climb     |                   | 20      | CANrange    |
+| Indexer   |                   | 27      | CanandColor |
 | Climb     |                   | 28      | CanandColor |
 | Turret    |                   | 29      | Kraken x44  |
 
 ## DIO
 | Subsystem | Description          | Port   |
 | --------- | -------------------- | ------ |
-| Indexer   | Beambreak- Top       | 0      |
-| Indexer   | Beambreak- Top       | 1      |
-| Indexer   | Beambreak- Tower     | 2      |
 
 ## PWM
 | Subsystem | Description          | Port   |
