@@ -2,11 +2,15 @@ package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import static frc.robot.util.Subsystems2026.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,9 +21,9 @@ public class Intake extends SubsystemBase {
     private TalonFX m_rollerMotor = new TalonFX(ROLLER_MOTOR_ID, m_CANbus);
     private TalonFX m_deployMotor = new TalonFX(DEPLOY_MOTOR_ID, m_CANbus);
     private double m_rollerMotorVoltage;
-    private double m_deployMotorVoltage;
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
+    private double m_targetAngle;
 
     public Intake() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -28,34 +32,68 @@ public class Intake extends SubsystemBase {
                 .withStatorCurrentLimitEnable(true);
         m_motorConfig.CurrentLimits = m_currentLimitConfig;
 
+        m_motorConfig.Slot0.kP = INTAKE_kP;
+        m_motorConfig.Slot0.kI = INTAKE_kI;
+        m_motorConfig.Slot0.kD = INTAKE_kD;
+
         m_rollerMotor.getConfigurator().apply(m_motorConfig);
         m_deployMotor.getConfigurator().apply(m_motorConfig);
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
+        m_deployMotor.setPosition(0);
+    }
+
+    public double getMotorAngle() {
+        return m_deployMotor.getPosition().getValueAsDouble();
+    }
+
+    public double getTargetAngle() {
+        return m_targetAngle;
+    }
+
+    public boolean isAtTarget() {
+        return getMotorAngle() >= getTargetAngle() - ALLOWED_TARGET_ERROR
+                && getMotorAngle() <= getTargetAngle() + ALLOWED_TARGET_ERROR;
+    }
+
+    private void moveToIntake(double targetPosition) {
+        PositionVoltage positionControl = new PositionVoltage(targetPosition);
+        m_deployMotor.setControl(positionControl);
     }
 
     @Override
     public void periodic() {
         m_rollerMotor.setVoltage(m_rollerMotorVoltage);
-        m_deployMotor.setVoltage(m_deployMotorVoltage);
+        moveToIntake(m_targetAngle);
     }
 
     public Command runIntake(double speed) {
         return run(() -> {
-            m_rollerMotorVoltage = speed;
+            if (!index.fullCapacity()) {
+                m_rollerMotorVoltage = speed;
+            }
         });
     }
 
-    public Command deployIntake(double speed) {
+    public Command deployIntake(double targetAngle) {
         return run(() -> {
-            m_deployMotorVoltage = speed;
+            m_targetAngle = targetAngle;
+        });
+    }
+
+    public Command deployAndRunIntake(double speed, double targetAngle) {
+        return run(() -> {
+            m_rollerMotorVoltage = speed;
+            m_targetAngle = targetAngle;
         });
     }
 
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
-            m_deployMotorVoltage = 0;
+            if (!index.fullCapacity()) {
+                m_targetAngle = STARTING_POSITION;
+            }
         });
     }
 }

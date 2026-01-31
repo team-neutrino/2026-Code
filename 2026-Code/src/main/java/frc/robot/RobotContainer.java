@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.command_factories.ClimbFactory;
+import frc.robot.command_factories.IntakeFactory;
 import frc.robot.command_factories.ShooterFactory;
 import frc.robot.util.Subsystems2026;
 import static frc.robot.util.Constants.ShooterConstants.*;

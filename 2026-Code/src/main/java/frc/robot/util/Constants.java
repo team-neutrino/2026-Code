@@ -100,11 +100,22 @@ public class Constants {
     public static class IntakeConstants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
+
         public static final double CURRENT_LIMIT = 60;
+
         public static final double INTAKE_VOLTAGE = 5;
         public static final double OUTTAKE_VOLTAGE = -5;
-        public static final double DEPLOY_VOLTAGE = 5;
-        public static final double RETRACT_VOLTAGE = -5;
+
+        public static final double STARTING_POSITION = 0;
+        public static final double DEPLOYED_POSITION = 80; // all positions and allowed errors are placeholders
+        public static final double INTERMEDIATE_POSITION_1 = 60;
+        public static final double INTERMEDIATE_POSITION_2 = 30;
+        public static final double ALLOWED_TARGET_ERROR = 4;
+        public static final double ALLOWED_INTAKE_ERROR = 4;
+
+        public static final double INTAKE_kP = 0.1; // PID values are all placeholders
+        public static final double INTAKE_kI = 0.0;
+        public static final double INTAKE_kD = 0.0;
     }
 
     public static class AlphabotIntakeConstants {
