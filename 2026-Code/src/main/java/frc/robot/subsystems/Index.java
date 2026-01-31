@@ -28,9 +28,6 @@ public class Index extends SubsystemBase {
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
-    private DigitalInput m_capacityBeamBreak1 = new DigitalInput(BEAMBREAK_CHANNEL_1);
-    private DigitalInput m_emptyBeamBreak = new DigitalInput(BEAMBREAK_CHANNEL_2);
-
     private CoreCANrange m_canRange1 = new CoreCANrange(CANRANGE_CAN_ID_1, m_CANbus);
     private CoreCANrange m_canRange2 = new CoreCANrange(CANRANGE_CAN_ID_2, m_CANbus);
 
@@ -41,6 +38,7 @@ public class Index extends SubsystemBase {
             Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
     private Debouncer m_emptyDebouncer = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
+    private Debouncer m_emptyDebouncer2 = new Debouncer(MOTOR_STOP_TIME, Debouncer.DebounceType.kRising);
 
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
     private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
@@ -73,12 +71,12 @@ public class Index extends SubsystemBase {
         return m_startRumbleDebouncer.calculate(bothCanRangesDetect());
     }
 
-    public boolean canandColorDetect() {
-        return m_canandColor.getProximity() < 0.1;
+    public double getCanAndColorDistance() {
+        return m_canandColor.getProximity();
     }
 
-    public boolean fullCapacity() {
-        return m_startRumbleDebouncer.calculate(m_capacityBeamBreak1.get());
+    public boolean canandColorDetect() {
+        return getCanAndColorDistance() < TOWER_CANANDCOLOR_DISTANCE;
     }
 
     public boolean isHopperEmpty() {
@@ -102,9 +100,10 @@ public class Index extends SubsystemBase {
         }
     }
 
-    public void checkHopperCapacity(double motorVoltage) {
-        boolean motorDebounce = m_emptyDebouncer.calculate(canandColorDetect());
-        if (canandColorDetect()) {
+    public void checkHopperCapacity(TalonFX motor, double motorVoltage, double runningVoltage) {
+        boolean motorStartDebounce = m_emptyDebouncer.calculate(!canandColorDetect());
+        boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
+        if (motorStopDebounce) {
             m_isHopperEmpty = false;
             motorVoltage = 0;
             m_hopperCheckTimer.stop();
@@ -114,19 +113,19 @@ public class Index extends SubsystemBase {
                     m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
                 m_isHopperEmpty = true;
                 motorVoltage = 0;
-            } else if (motorDebounce) {
-                motorVoltage = INDEXING_VOLTAGE;
+            } else if (motorStartDebounce) {
+                motorVoltage = runningVoltage;
                 m_hopperCheckTimer.start();
             }
         }
-        m_spindexerMotor.setVoltage(motorVoltage);
+        motor.setVoltage(motorVoltage);
     }
 
     @Override
     public void periodic() {
         rumbleControllers();
         stopRumble();
-        checkHopperCapacity(m_spindexerMotorVoltage);
+        checkHopperCapacity(m_spindexerMotor, m_spindexerMotorVoltage, INDEXING_VOLTAGE);
     }
 
     public Command runSpindexer(double speed) {

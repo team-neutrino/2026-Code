@@ -71,7 +71,7 @@ public class Intake extends SubsystemBase {
 
     public Command runIntake(double speed) {
         return run(() -> {
-            if (!index.fullCapacity()) {
+            if (!index.fullCapacityCanRange()) {
                 m_rollerMotorVoltage = speed;
             }
             index.m_isHopperEmpty = false;
@@ -95,7 +95,7 @@ public class Intake extends SubsystemBase {
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
-            if (!index.fullCapacity()) {
+            if (!index.fullCapacityCanRange()) {
                 m_targetAngle = STARTING_POSITION;
             }
         });
