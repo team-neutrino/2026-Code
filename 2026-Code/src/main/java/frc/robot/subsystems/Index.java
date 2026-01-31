@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
+import static frc.robot.util.Subsystems2026.shooterArbiter;
 
 public class Index extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
@@ -84,7 +85,11 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            m_spindexerMotorVoltage = 0;
+            if (shooterArbiter.readyToFire()) {
+                m_spindexerMotorVoltage = 0;
+            } else {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+            }
         });
     }
 }
