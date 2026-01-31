@@ -24,8 +24,8 @@ public class ShooterNT extends Shooter {
      * @return An object to manage Shooter network tables.
      */
     public ShooterNT() {
-        m_shooterPIDTuner = new PIDTuner("shooter/{tuning}shooterMotor");
-        m_hoodPIDTuner = new PIDTuner("shooter/{tuning}hoodMotor");
+        m_shooterPIDTuner = new PIDTuner("shooter/{tuning}shooterMotor", false);
+        m_hoodPIDTuner = new PIDTuner("shooter/{tuning}hoodMotor", false);
 
         m_shooterPIDTuner.setP(SHOOTING_KP);
         m_shooterPIDTuner.setI(SHOOTING_KI);

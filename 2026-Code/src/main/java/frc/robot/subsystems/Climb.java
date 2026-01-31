@@ -93,6 +93,20 @@ public class Climb extends SubsystemBase {
         return m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE;
     }
 
+    public void setClimbPID(double new_P, double new_I, double new_D, long slot) {
+        if (slot == 1) {
+            m_climbMotorConfig.Slot1.kP = new_P;
+            m_climbMotorConfig.Slot1.kI = new_I;
+            m_climbMotorConfig.Slot1.kD = new_D;
+        } else {
+            m_climbMotorConfig.Slot0.kP = new_P;
+            m_climbMotorConfig.Slot0.kI = new_I;
+            m_climbMotorConfig.Slot0.kD = new_D;
+        }
+
+        m_climbMotor.getConfigurator().apply(m_climbMotorConfig);
+    }
+
     public Command moveClimbCommand(double position, int slot) {
         return run(() -> {
             m_climbTargetPosition = position;
