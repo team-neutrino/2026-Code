@@ -3,6 +3,17 @@ package frc.robot.util;
 import java.util.HashMap;
 import static frc.robot.util.Constants.ShooterConstants.*;
 
+/**
+ * The class that controls whether or not the shooter can fire.
+ * <p>
+ * To add a new condition to this class, go to the ShooterConstants file, and
+ * add a new state to the shooterConditions enum.
+ * <p>
+ * Then, in the subsystem the condition pulls from, use the
+ * {@link #setCondition(shooterConditions, boolean)} method to set the
+ * condition.
+ */
+
 public class ShooterArbiter {
     private HashMap<shooterConditions, Boolean> m_conditions = new HashMap<shooterConditions, Boolean>();
 
