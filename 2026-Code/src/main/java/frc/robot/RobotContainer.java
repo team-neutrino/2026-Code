@@ -14,7 +14,7 @@ import static frc.robot.util.Subsystems2026.*;
 
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
-  public final CommandXboxController m_buttonController = new CommandXboxController(1);
+  private final CommandXboxController m_buttonController = new CommandXboxController(1);
 
   private Subsystems2026 m_subsystemContainer;
 
