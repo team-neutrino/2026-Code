@@ -62,6 +62,7 @@ public class Kicker extends SubsystemBase {
       m_kickerMotor.setVoltage(0);
     }
     m_kickerMotor.setVoltage(m_kickerMotorVoltage);
-    index.checkHopperCapacity(m_kickerMotorVoltage);
+    // index.checkHopperCapacity(m_kickerMotor, m_kickerMotorVoltage,
+    // KICKER_VOLTAGE);
   }
 }
