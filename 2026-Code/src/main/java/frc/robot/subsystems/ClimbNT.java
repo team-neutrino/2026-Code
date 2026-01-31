@@ -12,18 +12,14 @@ public class ClimbNT extends Climb {
 
     DoubleTopic actualClimbPosition = nt.getDoubleTopic("/climb/actual_climb_position");
     DoubleTopic targetClimbPosition = nt.getDoubleTopic("/climb/target_climb_position");
-    DoubleTopic climbCurrent = nt.getDoubleTopic("/climb/climb_current");
     BooleanTopic atTargetClimbPosition = nt.getBooleanTopic("/climb/at_target_climb_position");
-    BooleanTopic climbRunning = nt.getBooleanTopic("/climb/climb_running");
     DoubleTopic CANRangeDistance = nt.getDoubleTopic("/climb/climb_CANRange_distance");
     BooleanTopic CANRangeDetection = nt.getBooleanTopic("/climb/climb_CANRange_detection");
     BooleanTopic CANAndColorDetection = nt.getBooleanTopic("/climb/climb_CANandColor_detection");
 
     final DoublePublisher actualClimbPositionPub;
     final DoublePublisher targetClimbPositionPub;
-    final DoublePublisher climbCurrentPub;
     final BooleanPublisher atTargetClimbPositionPub;
-    final BooleanPublisher climbRunningPub;
     final DoublePublisher CANRangeDistancePub;
     final BooleanPublisher CANRangeDetectionPub;
     final BooleanPublisher CANAndColorDetectionPub;
@@ -35,14 +31,8 @@ public class ClimbNT extends Climb {
         targetClimbPositionPub = targetClimbPosition.publish();
         targetClimbPositionPub.setDefault(0.0);
 
-        climbCurrentPub = climbCurrent.publish();
-        climbCurrentPub.setDefault(0.0);
-
         atTargetClimbPositionPub = atTargetClimbPosition.publish();
         atTargetClimbPositionPub.setDefault(false);
-
-        climbRunningPub = climbRunning.publish();
-        climbRunningPub.setDefault(false);
 
         CANRangeDistancePub = CANRangeDistance.publish();
         CANRangeDistancePub.setDefault(0.0);
@@ -61,8 +51,6 @@ public class ClimbNT extends Climb {
 
         actualClimbPositionPub.set(getClimbPosition(), now);
         targetClimbPositionPub.set(getClimbTargetPosition(), now);
-        climbCurrentPub.set(getClimbCurrent(), now);
-        climbRunningPub.set(getRunClimb(), now);
         atTargetClimbPositionPub.set(atTargetPosition(), now);
         CANRangeDistancePub.set(getCANRangeDistance(), now);
         CANRangeDetectionPub.set(isCANRangeDetected(), now);

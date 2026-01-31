@@ -81,16 +81,8 @@ public class Climb extends SubsystemBase {
         return m_climbTargetPosition;
     }
 
-    public double getClimbCurrent() {
-        return m_climbMotor.getSupplyCurrent().getValueAsDouble();
-    }
-
     public double getCANRangeDistance() {
         return m_CANRange.getDistance().getValueAsDouble();
-    }
-
-    public boolean getRunClimb() {
-        return m_runClimb;
     }
 
     public boolean isCANRangeDetected() {
