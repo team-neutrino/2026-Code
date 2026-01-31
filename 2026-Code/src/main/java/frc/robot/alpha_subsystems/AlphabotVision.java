@@ -11,12 +11,18 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
+import frc.robot.util.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import frc.robot.util.AlphaSubsystem;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.networktables.StructTopic;
 
 import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class AlphabotVision extends SubsystemBase {
 
@@ -124,6 +130,29 @@ public class AlphabotVision extends SubsystemBase {
     m_ashootPosePublisher.set(m_shooter.getEstimatePose());
     m_mlksrblPosePublisher.set(m_bl.getEstimatePose());
     m_mlksrbrPosePublisher.set(m_br.getEstimatePose());
+
+    String LIMELIGHT_URL = "http://limelight-ashoot.local:5807/results";
+
+    HttpClient client = HttpClient.newHttpClient();
+
+    HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create(LIMELIGHT_URL))
+        .GET()
+        .build();
+
+    try {
+      HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+      if (response.statusCode() != 200) {
+        throw new RuntimeException(
+            "Limelight HTTP error: " + response.statusCode());
+      }
+
+      System.out.println(response.body());
+    } catch (Exception e) {
+      System.out.println("Error fetching Limelight data: " + e.getMessage());
+
+    }
   }
 
   @Override
