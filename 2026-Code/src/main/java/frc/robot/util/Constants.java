@@ -119,7 +119,7 @@ public class Constants {
     }
 
     public static class AlphabotIntakeConstants {
-        public static final int INTAKE_MOTOR_ID = 99;
+        public static final int INTAKE_MOTOR_ID = 13;
         public static final int INDEX_MOTOR_ID = 14;
 
         public static final double CURRENT_LIMIT = 60;
