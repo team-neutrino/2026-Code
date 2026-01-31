@@ -115,7 +115,7 @@ public class Constants {
     }
 
     public static class TurretConstants {
-        public static final int MOTOR_ID = 21;
+        public static final int MOTOR_ID = 29;
         public static final double STARTUP_ANGLE = 135;
         public static final double CURRENT_LIMIT = 40;
         public static final double TURRET_P = 1;
@@ -123,6 +123,7 @@ public class Constants {
         public static final double TURRET_D = 0;
         public static final double TURRET_FF = 1;
         public static final double SENSOR_TO_MECHANISM_RATIO = 1;
+        public static final double TORQUE_LOAD = 0;
     }
 
     public static class IndexerConstants {

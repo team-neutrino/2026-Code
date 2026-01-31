@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,6 +13,7 @@ import frc.robot.util.Constants.GlobalConstants;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -27,7 +27,8 @@ public class Turret extends SubsystemBase {
   private double m_targetAngle = STARTUP_ANGLE;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
-  final MotionMagicVoltage m_request = new MotionMagicVoltage(STARTUP_ANGLE);
+  private final MotionMagicVoltage m_motionMagicRequest = new MotionMagicVoltage(STARTUP_ANGLE).withSlot(0);
+  private final PositionVoltage m_positionVoltageRequest = new PositionVoltage(STARTUP_ANGLE).withSlot(1);
 
   public Turret() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -51,7 +52,12 @@ public class Turret extends SubsystemBase {
     motionMagicConfigs.MotionMagicAcceleration = 160; // Target acceleration of 160 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk = 1600; // Target jerk of 1600 rps/s/s (0.1 seconds)
 
-    m_motor.getConfigurator().apply(m_motorConfig);
+    var slot1Configs = m_motorConfig.Slot1;
+    slot1Configs.kP = TURRET_P;
+    slot1Configs.kI = TURRET_I;
+    slot1Configs.kD = TURRET_D;
+
+    m_motor.getConfigurator().apply(slot1Configs);
     m_motor.setNeutralMode(NeutralModeValue.Brake);
     m_motor.setPosition(STARTUP_ANGLE);
   }
@@ -61,12 +67,9 @@ public class Turret extends SubsystemBase {
   }
 
   private void adjustTurret(double targetAngle) {
-    // swap this with calculating what voltage the motor would need to apply to
-    // counteract the angular velocity and then directly adding it into the control
-    // V = -angularvelocity/500 + torque load*0.0328
     double robotAngularVelocity = AlphaSubsystem.swerve.getPigeon2().getAngularVelocityZDevice()
         .getValueAsDouble();
-    m_motor.setControl(m_request.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * TURRET_FF));
+    m_motor.setControl(m_positionVoltageRequest.withPosition(targetAngle).withVelocity(-robotAngularVelocity));
   }
 
   private double getAdjustedTargetAngle() {
