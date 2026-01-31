@@ -12,4 +12,7 @@ public class Subsystems2026 {
     public static final Index index = new Index();
     public static final Limelight limelight = new Limelight();
     public static final Shooter shooter = new ShooterNT();
+    public static final Kicker kicker = new Kicker();
+
+    public static final ShooterArbiter shooterArbiter = new ShooterArbiter();
 }

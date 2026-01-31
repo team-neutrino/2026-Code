@@ -145,6 +145,15 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
+   * Gets the target RPM for the hood motor.
+   * 
+   * @return The target RPM for the hood motor.
+   */
+  public double getTargetRPM() {
+    return m_targetShooterRpm;
+  }
+
+  /**
    * Returns whether or not we are at the target position.
    * 
    * @return True if the shooter is at the target position, False if it is not.
@@ -215,11 +224,13 @@ public class Shooter extends SubsystemBase {
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
 
-    if (RED_ALLIANCE.get()) {
-      shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, hubState.isRedHubActive());
-    } else {
-      shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, hubState.isBlueHubActive());
-    }
+    // if (RED_ALLIANCE.get()) {
+    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+    // hubState.isRedHubActive());
+    // } else {
+    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+    // hubState.isBlueHubActive());
+    // }
   }
 
   public Command shootingAngle(double target) {

@@ -3,9 +3,17 @@ package frc.robot.subsystems.NetworkTables;
 import frc.robot.util.PIDTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
 
+import org.opencv.dnn.Net;
+
 import frc.robot.subsystems.Shooter;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.networktables.DoubleTopic;
 
 public class ShooterNT extends Shooter {
+    private NetworkTableInstance m_globalNT = NetworkTableInstance.getDefault();
+
     private PIDTuner m_shooterPIDTuner;
     private PIDTuner m_hoodPIDTuner;
 
@@ -16,6 +24,14 @@ public class ShooterNT extends Shooter {
     private double m_previousHoodKP;
     private double m_previousHoodKI;
     private double m_previousHoodKD;
+
+    private DoubleTopic m_shooterSpeedTopic;
+    private DoublePublisher m_shooterSpeedPublisher;
+    private DoubleSubscriber m_shooterSpeedSubscriber;
+
+    private DoubleTopic m_shooterTargetTopic;
+    private DoublePublisher m_shooterTargetPublisher;
+    private DoubleSubscriber m_shooterTargetSubscriber;
 
     /**
      * Creates a new class to organize network tables related to the Shooter
@@ -34,6 +50,14 @@ public class ShooterNT extends Shooter {
         m_hoodPIDTuner.setP(HOOD_KP);
         m_hoodPIDTuner.setI(HOOD_KI);
         m_hoodPIDTuner.setD(HOOD_KD);
+
+        m_shooterSpeedTopic = m_globalNT.getDoubleTopic("shooter/shooterSpeed");
+        m_shooterSpeedPublisher = m_shooterSpeedTopic.publish();
+        m_shooterSpeedSubscriber = m_shooterSpeedTopic.subscribe(0.0);
+
+        m_shooterTargetTopic = m_globalNT.getDoubleTopic("shooter/shooterTarget");
+        m_shooterTargetPublisher = m_shooterTargetTopic.publish();
+        m_shooterTargetSubscriber = m_shooterTargetTopic.subscribe(0.0);
 
         // m_previousShootingKP = SHOOTING_KP;
         // m_previousShootingKI = SHOOTING_KI;
@@ -62,6 +86,9 @@ public class ShooterNT extends Shooter {
             m_previousHoodKD = m_hoodPIDTuner.getD();
             setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(), m_hoodPIDTuner.getD());
         }
+
+        m_shooterSpeedPublisher.set(getShooterRPM());
+        m_shooterTargetPublisher.set(getTargetRPM());
     }
 
 }

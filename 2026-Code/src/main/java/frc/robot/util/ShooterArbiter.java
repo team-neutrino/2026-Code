@@ -12,7 +12,8 @@ public class ShooterArbiter {
      */
     ShooterArbiter() {
         for (shooterConditions condition : shooterConditions.values()) {
-            m_conditions.put(condition, false);
+            m_conditions.put(condition, true); // if this value is true, it will be more lenient (unmodified values will
+                                               // not prevent from shooting)
         }
     }
 
@@ -23,6 +24,12 @@ public class ShooterArbiter {
      *         conditions are unmet.
      */
     public boolean readyToFire() {
+        // for (Map.Entry<shooterConditions, Boolean> val : m_conditions.entrySet()) {
+        //
+        // if (!val.getValue()) {
+        // System.out.println(val.getKey());
+        // }
+        // } uncomment for debugging
         return !(m_conditions.containsValue(false));
     }
 
