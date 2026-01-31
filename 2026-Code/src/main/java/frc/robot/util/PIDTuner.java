@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.DoubleSubscriber;
 public class PIDTuner {
     private NetworkTableInstance m_globalNetworkTable = NetworkTableInstance.getDefault();
 
-    private DoubleTopic m_P; //
+    private DoubleTopic m_P;
     private DoubleTopic m_I;
     private DoubleTopic m_D;
 
