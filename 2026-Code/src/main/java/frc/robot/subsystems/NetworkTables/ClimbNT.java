@@ -19,14 +19,12 @@ public class ClimbNT extends Climb {
     BooleanTopic atTargetClimbPosition = nt.getBooleanTopic("/climb/at_target_climb_position");
     DoubleTopic CANRangeDistance = nt.getDoubleTopic("/climb/climb_CANRange_distance");
     BooleanTopic CANRangeDetection = nt.getBooleanTopic("/climb/climb_CANRange_detection");
-    BooleanTopic CANAndColorDetection = nt.getBooleanTopic("/climb/climb_CANandColor_detection");
 
     final DoublePublisher actualClimbPositionPub;
     final DoublePublisher targetClimbPositionPub;
     final BooleanPublisher atTargetClimbPositionPub;
     final DoublePublisher CANRangeDistancePub;
     final BooleanPublisher CANRangeDetectionPub;
-    final BooleanPublisher CANAndColorDetectionPub;
 
     private PIDTuner m_climbPIDTuner;
 
@@ -51,9 +49,6 @@ public class ClimbNT extends Climb {
         CANRangeDetectionPub = CANRangeDetection.publish();
         CANRangeDetectionPub.setDefault(false);
 
-        CANAndColorDetectionPub = CANAndColorDetection.publish();
-        CANAndColorDetectionPub.setDefault(false);
-
         m_climbPIDTuner = new PIDTuner("climb/{tuning}climbMotor", true);
 
         m_climbPIDTuner.setP(CLIMB_kP_1);
@@ -72,7 +67,6 @@ public class ClimbNT extends Climb {
         atTargetClimbPositionPub.set(atTargetPosition(), now);
         CANRangeDistancePub.set(getCANRangeDistance(), now);
         CANRangeDetectionPub.set(isCANRangeDetected(), now);
-        CANAndColorDetectionPub.set(isClimbOverBar(), now);
 
         if (m_climbPIDTuner.isSlotDifferent(m_previousClimbSlot)) {
             if (m_climbPIDTuner.getSlot() == 1) {
