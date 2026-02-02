@@ -33,7 +33,7 @@ public class Index extends SubsystemBase {
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
 
-    private Debouncer m_startRumbleDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
+    private Debouncer m_fullCapacityDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
             Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
     private Debouncer m_emptyDebouncer1 = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
@@ -66,9 +66,8 @@ public class Index extends SubsystemBase {
                 && getCanRangeDistance(m_canRange2) < FULL_CAPACITY_DISTANCE;
     }
 
-    public boolean fullCapacityCanRange() {
-        m_isHopperEmpty = false;
-        return m_startRumbleDebouncer.calculate(bothCanRangesDetect());
+    public boolean fullCapacity() {
+        return m_fullCapacityDebouncer.calculate(bothCanRangesDetect());
     }
 
     public double getCanAndColorDistance() {
@@ -84,7 +83,7 @@ public class Index extends SubsystemBase {
     }
 
     public void rumbleControllers() {
-        if (fullCapacityCanRange()) {
+        if (fullCapacity()) {
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
         } else {
@@ -94,7 +93,7 @@ public class Index extends SubsystemBase {
     }
 
     public void stopRumble() {
-        if (m_stopRumbleDebouncer.calculate(fullCapacityCanRange())) {
+        if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
         }
@@ -118,6 +117,9 @@ public class Index extends SubsystemBase {
                 m_hopperCheckTimer.start();
             }
         }
+        if (fullCapacity()) {
+            m_isHopperEmpty = false;
+        }
         motor.setVoltage(motorVoltage);
     }
 
@@ -132,10 +134,6 @@ public class Index extends SubsystemBase {
         return run(() -> {
             m_spindexerMotorVoltage = speed;
         });
-    }
-
-    public boolean isEmpty() {
-        return false;
     }
 
     public Command defaultCommand() {
