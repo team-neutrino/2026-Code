@@ -43,7 +43,6 @@
 | Climb     |                   | 19      | Kraken x60  |
 | Climb     |                   | 20      | CANrange    |
 | Indexer   |                   | 27      | CanandColor |
-| Climb     |                   | 28      | CanandColor |
 | Turret    |                   | 29      | Kraken x44  |
 
 ## DIO
