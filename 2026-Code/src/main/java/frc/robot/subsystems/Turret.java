@@ -83,8 +83,9 @@ public class Turret extends SubsystemBase {
   }
 
   private double calculateTargetAngle() {
-    double robotX = AlphaSubsystem.swerve.getCurrentPose().getMeasureX().baseUnitMagnitude();
-    double robotY = AlphaSubsystem.swerve.getCurrentPose().getMeasureY().baseUnitMagnitude();
+    Pose2d robotPose = AlphaSubsystem.swerve.getCurrentPose();
+    double robotX = robotPose.getMeasureX().baseUnitMagnitude();
+    double robotY = robotPose.getMeasureY().baseUnitMagnitude();
 
     Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
     Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
@@ -98,7 +99,7 @@ public class Turret extends SubsystemBase {
     double targetDistanceX = targetPose.getX() - robotX; // add turret offset from center
     double targetDistanceY = targetPose.getY() - robotY;
 
-    return Math.atan2(targetDistanceY, targetDistanceX);
+    return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX)) + robotPose.getRotation().getDegrees();
   }
 
   public Command defaultCommand() {
