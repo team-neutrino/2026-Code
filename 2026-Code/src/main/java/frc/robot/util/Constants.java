@@ -43,9 +43,6 @@ public class Constants {
         public static final int RAISE_UP_SLOT = 0;
         public static final int LOWER_DOWN_SLOT = 1;
 
-        public static final int CANANDCOLOR_ID = 28;
-        public static final double CANANDCOLOR_DISTANCE = 0.1;
-
         public static final int CANRANGE_ID = 20;
 
         public static final double CANRANGE_THRESHOLD = 0.6;
