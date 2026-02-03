@@ -3,15 +3,13 @@ package frc.robot.subsystems.NetworkTables;
 import frc.robot.util.PIDTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
 
-import frc.robot.subsystems.Shooter;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.subsystems.Shooter;
 
 public class ShooterNT extends Shooter {
-    private NetworkTableInstance m_globalNT = NetworkTableInstance.getDefault();
-
     private PIDTuner m_shooterPIDTuner;
     private PIDTuner m_hoodPIDTuner;
 
@@ -23,6 +21,12 @@ public class ShooterNT extends Shooter {
     private double m_previousHoodKI;
     private double m_previousHoodKD;
 
+    private NetworkTableInstance m_globalNT = NetworkTableInstance.getDefault();
+
+    private DoubleTopic m_distanceTopic;
+    private DoublePublisher m_distancePublisher;
+    private DoubleSubscriber m_distanceSubscriber;
+
     private DoubleTopic m_shooterSpeedTopic;
     private DoublePublisher m_shooterSpeedPublisher;
     private DoubleSubscriber m_shooterSpeedSubscriber;
@@ -30,6 +34,14 @@ public class ShooterNT extends Shooter {
     private DoubleTopic m_shooterTargetTopic;
     private DoublePublisher m_shooterTargetPublisher;
     private DoubleSubscriber m_shooterTargetSubscriber;
+
+    private DoubleTopic m_hoodTargetTopic;
+    private DoublePublisher m_hoodTargetPublisher;
+    private DoubleSubscriber m_hoodTargetSubscriber;
+
+    private DoubleTopic m_hoodPositionTopic;
+    private DoublePublisher m_hoodPositionPublisher;
+    private DoubleSubscriber m_hoodPositionSubscriber;
 
     /**
      * Creates a new class to organize network tables related to the Shooter
@@ -49,6 +61,12 @@ public class ShooterNT extends Shooter {
         m_hoodPIDTuner.setI(HOOD_KI);
         m_hoodPIDTuner.setD(HOOD_KD);
 
+        m_distanceTopic = m_globalNT.getDoubleTopic("shooter/{tuning}distance");
+        m_distancePublisher = m_distanceTopic.publish();
+        m_distanceSubscriber = m_distanceTopic.subscribe(5);
+
+        m_distancePublisher.set(5.0);
+
         m_shooterSpeedTopic = m_globalNT.getDoubleTopic("shooter/shooterSpeed");
         m_shooterSpeedPublisher = m_shooterSpeedTopic.publish();
         m_shooterSpeedSubscriber = m_shooterSpeedTopic.subscribe(0.0);
@@ -56,6 +74,14 @@ public class ShooterNT extends Shooter {
         m_shooterTargetTopic = m_globalNT.getDoubleTopic("shooter/shooterTarget");
         m_shooterTargetPublisher = m_shooterTargetTopic.publish();
         m_shooterTargetSubscriber = m_shooterTargetTopic.subscribe(0.0);
+
+        m_hoodTargetTopic = m_globalNT.getDoubleTopic("shooter/hoodTarget");
+        m_hoodTargetPublisher = m_hoodTargetTopic.publish();
+        m_hoodTargetSubscriber = m_hoodTargetTopic.subscribe(0.0);
+
+        m_hoodPositionTopic = m_globalNT.getDoubleTopic("shooter/hoodPosition");
+        m_hoodPositionPublisher = m_hoodPositionTopic.publish();
+        m_hoodPositionSubscriber = m_hoodPositionTopic.subscribe(0.0);
 
         // m_previousShootingKP = SHOOTING_KP;
         // m_previousShootingKI = SHOOTING_KI;
@@ -85,8 +111,11 @@ public class ShooterNT extends Shooter {
             setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(), m_hoodPIDTuner.getD());
         }
 
+        setTuningDistance(m_distanceSubscriber.get());
         m_shooterSpeedPublisher.set(getShooterRPM());
         m_shooterTargetPublisher.set(getTargetRPM());
+        m_hoodTargetPublisher.set(getTargetPosition());
+        m_hoodPositionPublisher.set(getHoodAngle());
     }
 
 }

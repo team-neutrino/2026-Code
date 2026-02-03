@@ -31,7 +31,7 @@ public class HubActiveStatus {
         }
     }
 
-    private boolean hasValidGameData() {
+    public boolean hasValidGameData() {
         return inactiveFirst != null;
     }
 

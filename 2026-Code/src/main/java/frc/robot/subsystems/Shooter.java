@@ -10,7 +10,9 @@ import static frc.robot.util.Subsystems2026.shooterArbiter;
 
 import javax.lang.model.util.ElementScanner14;
 
+import frc.robot.util.HubActiveStatus;
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.HootEpilogueBackend;
@@ -41,7 +43,9 @@ public class Shooter extends SubsystemBase {
 
   private double m_targetAngle = START_POSITION;
 
-  private double m_targetShooterRpm;
+  private double m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+
+  private double m_tuningDistance = 5;
 
   /**
    * Creates a new Shooter.
@@ -66,21 +70,14 @@ public class Shooter extends SubsystemBase {
     m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
     m_shooterFollowerMotor.getConfigurator().apply(m_shooterMotorConfig);
     m_hoodMotor.getConfigurator().apply(m_hoodMotorConfig);
-    m_shooterMotor.setNeutralMode(NeutralModeValue.Coast);
-    m_shooterFollowerMotor.setNeutralMode(NeutralModeValue.Coast);
-    m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
+    m_shooterMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_shooterFollowerMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_hoodMotor.setNeutralMode(NeutralModeValue.Brake);
 
-    Follower followRequest = new Follower(SHOOTER_ID, MotorAlignmentValue.Aligned);
+    Follower followRequest = new Follower(SHOOTER_ID, MotorAlignmentValue.Opposed);
     m_shooterFollowerMotor.setControl(followRequest);
-  }
 
-  /**
-   * Gets the current velocity of the shooter motor.
-   * 
-   * @return The current velocity of the shooter motor as a double.
-   */
-  public double getVelocity() {
-    return m_shooterMotor.getVelocity().getValueAsDouble();
+    m_hoodMotor.setPosition(0.0);
   }
 
   /**
@@ -133,6 +130,25 @@ public class Shooter extends SubsystemBase {
    */
   public double getShooterRPM() {
     return m_shooterMotor.getVelocity().getValueAsDouble() * 60.0;
+  }
+
+  /**
+   * Sets a new tuning distance for the tuning button on the controller to input
+   * into the interpolation table.
+   * 
+   * @param newDistance The new distance for the tuning button.
+   */
+  public void setTuningDistance(double newDistance) {
+    m_tuningDistance = newDistance;
+  }
+
+  /**
+   * Gets the current tuning distance for the tuning button.
+   * 
+   * @return The current tuning distance for the tuning button.
+   */
+  public double getTuningDistance() {
+    return m_tuningDistance;
   }
 
   /**
@@ -207,15 +223,6 @@ public class Shooter extends SubsystemBase {
     m_shooterMotor.setControl(velocityControl);
   }
 
-  /** Brakes the hood motor to keep stability if it is at the target position. */
-  public void stableShot() {
-    if (atTargetPosition()) {
-      m_hoodMotor.setNeutralMode(NeutralModeValue.Brake);
-    } else {
-      m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
-    }
-  }
-
   @Override
   public void periodic() {
     controlShooterMotor();
@@ -223,25 +230,45 @@ public class Shooter extends SubsystemBase {
 
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
-
-    // if (RED_ALLIANCE.get()) {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isRedHubActive());
-    // } else {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isBlueHubActive());
-    // }
+    if (hubState.hasValidGameData()) {
+      if (RED_ALLIANCE.get()) {
+        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+            hubState.isRedHubActive());
+      } else {
+        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+            hubState.isBlueHubActive());
+      }
+    }
   }
 
+  /**
+   * A command to set the target shooting angle to a certain target.
+   * 
+   * @param target The target shooting angle in rotations.
+   * @return A command to set the target shooting angle to a certain target.
+   */
   public Command shootingAngle(double target) {
     return run(() -> {
       m_targetAngle = target;
     });
   }
 
+  /**
+   * A command to set the target shooting speed to a certain target.
+   * 
+   * @param speed The target shooting speed in rotations per minute.
+   * @return A command to set the target shooting speed to a certain target.
+   */
+  public Command shootingSpeed(double speed) {
+    return run(() -> {
+      m_targetShooterRpm = speed;
+    });
+  }
+
   public Command defaultCommand() {
     return run(() -> {
-      m_targetShooterRpm = 1500; // pew
+      m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
+      m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
     });
   }
 }

@@ -19,6 +19,9 @@
     }
   },
   "NetworkTables Info": {
+    "Server": {
+      "open": true
+    },
     "visible": true
   },
   "NetworkTables Settings": {
@@ -64,5 +67,6 @@
         }
       ]
     }
+    "serverTeam": "39"
   }
 }
