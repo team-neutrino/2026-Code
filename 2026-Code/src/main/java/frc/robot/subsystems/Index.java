@@ -99,46 +99,48 @@ public class Index extends SubsystemBase {
         }
     }
 
-    public void checkEmptyHopper(TalonFX motor, double motorVoltage, double runningVoltage) {
+    public void checkEmptyHopper() {
         boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
         boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
         if (motorStopDebounce) {
             m_isHopperEmpty = false;
-            motorVoltage = 0;
+            m_spindexerMotorVoltage = 0;
             m_hopperCheckTimer.stop();
             m_hopperCheckTimer.reset();
         } else {
             if (m_hopperCheckTimer.isRunning() &&
                     m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
                 m_isHopperEmpty = true;
-                motorVoltage = 0;
+                m_spindexerMotorVoltage = 0;
             } else if (motorStartDebounce) {
-                motorVoltage = runningVoltage;
+                m_spindexerMotorVoltage = HOPPER_CHECK_VOLTAGE;
                 m_hopperCheckTimer.start();
             }
         }
         if (fullCapacity()) {
             m_isHopperEmpty = false;
         }
-        motor.setVoltage(motorVoltage);
+        m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
     @Override
     public void periodic() {
         rumbleControllers();
         stopRumble();
-        checkEmptyHopper(m_spindexerMotor, m_spindexerMotorVoltage, HOPPER_CHECK_VOLTAGE);
+        checkEmptyHopper();
     }
 
     public Command runSpindexer(double speed) {
         return run(() -> {
-            m_spindexerMotorVoltage = speed;
+
         });
     }
 
     public Command defaultCommand() {
         return run(() -> {
             if (shooterArbiter.readyToFire() || !m_hopperCheckTimer.isRunning()) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+            } else {
                 m_spindexerMotorVoltage = 0;
             }
         });

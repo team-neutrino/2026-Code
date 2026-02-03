@@ -39,27 +39,21 @@ public class Kicker extends SubsystemBase {
     m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
-  // preserved in case someone wants to change kicker to something different later
-  // (also it needs a default command to work)
-
-  public Command runKicker() {
-    return run(() -> {
-      m_kickerMotorVoltage = KICKER_VOLTAGE;
-    });
-  }
-
   public Command defaultCommand() {
     return run(() -> {
-      m_kickerMotorVoltage = 0;
+
     });
   }
 
   @Override
   public void periodic() {
     if (shooterArbiter.readyToFire()) {
-      m_kickerMotor.setVoltage(KICKER_VOLTAGE);
+      m_kickerMotorVoltage = KICKER_VOLTAGE;
+    } else if (index.isHopperEmpty()) {
+      m_kickerMotorVoltage = HOPPER_CHECK_VOLTAGE;
+    } else {
+      m_kickerMotorVoltage = 0;
     }
-    index.checkEmptyHopper(m_kickerMotor, m_kickerMotorVoltage,
-        HOPPER_CHECK_VOLTAGE);
+    m_kickerMotor.setVoltage(m_kickerMotorVoltage);
   }
 }
