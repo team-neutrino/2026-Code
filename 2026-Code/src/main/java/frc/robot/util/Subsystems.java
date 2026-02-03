@@ -15,4 +15,5 @@ public class Subsystems {
     public static final Turret turret = new TurretNT();
 
     public static final ShooterArbiter shooterArbiter = new ShooterArbiter();
+    public static final LED led = new LED();
 }
