@@ -69,7 +69,6 @@ public class Intake extends SubsystemBase {
         return run(() -> {
             if (!index.fullCapacity()) {
                 m_rollerMotorVoltage = speed;
-                index.m_isHopperEmpty = false;
                 index.m_hopperCheckTimer.reset();
             }
         });
