@@ -11,6 +11,7 @@ import static frc.robot.util.Subsystems2026.shooterArbiter;
 import javax.lang.model.util.ElementScanner14;
 
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.HootEpilogueBackend;
@@ -68,9 +69,9 @@ public class Shooter extends SubsystemBase {
     m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
     m_shooterFollowerMotor.getConfigurator().apply(m_shooterMotorConfig);
     m_hoodMotor.getConfigurator().apply(m_hoodMotorConfig);
-    m_shooterMotor.setNeutralMode(NeutralModeValue.Coast);
-    m_shooterFollowerMotor.setNeutralMode(NeutralModeValue.Coast);
-    m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
+    m_shooterMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_shooterFollowerMotor.setNeutralMode(NeutralModeValue.Brake);
+    m_hoodMotor.setNeutralMode(NeutralModeValue.Brake);
 
     Follower followRequest = new Follower(SHOOTER_ID, MotorAlignmentValue.Opposed);
     m_shooterFollowerMotor.setControl(followRequest);
@@ -230,15 +231,6 @@ public class Shooter extends SubsystemBase {
     m_shooterMotor.setControl(velocityControl);
   }
 
-  /** Brakes the hood motor to keep stability if it is at the target position. */
-  public void stableShot() {
-    if (atTargetPosition()) {
-      m_hoodMotor.setNeutralMode(NeutralModeValue.Brake);
-    } else {
-      m_hoodMotor.setNeutralMode(NeutralModeValue.Coast);
-    }
-  }
-
   @Override
   public void periodic() {
     controlShooterMotor();
@@ -282,6 +274,8 @@ public class Shooter extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
+      m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
+      m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
     });
   }
 }
