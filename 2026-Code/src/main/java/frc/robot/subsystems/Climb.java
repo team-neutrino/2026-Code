@@ -11,9 +11,6 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import com.reduxrobotics.sensors.canandcolor.Canandcolor;
-import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
@@ -27,9 +24,6 @@ public class Climb extends SubsystemBase {
 
     private CANrange m_CANRange = new CANrange(CANRANGE_ID, m_CANbus);
     private CANrangeConfiguration m_CANRangeConfiguration = new CANrangeConfiguration();
-
-    private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
-    private CanandcolorSettings m_settings = new CanandcolorSettings();
 
     private double m_climbTargetPosition = 0;
     private boolean m_runClimb = false;
@@ -54,8 +48,6 @@ public class Climb extends SubsystemBase {
         m_climbMotor.setNeutralMode(NeutralModeValue.Brake);
 
         m_climbMotor.setPosition(0);
-
-        m_canandColor.setSettings(m_settings);
 
         m_CANRangeConfiguration.ProximityParams.ProximityThreshold = CANRANGE_THRESHOLD;
         m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = CANRANGE_HYSTERSIS;
@@ -87,10 +79,6 @@ public class Climb extends SubsystemBase {
 
     public boolean isCANRangeDetected() {
         return m_CANRange.getIsDetected().getValue();
-    }
-
-    public boolean isClimbOverBar() {
-        return m_canandColor.getProximity() <= CANANDCOLOR_DISTANCE;
     }
 
     public void setClimbPID(double new_P, double new_I, double new_D, long slot) {

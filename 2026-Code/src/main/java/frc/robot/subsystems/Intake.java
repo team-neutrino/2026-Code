@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
 
-import java.util.function.BooleanSupplier;
-
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -71,6 +69,7 @@ public class Intake extends SubsystemBase {
         return run(() -> {
             if (!index.fullCapacity()) {
                 m_rollerMotorVoltage = speed;
+                index.m_hopperCheckTimer.reset();
             }
         });
     }
@@ -83,8 +82,13 @@ public class Intake extends SubsystemBase {
 
     public Command deployAndRunIntake(double speed, double targetAngle) {
         return run(() -> {
-            m_rollerMotorVoltage = speed;
-            m_targetAngle = targetAngle;
+            if (!index.fullCapacity()) {
+                m_targetAngle = targetAngle;
+                m_rollerMotorVoltage = speed;
+                if (speed > 0) {
+                    index.m_hopperCheckTimer.reset();
+                }
+            }
         });
     }
 

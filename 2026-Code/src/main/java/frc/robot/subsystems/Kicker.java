@@ -17,6 +17,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import static frc.robot.util.Subsystems2026.*;
+
 public class Kicker extends SubsystemBase {
 
   private final CANBus m_CANbus = RioConstants.RIO_BUS;
@@ -37,27 +39,21 @@ public class Kicker extends SubsystemBase {
     m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
-  // preserved in case someone wants to change kicker to something different later
-  // (also it needs a default command to work)
-
-  public Command runKicker() {
-    return run(() -> {
-      // m_kickerMotorVoltage = KICKER_VOLTAGE;
-    });
-  }
-
   public Command defaultCommand() {
     return run(() -> {
-      // m_kickerMotorVoltage = 0;
+
     });
   }
 
   @Override
   public void periodic() {
     if (shooterArbiter.readyToFire()) {
-      m_kickerMotor.setVoltage(KICKER_VOLTAGE);
+      m_kickerMotorVoltage = KICKER_VOLTAGE;
+    } else if (index.m_isRunning) {
+      m_kickerMotorVoltage = HOPPER_CHECK_VOLTAGE;
     } else {
-      m_kickerMotor.setVoltage(0);
+      m_kickerMotorVoltage = 0;
     }
+    m_kickerMotor.setVoltage(m_kickerMotorVoltage);
   }
 }

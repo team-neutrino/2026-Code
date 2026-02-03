@@ -46,9 +46,6 @@ public class Constants {
         public static final int RAISE_UP_SLOT = 0;
         public static final int LOWER_DOWN_SLOT = 1;
 
-        public static final int CANANDCOLOR_ID = 28;
-        public static final double CANANDCOLOR_DISTANCE = 0.1;
-
         public static final int CANRANGE_ID = 20;
 
         public static final double CANRANGE_THRESHOLD = 0.6;
@@ -60,9 +57,9 @@ public class Constants {
 
     public static class ShooterConstants {
         public static final double CURRENT_LIMIT = 40;
-        public static final double SHOOTING_KP = 0.5;
-        public static final double SHOOTING_KI = 2.0;
-        public static final double SHOOTING_KD = 0;
+        public static final double SHOOTING_KP = 0.1;
+        public static final double SHOOTING_KI = 0.0;
+        public static final double SHOOTING_KD = 0.0;
         public static final double HOOD_KP = 1.0;
         public static final double HOOD_KI = 0;
         public static final double HOOD_KD = 0;
@@ -113,14 +110,22 @@ public class Constants {
     public static class IndexerConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
 
-        public static final double INDEXING_VOLTAGE = 8;
+        public static final double INDEXING_VOLTAGE = 4;
+        public static final double HOPPER_CHECK_VOLTAGE = 2.5;
         public static final double CURRENT_LIMIT = 40;
 
-        public static final int BEAMBREAK_CHANNEL_1 = 0;
-        public static final int BEAMBREAK_CHANNEL_2 = 1;
+        public static final int CANRANGE_CAN_ID_1 = 20;
+        public static final int CANRANGE_CAN_ID_2 = 31;
+        public static final int CANANDCOLOR_ID = 28;
 
-        public static final double START_RUMBLE_DEBOUNCED_TIME = 1;
+        public static final double FULL_CAPACITY_DISTANCE = 0.3;
+        public static final double TOWER_CANANDCOLOR_DISTANCE = 0.15;
+
+        public static final double START_RUMBLE_DEBOUNCED_TIME = 0.75;
         public static final double STOP_RUMBLE_DEBOUNCED_TIME = 0.5;
+        public static final double MOTOR_START_TIME = 1;
+        public static final double MOTOR_STOP_TIME = 1;
+        public static final double HOPPER_CHECK_TIME = 3;
     }
 
     public static class IntakeConstants {
@@ -157,6 +162,7 @@ public class Constants {
         public static final int KICKER_MOTOR_ID = 18;
         public static final double KICKER_CURRENT_LIMIT = 40;
         public static final double KICKER_VOLTAGE = 8;
+        public static final double HOPPER_CHECK_VOLTAGE = 4;
     }
 
     public static class AlphabotKickerConstants {
