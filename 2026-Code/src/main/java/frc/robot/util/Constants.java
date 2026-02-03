@@ -97,7 +97,7 @@ public class Constants {
         public static final double HOPPER_CHECK_VOLTAGE = 2.5;
         public static final double CURRENT_LIMIT = 40;
 
-        public static final int CANRANGE_CAN_ID_1 = 30;
+        public static final int CANRANGE_CAN_ID_1 = 20;
         public static final int CANRANGE_CAN_ID_2 = 31;
         public static final int CANANDCOLOR_ID = 28;
 

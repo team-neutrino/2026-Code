@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.command_factories.ClimbFactory;
-import frc.robot.command_factories.IndexFactory;
 import frc.robot.command_factories.IntakeFactory;
 import frc.robot.command_factories.ShooterFactory;
 import frc.robot.util.Subsystems2026;
@@ -38,13 +37,12 @@ public class RobotContainer {
     m_buttonController.rightBumper().whileTrue(ClimbFactory.releaseClimbFromBar()); // Random buttons subject to change
     m_buttonController.leftTrigger().whileTrue(ClimbFactory.raiseClimbArm()); // Random buttons subject to change
     m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
-    m_buttonController.y().whileTrue(IndexFactory.runSpindexer());
     m_buttonController.povUp().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));
     m_buttonController.povDown().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_FAR));
     m_buttonController.povLeft().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.WALL));
     m_buttonController.povRight().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
     m_buttonController.a().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
-    m_buttonController.x().whileTrue(IntakeFactory.deployAndRunIntake());
+    m_buttonController.b().whileTrue(IntakeFactory.deployAndRunIntake());
   }
 
   public Command getAutonomousCommand() {

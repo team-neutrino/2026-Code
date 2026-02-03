@@ -49,7 +49,7 @@ public class Kicker extends SubsystemBase {
   public void periodic() {
     if (shooterArbiter.readyToFire()) {
       m_kickerMotorVoltage = KICKER_VOLTAGE;
-    } else if (index.isHopperEmpty()) {
+    } else if (index.m_isRunning) {
       m_kickerMotorVoltage = HOPPER_CHECK_VOLTAGE;
     } else {
       m_kickerMotorVoltage = 0;
