@@ -82,11 +82,10 @@ public class Intake extends SubsystemBase {
 
     public Command deployAndRunIntake(double speed, double targetAngle) {
         return run(() -> {
-            m_targetAngle = targetAngle;
             if (!index.fullCapacity()) {
+                m_targetAngle = targetAngle;
                 m_rollerMotorVoltage = speed;
                 if (speed > 0) {
-                    index.m_isHopperEmpty = false;
                     index.m_hopperCheckTimer.reset();
                 }
             }
