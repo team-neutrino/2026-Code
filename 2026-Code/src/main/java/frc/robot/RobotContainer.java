@@ -34,11 +34,6 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
-    m_buttonController.povUp().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_CLOSE));
-    m_buttonController.povDown().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.RADIAL_FAR));
-    m_buttonController.povLeft().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.WALL));
-    m_buttonController.povRight().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.DEPOT));
-    m_buttonController.a().whileTrue(ShooterFactory.shootingAngleFromFixedPosition(fakeEnum.OUTPOST));
     m_buttonController.b().whileTrue(IntakeFactory.deployAndRunIntake());
   }
 
