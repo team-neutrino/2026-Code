@@ -124,6 +124,7 @@ public class Constants {
         public static final double TURRET_FF = 1;
         public static final double SENSOR_TO_MECHANISM_RATIO = 1;
         public static final double TORQUE_LOAD = 0;
+        public static final double ALLOWED_ERROR = 1;
     }
 
     public static class IndexerConstants {
