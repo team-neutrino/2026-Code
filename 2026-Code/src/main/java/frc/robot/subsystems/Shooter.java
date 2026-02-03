@@ -10,6 +10,7 @@ import static frc.robot.util.Subsystems2026.shooterArbiter;
 
 import javax.lang.model.util.ElementScanner14;
 
+import frc.robot.util.HubActiveStatus;
 import frc.robot.util.Constants.RioConstants;
 import frc.robot.util.Constants.ShooterConstants;
 
@@ -77,15 +78,6 @@ public class Shooter extends SubsystemBase {
     m_shooterFollowerMotor.setControl(followRequest);
 
     m_hoodMotor.setPosition(0.0);
-  }
-
-  /**
-   * Gets the current velocity of the shooter motor.
-   * 
-   * @return The current velocity of the shooter motor as a double.
-   */
-  public double getVelocity() {
-    return m_shooterMotor.getVelocity().getValueAsDouble();
   }
 
   /**
@@ -238,14 +230,15 @@ public class Shooter extends SubsystemBase {
 
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
-
-    // if (RED_ALLIANCE.get()) {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isRedHubActive());
-    // } else {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isBlueHubActive());
-    // }
+    if (hubState.hasValidGameData()) {
+      if (RED_ALLIANCE.get()) {
+        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+            hubState.isRedHubActive());
+      } else {
+        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+            hubState.isBlueHubActive());
+      }
+    }
   }
 
   /**

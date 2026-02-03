@@ -100,10 +100,6 @@ public class Constants {
                 Map.entry(0.0, 3000.0),
                 Map.entry(4.0, 3928.0),
                 Map.entry(23.9, 5800.0)));
-        public static final InterpolatingDoubleTreeMap INTERPOLATION_SHOOTER = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 1000.0),
-                Map.entry(5.0, 1000.0),
-                Map.entry(5.01, 3000.0));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
