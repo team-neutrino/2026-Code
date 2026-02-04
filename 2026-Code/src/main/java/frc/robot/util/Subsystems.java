@@ -14,6 +14,7 @@ public class Subsystems {
     public static final Vision limelight = new Vision();
     public static final Shooter shooter = new ShooterNT();
     public static final Swerve swerve = new Swerve();
+    public static final Turret turret = new Turret();
 
     public static final ShooterArbiter shooterArbiter = new ShooterArbiter();
 }
