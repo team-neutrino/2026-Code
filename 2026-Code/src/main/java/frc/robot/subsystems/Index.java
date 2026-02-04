@@ -45,6 +45,7 @@ public class Index extends SubsystemBase {
     public boolean m_isHopperEmpty;
     public Timer m_hopperCheckTimer = new Timer();
     public boolean m_isRunning = false;
+    public boolean m_isShooting = false;
 
     public Index() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -100,29 +101,34 @@ public class Index extends SubsystemBase {
         }
     }
 
+    public void startShooting() {
+        m_isShooting = true;
+    }
+
     public void checkEmptyHopper() {
         boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
         boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
-        if (motorStopDebounce) {
-            m_isHopperEmpty = false;
-            m_spindexerMotorVoltage = 0;
-            m_hopperCheckTimer.stop();
-            m_hopperCheckTimer.reset();
-            m_isRunning = false;
-        } else {
-            if (m_hopperCheckTimer.isRunning() &&
-                    m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
-                m_isHopperEmpty = true;
-                m_spindexerMotorVoltage = 0;
+        if (!m_isShooting) {
+            if (motorStopDebounce) {
+                m_isHopperEmpty = false;
+                m_hopperCheckTimer.stop();
+                m_hopperCheckTimer.reset();
                 m_isRunning = false;
-            } else if (motorStartDebounce) {
-                m_spindexerMotorVoltage = HOPPER_CHECK_VOLTAGE;
-                m_hopperCheckTimer.start();
-                m_isRunning = true;
+            } else {
+                if (m_hopperCheckTimer.isRunning() &&
+                        m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME) && !m_isHopperEmpty) {
+                    m_isHopperEmpty = true;
+                    m_spindexerMotorVoltage = 0;
+                    m_isRunning = false;
+                } else if (motorStartDebounce) {
+                    m_spindexerMotorVoltage = HOPPER_CHECK_VOLTAGE;
+                    m_hopperCheckTimer.start();
+                    m_isRunning = true;
+                }
             }
-        }
-        if (fullCapacity()) {
-            m_isHopperEmpty = false;
+            if (fullCapacity()) {
+                m_isHopperEmpty = false;
+            }
         }
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
@@ -141,6 +147,7 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
+            m_isShooting = false;
             if (shooterArbiter.readyToFire() || !m_hopperCheckTimer.isRunning()) {
                 m_spindexerMotorVoltage = INDEXING_VOLTAGE;
             } else {
