@@ -39,8 +39,6 @@ public class Vision extends SubsystemBase {
   public Vision() {
     // m_swerve = Subsystem.swerve;
     m_limelightHelpers = new LimelightHelpers();
-    // fake pipeline number
-    // LimelightHelpers.setPipelineIndex(LIMELIGHT_1, 1);
     m_fl = new Limelight(LL_FL, 4);
     m_fr = new Limelight(LL_FR, 3);
     m_bl = new Limelight(LL_BL, 4);
@@ -122,83 +120,6 @@ public class Vision extends SubsystemBase {
   public boolean hasBackLeftTag() {
     return m_has_bl_tag;
   }
-
-  // private double setxystdev(double distance, double numberOfTags, String name)
-  // {
-  // double xyStdv = 0;
-  // if (name.equals(LL_BL)) {
-  // xyStdv = Math.max(MINIMUM_THETA_STD_DEV_LL3, (distance * ERROR_FACTOR_LL3) /
-  // numberOfTags);
-  // } else if (name.equals(LL_BR)) {
-  // xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL2, (distance * ERROR_FACTOR_LL2) /
-  // numberOfTags);
-  // } else if (name.equals(LL_FL)) {
-  // xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL3G, (distance * ERROR_FACTOR_LL3G) /
-  // numberOfTags);
-  // } else if (name.equals(LL_SHOOTER) || name.equals(LL_FR)) {
-  // xyStdv = Math.max(MINIMUM_XY_STD_DEV_LL4, (distance * ERROR_FACTOR_LL4) /
-  // numberOfTags);
-  // }
-  // return xyStdv;
-  // }
-
-  // private double setthetastdev(double distance, double numberOfTags, String
-  // name) {
-  // double thetaStdv;
-  // if (name.equals(LL_BL)) {
-  // thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL3, (distance *
-  // ERROR_FACTOR_LL3_ANGLE) / numberOfTags);
-  // } else if (name.equals(LL_BR)) {
-  // thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL2, (distance *
-  // ERROR_FACTOR_LL2_ANGLE) / numberOfTags);
-  // } else if (name.equals(LL_FL)) {
-  // thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL3G, (distance *
-  // ERROR_FACTOR_LL3G_ANGLE) / numberOfTags);
-  // } else {
-  // thetaStdv = Math.max(MINIMUM_THETA_STD_DEV_LL4, (distance *
-  // ERROR_FACTOR_LL4_ANGLE) / numberOfTags);
-  // }
-  // return thetaStdv;
-  // }
-
-  // private void updateFusionOdometry() {
-  // // m_swerve.setVisionMeasurementStdDevs(VecBuilder.fill(0.7, 0.7, 9999999));
-  // LimelightHelpers.PoseEstimate estimateBL = LimelightHelpers
-  // .getBotPoseEstimate_wpiBlue_MegaTag2(LL_BL);
-  // LimelightHelpers.PoseEstimate estimateBR = LimelightHelpers
-  // .getBotPoseEstimate_wpiBlue_MegaTag2(LL_BR);
-  // LimelightHelpers.PoseEstimate estimateFL = LimelightHelpers
-  // .getBotPoseEstimate_wpiBlue_MegaTag2(LL_FL);
-  // LimelightHelpers.PoseEstimate estimateFR = LimelightHelpers
-  // .getBotPoseEstimate_wpiBlue_MegaTag2(LL_FR);
-
-  // record PoseData(PoseEstimate estimate, double frame, String limelightId) {
-  // }
-
-  // PoseData BL = new PoseData(estimateBL, getFrame(LL_BL), LL_BL);
-  // PoseData BR = new PoseData(estimateBR, getFrame(LL_BR), LL_BR);
-  // PoseData FL = new PoseData(estimateFL, getFrame(LL_FL), LL_FL);
-  // PoseData FR = new PoseData(estimateFR, getFrame(LL_FR), LL_FR);
-  // PoseData[] limelights = { BL, BR, FL, FR };
-
-  // for (PoseData limelight : limelights) {
-  // updateFrame(getFrame(limelight.limelightId()), limelight.limelightId());
-  // if (!verifyLimelightValidity(limelight.estimate(),
-  // getFrame(limelight.limelightId()))) {
-  // continue;
-  // }
-  // double numberOfTags = limelight.estimate().tagCount;
-  // double distance = limelight.estimate().avgTagDist;
-  // double xystdev = setxystdev(distance, numberOfTags, limelight.limelightId());
-  // double thetastdev = setthetastdev(distance, numberOfTags,
-  // limelight.limelightId());
-
-  // // check 1st and 2nd argument
-  // // m_swerve.addVisionMeasurement(limelight.estimate().pose,
-  // // limelight.estimate().timestampSeconds,VecBuilder.fill(xystdev, xystdev,
-  // // thetastdev));
-  // }
-  // }
 
   public double getTargetYawFromFr() {
     double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_FR);
@@ -285,15 +206,6 @@ public class Vision extends SubsystemBase {
     private double BumpScaleFactor = 1;
     private PoseEstimate estimate;
 
-    Limelight(String p_name, double p_model) {
-      name = p_name;
-      model = p_model;
-    }
-
-    public boolean hasTag() {
-      return LimelightHelpers.getTV(name);
-    }
-
     // use external IMU yaw submitted via setRobotOrientation() and configure the
     // LL4 internal IMU's fused yaw to match the submitted yaw value
     // 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
@@ -301,6 +213,14 @@ public class Vision extends SubsystemBase {
     // 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
     // the LL4 internal IMU's fused yaw to match the submitted yaw value.
     // 2 - Use internal IMU for MT2 localization.
+    Limelight(String p_name, double p_model) {
+      name = p_name;
+      model = p_model;
+      if (model == 4) {
+        LimelightHelpers.SetIMUMode(name, 1);
+      }
+    }
+
     public void setRobotOrientation(double yawDeg) {
       LimelightHelpers.SetRobotOrientation(name, yawDeg, 0, 0, 0, 0, 0);
     }
