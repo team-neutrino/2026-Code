@@ -26,6 +26,8 @@ public class RobotContainer {
     m_subsystemContainer = new Subsystems();
     configureDefaultCommands();
     configureBindings();
+    swerve.registerTelemetry(logger::telemeterize);
+
   }
 
   private void configureDefaultCommands() {
@@ -35,6 +37,7 @@ public class RobotContainer {
     index.setDefaultCommand(index.defaultCommand());
     kicker.setDefaultCommand(kicker.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
+    turret.setDefaultCommand(turret.defaultCommand());
   }
 
   private void configureBindings() {

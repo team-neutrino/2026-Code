@@ -116,15 +116,28 @@ public class Constants {
 
     public static class TurretConstants {
         public static final int MOTOR_ID = 29;
+        public static final int ENCODER_ID = 30;
         public static final double STARTUP_ANGLE = 135;
         public static final double CURRENT_LIMIT = 40;
         public static final double TURRET_P = 1;
         public static final double TURRET_I = 0;
         public static final double TURRET_D = 0;
         public static final double TURRET_FF = 1;
-        public static final double SENSOR_TO_MECHANISM_RATIO = 1;
+        public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
+        public static final double ROTOR_TO_SENSOR_RATIO = 1;
         public static final double TORQUE_LOAD = 0;
         public static final double ALLOWED_ERROR = 1;
+        public static final double DISCONTINUITY_POINT = 1;
+        public static final double ENCODER_MAGNET_OFFSET = 0;
+        public static final double STATIC_FF = 0;
+        public static final double VELOCITY_FF = 0;
+        public static final double ACCELERATION_FF = 0;
+        public static final double TARGET_CRUISE_VELOCITY = 1;
+        public static final double TARGET_ACCELERATION = 1;
+        public static final double TARGET_JERK = 1;
+        public static final double MAX_WINDUP = 330;
+        public static final double MIN_WINDUP = -330;
+        public static final double TARGET_TOLERANCE = 1;
     }
 
     public static class IndexerConstants {
