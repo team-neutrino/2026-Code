@@ -17,7 +17,7 @@ public class ClimbFactory {
         return climb.moveClimbCommand(LOWER_POSITION, RAISE_UP_SLOT);
     }
 
-    public static Command climbOnBar() {
+    public static Command climbOnToBar() {
         return climb.moveClimbCommand(CLIMB_POSITION, RAISE_UP_SLOT);
     }
 
@@ -27,7 +27,7 @@ public class ClimbFactory {
 
     public static Command climbSequentialCommand() {
         return raiseClimbArm().until(() -> climb.atCANRangeClimbPosition())
-                .andThen(climbOnBar().until(() -> RobotState.isTeleop())
-                .andThen(releaseClimbFromBar()).until(() -> climb.atTargetPosition()));
+                .andThen(climbOnToBar().until(() -> RobotState.isTeleop()))
+                .andThen(releaseClimbFromBar()).until(() -> climb.atTargetPosition());
     }
 }
