@@ -4,7 +4,7 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.NetworkTables.ClimbNT;
 import frc.robot.subsystems.NetworkTables.ShooterNT;
 
-public class Subsystems2026 {
+public class Subsystems {
     public static final HubActiveStatus hubState = new HubActiveStatus();
 
     public static final Climb climb = new ClimbNT();

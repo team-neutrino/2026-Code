@@ -5,8 +5,8 @@
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.ShooterConstants.*;
-import static frc.robot.util.Subsystems2026.hubState;
-import static frc.robot.util.Subsystems2026.shooterArbiter;
+import static frc.robot.util.Subsystems.hubState;
+import static frc.robot.util.Subsystems.shooterArbiter;
 
 import javax.lang.model.util.ElementScanner14;
 
