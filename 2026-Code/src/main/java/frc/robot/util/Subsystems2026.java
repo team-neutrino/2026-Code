@@ -13,6 +13,7 @@ public class Subsystems2026 {
     public static final Kicker kicker = new Kicker();
     public static final Limelight limelight = new Limelight();
     public static final Shooter shooter = new ShooterNT();
+    public static final Swerve swerve = new Swerve();
 
     public static final ShooterArbiter shooterArbiter = new ShooterArbiter();
 }

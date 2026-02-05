@@ -16,15 +16,15 @@ public class DriveToPointPID {
     }
 
     public double getXDistance() {
-        return Math.abs(m_target.getX() - AlphaSubsystem.swerve.getCurrentPose().getX());
+        return Math.abs(m_target.getX() - Subsystems2026.swerve.getCurrentPose().getX());
     }
 
     public double getYDistance() {
-        return Math.abs(m_target.getY() - AlphaSubsystem.swerve.getCurrentPose().getY());
+        return Math.abs(m_target.getY() - Subsystems2026.swerve.getCurrentPose().getY());
     }
 
     public double getYVelocity() {
-        Pose2d error = AlphaSubsystem.swerve.getCurrentPose().relativeTo(m_target);
+        Pose2d error = Subsystems2026.swerve.getCurrentPose().relativeTo(m_target);
         if (error.getTranslation().getNorm() < GAIN_SCHEDULE_THRESHOLD) {
             m_xControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
             m_yControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
@@ -36,11 +36,11 @@ public class DriveToPointPID {
             m_xControl.setD(DRIVE_TO_POINT_D);
             m_yControl.setD(DRIVE_TO_POINT_D);
         }
-        return m_yControl.calculate(AlphaSubsystem.swerve.getCurrentPose().getY() - m_target.getY());
+        return m_yControl.calculate(Subsystems2026.swerve.getCurrentPose().getY() - m_target.getY());
     }
 
     public double getXVelocity() {
-        Pose2d error = AlphaSubsystem.swerve.getCurrentPose().relativeTo(m_target);
+        Pose2d error = Subsystems2026.swerve.getCurrentPose().relativeTo(m_target);
         if (error.getTranslation().getNorm() < GAIN_SCHEDULE_THRESHOLD) {
             m_xControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
             m_yControl.setP(DRIVE_TO_POINT_P * GAIN_SCHEDULE_FACTOR_P);
@@ -52,7 +52,7 @@ public class DriveToPointPID {
             m_xControl.setD(DRIVE_TO_POINT_D);
             m_yControl.setD(DRIVE_TO_POINT_D);
         }
-        return m_xControl.calculate(AlphaSubsystem.swerve.getCurrentPose().getX() - m_target.getX());
+        return m_xControl.calculate(Subsystems2026.swerve.getCurrentPose().getX() - m_target.getX());
     }
 
     public Rotation2d getRotation() {

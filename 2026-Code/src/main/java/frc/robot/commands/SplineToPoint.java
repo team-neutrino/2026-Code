@@ -19,11 +19,10 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.AlphaSubsystem.*;
+import static frc.robot.util.Subsystems2026.*;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.util.AlphaSubsystem;
 
 public class SplineToPoint extends Command {
   private CommandXboxController m_driverController;
@@ -47,7 +46,7 @@ public class SplineToPoint extends Command {
   }
 
   private boolean isHopperEmpty() {
-    return alphaIntake.isEmpty();
+    return index.isHopperEmpty();
   }
 
   private void spline(Pose2d target) {
@@ -74,8 +73,8 @@ public class SplineToPoint extends Command {
   }
 
   private boolean swerveWithinDistance(double distance) {
-    return Math.abs(AlphaSubsystem.swerve.getCurrentPose().getX() - m_target.getX()) < distance
-        && Math.abs(AlphaSubsystem.swerve.getCurrentPose().getY() - m_target.getY()) < distance;
+    return Math.abs(swerve.getCurrentPose().getX() - m_target.getX()) < distance
+        && Math.abs(swerve.getCurrentPose().getY() - m_target.getY()) < distance;
   }
 
   private void setTarget() {
