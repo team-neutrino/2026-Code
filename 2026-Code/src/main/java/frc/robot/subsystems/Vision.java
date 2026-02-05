@@ -28,11 +28,6 @@ public class Vision extends SubsystemBase {
   private final Limelight m_br;
   // Swerve m_swerve;
   Rotation2d m_targetYaw;
-  private boolean m_has_shooter_tag;
-  private boolean m_has_fr_tag;
-  private boolean m_has_fl_tag;
-  private boolean m_has_br_tag;
-  private boolean m_has_bl_tag;
   private boolean m_enabled = false;
   private long m_slow_count = 0;
 
@@ -85,60 +80,6 @@ public class Vision extends SubsystemBase {
         FR_PITCH_OFFSET, // Pitch (degrees)
         FR_YAW_OFFSET // Yaw (degrees)
     );
-
-    LimelightHelpers.SetIMUMode(LL_FR, 1);
-    // use external IMU yaw submitted via setRobotOrientation() and configure the
-    // LL4 internal IMU's fused yaw to match the submitted yaw value
-    // 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
-    // localization. The internal IMU is ignored entirely.
-    // 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
-    // the LL4 internal IMU's fused yaw to match the submitted yaw value.
-    // 2 - Use internal IMU for MT2 localization.
-  }
-
-  /** True when the shooter camera currently sees a fiducial. */
-  public boolean hasShooterTag() {
-    return m_has_shooter_tag;
-  }
-
-  /** True when the front-right camera currently sees a fiducial. */
-  public boolean hasFrontRightTag() {
-    return m_has_fr_tag;
-  }
-
-  /** True when the front-left camera currently sees a fiducial. */
-  public boolean hasFrontLeftTag() {
-    return m_has_fl_tag;
-  }
-
-  /** True when the back-right camera currently sees a fiducial. */
-  public boolean hasBackRightTag() {
-    return m_has_br_tag;
-  }
-
-  /** True when the back-left camera currently sees a fiducial. */
-  public boolean hasBackLeftTag() {
-    return m_has_bl_tag;
-  }
-
-  public double getTargetYawFromFr() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_FR);
-    return temp.length == 0 ? 0 : temp[4];
-  }
-
-  public double getTargetYawFromFl() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_FL);
-    return temp.length == 0 ? 0 : temp[4];
-  }
-
-  public double getTargetYawFromBr() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_BR);
-    return temp.length == 0 ? 0 : temp[4];
-  }
-
-  public double getTargetYawFromBl() {
-    double[] temp = LimelightHelpers.getTargetPose_RobotSpace(LL_BL);
-    return temp.length == 0 ? 0 : temp[4];
   }
 
   private double getFrame(String limelight) {
@@ -188,8 +129,7 @@ public class Vision extends SubsystemBase {
 
     m_fl.updateFusionOdometry();
     m_fr.updateFusionOdometry();
-    m_bl.updateFusionOdometry();
-    m_br.updateFusionOdometry();
+
   }
 
   @Override
@@ -206,13 +146,20 @@ public class Vision extends SubsystemBase {
     private double BumpScaleFactor = 1;
     private PoseEstimate estimate;
 
-    // use external IMU yaw submitted via setRobotOrientation() and configure the
-    // LL4 internal IMU's fused yaw to match the submitted yaw value
-    // 0 - Use external IMU yaw submitted via SetRobotOrientation() for MT2
-    // localization. The internal IMU is ignored entirely.
-    // 1 - Use external IMU yaw submitted via SetRobotOrientation(), and configure
-    // the LL4 internal IMU's fused yaw to match the submitted yaw value.
-    // 2 - Use internal IMU for MT2 localization.
+    // 0 EXTERNAL_ONLY External (NT/HTTP) No internal IMU processing. MT2 uses
+    // interpolated yaw from robot's gyro sent via SetRobotOrientation().
+    // 1 EXTERNAL_SEED External (NT/HTTP) Internal IMU offset is calibrated to match
+    // external yaw each frame (seeding). MT2 still uses external yaw for botpose.
+    // 2 INTERNAL_ONLY Internal IMU Uses internal IMU's fused yaw only. No external
+    // input required.
+    // 3 INTERNAL_MT1_ASSIST Internal IMU + MT1 Complementary filter fuses internal
+    // IMU with MT1 vision yaw. When MT1 gets a valid pose, it slowly corrects
+    // internal IMU drift.
+    // 4 INTERNAL_EXTERNAL_ASSIST Internal IMU + External IMU Complementary filter
+    // fuses internal IMU with external yaw from SetRobotOrientation(). This is the
+    // recommended mode, as the internal IMU's 1khz update rate is utilized for
+    // frame-by-frame motion while the robot's IMU corrects for any drift over time.
+
     Limelight(String p_name, double p_model) {
       name = p_name;
       model = p_model;
@@ -336,6 +283,15 @@ public class Vision extends SubsystemBase {
         BumpScaleFactor = .5;
       }
       BumpScaleFactor = 1;
+    }
+
+    public void adjustIMUMode() {
+      if (model == 4) {
+        LimelightHelpers.SetIMUMode(name, 1);
+        if (m_enabled) {
+          LimelightHelpers.SetIMUMode(name, 4);
+        }
+      }
     }
 
     public boolean poseInField() {
