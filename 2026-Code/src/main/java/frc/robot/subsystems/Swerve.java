@@ -116,6 +116,16 @@ public class Swerve extends CommandSwerveDrivetrain {
         return Math.sqrt(Math.pow(hubDistanceX, 2) + Math.pow(hubDistanceY, 2));
     }
 
+    public boolean inNeutralOrOpposingZone() {
+        double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude();
+
+        if (GlobalConstants.RED_ALLIANCE.get()) {
+            return robotX < ALLIANCE_ZONE_RED;
+        } else {
+            return robotX > ALLIANCE_ZONE_BLUE;
+        }
+    }
+
     private void configurePathPlanner() {
         double pTranslation = 1;
         double iTranslation = 0;

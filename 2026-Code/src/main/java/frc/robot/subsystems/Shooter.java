@@ -26,6 +26,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
+import static frc.robot.util.Subsystems.swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -269,6 +270,9 @@ public class Shooter extends SubsystemBase {
     return run(() -> {
       m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
       m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
+      // m_targetShooterRpm =
+      // SHOOTER_SPEED_ZONES.floorEntry(swerve.getDistanceFromHub()).getValue();
+      // m_targetAngle = INTERPOLATION_HOOD.get(swerve.getDistanceFromHub());
     });
   }
 }
