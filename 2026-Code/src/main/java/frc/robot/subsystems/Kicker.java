@@ -27,7 +27,6 @@ public class Kicker extends SubsystemBase {
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private double m_kickerMotorVoltage;
 
-  /** Creates a new Kicker. */
   public Kicker() {
     m_currentLimitConfig.withSupplyCurrentLimit(KICKER_CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
@@ -41,7 +40,6 @@ public class Kicker extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
-
     });
   }
 
