@@ -4,11 +4,11 @@
   "holonomicMode": true,
   "pathFolders": [],
   "autoFolders": [
+    "Depot",
     "Neutral Zone",
     "Nothing",
-    "Depot",
     "Outpost",
-    "Preload Only"
+    "Preload Climb"
   ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 2.0,

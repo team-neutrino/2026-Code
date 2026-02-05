@@ -1,0 +1,82 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PL"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToPointFinite"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaKick"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Climb At Start"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Preload Climb",
+  "choreoAuto": false
+}
