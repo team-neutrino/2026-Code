@@ -13,9 +13,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
-import frc.robot.util.Subsystems2026;
+import frc.robot.util.Subsystems.*;
 import frc.robot.util.Constants;
 import static frc.robot.util.Constants.LimelightConstants.*;
+import static frc.robot.util.Subsystems.swerve;
 
 //Uncommment everything with swerve in it when swerve is added
 
@@ -26,13 +27,11 @@ public class Vision extends SubsystemBase {
   private final Limelight m_fr;
   private final Limelight m_bl;
   private final Limelight m_br;
-  // Swerve m_swerve;
   Rotation2d m_targetYaw;
   private boolean m_enabled = false;
   private long m_slow_count = 0;
 
   public Vision() {
-    // m_swerve = Subsystem.swerve;
     m_limelightHelpers = new LimelightHelpers();
     m_fl = new Limelight(LL_FL, 4);
     m_fr = new Limelight(LL_FR, 3);
@@ -111,13 +110,12 @@ public class Vision extends SubsystemBase {
   public void periodic() {
     ManageLimelightTemperature();
 
-    // if (m_swerve == null) {
-    // return;
-    // }
+    if (swerve == null) {
+      return;
+    }
 
     // dummy value until swerve is added
-    // final var yaw_degrees = Subsystem.swerve.getYawDegrees();
-    final var yaw_degrees = 0;
+    final var yaw_degrees = swerve.getYawDegrees();
 
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
@@ -187,10 +185,10 @@ public class Vision extends SubsystemBase {
       double xystdev = setxystdev(distance, numberOfTags);
       double thetastdev = setthetastdev(99999999);
 
-      // m_swerve.addVisionMeasurement(
-      // estimate.pose,
-      // estimate.timestampSeconds,
-      // VecBuilder.fill(xystdev, xystdev, thetastdev));
+      swerve.addVisionMeasurement(
+          estimate.pose,
+          estimate.timestampSeconds,
+          VecBuilder.fill(xystdev, xystdev, thetastdev));
 
       updateFrame();
     }
@@ -203,13 +201,12 @@ public class Vision extends SubsystemBase {
     }
 
     private boolean verifyLimelightValidity() {
-      return estimate != null;
-      // && estimate.tagCount != 0 // test
-      // && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change
-      // to two depending on max speed
-      // && frame > lastFrame
-      // && !Double.isNaN(estimate.avgTagDist)
-      // && poseInField();
+      return estimate != null
+          && estimate.tagCount != 0 // test
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
+          && frame > lastFrame
+          && !Double.isNaN(estimate.avgTagDist)
+          && poseInField();
     }
 
     private void updateFrame() {
@@ -268,14 +265,12 @@ public class Vision extends SubsystemBase {
       return temp.length == 0 ? 0 : temp[4];
     }
 
-    // test if works
     public void setThrottle(int throttle) {
       NetworkTableInstance.getDefault().getTable(name).getEntry("throttle_set").setNumber(throttle);
     }
 
     public boolean onBump() {
-      return false;
-      // return Math.abs(m_swerve.getPitch()) > BUMP_MINIMUM_THRESHOLD;
+      return Math.abs(swerve.getPitch()) > BUMP_MINIMUM_THRESHOLD;
     }
 
     private void setBumpScaleFactor() {
