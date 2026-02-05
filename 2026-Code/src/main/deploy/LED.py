@@ -54,12 +54,13 @@ def blinkColor(rgb):
     timePassed = time.time() - previousBlinkTime # timePassed counts up
 
     # on for half a second and off for half a second
-    if timePassed < 0.5:
+    if timePassed < 0.25:
         setNewColor(rgb)
-    elif timePassed > 0.5 and timePassed < 1:
+    elif timePassed > 0.25 and timePassed < 1:
         setNewColor(black)
     else:
         amount -= 1
+        previousBlinkTime = time.time()
         if amount == 0:
             blink = False
             setNewColor(rgb) 
@@ -123,11 +124,7 @@ def valueStateChanged(table, key, value, isNew):
     if value == "blink":
         blink = True
         previousBlinkTime = time.time()
-        amount = 1
-    # if value== "blinktwice":
-    #     blink = True
-    #     previousBlinkTime = time.time()
-    #     amount = 2 
+        amount = 5
     if value == "solid":
         blink = False
 
