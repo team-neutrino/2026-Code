@@ -7,6 +7,7 @@ package frc.robot.commands;
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
@@ -19,10 +20,16 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
+import static frc.robot.util.AlphaSubsystem.*;
+import static frc.robot.util.Subsystems2026.*;
 import static frc.robot.util.Subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.command_factories.ClimbFactory;
+import frc.robot.util.AlphaSubsystem;
+import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
 
 public class SplineToPoint extends Command {
   private CommandXboxController m_driverController;
@@ -35,6 +42,8 @@ public class SplineToPoint extends Command {
   private final NetworkTable driveStateTable = nt.getTable("DriveToPoint");
   private final StructPublisher<Pose2d> driveTarget = driveStateTable.getStructTopic("TargetPose", Pose2d.struct)
       .publish();
+
+  // private HubActiveStatus m_hubstate = AlphaSubsystem.hubState; 
 
   public SplineToPoint(CommandXboxController driverController, TargetMode targetMode) {
     m_driverController = driverController;
@@ -53,6 +62,7 @@ public class SplineToPoint extends Command {
     PathConstraints constraints = new PathConstraints(SPLINE_MAX_SPEED, SPLINE_MAX_ACCELERATION,
         SPLINE_MAX_ANGULAR_VELOCITY, SPLINE_MAX_ANGULAR_ACCELERATION);
     Command pathCommand = AutoBuilder.pathfindToPose(target, constraints, SPLINE_END_VELOCITY);
+    Boolean canRangeDetection = climb.isCANRangeDetected();
 
     switch (m_targetMode) {
       case SHOOTING:
@@ -68,6 +78,12 @@ public class SplineToPoint extends Command {
             .andThen(new DriveToPoint(target).until(() -> swerveWithinDistance(0.1))).andThen(new AlignToClimb())
             .until(() -> !m_driverController.getHID().getLeftBumperButton()));
         break;
+      
+      case AUTOCLIMBING:
+        CommandScheduler.getInstance().schedule(pathCommand.until(() -> swerveWithinDistance(1))
+            .andThen(new ParallelCommandGroup(new DriveToPoint(target).until(() -> swerveWithinDistance(0.1))).andThen(new AlignToClimb()), 
+            climb.defaultClimbCommand().until(() -> canRangeDetection).andThen(ClimbFactory.climbSequentialCommand())));
+          break;
     }
 
   }
@@ -84,20 +100,20 @@ public class SplineToPoint extends Command {
           if (!isHopperEmpty()) {
             m_targetPoseList = RED_RADIAL_SHOOTING_POSES;
             m_target = getClosestPoint(m_targetPoseList);
-          } else if (isHopperEmpty() && !hubState.isRedHubActive()) {
+          } else if (isHopperEmpty() && !AlphaSubsystem.hubState.isRedHubActive()) {
             m_targetPoseList = RED_NEUTRAL_ZONE_POSES;
             m_target = getClosestPoint(m_targetPoseList);
-          } else if (isHopperEmpty() && hubState.isRedHubActive()) {
+          } else if (isHopperEmpty() && AlphaSubsystem.hubState.isRedHubActive()) {
             // Do nothing
           }
         } else {
           if (!isHopperEmpty()) {
             m_targetPoseList = BLUE_RADIAL_SHOOTING_POSES;
             m_target = getClosestPoint(m_targetPoseList);
-          } else if (isHopperEmpty() && !hubState.isRedHubActive()) {
+          } else if (isHopperEmpty() && !AlphaSubsystem.hubState.isRedHubActive()) {
             m_targetPoseList = BLUE_NEUTRAL_ZONE_POSES;
             m_target = getClosestPoint(m_targetPoseList);
-          } else if (isHopperEmpty() && hubState.isRedHubActive()) {
+          } else if (isHopperEmpty() && AlphaSubsystem.hubState.isRedHubActive()) {
             // Do nothing
           }
         }
@@ -126,7 +142,7 @@ public class SplineToPoint extends Command {
   @Override
   public void initialize() {
     m_hadNoFuel = isHopperEmpty();
-    m_hubWasActive = RED_ALLIANCE.get() ? hubState.isRedHubActive() : hubState.isBlueHubActive();
+    m_hubWasActive = RED_ALLIANCE.get() ? AlphaSubsystem.hubState.isRedHubActive() : AlphaSubsystem.hubState.isBlueHubActive();
     setTarget();
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
@@ -136,8 +152,8 @@ public class SplineToPoint extends Command {
   @Override
   public void execute() {
     // logic to re-initialize if we use "bumpers" or equivalent
-    if (isHopperEmpty() != m_hadNoFuel || RED_ALLIANCE.get() ? hubState.isRedHubActive()
-        : hubState.isBlueHubActive() != m_hubWasActive) {
+    if (isHopperEmpty() != m_hadNoFuel || RED_ALLIANCE.get() ? AlphaSubsystem.hubState.isRedHubActive()
+        : AlphaSubsystem.hubState.isBlueHubActive() != m_hubWasActive) {
       initialize();
     }
     final long now = NetworkTablesJNI.now();

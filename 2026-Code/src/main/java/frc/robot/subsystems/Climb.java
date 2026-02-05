@@ -81,6 +81,10 @@ public class Climb extends SubsystemBase {
         return m_CANRange.getIsDetected().getValue();
     }
 
+    public boolean atCANRangeClimbPosition() {
+        return getCANRangeDistance() <= ALLOWED_ERROR;
+    }
+
     public void setClimbPID(double new_P, double new_I, double new_D, long slot) {
         if (slot == 1) {
             m_climbMotorConfig.Slot1.kP = new_P;

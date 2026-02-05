@@ -1,6 +1,9 @@
 package frc.robot.command_factories;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static frc.robot.util.Subsystems.climb;
 import static frc.robot.util.Constants.ClimbConstants.*;
@@ -20,5 +23,11 @@ public class ClimbFactory {
 
     public static Command releaseClimbFromBar() {
         return climb.moveClimbCommand(RELEASE_POSITION, LOWER_DOWN_SLOT);
+    }
+
+    public static Command climbSequentialCommand() {
+        return raiseClimbArm().until(() -> climb.atCANRangeClimbPosition())
+                .andThen(climbOnBar().until(() -> RobotState.isTeleop())
+                .andThen(releaseClimbFromBar()).until(() -> climb.atTargetPosition()));
     }
 }
