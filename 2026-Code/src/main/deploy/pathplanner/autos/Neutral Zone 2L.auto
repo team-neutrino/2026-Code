@@ -25,12 +25,6 @@
                 "data": {
                   "pathName": "Neutral Back"
                 }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
               }
             ]
           }
