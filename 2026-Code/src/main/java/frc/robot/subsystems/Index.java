@@ -41,11 +41,12 @@ public class Index extends SubsystemBase {
 
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
     private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
+    private boolean m_hasRumbled;
 
     public boolean m_isHopperEmpty;
     public Timer m_hopperCheckTimer = new Timer();
     public boolean m_isRunning = false;
-    public boolean m_isShooting = false;
+    private boolean m_isShooting = false;
 
     public Index() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -92,17 +93,26 @@ public class Index extends SubsystemBase {
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
         }
-    }
-
-    public void stopRumble() {
         if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+            m_hasRumbled = true;
         }
     }
 
-    public void startShooting() {
+    public void checkRumble() {
+        if (!m_hasRumbled) {
+            rumbleControllers();
+        }
+        if (!fullCapacity()) {
+            m_hasRumbled = false;
+        }
+    }
+
+    public void startsShooting() {
         m_isShooting = true;
+        m_hopperCheckTimer.stop();
+        m_hopperCheckTimer.reset();
     }
 
     public void checkEmptyHopper() {
@@ -110,48 +120,44 @@ public class Index extends SubsystemBase {
         boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
         if (!m_isShooting) {
             if (motorStopDebounce) {
+                m_isRunning = false;
                 m_isHopperEmpty = false;
+                m_spindexerMotorVoltage = 0;
                 m_hopperCheckTimer.stop();
                 m_hopperCheckTimer.reset();
-                m_isRunning = false;
             } else {
                 if (m_hopperCheckTimer.isRunning() &&
-                        m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME) && !m_isHopperEmpty) {
+                        m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
+                    m_isRunning = false;
                     m_isHopperEmpty = true;
                     m_spindexerMotorVoltage = 0;
-                    m_isRunning = false;
                 } else if (motorStartDebounce) {
+                    m_isRunning = true;
                     m_spindexerMotorVoltage = HOPPER_CHECK_VOLTAGE;
                     m_hopperCheckTimer.start();
-                    m_isRunning = true;
                 }
             }
             if (fullCapacity()) {
                 m_isHopperEmpty = false;
             }
+        } else {
+            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
         }
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
     @Override
     public void periodic() {
-        rumbleControllers();
-        stopRumble();
+        checkRumble();
         checkEmptyHopper();
-    }
-
-    public Command runSpindexer(double speed) {
-        return run(() -> {
-        });
     }
 
     public Command defaultCommand() {
         return run(() -> {
-            m_isShooting = false;
-            if (shooterArbiter.readyToFire() || !m_hopperCheckTimer.isRunning()) {
-                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+            if (shooterArbiter.readyToFire()) {
+                startsShooting();
             } else {
-                m_spindexerMotorVoltage = 0;
+                m_isShooting = false;
             }
         });
     }
