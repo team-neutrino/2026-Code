@@ -4,17 +4,21 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.command_factories.ClimbFactory;
 import frc.robot.command_factories.IntakeFactory;
-import frc.robot.command_factories.ShooterFactory;
+import frc.robot.generated.Telemetry;
+import frc.robot.generated.TunerConstants;
 import frc.robot.util.Subsystems;
-import static frc.robot.util.Constants.ShooterConstants.*;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import static edu.wpi.first.units.Units.*;
 import static frc.robot.util.Subsystems.*;
 
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
+  private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
 
   private Subsystems m_subsystemContainer;
 
@@ -30,11 +34,17 @@ public class RobotContainer {
     intake.setDefaultCommand(intake.defaultCommand());
     index.setDefaultCommand(index.defaultCommand());
     kicker.setDefaultCommand(kicker.defaultCommand());
+    swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
+
+    final var idle = new SwerveRequest.Idle();
+    RobotModeTriggers.disabled().whileTrue(
+        swerve.applyRequest(() -> idle).ignoringDisable(true));
   }
 
   private void configureBindings() {
     m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
     m_buttonController.b().whileTrue(IntakeFactory.deployAndRunIntake());
+
   }
 
   public Command getAutonomousCommand() {
