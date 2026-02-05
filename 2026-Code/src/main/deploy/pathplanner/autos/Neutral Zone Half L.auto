@@ -1,0 +1,82 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Neutral Top - 1"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Neutral Top - 2 Half"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Neutral Half Back"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToPointFinite"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "DriveToShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaSpinUp"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AlphaKick"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Neutral Zone",
+  "choreoAuto": false
+}
