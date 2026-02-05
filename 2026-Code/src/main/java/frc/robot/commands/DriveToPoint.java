@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.util.AlphaSubsystem;
+import static frc.robot.util.Subsystems2026.swerve;
 import frc.robot.util.DriveToPointPID;
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
@@ -17,7 +17,7 @@ public class DriveToPoint extends Command {
     private Pose2d m_target;
 
     public DriveToPoint(Pose2d target) {
-        addRequirements(AlphaSubsystem.swerve);
+        addRequirements(swerve);
         m_drivePID = new DriveToPointPID();
         m_target = target;
     }
@@ -28,7 +28,7 @@ public class DriveToPoint extends Command {
         xVelocity = MathUtil.clamp(xVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
         yVelocity = MathUtil.clamp(yVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
 
-        AlphaSubsystem.swerve.setVelocity(xVelocity, yVelocity, m_drivePID.getRotation());
+        swerve.setVelocity(xVelocity, yVelocity, m_drivePID.getRotation());
     }
 
     @Override

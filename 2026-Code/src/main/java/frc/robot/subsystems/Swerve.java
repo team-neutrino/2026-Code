@@ -1,4 +1,4 @@
-package frc.robot.alpha_subsystems;
+package frc.robot.subsystems;
 
 import frc.robot.generated.CommandSwerveDrivetrain;
 
@@ -30,11 +30,11 @@ import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
-public class AlphabotSwerve extends CommandSwerveDrivetrain {
+public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(4, -Integer.MAX_VALUE, 0);
 
-    public AlphabotSwerve() {
+    public Swerve() {
         super(TunerConstants.DrivetrainConstants,
                 TunerConstants.FrontLeft,
                 TunerConstants.FrontRight,
