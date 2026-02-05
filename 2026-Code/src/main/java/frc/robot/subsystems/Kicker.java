@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.KickerConstants.*;
-import static frc.robot.util.Subsystems2026.shooterArbiter;
+import static frc.robot.util.Subsystems.shooterArbiter;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -17,7 +17,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import static frc.robot.util.Subsystems2026.*;
+import static frc.robot.util.Subsystems.*;
 
 public class Kicker extends SubsystemBase {
 

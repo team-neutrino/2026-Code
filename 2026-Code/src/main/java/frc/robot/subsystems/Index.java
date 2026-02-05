@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
-import static frc.robot.util.Subsystems2026.shooterArbiter;
+import static frc.robot.util.Subsystems.shooterArbiter;
 
 public class Index extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;

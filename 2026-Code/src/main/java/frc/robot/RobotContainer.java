@@ -7,19 +7,19 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.command_factories.ClimbFactory;
 import frc.robot.command_factories.IntakeFactory;
 import frc.robot.command_factories.ShooterFactory;
-import frc.robot.util.Subsystems2026;
+import frc.robot.util.Subsystems;
 import static frc.robot.util.Constants.ShooterConstants.*;
 
-import static frc.robot.util.Subsystems2026.*;
+import static frc.robot.util.Subsystems.*;
 
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
 
-  private Subsystems2026 m_subsystemContainer;
+  private Subsystems m_subsystemContainer;
 
   public RobotContainer() {
-    m_subsystemContainer = new Subsystems2026();
+    m_subsystemContainer = new Subsystems();
     configureDefaultCommands();
     configureBindings();
   }
