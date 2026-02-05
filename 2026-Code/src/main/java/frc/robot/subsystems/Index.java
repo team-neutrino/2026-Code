@@ -109,7 +109,7 @@ public class Index extends SubsystemBase {
         }
     }
 
-    public void startsShooting() {
+    public void indexWhileShoot() {
         m_isShooting = true;
         m_hopperCheckTimer.stop();
         m_hopperCheckTimer.reset();
@@ -155,7 +155,7 @@ public class Index extends SubsystemBase {
     public Command defaultCommand() {
         return run(() -> {
             if (shooterArbiter.readyToFire()) {
-                startsShooting();
+                indexWhileShoot();
             } else {
                 m_isShooting = false;
             }
