@@ -359,7 +359,7 @@ public class Constants {
         public static final double ALLIANCE_ZONE_BLUE = 3.978;
         public static final double ALLIANCE_ZONE_RED = 12.563;
         public static final double MID_FIELD_Y = 4.034663;
-        public static final double MID_FIELD_X = 8.6868;
+        public static final double MID_FIELD_X = 8.270494;
         public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034663, new Rotation2d(0));
         public static final Pose2d BLUE_HUB = new Pose2d(4.625594, 4.034663, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 7, new Rotation2d(0));
