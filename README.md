@@ -42,6 +42,8 @@
 | Kicker    | Kicker            | 18      | Kraken x60  |
 | Climb     |                   | 19      | Kraken x60  |
 | Climb     |                   | 20      | CANrange    |
+| Indexer   |                   | 25      | CANrange    |
+| Indexer   |                   | 26      | CANrange    |
 | Indexer   |                   | 27      | CanandColor |
 | Turret    |                   | 29      | Kraken x44  |
 
