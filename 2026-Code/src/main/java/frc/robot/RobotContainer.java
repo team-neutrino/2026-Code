@@ -45,6 +45,7 @@ public class RobotContainer {
     m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
     m_buttonController.b().whileTrue(IntakeFactory.deployAndRunIntake());
 
+    m_driverController.start().whileTrue(swerve.resetYaw());
   }
 
   public Command getAutonomousCommand() {
