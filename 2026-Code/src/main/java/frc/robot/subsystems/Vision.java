@@ -13,21 +13,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
-import frc.robot.util.Subsystems.*;
-import frc.robot.util.Constants;
 import static frc.robot.util.Constants.LimelightConstants.*;
 import static frc.robot.util.Subsystems.swerve;
 
-//Uncommment everything with swerve in it when swerve is added
-
 public class Vision extends SubsystemBase {
   LimelightHelpers m_limelightHelpers;
-  double m_robotYaw;
   private final Limelight m_fl;
   private final Limelight m_fr;
   private final Limelight m_bl;
   private final Limelight m_br;
-  Rotation2d m_targetYaw;
   private boolean m_enabled = false;
   private long m_slow_count = 0;
 
@@ -81,13 +75,6 @@ public class Vision extends SubsystemBase {
     );
   }
 
-  private double getFrame(String limelight) {
-    return NetworkTableInstance.getDefault().getTable(limelight).getEntry("hb").getDouble(-1);
-  }
-
-  // find alternative to this function during testing. setThrottle no longer
-  // exists
-
   private void ManageLimelightTemperature() {
     m_slow_count++;
     if (m_enabled && (m_slow_count % 50) != 0) {
@@ -98,6 +85,7 @@ public class Vision extends SubsystemBase {
     m_bl.setThrottle(throttle);
     m_br.setThrottle(throttle);
     m_fl.setThrottle(throttle);
+    m_fr.setThrottle(throttle);
   }
 
   public Command limelightDefaultCommand() {
@@ -114,8 +102,7 @@ public class Vision extends SubsystemBase {
       return;
     }
 
-    // dummy value until swerve is added
-    final var yaw_degrees = swerve.getYawDegrees();
+    final double yaw_degrees = swerve.getYawDegrees();
 
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
@@ -127,7 +114,8 @@ public class Vision extends SubsystemBase {
 
     m_fl.updateFusionOdometry();
     m_fr.updateFusionOdometry();
-
+    m_bl.updateFusionOdometry();
+    m_br.updateFusionOdometry();
   }
 
   @Override
@@ -202,7 +190,7 @@ public class Vision extends SubsystemBase {
 
     private boolean verifyLimelightValidity() {
       return estimate != null
-          && estimate.tagCount != 0 // test
+          && estimate.tagCount != 0
           && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
           && frame > lastFrame
           && !Double.isNaN(estimate.avgTagDist)
