@@ -9,8 +9,13 @@ import frc.robot.command_factories.ClimbFactory;
 import frc.robot.command_factories.IntakeFactory;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
+import frc.robot.commands.SplineToPoint;
+import frc.robot.command_factories.ShooterFactory;
+import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
 import frc.robot.util.Subsystems;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import static frc.robot.util.Constants.ClimbConstants.CLIMB_POSITION;
+import static frc.robot.util.Constants.ShooterConstants.*;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.util.Subsystems.*;
@@ -40,7 +45,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
+    m_buttonController.leftTrigger().whileTrue(ClimbFactory.climbRunCommand()); // Random buttons subject to change
     m_buttonController.b().whileTrue(IntakeFactory.deployAndRunIntake());
     m_buttonController.a().whileTrue(shooter.resetHood());
     m_buttonController.leftTrigger().whileTrue(IntakeFactory.deployIntake());
