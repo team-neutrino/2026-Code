@@ -35,10 +35,6 @@ public class RobotContainer {
     index.setDefaultCommand(index.defaultCommand());
     kicker.setDefaultCommand(kicker.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
-
-    final var idle = new SwerveRequest.Idle();
-    RobotModeTriggers.disabled().whileTrue(
-        swerve.applyRequest(() -> idle).ignoringDisable(true));
   }
 
   private void configureBindings() {
