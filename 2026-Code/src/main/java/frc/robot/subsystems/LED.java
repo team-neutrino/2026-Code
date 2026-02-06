@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.StringTopic;
 import edu.wpi.first.networktables.StringPublisher;
 
 import frc.robot.util.HubActiveStatus;
-import frc.robot.util.Subsystems2026;
+import frc.robot.util.Subsystems;
 
 public class LED extends SubsystemBase {
     private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
@@ -19,8 +19,8 @@ public class LED extends SubsystemBase {
     private final StringPublisher m_state_pub;
 
     private double m_gameTime;
-    private HubActiveStatus m_hub_status = Subsystems2026.hubState;
-    private Index m_index = Subsystems2026.index;
+    private HubActiveStatus m_hub_status = Subsystems.hubState;
+    private Index m_index = Subsystems.index;
 
     public LED() {
         m_color_pub = m_color_topic.publish();
@@ -64,21 +64,26 @@ public class LED extends SubsystemBase {
 
         // alignment to shoot/pass/climb. determine based on drive to point
         //
-        // moving to point - pink
+        // moving to point = pink
         // m_color_pub.set("pink");
         // m_state_pub.set("solid");
         //
-        // at point - green
+        // at point = green
         // m_color_pub.set("green");
         // m_state_pub.set("solid");
 
-        // when hopper full - orange
+        // when hopper full = orange
         if (m_index.fullCapacity()) {
             m_color_pub.set("orange");
             m_state_pub.set("solid");
+            return;
         }
 
-        // hopper empty ? potentially deteremine based on a robot sensor
+        // hopper empty = green (color could change, sarah randomly picked)
+        if (m_index.isHopperEmpty()) {
+            m_color_pub.set("green");
+            return;
+        }
 
         // red hub active
         if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
