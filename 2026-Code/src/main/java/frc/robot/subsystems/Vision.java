@@ -18,60 +18,60 @@ import static frc.robot.util.Subsystems.swerve;
 
 public class Vision extends SubsystemBase {
   LimelightHelpers m_limelightHelpers;
-  private final Limelight m_fl;
-  private final Limelight m_fr;
-  private final Limelight m_bl;
-  private final Limelight m_br;
+  private final Limelight m_front;
+  private final Limelight m_back;
+  private final Limelight m_left;
+  private final Limelight m_right;
   private boolean m_enabled = false;
   private long m_slow_count = 0;
 
   public Vision() {
     m_limelightHelpers = new LimelightHelpers();
-    m_fl = new Limelight(LL_FL, 4);
-    m_fr = new Limelight(LL_FR, 3);
-    m_bl = new Limelight(LL_BL, 4);
-    m_br = new Limelight(LL_BR, 3.5);
-    LimelightHelpers.setLEDMode_ForceOff(LL_BL);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_BL,
-        BL_FORWARD_OFFSET, // Forward offset (meters)
-        BL_SIDE_OFFSET, // Side offset (meters) left is positive
-        BL_HEIGHT_OFFSET, // Height offset (meters)
-        BL_ROLL_OFFSET, // Roll (degrees)
-        BL_PITCH_OFFSET, // Pitch (degrees)
-        BL_YAW_OFFSET // Yaw (degrees)
+    m_front = new Limelight(LL_FRONT, 4);
+    m_back = new Limelight(LL_BACK, 4);
+    m_left = new Limelight(LL_LEFT, 3);
+    m_right = new Limelight(LL_RIGHT, 3.5);
+    LimelightHelpers.setLEDMode_ForceOff(LL_FRONT);
+    LimelightHelpers.setCameraPose_RobotSpace(LL_FRONT,
+        FRONT_FORWARD_OFFSET, // Forward offset (meters)
+        FRONT_SIDE_OFFSET, // Side offset (meters) left is positive
+        FRONT_HEIGHT_OFFSET, // Height offset (meters)
+        FRONT_ROLL_OFFSET, // Roll (degrees)
+        FRONT_PITCH_OFFSET, // Pitch (degrees)
+        FRONT_YAW_OFFSET // Yaw (degrees)
     );
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_BL, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_FRONT, 3);
 
-    LimelightHelpers.setLEDMode_ForceOff(LL_BR);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_BR,
-        BR_FORWARD_OFFSET, // Forward offset (meters)
-        BR_SIDE_OFFSET, // Side offset (meters) left is positive
-        BR_HEIGHT_OFFSET, // Height offset (meters)
-        BR_ROLL_OFFSET, // Roll (degrees)
-        BR_PITCH_OFFSET, // Pitch (degrees)
-        BR_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.setLEDMode_ForceOff(LL_BACK);
+    LimelightHelpers.setCameraPose_RobotSpace(LL_BACK,
+        BACK_FORWARD_OFFSET, // Forward offset (meters)
+        BACK_SIDE_OFFSET, // Side offset (meters) left is positive
+        BACK_HEIGHT_OFFSET, // Height offset (meters)
+        BACK_ROLL_OFFSET, // Roll (degrees)
+        BACK_PITCH_OFFSET, // Pitch (degrees)
+        BACK_YAW_OFFSET // Yaw (degrees)
     );
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_BR, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_LEFT, 3);
 
-    LimelightHelpers.setLEDMode_ForceOff(LL_FL);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_FL,
-        FL_FORWARD_OFFSET, // Forward offset (meters)
-        FL_SIDE_OFFSET, // Side offset (meters) left is positive
-        FL_HEIGHT_OFFSET, // Height offset (meters)
-        FL_ROLL_OFFSET, // Roll (degrees)
-        FL_PITCH_OFFSET, // Pitch (degrees)
-        FL_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.setLEDMode_ForceOff(LL_LEFT);
+    LimelightHelpers.setCameraPose_RobotSpace(LL_LEFT,
+        LEFT_FORWARD_OFFSET, // Forward offset (meters)
+        LEFT_SIDE_OFFSET, // Side offset (meters) left is positive
+        LEFT_HEIGHT_OFFSET, // Height offset (meters)
+        LEFT_ROLL_OFFSET, // Roll (degrees)
+        LEFT_PITCH_OFFSET, // Pitch (degrees)
+        LEFT_YAW_OFFSET // Yaw (degrees)
     );
 
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_FL, 3);
-    LimelightHelpers.setLEDMode_ForceOff(LL_FR);
-    LimelightHelpers.setCameraPose_RobotSpace(LL_FR,
-        FR_FORWARD_OFFSET, // Forward offset (meters)
-        FR_SIDE_OFFSET, // Side offset (meters) left is positive
-        FR_HEIGHT_OFFSET, // Height offset (meters)
-        FR_ROLL_OFFSET, // Roll (degrees)
-        FR_PITCH_OFFSET, // Pitch (degrees)
-        FR_YAW_OFFSET // Yaw (degrees)
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_RIGHT, 3);
+    LimelightHelpers.setLEDMode_ForceOff(LL_RIGHT);
+    LimelightHelpers.setCameraPose_RobotSpace(LL_RIGHT,
+        RIGHT_FORWARD_OFFSET, // Forward offset (meters)
+        RIGHT_SIDE_OFFSET, // Side offset (meters) left is positive
+        RIGHT_HEIGHT_OFFSET, // Height offset (meters)
+        RIGHT_ROLL_OFFSET, // Roll (degrees)
+        RIGHT_PITCH_OFFSET, // Pitch (degrees)
+        RIGHT_YAW_OFFSET // Yaw (degrees)
     );
   }
 
@@ -82,10 +82,10 @@ public class Vision extends SubsystemBase {
     }
     m_enabled = DriverStation.isEnabled();
     final int throttle = m_enabled ? 0 : 169;
-    m_bl.setThrottle(throttle);
-    m_br.setThrottle(throttle);
-    m_fl.setThrottle(throttle);
-    m_fr.setThrottle(throttle);
+    m_front.setThrottle(throttle);
+    m_back.setThrottle(throttle);
+    m_left.setThrottle(throttle);
+    m_right.setThrottle(throttle);
   }
 
   public Command limelightDefaultCommand() {
@@ -107,15 +107,15 @@ public class Vision extends SubsystemBase {
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
     // supply current robot orientation to every Limelight before asking for pose
-    m_fl.setRobotOrientation(yaw_degrees);
-    m_fr.setRobotOrientation(yaw_degrees);
-    m_bl.setRobotOrientation(yaw_degrees);
-    m_br.setRobotOrientation(yaw_degrees);
+    m_front.setRobotOrientation(yaw_degrees);
+    m_back.setRobotOrientation(yaw_degrees);
+    m_left.setRobotOrientation(yaw_degrees);
+    m_right.setRobotOrientation(yaw_degrees);
 
-    m_fl.updateFusionOdometry();
-    m_fr.updateFusionOdometry();
-    m_bl.updateFusionOdometry();
-    m_br.updateFusionOdometry();
+    m_front.updateFusionOdometry();
+    m_back.updateFusionOdometry();
+    m_left.updateFusionOdometry();
+    m_right.updateFusionOdometry();
   }
 
   @Override

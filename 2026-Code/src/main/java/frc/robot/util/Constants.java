@@ -157,39 +157,39 @@ public class Constants {
     }
 
     public static class LimelightConstants {
-        public static final String LL_FR = "limelight-fr";
-        public static final String LL_FL = "limelight-fl";
-        public static final String LL_BR = "limelight-br";
-        public static final String LL_BL = "limelight-bl";
+        public static final String LL_FRONT = "limelight-front";
+        public static final String LL_BACK = "limelight-back";
+        public static final String LL_LEFT = "limelight-left";
+        public static final String LL_RIGHT = "limelight-right";
 
         // Camera pose offsets
-        public static final double FR_FORWARD_OFFSET = 0.0;
-        public static final double FR_SIDE_OFFSET = 0.0;
-        public static final double FR_HEIGHT_OFFSET = 0.0;
-        public static final double FR_ROLL_OFFSET = 0.0;
-        public static final double FR_PITCH_OFFSET = 0.0;
-        public static final double FR_YAW_OFFSET = 0.0;
+        public static final double FRONT_FORWARD_OFFSET = 0.0;
+        public static final double FRONT_SIDE_OFFSET = 0.0;
+        public static final double FRONT_HEIGHT_OFFSET = 0.0;
+        public static final double FRONT_ROLL_OFFSET = 0.0;
+        public static final double FRONT_PITCH_OFFSET = 0.0;
+        public static final double FRONT_YAW_OFFSET = 0.0;
 
-        public static final double FL_FORWARD_OFFSET = 0.0;
-        public static final double FL_SIDE_OFFSET = 0.0;
-        public static final double FL_HEIGHT_OFFSET = 0.80;
-        public static final double FL_ROLL_OFFSET = 0.0;
-        public static final double FL_PITCH_OFFSET = 0.0;
-        public static final double FL_YAW_OFFSET = 0.0;
+        public static final double BACK_FORWARD_OFFSET = 0.0;
+        public static final double BACK_SIDE_OFFSET = 0.0;
+        public static final double BACK_HEIGHT_OFFSET = 0.80;
+        public static final double BACK_ROLL_OFFSET = 0.0;
+        public static final double BACK_PITCH_OFFSET = 0.0;
+        public static final double BACK_YAW_OFFSET = 0.0;
 
-        public static final double BR_FORWARD_OFFSET = 0.0;
-        public static final double BR_SIDE_OFFSET = 0.0;
-        public static final double BR_HEIGHT_OFFSET = 0.0;
-        public static final double BR_ROLL_OFFSET = 0; // Roll (degrees)
-        public static final double BR_PITCH_OFFSET = 0; // Pitch (degrees)
-        public static final double BR_YAW_OFFSET = 0; // Yaw (degrees)
+        public static final double LEFT_FORWARD_OFFSET = 0.0;
+        public static final double LEFT_SIDE_OFFSET = 0.0;
+        public static final double LEFT_HEIGHT_OFFSET = 0.0;
+        public static final double LEFT_ROLL_OFFSET = 0; // Roll (degrees)
+        public static final double LEFT_PITCH_OFFSET = 0; // Pitch (degrees)
+        public static final double LEFT_YAW_OFFSET = 0; // Yaw (degrees)
 
-        public static final double BL_FORWARD_OFFSET = 0; // Forward offset (meters)
-        public static final double BL_SIDE_OFFSET = 0; // Side offset (meters) right is positive
-        public static final double BL_HEIGHT_OFFSET = 0; // Height offset (meters)
-        public static final double BL_ROLL_OFFSET = 0; // Roll (degrees)
-        public static final double BL_PITCH_OFFSET = 0; // Pitch (degrees)
-        public static final double BL_YAW_OFFSET = 0; // Yaw (degrees)
+        public static final double RIGHT_FORWARD_OFFSET = 0; // Forward offset (meters)
+        public static final double RIGHT_SIDE_OFFSET = 0; // Side offset (meters) right is positive
+        public static final double RIGHT_HEIGHT_OFFSET = 0; // Height offset (meters)
+        public static final double RIGHT_ROLL_OFFSET = 0; // Roll (degrees)
+        public static final double RIGHT_PITCH_OFFSET = 0; // Pitch (degrees)
+        public static final double RIGHT_YAW_OFFSET = 0; // Yaw (degrees)
 
         public static final double MINIMUM_XY_STD_DEV_LL4 = 0;
         public static final double MINIMUM_THETA_STD_DEV_LL4 = 0;
