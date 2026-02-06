@@ -8,16 +8,10 @@ import static frc.robot.util.Constants.ShooterConstants.*;
 import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
-import javax.lang.model.util.ElementScanner14;
-
-import frc.robot.util.HubActiveStatus;
 import frc.robot.util.Constants.RioConstants;
-import frc.robot.util.Constants.ShooterConstants;
 
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.HootEpilogueBackend;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -26,7 +20,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.Subsystems.swerve;
+import static frc.robot.util.Subsystems.swerve; // this import is actually needed
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -263,6 +257,16 @@ public class Shooter extends SubsystemBase {
   public Command shootingSpeed(double speed) {
     return run(() -> {
       m_targetShooterRpm = speed;
+    });
+  }
+
+  /**
+   * A command to put the robot into shuttle mode.
+   */
+  public Command shuttle() {
+    return run(() -> {
+      m_targetAngle = SHUTTLE_ANGLE;
+      m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
     });
   }
 
