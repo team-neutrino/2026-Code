@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,9 +14,10 @@ import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import static frc.robot.util.Constants.LimelightConstants.*;
 import static frc.robot.util.Subsystems.swerve;
+import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.networktables.StructTopic;
 
 public class Vision extends SubsystemBase {
-  LimelightHelpers m_limelightHelpers;
   private final Limelight m_front;
   private final Limelight m_back;
   private final Limelight m_left;
@@ -25,12 +25,37 @@ public class Vision extends SubsystemBase {
   private boolean m_enabled = false;
   private long m_slow_count = 0;
 
+  private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
+  private StructTopic<Pose2d> m_frontPose = m_nt.getStructTopic("/limelight_poses/front", Pose2d.struct);
+  private StructTopic<Pose2d> m_backPose = m_nt.getStructTopic("/limelight_poses/back", Pose2d.struct);
+  private StructTopic<Pose2d> m_leftPose = m_nt.getStructTopic("/limelight_poses/left", Pose2d.struct);
+  private StructTopic<Pose2d> m_rightPose = m_nt.getStructTopic("/limelight_poses/right", Pose2d.struct);
+  private StructPublisher<Pose2d> m_frontPosePub;
+  private StructPublisher<Pose2d> m_backPosePub;
+  private StructPublisher<Pose2d> m_leftPosePub;
+  private StructPublisher<Pose2d> m_rightPosePub;
+  private Pose2d blank = new Pose2d();
+
   public Vision() {
-    m_limelightHelpers = new LimelightHelpers();
     m_front = new Limelight(LL_FRONT, 4);
     m_back = new Limelight(LL_BACK, 4);
     m_left = new Limelight(LL_LEFT, 3);
     m_right = new Limelight(LL_RIGHT, 3.5);
+
+    m_frontPosePub = m_frontPose.publish();
+    m_frontPosePub.setDefault(blank);
+    m_backPosePub = m_backPose.publish();
+    m_backPosePub.setDefault(blank);
+    m_leftPosePub = m_leftPose.publish();
+    m_leftPosePub.setDefault(blank);
+    m_rightPosePub = m_rightPose.publish();
+    m_rightPosePub.setDefault(blank);
+
+    limelightInitialization();
+  }
+
+  private void limelightInitialization() {
+
     LimelightHelpers.setLEDMode_ForceOff(LL_FRONT);
     LimelightHelpers.setCameraPose_RobotSpace(LL_FRONT,
         FRONT_FORWARD_OFFSET, // Forward offset (meters)
@@ -116,6 +141,11 @@ public class Vision extends SubsystemBase {
     m_back.updateFusionOdometry();
     m_left.updateFusionOdometry();
     m_right.updateFusionOdometry();
+
+    m_frontPosePub.set(m_front.getEstimatePose());
+    m_backPosePub.set(m_back.getEstimatePose());
+    m_leftPosePub.set(m_left.getEstimatePose());
+    m_rightPosePub.set(m_right.getEstimatePose());
   }
 
   @Override
