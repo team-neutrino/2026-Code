@@ -87,6 +87,7 @@ public class Index extends SubsystemBase {
 
     public void rumbleControllers() {
         if (fullCapacity()) {
+            System.out.println("rumble");
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
         } else {
@@ -94,8 +95,8 @@ public class Index extends SubsystemBase {
             m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
         }
         if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
-            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
             m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
             m_hasRumbled = true;
         }
     }
@@ -150,6 +151,8 @@ public class Index extends SubsystemBase {
     public void periodic() {
         checkRumble();
         checkEmptyHopper();
+        System.out.println("1: " + getCanRangeDistance(m_canRange1));
+        System.out.println("2: " + getCanRangeDistance(m_canRange2));
     }
 
     public Command defaultCommand() {
