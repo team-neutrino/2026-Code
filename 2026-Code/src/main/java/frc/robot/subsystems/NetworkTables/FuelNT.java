@@ -9,11 +9,12 @@ import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.PubSubOption;
 
 public class FuelNT extends SubsystemBase {
   private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
-  private DoubleTopic distance = m_nt.getDoubleTopic("distance");
-  private DoubleSubscriber getDistance = distance.subscribe(0, null);
+  private DoubleTopic distance = m_nt.getDoubleTopic("distance/yaw");
+  private DoubleSubscriber getDistance = distance.subscribe(0, PubSubOption.periodic(1));
 
   public FuelNT() {
 
