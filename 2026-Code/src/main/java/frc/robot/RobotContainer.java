@@ -41,7 +41,7 @@ public class RobotContainer {
     m_driverController.leftBumper().whileTrue(SuperstructureFactory.climbRunCommand(m_driverController));
     m_driverController.start().whileTrue(swerve.resetYaw());
 
-    m_buttonController.leftBumper().whileTrue(ClimbFactory.climbReleaseCommand());
+    m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
   }
 
   public Command getAutonomousCommand() {
