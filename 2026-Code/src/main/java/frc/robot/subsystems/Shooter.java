@@ -216,6 +216,10 @@ public class Shooter extends SubsystemBase {
     m_hoodMotor.setControl(positionControl);
   }
 
+  public double getHoodCurrent() {
+    return Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble());
+  }
+
   /**
    * Control the shooter motor to target a certain RPM as decided by
    * m_targetShooterRpm.
