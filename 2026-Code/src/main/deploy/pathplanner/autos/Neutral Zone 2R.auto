@@ -96,6 +96,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Neutral Zone",
+  "folder": "Neutral Zone Test",
   "choreoAuto": false
 }

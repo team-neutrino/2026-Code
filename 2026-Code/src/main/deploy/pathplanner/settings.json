@@ -5,10 +5,12 @@
   "pathFolders": [
     "Climb",
     "Neutral",
-    "Other"
+    "New Folder",
+    "Neutral Test"
   ],
   "autoFolders": [
     "Depot",
+    "Neutral Zone Test",
     "Neutral Zone",
     "Nothing",
     "Outpost",
@@ -39,6 +41,6 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.375,\"y\":-0.319},\"end\":{\"x\":0.375,\"y\":0.3190875},\"strokeWidth\":0.02}}"
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.37,\"y\":0.0},\"size\":{\"width\":0.638175,\"length\":0.1},\"borderRadius\":0.001,\"strokeWidth\":0.02,\"filled\":false}}"
   ]
 }
