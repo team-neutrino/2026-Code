@@ -40,7 +40,7 @@ public class Constants {
 
         public static final double ALLOWED_ERROR = 0.1;
 
-        public static final double RAISE_POSITION = 9;
+        public static final double RAISE_POSITION = 5;
         public static final double LOWER_POSITION = 0;
         public static final double CLIMB_POSITION = 3;
         public static final double RELEASE_POSITION = 10;

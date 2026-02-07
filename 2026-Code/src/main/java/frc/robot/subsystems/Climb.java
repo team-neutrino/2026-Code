@@ -61,8 +61,7 @@ public class Climb extends SubsystemBase {
     }
 
     public boolean atTargetPosition() {
-        return getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR
-                && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR;
+        return Math.abs(getClimbPosition() - m_climbTargetPosition) <= ALLOWED_ERROR;
     }
 
     public double getClimbPosition() {
