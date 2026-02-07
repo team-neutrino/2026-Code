@@ -5,8 +5,8 @@
   "pathFolders": [
     "Climb",
     "Neutral",
-    "New Folder",
-    "Neutral Test"
+    "Neutral Test",
+    "Other"
   ],
   "autoFolders": [
     "Depot",
@@ -41,6 +41,6 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.37,\"y\":0.0},\"size\":{\"width\":0.638175,\"length\":0.1},\"borderRadius\":0.001,\"strokeWidth\":0.02,\"filled\":false}}"
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.521793,\"y\":0.0},\"size\":{\"width\":0.638175,\"length\":0.185067321},\"borderRadius\":0.001,\"strokeWidth\":0.02,\"filled\":false}}"
   ]
 }
