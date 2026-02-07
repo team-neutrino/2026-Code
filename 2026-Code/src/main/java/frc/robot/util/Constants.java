@@ -77,6 +77,7 @@ public class Constants {
         public static final double OUTPOST_ANGLE = 0.1;
         public static final double DEFAULT = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
+        public static final double CURRENT_SPIKE = 8.0;
 
         public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
             RADIAL_CLOSE,
