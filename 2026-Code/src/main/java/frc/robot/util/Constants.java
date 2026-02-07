@@ -57,6 +57,7 @@ public class Constants {
 
     public static class ShooterConstants {
         public static final double CURRENT_LIMIT = 40;
+        public static final double CURRENT_HOOD_LIMIT = 4;
         public static final double SHOOTING_KP = 0.1;
         public static final double SHOOTING_KI = 0.0;
         public static final double SHOOTING_KD = 0.0;
