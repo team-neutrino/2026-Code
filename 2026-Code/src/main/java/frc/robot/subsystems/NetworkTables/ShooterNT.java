@@ -43,6 +43,10 @@ public class ShooterNT extends Shooter {
     private DoublePublisher m_hoodPositionPublisher;
     private DoubleSubscriber m_hoodPositionSubscriber;
 
+    private DoubleTopic m_hoodCurrentTopic;
+    private DoublePublisher m_hoodCurrentPublisher;
+    private DoubleSubscriber m_hoodCurrentSubscriber;
+
     /**
      * Creates a new class to organize network tables related to the Shooter
      * subsystem.
@@ -83,6 +87,10 @@ public class ShooterNT extends Shooter {
         m_hoodPositionPublisher = m_hoodPositionTopic.publish();
         m_hoodPositionSubscriber = m_hoodPositionTopic.subscribe(0.0);
 
+        m_hoodPositionTopic = m_globalNT.getDoubleTopic("shooter/hoodCurrent");
+        m_hoodPositionPublisher = m_hoodPositionTopic.publish();
+        m_hoodPositionSubscriber = m_hoodPositionTopic.subscribe(0.0);
+
         // m_previousShootingKP = SHOOTING_KP;
         // m_previousShootingKI = SHOOTING_KI;
         // m_previousShootingKD = SHOOTING_KD;
@@ -116,6 +124,7 @@ public class ShooterNT extends Shooter {
         m_shooterTargetPublisher.set(getTargetRPM());
         m_hoodTargetPublisher.set(getTargetPosition());
         m_hoodPositionPublisher.set(getHoodAngle());
+        m_hoodCurrentPublisher.set(getHoodCurrent());
     }
 
 }
