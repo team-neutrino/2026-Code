@@ -23,6 +23,7 @@ import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Subsystems.swerve; // this import is actually needed
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
@@ -55,10 +56,6 @@ public class Shooter extends SubsystemBase {
         .withStatorCurrentLimitEnable(true);
     m_shooterMotorConfig.CurrentLimits = m_currentLimitConfig;
 
-    m_hoodCurrentLimitConfig.withSupplyCurrentLimit(CURRENT_HOOD_LIMIT)
-        .withSupplyCurrentLimitEnable(true)
-        .withStatorCurrentLimit(CURRENT_HOOD_LIMIT)
-        .withStatorCurrentLimitEnable(true);
     m_hoodMotorConfig.CurrentLimits = m_currentLimitConfig;
 
     m_shooterMotorConfig.Slot0.kP = SHOOTING_KP;
@@ -236,7 +233,9 @@ public class Shooter extends SubsystemBase {
    * @return A safe angle for the hood to travel to.
    */
   public double getSafeAngle(double originalAngle) {
-    return Math.min(originalAngle, MAX_SAFE_HOOD_ANGLE);
+    // return Math.min(originalAngle, MAX_SAFE_HOOD_ANGLE);
+    return originalAngle; // CHANGE THIS LATER! This is temporarily being disabled because it is
+                          // IMPOSSIBLE to test hood with it
   }
 
   @Override
@@ -246,6 +245,7 @@ public class Shooter extends SubsystemBase {
 
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
+
     if (hubState.hasValidGameData()) {
       if (RED_ALLIANCE.get()) {
         shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
@@ -281,30 +281,29 @@ public class Shooter extends SubsystemBase {
     });
   }
 
-  /**
-   * A command to put the robot into shuttle mode.
-   */
-  public Command shuttle() {
-    return run(() -> {
-      m_targetAngle = SHUTTLE_ANGLE;
-      m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
-    });
-  }
-
   public Command resetHood() {
-    return run(() -> {
-      m_hoodMotor.setVoltage(-4);
-      if (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE) {
-        m_hoodMotor.setPosition(0);
-      }
-    });
+    return new FunctionalCommand(
+        () -> {
+          m_hoodMotor.setVoltage(-1);
+        }, // set motor to go backwards on command start
+        () -> {
+        }, // do nothing periodically
+        interrupted -> m_hoodMotor.setPosition(0), // set motor position to 0 when command ends
+        () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE
+            && Math.abs(getShooterRPM() / 60) < ALLOWED_RPM_ERROR), // end command when current spike and no movement
+        this // require shooter subsystem
+    );
   }
 
   public Command defaultCommand() {
     return run(() -> {
-      System.out.println("running this code");
-      m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
-      m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
+      if (!swerve.inNeutralOrOpposingZone()) {
+        m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
+        m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
+      } else {
+        m_targetAngle = SHUTTLE_ANGLE;
+        m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
+      }
       // m_targetShooterRpm =
       // SHOOTER_SPEED_ZONES.floorEntry(swerve.getDistanceFromHub()).getValue();
       // m_targetAngle = INTERPOLATION_HOOD.get(swerve.getDistanceFromHub());
