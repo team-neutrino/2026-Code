@@ -15,6 +15,8 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Distance;
 
+import static frc.robot.util.GearRatioHelper.*;
+
 public class Constants {
     public static class RioConstants {
         public static final CANBus RIO_BUS = new CANBus("rio");
@@ -78,6 +80,7 @@ public class Constants {
         public static final double DEFAULT = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double CURRENT_SPIKE = 20.0;
+        public static final double HOOD_GEAR_RATIO = 13.5;
 
         public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
             RADIAL_CLOSE,
@@ -89,11 +92,11 @@ public class Constants {
 
         public static final InterpolatingDoubleTreeMap INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 0.0),
-                Map.entry(5.0, 0.5),
-                Map.entry(15.0, 1.0),
-                Map.entry(25.0, 1.5),
-                Map.entry(35.0, 2.0),
-                Map.entry(50.0, 3.0));
+                Map.entry(5.0, convertToHood(10)),
+                Map.entry(15.0, convertToHood(15)),
+                Map.entry(25.0, convertToHood(20)),
+                Map.entry(35.0, convertToHood(25)),
+                Map.entry(50.0, convertToHood(30)));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, 3000.0),
@@ -101,8 +104,8 @@ public class Constants {
                 Map.entry(23.9, 5800.0)));
 
         public static final double SHUTTLE_SHOOTING_SPEED = 6000;
-        public static final double SHUTTLE_ANGLE = 25.0 / 360.0;
-        public static final double MAX_SAFE_HOOD_ANGLE = 25.0 / 360.0;
+        public static final double SHUTTLE_ANGLE = convertToHood(25);
+        public static final double MAX_SAFE_HOOD_ANGLE = convertToHood(25);
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
