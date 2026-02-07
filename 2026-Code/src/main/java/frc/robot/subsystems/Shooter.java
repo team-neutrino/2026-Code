@@ -35,6 +35,7 @@ public class Shooter extends SubsystemBase {
   private TalonFXConfiguration m_shooterMotorConfig = new TalonFXConfiguration();
   private TalonFXConfiguration m_hoodMotorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
+  private final CurrentLimitsConfigs m_hoodCurrentLimitConfig = new CurrentLimitsConfigs();
 
   private double m_targetAngle = START_POSITION;
 
@@ -53,6 +54,12 @@ public class Shooter extends SubsystemBase {
         .withStatorCurrentLimit(CURRENT_LIMIT)
         .withStatorCurrentLimitEnable(true);
     m_shooterMotorConfig.CurrentLimits = m_currentLimitConfig;
+
+    m_hoodCurrentLimitConfig.withSupplyCurrentLimit(CURRENT_HOOD_LIMIT)
+        .withSupplyCurrentLimitEnable(true)
+        .withStatorCurrentLimit(CURRENT_HOOD_LIMIT)
+        .withStatorCurrentLimitEnable(true);
+    m_hoodMotorConfig.CurrentLimits = m_hoodCurrentLimitConfig;
 
     m_shooterMotorConfig.Slot0.kP = SHOOTING_KP;
     m_shooterMotorConfig.Slot0.kI = SHOOTING_KI;
@@ -277,6 +284,15 @@ public class Shooter extends SubsystemBase {
     return run(() -> {
       m_targetAngle = SHUTTLE_ANGLE;
       m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
+    });
+  }
+
+  public Command resetHood() {
+    return run(() -> {
+      m_hoodMotor.setVoltage(-4);
+      if (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE) {
+        m_hoodMotor.setPosition(0);
+      }
     });
   }
 
