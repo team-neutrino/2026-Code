@@ -98,6 +98,10 @@ public class Constants {
                 Map.entry(4.0, 3928.0),
                 Map.entry(23.9, 5800.0)));
 
+        public static final double SHUTTLE_SHOOTING_SPEED = 6000;
+        public static final double SHUTTLE_ANGLE = 25.0 / 360.0;
+        public static final double MAX_SAFE_HOOD_ANGLE = 25.0 / 360.0;
+
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
             HOOD_ANGLE_CORRECT,
