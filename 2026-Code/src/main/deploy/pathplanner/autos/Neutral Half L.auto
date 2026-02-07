@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Neutral Near - 1"
+            "pathName": "Near - 1L"
           }
         },
         {
@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Neutral Half - 2"
+                  "pathName": "Half - 2L"
                 }
               }
             ]
@@ -30,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Neutral Half - 3"
+                  "pathName": "Half - 3L"
                 }
               }
             ]
