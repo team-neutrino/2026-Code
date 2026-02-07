@@ -85,17 +85,19 @@ public class Index extends SubsystemBase {
         return m_isHopperEmpty;
     }
 
+    public void setRumble(double strength) {
+        m_rumbleDriver.setRumble(RumbleType.kBothRumble, strength);
+        m_rumbleButtons.setRumble(RumbleType.kBothRumble, strength);
+    }
+
     public void rumbleControllers() {
         if (fullCapacity()) {
-            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0.5);
-            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0.5);
+            setRumble(RUMBLE_STRENGTH);
         } else {
-            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
-            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
+            setRumble(0);
         }
         if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
-            m_rumbleButtons.setRumble(RumbleType.kBothRumble, 0);
-            m_rumbleDriver.setRumble(RumbleType.kBothRumble, 0);
+            setRumble(0);
             m_hasRumbled = true;
         }
     }
