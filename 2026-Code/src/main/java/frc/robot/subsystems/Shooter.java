@@ -240,9 +240,6 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    controlShooterMotor();
-    controlHoodMotor();
-
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
 
@@ -285,9 +282,11 @@ public class Shooter extends SubsystemBase {
     return new FunctionalCommand(
         () -> {
           m_hoodMotor.setVoltage(-1);
-        }, // set motor to go backwards on command start
+        }, // set motor to go backwards on command start. please do make sure this is
+           // spinning the correct direction on the real robot or bad things will happen
         () -> {
-        }, // do nothing periodically
+          controlShooterMotor(); // keep shooter running
+        },
         interrupted -> m_hoodMotor.setPosition(0), // set motor position to 0 when command ends
         () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE
             && Math.abs(getShooterRPM() / 60) < ALLOWED_RPM_ERROR), // end command when current spike and no movement
@@ -295,18 +294,25 @@ public class Shooter extends SubsystemBase {
     );
   }
 
+  @SuppressWarnings("unused")
+
   public Command defaultCommand() {
     return run(() -> {
-      if (!swerve.inNeutralOrOpposingZone()) {
+      if (true) { // replace with !swerve.inNeutralOrOpposingZone() when not on test board
         m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
         m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
       } else {
         m_targetAngle = SHUTTLE_ANGLE;
         m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
       }
+
       // m_targetShooterRpm =
       // SHOOTER_SPEED_ZONES.floorEntry(swerve.getDistanceFromHub()).getValue();
       // m_targetAngle = INTERPOLATION_HOOD.get(swerve.getDistanceFromHub());
+      // code for having actual real shooter distance
+
+      controlShooterMotor();
+      controlHoodMotor();
     });
   }
 }
