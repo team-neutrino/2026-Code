@@ -59,7 +59,7 @@ public class Shooter extends SubsystemBase {
         .withSupplyCurrentLimitEnable(true)
         .withStatorCurrentLimit(CURRENT_HOOD_LIMIT)
         .withStatorCurrentLimitEnable(true);
-    m_hoodMotorConfig.CurrentLimits = m_hoodCurrentLimitConfig;
+    m_hoodMotorConfig.CurrentLimits = m_currentLimitConfig;
 
     m_shooterMotorConfig.Slot0.kP = SHOOTING_KP;
     m_shooterMotorConfig.Slot0.kI = SHOOTING_KI;
@@ -302,6 +302,7 @@ public class Shooter extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
+      System.out.println("running this code");
       m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
       m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
       // m_targetShooterRpm =

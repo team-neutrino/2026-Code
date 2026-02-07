@@ -87,9 +87,9 @@ public class ShooterNT extends Shooter {
         m_hoodPositionPublisher = m_hoodPositionTopic.publish();
         m_hoodPositionSubscriber = m_hoodPositionTopic.subscribe(0.0);
 
-        m_hoodPositionTopic = m_globalNT.getDoubleTopic("shooter/hoodCurrent");
-        m_hoodPositionPublisher = m_hoodPositionTopic.publish();
-        m_hoodPositionSubscriber = m_hoodPositionTopic.subscribe(0.0);
+        m_hoodCurrentTopic = m_globalNT.getDoubleTopic("shooter/hoodCurrent");
+        m_hoodCurrentPublisher = m_hoodCurrentTopic.publish();
+        m_hoodCurrentSubscriber = m_hoodCurrentTopic.subscribe(0.0);
 
         // m_previousShootingKP = SHOOTING_KP;
         // m_previousShootingKI = SHOOTING_KI;
