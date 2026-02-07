@@ -152,8 +152,6 @@ public class Index extends SubsystemBase {
     public void periodic() {
         checkRumble();
         checkEmptyHopper();
-        System.out.println("1: " + getCanRangeDistance(m_canRange1));
-        System.out.println("2: " + getCanRangeDistance(m_canRange2));
     }
 
     public Command defaultCommand() {
