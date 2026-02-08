@@ -64,7 +64,7 @@
 | 3    | Left Front Angle     | 40          | 12         |
 | 4    | Right Front Angle    | 40          | 12         |
 | 5    | Spindexer            | 40          | 10         |
-| 6    | —                    | —           | —          |
+| 6    | Deploy Intake        | 40          | 10         |
 | 7    | —                    | —           | —          |
 | 8    | —                    | —           | —          |
 | 9    | —                    | —           | —          |
@@ -72,8 +72,8 @@
 | 11   | —                    | —           | —          |
 | 12   | —                    | —           | —          |
 | 13   | —                    | —           | —          |
-| 14   | —                    | —           | —          |
-| 15   | —                    | —           | —          |
+| 14   | Tower                | 40          | 10         |
+| 15   | Spinning Intake      | 40          | 10         |
 | 16   | Right Back Angle     | 40          | 12         |
 | 17   | Mini Power Module    | 40          | 12         |
 | 18   | Right Back Speed     | 40          | 10         |
