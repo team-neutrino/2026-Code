@@ -117,7 +117,7 @@ public class Constants {
     public static class TurretConstants {
         public static final int MOTOR_ID = 29;
         public static final int ENCODER_ID = 30;
-        public static final double STARTUP_ANGLE = 135;
+        public static final double STARTUP_ANGLE = 0;
         public static final double CURRENT_LIMIT = 40;
         public static final double TURRET_P = 1;
         public static final double TURRET_I = 0;
