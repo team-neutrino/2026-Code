@@ -4,19 +4,47 @@
 
 package frc.robot.alpha_subsystems;
 
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBL_FORWARD_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBL_HEIGHT_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBL_PITCH_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBL_ROLL_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBL_SIDE_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBL_YAW_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBR_FORWARD_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBR_HEIGHT_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBR_PITCH_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBR_ROLL_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBR_SIDE_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaBR_YAW_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaERROR_FACTOR_LL3G;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaERROR_FACTOR_LL4;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaLL_BL;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaLL_BR;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaLL_SHOOTER;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaMINIMUM_XY_STD_DEV_LL3G;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaMINIMUM_XY_STD_DEV_LL4;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaSHOOTER_FORWARD_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaSHOOTER_HEIGHT_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaSHOOTER_PITCH_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaSHOOTER_ROLL_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaSHOOTER_SIDE_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.AlphaSHOOTER_YAW_OFFSET;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.BUMP_MINIMUM_THRESHOLD;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.FIELD_DIMENSION_X;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.FIELD_DIMENSION_Y;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.ZERO;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.networktables.StructTopic;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.AlphaSubsystem;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
-import frc.robot.util.AlphaSubsystem;
-import edu.wpi.first.networktables.StructPublisher;
-import edu.wpi.first.networktables.StructTopic;
-
-import static frc.robot.util.Constants.AlphabotLimelightConstants.*;
 
 public class AlphabotVision extends SubsystemBase {
 
@@ -49,6 +77,10 @@ public class AlphabotVision extends SubsystemBase {
     m_mlksrblPosePublisher.setDefault(blank);
     m_mlksrbrPosePublisher = m_mlksrbrPose.publish();
     m_mlksrbrPosePublisher.setDefault(blank);
+    LimelightHelpers.SetIMUMode(AlphaLL_BL, 4);
+    LimelightHelpers.SetIMUMode(AlphaLL_SHOOTER, 4);
+    LimelightHelpers.SetIMUAssistAlpha(AlphaLL_BL, 0.01);
+    LimelightHelpers.SetIMUAssistAlpha(AlphaLL_SHOOTER, 0.01);
   }
 
   private void limelightSettingConstruction() {
@@ -91,7 +123,6 @@ public class AlphabotVision extends SubsystemBase {
     if (m_enabled && (m_slow_count % 50) != 0) {
       return;
     }
-    m_enabled = DriverStation.isEnabled();
     final int throttle = m_enabled ? 0 : 169;
     m_bl.setThrottle(throttle);
     m_br.setThrottle(throttle);
@@ -103,15 +134,26 @@ public class AlphabotVision extends SubsystemBase {
     });
   }
 
+  private void setExternalSeed() {
+    if (m_enabled) {
+      LimelightHelpers.SetIMUMode(AlphaLL_BL, 4);
+      LimelightHelpers.SetIMUMode(AlphaLL_SHOOTER, 4);
+    } else {
+      LimelightHelpers.SetIMUMode(AlphaLL_BL, 1);
+      LimelightHelpers.SetIMUMode(AlphaLL_SHOOTER, 1);
+    }
+  }
+
   @Override
   public void periodic() {
+    m_enabled = DriverStation.isEnabled();
+    setExternalSeed();
     ManageLimelightTemperature();
 
     if (m_swerve == null) {
       return;
     }
-
-    final double yaw_degrees = m_swerve.getYawDegrees();
+    final double yaw_degrees = AlphaSubsystem.swerve.getCurrentPose().getRotation().getDegrees();
 
     m_shooter.setRobotOrientation(yaw_degrees);
     m_br.setRobotOrientation(yaw_degrees);
@@ -121,9 +163,12 @@ public class AlphabotVision extends SubsystemBase {
     m_br.updateFusionOdometry();
     m_bl.updateFusionOdometry();
 
-    m_ashootPosePublisher.set(m_shooter.getEstimatePose());
-    m_mlksrblPosePublisher.set(m_bl.getEstimatePose());
-    m_mlksrbrPosePublisher.set(m_br.getEstimatePose());
+    m_shooter.updateYaw();
+    m_bl.updateYaw();
+
+    m_ashootPosePublisher.set(m_shooter.getEstimatePoseMT2());
+    m_mlksrblPosePublisher.set(m_bl.getEstimatePoseMT2());
+    m_mlksrbrPosePublisher.set(m_br.getEstimatePoseMT2());
   }
 
   @Override
@@ -137,7 +182,8 @@ public class AlphabotVision extends SubsystemBase {
     private double lastFrame = -2;
     private double frame = -2;
     private double BumpScaleFactor = 1;
-    private PoseEstimate estimate;
+    private PoseEstimate estimate_MT2;
+    private PoseEstimate estimate_MT1;
 
     Limelight(String p_name, boolean p_isLL4) {
       name = p_name;
@@ -160,42 +206,76 @@ public class AlphabotVision extends SubsystemBase {
     }
 
     public void updateFusionOdometry() {
-      estimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+      estimate_MT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
       frame = getFrame();
 
-      if (!verifyLimelightValidity()) {
+      if (!verifyPoseValidity()) {
         updateFrame();
         return;
       }
 
-      double numberOfTags = estimate.tagCount;
-      double distance = estimate.avgTagDist;
+      double numberOfTags = estimate_MT2.tagCount;
+      double distance = estimate_MT2.avgTagDist;
 
       double xystdev = setxystdev(distance, numberOfTags);
-      double thetastdev = setthetastdev(distance, numberOfTags);
 
       m_swerve.addVisionMeasurement(
-          estimate.pose,
-          estimate.timestampSeconds,
-          VecBuilder.fill(xystdev, xystdev, thetastdev));
+          estimate_MT2.pose,
+          estimate_MT2.timestampSeconds,
+          VecBuilder.fill(xystdev, xystdev, 999999999));
 
       updateFrame();
     }
 
-    public Pose2d getEstimatePose() {
-      if (estimate == null) {
-        return new Pose2d();
+    public void updateYaw() {
+      frame = getFrame();
+      estimate_MT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
+
+      if (!verifyYawValidity()) {
+        updateFrame();
+        return;
       }
-      return estimate.pose;
+
+      double numberOfTags = estimate_MT1.tagCount;
+      double distance = estimate_MT1.avgTagDist;
+      double thetastdev = setthetastdev(distance, numberOfTags);
+      m_swerve.addVisionMeasurement(estimate_MT1.pose, estimate_MT1.timestampSeconds,
+          VecBuilder.fill(99999999, 999999999, thetastdev));
     }
 
-    private boolean verifyLimelightValidity() {
-      return estimate != null
-          && estimate.tagCount != 0 // test
+    public Pose2d getEstimatePoseMT2() {
+      if (estimate_MT2 == null) {
+        return new Pose2d();
+      }
+      return estimate_MT2.pose;
+    }
+
+    public double getEstimateYawMT1() {
+      if (estimate_MT1 == null) {
+        // value that is unobtainable from a regular pose so we know it's inaccurate
+        return 400;
+      }
+      return estimate_MT1.pose.getRotation().getDegrees();
+    }
+
+    /*
+     * Verify pose of MT2
+     */
+    private boolean verifyPoseValidity() {
+      return estimate_MT2 != null
+          && estimate_MT2.tagCount != 0 // test
           && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
           && frame > lastFrame
-          && !Double.isNaN(estimate.avgTagDist)
+          && !Double.isNaN(estimate_MT2.avgTagDist)
           && poseInField();
+    }
+
+    /*
+     * Verify Yaw from MT1
+     */
+    private boolean verifyYawValidity() {
+      return estimate_MT1 != null && estimate_MT1.tagCount > 1
+          && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 3 && poseInField();
     }
 
     private void updateFrame() {
@@ -214,14 +294,11 @@ public class AlphabotVision extends SubsystemBase {
     }
 
     private double setthetastdev(double distance, double numberOfTags) {
-      double thetaStdv = 999999999;
-      // double errorFactor = isLL4 ? AlphaERROR_FACTOR_LL4_ANGLE :
-      // AlphaERROR_FACTOR_LL3G_ANGLE;
-      // double minimumThetaStdDev = isLL4 ? AlphaMINIMUM_THETA_STD_DEV_LL4 :
-      // AlphaMINIMUM_THETA_STD_DEV_LL3G;
-      // thetaStdv = Math.max(
-      // minimumThetaStdDev,
-      // (distance * errorFactor) / numberOfTags);
+      if (!verifyYawValidity()) {
+        return 9999999999.9;
+      }
+      double errorFactor = isLL4 ? AlphaERROR_FACTOR_LL4 : AlphaERROR_FACTOR_LL3G;
+      double thetaStdv = Math.max(1, (Math.pow(distance, 2) * errorFactor));
       return thetaStdv;
     }
 
@@ -254,10 +331,10 @@ public class AlphabotVision extends SubsystemBase {
     }
 
     public boolean poseInField() {
-      return estimate.pose.getMeasureX().compareTo(ZERO) >= 0
-          && estimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
-          && estimate.pose.getMeasureY().compareTo(ZERO) >= 0
-          && estimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
+      return estimate_MT2.pose.getMeasureX().compareTo(ZERO) >= 0
+          && estimate_MT2.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
+          && estimate_MT2.pose.getMeasureY().compareTo(ZERO) >= 0
+          && estimate_MT2.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
     }
   }
 }
