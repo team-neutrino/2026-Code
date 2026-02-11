@@ -7,7 +7,6 @@ package frc.robot.commands;
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
@@ -23,9 +22,7 @@ import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.command_factories.ClimbFactory;
 import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
 
 public class SplineToPoint extends Command {

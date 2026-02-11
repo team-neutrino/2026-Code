@@ -13,7 +13,7 @@ import static frc.robot.util.Subsystems.*;
 
 /** Add your docs here. */
 public class SuperstructureFactory {
-    public static Command climbRunCommand(CommandXboxController driverController) {
+    public static Command driveAndClimb(CommandXboxController driverController) {
         return (new SplineToPoint(driverController, TargetMode.CLIMBING)
             .alongWith(climb.defaultClimbCommand().until(() -> climb.isCANRangeDetected())
                 .andThen(ClimbFactory.climbSequentialCommand())));

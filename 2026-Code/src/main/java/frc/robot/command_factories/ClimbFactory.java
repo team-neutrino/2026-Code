@@ -15,7 +15,7 @@ public class ClimbFactory {
         return climb.moveClimbCommand(LOWER_POSITION, RAISE_UP_SLOT);
     }
 
-    public static Command climbOnToBar() {
+    public static Command climbOntoBar() {
         return climb.moveClimbCommand(CLIMB_POSITION, RAISE_UP_SLOT);
     }
 
@@ -25,7 +25,7 @@ public class ClimbFactory {
 
     public static Command climbSequentialCommand() {
         return raiseClimbArm().until(() -> climb.atCANRangeClimbPosition())
-                .andThen(climbOnToBar());
+                .andThen(climbOntoBar());
     }
 
     public static Command climbReleaseCommand() {

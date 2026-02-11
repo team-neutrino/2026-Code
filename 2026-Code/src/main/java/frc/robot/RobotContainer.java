@@ -38,7 +38,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_driverController.leftBumper().whileTrue(SuperstructureFactory.climbRunCommand(m_driverController));
+    m_driverController.leftBumper().whileTrue(SuperstructureFactory.driveAndClimb(m_driverController));
     m_driverController.start().whileTrue(swerve.resetYaw());
 
     m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
