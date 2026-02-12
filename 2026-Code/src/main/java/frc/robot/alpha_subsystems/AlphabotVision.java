@@ -33,6 +33,7 @@ import static frc.robot.util.Constants.AlphabotLimelightConstants.BUMP_MINIMUM_T
 import static frc.robot.util.Constants.AlphabotLimelightConstants.FIELD_DIMENSION_X;
 import static frc.robot.util.Constants.AlphabotLimelightConstants.FIELD_DIMENSION_Y;
 import static frc.robot.util.Constants.AlphabotLimelightConstants.ZERO;
+import static frc.robot.util.Constants.AlphabotLimelightConstants.MT1_WEIGHT_YAW;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -294,8 +295,7 @@ public class AlphabotVision extends SubsystemBase {
 
     public void updatePigeonSeed() {
       if (verifyPigeonSeedUpdate()) {
-        double MT1Weight = 0.7;
-        m_swerve.seedYawMT1(estimate_MT1.pose.getRotation().getRadians(), MT1Weight);
+        m_swerve.seedYawMT1(estimate_MT1.pose.getRotation().getRadians(), MT1_WEIGHT_YAW);
         m_timer.restart();
       }
     }

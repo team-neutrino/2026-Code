@@ -273,6 +273,8 @@ public class Constants {
 
         public static final double BUMP_MINIMUM_THRESHOLD = 7;
 
+        public static final double MT1_WEIGHT_YAW = 0.7;
+
         public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
         public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
         public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
