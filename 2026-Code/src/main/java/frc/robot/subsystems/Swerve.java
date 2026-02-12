@@ -63,6 +63,22 @@ public class Swerve extends CommandSwerveDrivetrain {
         return Math.toDegrees(getYawRadians());
     }
 
+    public double getRoll() {
+        return getPigeon2().getRoll().getValueAsDouble();
+    }
+
+    public double getYawRate() {
+        return getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
+    }
+
+    public double getPitchRate() {
+        return getPigeon2().getAngularVelocityYWorld().getValueAsDouble();
+    }
+
+    public double getRollRate() {
+        return getPigeon2().getAngularVelocityXWorld().getValueAsDouble();
+    }
+
     public double getYawRadians() {
         return MathUtil.angleModulus(Math.toRadians(getPigeon2().getYaw().getValueAsDouble()));
     }

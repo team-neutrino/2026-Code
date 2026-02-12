@@ -146,20 +146,22 @@ public class Vision extends SubsystemBase {
     }
 
     final double yaw_degrees = swerve.getYawDegrees();
+    final double pitch_degrees = swerve.getPitch();
+    final double roll_degrees = swerve.getRoll();
+    final double yaw_rate = swerve.getYawRate();
+    final double pitch_rate = swerve.getPitchRate();
+    final double roll_rate = swerve.getRollRate();
 
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
     // supply current robot orientation to every Limelight before asking for pose
 
     for (Limelight limelight : new Limelight[] { m_front, m_back, m_left, m_right }) {
-      limelight.setRobotOrientation(yaw_degrees);
-      limelight.updateFusionOdometry();
-      limelight.updateYaw();
+      limelight.setRobotOrientation(yaw_degrees, pitch_degrees, roll_degrees, yaw_rate, pitch_rate, roll_rate);
+      limelight.updateFusionMegatag();
       limelight.updatePigeonSeed();
+      limelight.adjustIMUMode();
     }
-
-    m_front.adjustIMUMode();
-    m_back.adjustIMUMode();
 
     m_frontPosePub.set(m_front.getEstimatePose());
     m_backPosePub.set(m_back.getEstimatePose());
@@ -209,44 +211,49 @@ public class Vision extends SubsystemBase {
       }
     }
 
-    public void setRobotOrientation(double yawDeg) {
-      LimelightHelpers.SetRobotOrientation(name, yawDeg, 0, 0, 0, 0, 0);
+    public void setRobotOrientation(double yawDeg, double pitchDeg, double rollDeg, double yawRate, double pitchRate,
+        double rollRate) {
+      LimelightHelpers.SetRobotOrientation(name, yawDeg, pitchDeg, rollDeg, yawRate, pitchRate, rollRate);
     }
 
-    public void updateFusionOdometry() {
+    private double getCalcXYStdev() {
       estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
       frame = getFrame();
 
       if (!verifyPoseValidity()) {
         updateFrame();
-        return;
+        return IGNORE_MEASUREMENT_STD_DEV;
       }
 
       double numberOfTags = estimateMT2.tagCount;
       double distance = estimateMT2.avgTagDist;
-
-      double xystdev = setXYstdev(distance, numberOfTags);
-
-      swerve.addVisionMeasurement(
-          estimateMT2.pose,
-          estimateMT2.timestampSeconds,
-          VecBuilder.fill(xystdev, xystdev, IGNORE_MEASUREMENT_STD_DEV));
-
       updateFrame();
+      return setXYstdev(distance, numberOfTags);
     }
 
-    public void updateYaw() {
+    private double getCalcYawStdev() {
       estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
-      if (!verifyPoseValidity()) {
-        return;
+      if (!verifyYawValidity()) {
+        return IGNORE_MEASUREMENT_STD_DEV;
       }
-      double numberOfTags = estimateMT1.tagCount;
       double distance = estimateMT1.avgTagDist;
+      return setThetastdev(distance);
+    }
 
-      double thetaStdev = setThetastdev(distance);
-
-      swerve.addVisionMeasurement(estimateMT1.pose, estimateMT1.timestampSeconds,
-          VecBuilder.fill(IGNORE_MEASUREMENT_STD_DEV, IGNORE_MEASUREMENT_STD_DEV, thetaStdev));
+    public void updateFusionMegatag() {
+      double timestamp;
+      Pose2d pose;
+      if (!verifyPoseValidity() && !verifyYawValidity()) {
+        return;
+      } else if (!verifyPoseValidity() && verifyYawValidity()) {
+        timestamp = estimateMT1.timestampSeconds;
+        pose = estimateMT1.pose;
+      } else {
+        timestamp = estimateMT2.timestampSeconds;
+        pose = estimateMT2.pose;
+      }
+      swerve.addVisionMeasurement(pose, timestamp,
+          VecBuilder.fill(getCalcXYStdev(), getCalcXYStdev(), getCalcYawStdev()));
     }
 
     public Pose2d getEstimatePose() {
@@ -375,9 +382,9 @@ public class Vision extends SubsystemBase {
     }
 
     public void adjustIMUMode() {
-      if (model == 4) {
+      if (model == 4 && !m_enabled) {
         LimelightHelpers.SetIMUMode(name, 1);
-        if (m_enabled) {
+        if (model == 4 && m_enabled) {
           LimelightHelpers.SetIMUMode(name, 4);
         }
       }
