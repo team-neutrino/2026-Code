@@ -36,15 +36,18 @@ import static frc.robot.util.Constants.AlphabotLimelightConstants.ZERO;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.networktables.StructTopic;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.AlphaSubsystem;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
+import frc.robot.alpha_subsystems.*;
 
 public class AlphabotVision extends SubsystemBase {
 
@@ -54,6 +57,7 @@ public class AlphabotVision extends SubsystemBase {
   private final Limelight m_shooter;
   private boolean m_enabled = false;
   private long m_slow_count = 0;
+  private Timer m_timer = new Timer();
 
   private NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private StructTopic<Pose2d> m_ashootPose = nt.getStructTopic("/limelight_poses/ashoot", Pose2d.struct);
@@ -165,6 +169,11 @@ public class AlphabotVision extends SubsystemBase {
 
     m_shooter.updateYaw();
     m_bl.updateYaw();
+    m_br.updateYaw();
+
+    m_shooter.updatePigeonSeed();
+    m_bl.updatePigeonSeed();
+    m_br.updatePigeonSeed();
 
     m_ashootPosePublisher.set(m_shooter.getEstimatePoseMT2());
     m_mlksrblPosePublisher.set(m_bl.getEstimatePoseMT2());
@@ -275,7 +284,20 @@ public class AlphabotVision extends SubsystemBase {
      */
     private boolean verifyYawValidity() {
       return estimate_MT1 != null && estimate_MT1.tagCount > 1
-          && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 3 && poseInField();
+          && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 2 && poseInField();
+    }
+
+    private boolean verifyPigeonSeedUpdate() {
+      return estimate_MT1 != null && estimate_MT1.tagCount > 1
+          && m_swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 4 && poseInField() && m_timer.hasElapsed(10);
+    }
+
+    public void updatePigeonSeed() {
+      if (verifyPigeonSeedUpdate()) {
+        double MT1Weight = 0.7;
+        m_swerve.seedYawMT1(estimate_MT1.pose.getRotation().getRadians(), MT1Weight);
+        m_timer.restart();
+      }
     }
 
     private void updateFrame() {
