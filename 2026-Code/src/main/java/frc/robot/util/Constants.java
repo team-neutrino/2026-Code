@@ -134,7 +134,7 @@ public class Constants {
         public static final double STOP_RUMBLE_DEBOUNCED_TIME = 0.5;
         public static final double RUMBLE_STRENGTH = 0.5;
         public static final double MOTOR_START_TIME = 1;
-        public static final double MOTOR_STOP_TIME = 1;
+        public static final double MOTOR_STOP_TIME = 0.25;
         public static final double HOPPER_CHECK_TIME = 3;
     }
 

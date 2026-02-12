@@ -45,7 +45,6 @@ public class Index extends SubsystemBase {
 
     public boolean m_isHopperEmpty;
     public Timer m_hopperCheckTimer = new Timer();
-    public boolean m_isRunning = false;
     private boolean m_isShooting = false;
 
     public Index() {
@@ -122,7 +121,6 @@ public class Index extends SubsystemBase {
         boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
         if (!m_isShooting) {
             if (motorStopDebounce) {
-                m_isRunning = false;
                 m_isHopperEmpty = false;
                 m_spindexerMotorVoltage = 0;
                 m_hopperCheckTimer.stop();
@@ -130,11 +128,9 @@ public class Index extends SubsystemBase {
             } else {
                 if (m_hopperCheckTimer.isRunning() &&
                         m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
-                    m_isRunning = false;
                     m_isHopperEmpty = true;
                     m_spindexerMotorVoltage = 0;
                 } else if (motorStartDebounce) {
-                    m_isRunning = true;
                     m_spindexerMotorVoltage = HOPPER_CHECK_VOLTAGE;
                     m_hopperCheckTimer.start();
                 }
