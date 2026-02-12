@@ -68,6 +68,7 @@ public class Shooter extends SubsystemBase {
     m_hoodMotorConfig.Slot0.kD = HOOD_KD;
 
     m_shooterMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    m_hoodMotorConfig.Feedback.SensorToMechanismRatio = HOOD_GEAR_RATIO;
 
     m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
     m_shooterFollowerMotor.getConfigurator().apply(m_shooterMotorConfig);
@@ -212,7 +213,7 @@ public class Shooter extends SubsystemBase {
    * m_TargetAngle.
    */
   public void controlHoodMotor() {
-    PositionVoltage positionControl = new PositionVoltage(getSafeAngle(m_targetAngle));
+    PositionVoltage positionControl = new PositionVoltage(getSafeAngle(m_targetAngle / 360));
     m_hoodMotor.setControl(positionControl);
   }
 

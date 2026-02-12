@@ -15,8 +15,6 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Distance;
 
-import static frc.robot.util.GearRatioHelper.*;
-
 public class Constants {
     public static class RioConstants {
         public static final CANBus RIO_BUS = new CANBus("rio");
@@ -92,11 +90,11 @@ public class Constants {
 
         public static final InterpolatingDoubleTreeMap INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 0.0),
-                Map.entry(5.0, convertToHood(5)),
-                Map.entry(15.0, convertToHood(15)),
-                Map.entry(25.0, convertToHood(20)),
-                Map.entry(35.0, convertToHood(25)),
-                Map.entry(50.0, convertToHood(180)));
+                Map.entry(5.0, 5.0),
+                Map.entry(15.0, 15.0),
+                Map.entry(25.0, 20.0),
+                Map.entry(35.0, 25.0),
+                Map.entry(50.0, 30.0));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, 3000.0),
@@ -104,8 +102,8 @@ public class Constants {
                 Map.entry(23.9, 5800.0)));
 
         public static final double SHUTTLE_SHOOTING_SPEED = 6000;
-        public static final double SHUTTLE_ANGLE = convertToHood(25);
-        public static final double MAX_SAFE_HOOD_ANGLE = convertToHood(25);
+        public static final double SHUTTLE_ANGLE = 25;
+        public static final double MAX_SAFE_HOOD_ANGLE = 25;
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
