@@ -92,11 +92,11 @@ public class Constants {
 
         public static final InterpolatingDoubleTreeMap INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 0.0),
-                Map.entry(5.0, convertToHood(10)),
+                Map.entry(5.0, convertToHood(5)),
                 Map.entry(15.0, convertToHood(15)),
                 Map.entry(25.0, convertToHood(20)),
                 Map.entry(35.0, convertToHood(25)),
-                Map.entry(50.0, convertToHood(30)));
+                Map.entry(50.0, convertToHood(180)));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, 3000.0),

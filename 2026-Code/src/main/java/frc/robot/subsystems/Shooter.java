@@ -17,6 +17,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
@@ -65,6 +66,8 @@ public class Shooter extends SubsystemBase {
     m_hoodMotorConfig.Slot0.kP = HOOD_KP;
     m_hoodMotorConfig.Slot0.kI = HOOD_KI;
     m_hoodMotorConfig.Slot0.kD = HOOD_KD;
+
+    m_shooterMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
     m_shooterFollowerMotor.getConfigurator().apply(m_shooterMotorConfig);
