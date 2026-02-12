@@ -89,6 +89,17 @@ public class Swerve extends CommandSwerveDrivetrain {
         });
     }
 
+    public void seedYawMT1(double MT1YawDegrees, double MT1Weight) {
+        double pigeonWeight = 1 - MT1Weight;
+        double xAvg = (pigeonWeight * Math.cos(Math.toRadians(getYawDegrees())))
+                + (MT1Weight * Math.cos(Math.toRadians(MT1YawDegrees)));
+        double yAvg = (MT1Weight * Math.sin(Math.toRadians(MT1YawDegrees)))
+                + (MT1Weight * Math.sin(Math.toRadians(MT1YawDegrees)));
+        double weightedAverage = Math.atan2(yAvg, xAvg);
+        resetRotation(new Rotation2d(weightedAverage));
+        getPigeon2().setYaw(weightedAverage);
+    }
+
     public void setVelocity(double xVelocity, double yVelocity, Rotation2d targetDirection) {
         SwerveRequestStash.driveWithVelocity
                 .withVelocityX(xVelocity)

@@ -208,13 +208,13 @@ public class Constants {
         public static final double MINIMUM_XY_STD_DEV_LL3 = 0;
         public static final double MINIMUM_THETA_STD_DEV_LL3 = 0;
         public static final double ERROR_FACTOR_LL4 = 0;
-        public static final double ERROR_FACTOR_LL4_ANGLE = 0;
         public static final double ERROR_FACTOR_LL3 = 0;
-        public static final double ERROR_FACTOR_LL3_ANGLE = 0;
         public static final double ERROR_FACTOR_LL3G = 0;
-        public static final double ERROR_FACTOR_LL3G_ANGLE = 0;
 
         public static final double BUMP_MINIMUM_THRESHOLD = 7;
+        public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
+        public static final double MT1_WEIGHT_YAW = .7;
+        public static final double PIGEON_SEED_PERIOD = 10;
 
         public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
         public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
