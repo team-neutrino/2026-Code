@@ -48,18 +48,12 @@ public class Vision extends SubsystemBase {
   private DoublePublisher m_backYawPub;
   private DoublePublisher m_leftYawPub;
   private DoublePublisher m_rightYawPub;
-  private Limelight[] m_limelights;
 
   public Vision() {
     m_front = new Limelight(LL_FRONT, 4);
     m_back = new Limelight(LL_BACK, 4);
     m_left = new Limelight(LL_LEFT, 3);
     m_right = new Limelight(LL_RIGHT, 3.5);
-
-    m_limelights[0] = m_front;
-    m_limelights[1] = m_back;
-    m_limelights[2] = m_left;
-    m_limelights[3] = m_right;
 
     m_frontPosePub = m_frontPose.publish();
     m_frontPosePub.setDefault(blank);
@@ -157,7 +151,7 @@ public class Vision extends SubsystemBase {
     // .getBotPoseEstimate_wpiBlue_MegaTag2
     // supply current robot orientation to every Limelight before asking for pose
 
-    for (Limelight limelight : m_limelights) {
+    for (Limelight limelight : new Limelight[] { m_front, m_back, m_left, m_right }) {
       limelight.setRobotOrientation(yaw_degrees);
       limelight.updateFusionOdometry();
       limelight.updateYaw();
