@@ -118,7 +118,7 @@ public class Vision extends SubsystemBase {
     );
   }
 
-  private void ManageLimelightTemperature() {
+  private void manageLimelightTemperature() {
     m_slow_count++;
     if (m_enabled && (m_slow_count % 50) != 0) {
       return;
@@ -139,7 +139,7 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    ManageLimelightTemperature();
+    manageLimelightTemperature();
 
     if (swerve == null) {
       return;
@@ -225,7 +225,7 @@ public class Vision extends SubsystemBase {
       double numberOfTags = estimateMT2.tagCount;
       double distance = estimateMT2.avgTagDist;
 
-      double xystdev = setxystdev(distance, numberOfTags);
+      double xystdev = setXYstdev(distance, numberOfTags);
 
       swerve.addVisionMeasurement(
           estimateMT2.pose,
@@ -243,7 +243,7 @@ public class Vision extends SubsystemBase {
       double numberOfTags = estimateMT1.tagCount;
       double distance = estimateMT1.avgTagDist;
 
-      double thetaStdev = setthetastdev(distance, numberOfTags);
+      double thetaStdev = setThetastdev(distance);
 
       swerve.addVisionMeasurement(estimateMT1.pose, estimateMT1.timestampSeconds,
           VecBuilder.fill(IGNORE_MEASUREMENT_STD_DEV, IGNORE_MEASUREMENT_STD_DEV, thetaStdev));
@@ -331,7 +331,7 @@ public class Vision extends SubsystemBase {
       return minStdDev;
     }
 
-    private double setxystdev(double distance, double numberOfTags) {
+    private double setXYstdev(double distance, double numberOfTags) {
       setBumpScaleFactor();
       double xyStdv = 0;
       double errorFactor = getErrorFactor();
@@ -342,7 +342,7 @@ public class Vision extends SubsystemBase {
       return xyStdv;
     }
 
-    private double setthetastdev(double distance, double numberOfTags) {
+    private double setThetastdev(double distance) {
       if (!verifyYawValidity()) {
         return 9999999999.9;
       }
@@ -357,11 +357,6 @@ public class Vision extends SubsystemBase {
           .getTable(name)
           .getEntry("hb")
           .getDouble(-1);
-    }
-
-    public double getTargetYaw() {
-      double[] temp = LimelightHelpers.getTargetPose_RobotSpace(name);
-      return temp.length == 0 ? 0 : temp[4];
     }
 
     public void setThrottle(int throttle) {
