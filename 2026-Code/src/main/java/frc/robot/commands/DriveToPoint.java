@@ -18,10 +18,10 @@ public class DriveToPoint extends Command {
     private DriveToPointPID m_drivePID;
     private Pose2d m_target;
 
-    public DriveToPoint(Pose2d target) {
+    public DriveToPoint(List<Pose2d> shootPoses) {
         addRequirements(swerve);
         m_drivePID = new DriveToPointPID();
-        m_target = AlphaSubsystem.swerve.getCurrentPose().nearest(targetPoseList);
+        m_target = swerve.getCurrentPose().nearest(shootPoses);
     }
 
     private void drive() {
