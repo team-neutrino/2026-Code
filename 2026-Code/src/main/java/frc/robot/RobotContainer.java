@@ -4,13 +4,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.command_factories.ClimbFactory;
-import frc.robot.command_factories.IntakeFactory;
+import frc.robot.command_factories.SuperstructureFactory;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Subsystems;
-import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.util.Subsystems.*;
@@ -40,12 +38,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_buttonController.rightTrigger().whileTrue(ClimbFactory.lowerClimbArm()); // Random buttons subject to change
-    m_buttonController.b().whileTrue(IntakeFactory.deployAndRunIntake());
-    m_buttonController.a().whileTrue(shooter.resetHood());
-    m_buttonController.leftTrigger().whileTrue(IntakeFactory.deployIntake());
-
+    m_driverController.leftBumper().whileTrue(SuperstructureFactory.driveAndClimb(m_driverController));
     m_driverController.start().whileTrue(swerve.resetYaw());
+
+    m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
   }
 
   public Command getAutonomousCommand() {

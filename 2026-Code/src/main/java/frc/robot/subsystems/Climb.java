@@ -61,8 +61,7 @@ public class Climb extends SubsystemBase {
     }
 
     public boolean atTargetPosition() {
-        return getClimbPosition() <= m_climbTargetPosition + ALLOWED_ERROR
-                && getClimbPosition() >= m_climbTargetPosition - ALLOWED_ERROR;
+        return Math.abs(getClimbPosition() - m_climbTargetPosition) <= ALLOWED_ERROR;
     }
 
     public double getClimbPosition() {
@@ -79,6 +78,10 @@ public class Climb extends SubsystemBase {
 
     public boolean isCANRangeDetected() {
         return m_CANRange.getIsDetected().getValue();
+    }
+
+    public boolean atCANRangeClimbPosition() {
+        return getCANRangeDistance() <= ALLOWED_ERROR;
     }
 
     public void setClimbPID(double new_P, double new_I, double new_D, long slot) {
@@ -118,6 +121,5 @@ public class Climb extends SubsystemBase {
                 m_runClimb = false;
             }
         }
-
     }
 }

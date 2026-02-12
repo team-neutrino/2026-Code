@@ -23,6 +23,7 @@ import static frc.robot.util.Subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
 
 public class SplineToPoint extends Command {
   private CommandXboxController m_driverController;
@@ -126,7 +127,8 @@ public class SplineToPoint extends Command {
   @Override
   public void initialize() {
     m_hadNoFuel = isHopperEmpty();
-    m_hubWasActive = RED_ALLIANCE.get() ? hubState.isRedHubActive() : hubState.isBlueHubActive();
+    m_hubWasActive = RED_ALLIANCE.get() ? hubState.isRedHubActive()
+        : hubState.isBlueHubActive();
     setTarget();
     final long now = NetworkTablesJNI.now();
     driveTarget.set(m_target, now);
