@@ -6,8 +6,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.PubSubOption;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
@@ -24,6 +28,7 @@ public class Vision extends SubsystemBase {
   private final Limelight m_right;
   private boolean m_enabled = false;
   private long m_slow_count = 0;
+  private Timer m_timer = new Timer();
 
   private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
   private StructTopic<Pose2d> m_frontPose = m_nt.getStructTopic("/limelight_poses/front", Pose2d.struct);
@@ -35,12 +40,26 @@ public class Vision extends SubsystemBase {
   private StructPublisher<Pose2d> m_leftPosePub;
   private StructPublisher<Pose2d> m_rightPosePub;
   private Pose2d blank = new Pose2d();
+  private DoubleTopic m_frontYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/frontYaw");
+  private DoubleTopic m_backYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/backYaw");
+  private DoubleTopic m_leftYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/leftYaw");
+  private DoubleTopic m_rightYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/rightYaw");
+  private DoublePublisher m_frontYawPub;
+  private DoublePublisher m_backYawPub;
+  private DoublePublisher m_leftYawPub;
+  private DoublePublisher m_rightYawPub;
+  private Limelight[] m_limelights;
 
   public Vision() {
     m_front = new Limelight(LL_FRONT, 4);
     m_back = new Limelight(LL_BACK, 4);
     m_left = new Limelight(LL_LEFT, 3);
     m_right = new Limelight(LL_RIGHT, 3.5);
+
+    m_limelights[0] = m_front;
+    m_limelights[1] = m_back;
+    m_limelights[2] = m_left;
+    m_limelights[3] = m_right;
 
     m_frontPosePub = m_frontPose.publish();
     m_frontPosePub.setDefault(blank);
@@ -50,6 +69,11 @@ public class Vision extends SubsystemBase {
     m_leftPosePub.setDefault(blank);
     m_rightPosePub = m_rightPose.publish();
     m_rightPosePub.setDefault(blank);
+
+    m_frontYawPub = m_frontYaw.publish(PubSubOption.keepDuplicates(false));
+    m_backYawPub = m_backYaw.publish(PubSubOption.keepDuplicates(false));
+    m_leftYawPub = m_leftYaw.publish(PubSubOption.keepDuplicates(false));
+    m_rightYawPub = m_rightYaw.publish(PubSubOption.keepDuplicates(false));
 
     limelightInitialization();
   }
@@ -132,20 +156,26 @@ public class Vision extends SubsystemBase {
     // according to limelight docs, this needs to be called before using
     // .getBotPoseEstimate_wpiBlue_MegaTag2
     // supply current robot orientation to every Limelight before asking for pose
-    m_front.setRobotOrientation(yaw_degrees);
-    m_back.setRobotOrientation(yaw_degrees);
-    m_left.setRobotOrientation(yaw_degrees);
-    m_right.setRobotOrientation(yaw_degrees);
 
-    m_front.updateFusionOdometry();
-    m_back.updateFusionOdometry();
-    m_left.updateFusionOdometry();
-    m_right.updateFusionOdometry();
+    for (Limelight limelight : m_limelights) {
+      limelight.setRobotOrientation(yaw_degrees);
+      limelight.updateFusionOdometry();
+      limelight.updateYaw();
+      limelight.updatePigeonSeed();
+    }
+
+    m_front.adjustIMUMode();
+    m_back.adjustIMUMode();
 
     m_frontPosePub.set(m_front.getEstimatePose());
     m_backPosePub.set(m_back.getEstimatePose());
     m_leftPosePub.set(m_left.getEstimatePose());
     m_rightPosePub.set(m_right.getEstimatePose());
+
+    m_frontYawPub.set(m_front.getEstimateYawMT1());
+    m_backYawPub.set(m_back.getEstimateYawMT1());
+    m_leftYawPub.set(m_left.getEstimateYawMT1());
+    m_rightYawPub.set(m_right.getEstimateYawMT1());
   }
 
   @Override
@@ -160,7 +190,8 @@ public class Vision extends SubsystemBase {
     private double lastFrame = -2;
     private double frame = -2;
     private double BumpScaleFactor = 1;
-    private PoseEstimate estimate;
+    private PoseEstimate estimateMT1;
+    private PoseEstimate estimateMT2;
 
     // 0 EXTERNAL_ONLY External (NT/HTTP) No internal IMU processing. MT2 uses
     // interpolated yaw from robot's gyro sent via SetRobotOrientation().
@@ -189,42 +220,81 @@ public class Vision extends SubsystemBase {
     }
 
     public void updateFusionOdometry() {
-      estimate = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+      estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
       frame = getFrame();
 
-      if (!verifyLimelightValidity()) {
+      if (!verifyPoseValidity()) {
         updateFrame();
         return;
       }
 
-      double numberOfTags = estimate.tagCount;
-      double distance = estimate.avgTagDist;
+      double numberOfTags = estimateMT2.tagCount;
+      double distance = estimateMT2.avgTagDist;
 
       double xystdev = setxystdev(distance, numberOfTags);
-      double thetastdev = setthetastdev(99999999);
 
       swerve.addVisionMeasurement(
-          estimate.pose,
-          estimate.timestampSeconds,
-          VecBuilder.fill(xystdev, xystdev, thetastdev));
+          estimateMT2.pose,
+          estimateMT2.timestampSeconds,
+          VecBuilder.fill(xystdev, xystdev, IGNORE_MEASUREMENT_STD_DEV));
 
       updateFrame();
     }
 
-    public Pose2d getEstimatePose() {
-      if (estimate == null) {
-        return new Pose2d();
+    public void updateYaw() {
+      estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
+      if (!verifyPoseValidity()) {
+        return;
       }
-      return estimate.pose;
+      double numberOfTags = estimateMT1.tagCount;
+      double distance = estimateMT1.avgTagDist;
+
+      double thetaStdev = setthetastdev(distance, numberOfTags);
+
+      swerve.addVisionMeasurement(estimateMT1.pose, estimateMT1.timestampSeconds,
+          VecBuilder.fill(IGNORE_MEASUREMENT_STD_DEV, IGNORE_MEASUREMENT_STD_DEV, thetaStdev));
     }
 
-    private boolean verifyLimelightValidity() {
-      return estimate != null
-          && estimate.tagCount != 0
+    public Pose2d getEstimatePose() {
+      if (estimateMT2 == null) {
+        return new Pose2d();
+      }
+      return estimateMT2.pose;
+    }
+
+    public double getEstimateYawMT1() {
+      if (estimateMT1 == null) {
+        // placeholder value so we know it's wrong and we don't have
+        return IGNORE_MEASUREMENT_STD_DEV;
+      }
+      return estimateMT1.pose.getRotation().getDegrees();
+    }
+
+    private boolean verifyPoseValidity() {
+      return estimateMT2 != null
+          && estimateMT2.tagCount != 0
           && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
           && frame > lastFrame
-          && !Double.isNaN(estimate.avgTagDist)
+          && !Double.isNaN(estimateMT2.avgTagDist)
           && poseInField();
+    }
+
+    private boolean verifyYawValidity() {
+      return estimateMT1 != null && estimateMT1.tagCount > 1
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 2 && poseInField();
+    }
+
+    private boolean verifyPigeonSeedUpdate() {
+      return estimateMT1 != null && estimateMT1.tagCount > 1
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 4 && poseInField()
+          && m_timer.hasElapsed(PIGEON_SEED_PERIOD);
+    }
+
+    public void updatePigeonSeed() {
+      if (verifyPigeonSeedUpdate()) {
+        swerve.seedYawMT1(estimateMT1.pose.getRotation().getRadians(), MT1_WEIGHT_YAW);
+        m_timer.restart();
+      }
     }
 
     private void updateFrame() {
@@ -255,6 +325,18 @@ public class Vision extends SubsystemBase {
       return minStdDev;
     }
 
+    private double getMinimumStdDevTheta() {
+      double minStdDev = 2000;
+      if (model == 4) {
+        minStdDev = MINIMUM_THETA_STD_DEV_LL4;
+      } else if (model == 3.5) {
+        minStdDev = MINIMUM_THETA_STD_DEV_LL3G;
+      } else if (model == 3) {
+        minStdDev = MINIMUM_THETA_STD_DEV_LL3;
+      }
+      return minStdDev;
+    }
+
     private double setxystdev(double distance, double numberOfTags) {
       setBumpScaleFactor();
       double xyStdv = 0;
@@ -266,8 +348,13 @@ public class Vision extends SubsystemBase {
       return xyStdv;
     }
 
-    private double setthetastdev(double stDev) {
-      double thetaStdv = stDev;
+    private double setthetastdev(double distance, double numberOfTags) {
+      if (!verifyYawValidity()) {
+        return 9999999999.9;
+      }
+      double errorFactor = getErrorFactor();
+      double minimumThetaStDev = getMinimumStdDevTheta();
+      double thetaStdv = Math.max(minimumThetaStDev, (Math.pow(distance, 2) * errorFactor));
       return thetaStdv;
     }
 
@@ -308,10 +395,10 @@ public class Vision extends SubsystemBase {
     }
 
     public boolean poseInField() {
-      return estimate.pose.getMeasureX().compareTo(ZERO) >= 0
-          && estimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
-          && estimate.pose.getMeasureY().compareTo(ZERO) >= 0
-          && estimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
+      return estimateMT2.pose.getMeasureX().compareTo(ZERO) >= 0
+          && estimateMT2.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
+          && estimateMT2.pose.getMeasureY().compareTo(ZERO) >= 0
+          && estimateMT2.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
     }
   }
 }
