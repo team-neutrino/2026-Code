@@ -86,6 +86,12 @@ public class Constants {
         public static final double Y_DISPLACEMENT = 1.2376;
         public static final double GRAVITY = -9.807;
 
+        // meters shooter math
+        public static final double FLYWHEEL_DIAMETER = 0.1016;
+        public static final double FLYWHEEL_CIRCUMFRANCE = (FLYWHEEL_DIAMETER * Math.PI);
+        public static final double Y_DISPLACEMENT = 1.2376;
+        public static final double GRAVITY = -9.807;
+
         public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
             RADIAL_CLOSE,
             RADIAL_FAR,
