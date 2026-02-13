@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.ShooterConstants.*;
@@ -241,6 +237,16 @@ public class Shooter extends SubsystemBase {
   public double getSafeAngle(double originalAngle) {
     return Math.min(originalAngle, MAX_SAFE_HOOD_ANGLE);
   }
+
+  // public double shooterCalculator() {
+  // double flywheelVelocity = ((m_targetShooterRpm/60)*FLYWHEEL_CIRCUMFRANCE);
+  // double changeY = Y_DISPLACEMENT;
+  // // double changeX = Swerve.getDistanceFromHub();
+  // // double hoodAngle = ((Math.pow(flywheelVelocity,
+  // 2)*(changeX)-GRAVITY*Math.pow(changeX, 2))/
+  // 4*changeY*Math.pow(flywheelVelocity, 2));
+  // // return hoodAngle;
+  // }
 
   @Override
   public void periodic() {
