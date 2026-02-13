@@ -6,12 +6,18 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.command_factories.IntakeFactory;
 import frc.robot.command_factories.SuperstructureFactory;
+import frc.robot.commands.DriveToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Subsystems;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.util.Constants.DriveToPointConstants.SHOOT_POSES;
 import static frc.robot.util.Subsystems.*;
+
+import java.util.function.BooleanSupplier;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
@@ -24,8 +30,7 @@ public class RobotContainer {
     m_subsystemContainer = new Subsystems();
     configureDefaultCommands();
     configureBindings();
-    swerve.registerTelemetry(logger::telemeterize);
-
+    configureNamedCommands();
   }
 
   private void configureDefaultCommands() {
@@ -46,6 +51,12 @@ public class RobotContainer {
     m_buttonController.leftTrigger().toggleOnTrue(IntakeFactory.deployAndRunIntake());
     m_buttonController.rightTrigger().toggleOnTrue(IntakeFactory.deployAndRunOuttake());
 
+  }
+
+  private void configureNamedCommands() {
+    NamedCommands.registerCommand("DriveToPointFinite", SuperstructureFactory.DriveToPointFinite(SHOOT_POSES));
+    NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES));
+    NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
   }
 
   public Command getAutonomousCommand() {
