@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Near - 1L"
+                  "pathName": "Far - 1L"
                 }
               },
               {
@@ -43,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Near - 2L"
+                  "pathName": "Far - 2L"
                 }
               },
               {
@@ -62,7 +62,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Near - 3L"
+                  "pathName": "Far - 3L"
                 }
               }
             ]
