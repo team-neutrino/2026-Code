@@ -22,6 +22,6 @@ public class FuelNT extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(getDistance.get());
+    System.out.println("WE GOOD");
   }
 }

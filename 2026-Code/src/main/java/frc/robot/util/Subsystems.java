@@ -6,6 +6,7 @@ import frc.robot.subsystems.NetworkTables.*;
 public class Subsystems {
     public static final HubActiveStatus hubState = new HubActiveStatus();
 
+    // public static final VisionReceiver visionReceiver = new VisionReceiver();
     public static final Climb climb = new ClimbNT();
     public static final Intake intake = new Intake();
     public static final Index index = new Index();
