@@ -31,8 +31,7 @@ public class VisionReceiver extends SubsystemBase {
         udpThread.start();
     }
 
-    private void runSocket() {
-        // try-with-resources ensures the socket closes if the thread crashes
+    private void runSocket() { // try-with-resources ensures the socket closes if the thread crashes
         try (DatagramSocket socket = new DatagramSocket(PORT)) {
             byte[] buffer = new byte[24]; // 3 doubles * 8 bytes = 24 bytes
 
@@ -93,14 +92,9 @@ public class VisionReceiver extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // periodic() runs every 20ms on the main thread.
-        // We just grab the latest data and post it for the drivers to see.
-        if (isVisionFresh()) {
-            SmartDashboard.putNumber("Vision/X", getX());
-            SmartDashboard.putNumber("Vision/Y", getY());
-            SmartDashboard.putNumber("Vision/Theta", getTheta());
-        }
+        System.out.println("X" + getX());
+        System.out.println("Y" + getY());
+        System.out.println("Theta" + getTheta());
 
-        SmartDashboard.putBoolean("Vision/Is Fresh", isVisionFresh());
     }
 }
