@@ -80,6 +80,12 @@ public class Constants {
         public static final double CURRENT_SPIKE = 20.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
 
+        // meters shooter math
+        public static final double FLYWHEEL_DIAMETER = 0.1016;
+        public static final double FLYWHEEL_CIRCUMFRANCE = (FLYWHEEL_DIAMETER * Math.PI);
+        public static final double Y_DISPLACEMENT = 1.2376;
+        public static final double GRAVITY = -9.807;
+
         public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
             RADIAL_CLOSE,
             RADIAL_FAR,
@@ -164,19 +170,19 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
 
-        public static final double CURRENT_LIMIT = 20;
+        public static final double CURRENT_LIMIT = 60;
 
         public static final double INTAKE_VOLTAGE = 5;
         public static final double OUTTAKE_VOLTAGE = -5;
 
-        public static final double STARTING_POSITION = -.50;
-        public static final double DEPLOYED_POSITION = -8.5;
+        public static final double STARTING_POSITION = 0;
+        public static final double DEPLOYED_POSITION = 80; // all positions and allowed errors are placeholders
         public static final double INTERMEDIATE_POSITION_1 = 60;
         public static final double INTERMEDIATE_POSITION_2 = 30;
         public static final double ALLOWED_TARGET_ERROR = 4;
         public static final double ALLOWED_INTAKE_ERROR = 4;
 
-        public static final double INTAKE_kP = 2;
+        public static final double INTAKE_kP = 0.1; // PID values are all placeholders
         public static final double INTAKE_kI = 0.0;
         public static final double INTAKE_kD = 0.0;
     }
