@@ -213,7 +213,7 @@ public class Shooter extends SubsystemBase {
    * m_TargetAngle.
    */
   public void controlHoodMotor() {
-    PositionVoltage positionControl = new PositionVoltage(getSafeAngle(m_targetAngle / 360));
+    PositionVoltage positionControl = new PositionVoltage(getSafeAngle(m_targetAngle) / 360);
     m_hoodMotor.setControl(positionControl);
   }
 
@@ -237,9 +237,7 @@ public class Shooter extends SubsystemBase {
    * @return A safe angle for the hood to travel to.
    */
   public double getSafeAngle(double originalAngle) {
-    // return Math.min(originalAngle, MAX_SAFE_HOOD_ANGLE);
-    return originalAngle; // CHANGE THIS LATER! This is temporarily being disabled because it is
-                          // IMPOSSIBLE to test hood with it
+    return Math.min(originalAngle, MAX_SAFE_HOOD_ANGLE);
   }
 
   @Override
