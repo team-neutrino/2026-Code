@@ -181,11 +181,11 @@ public class Constants {
         public static final double FRONT_YAW_OFFSET = 0.0;
 
         public static final double BACK_FORWARD_OFFSET = -0.3310382;
-        public static final double BACK_SIDE_OFFSET = 0.17145;
+        public static final double BACK_SIDE_OFFSET = 0.17145; // figure out if left or right
         public static final double BACK_HEIGHT_OFFSET = 0.3654298;
         public static final double BACK_ROLL_OFFSET = 0.0;
-        public static final double BACK_PITCH_OFFSET = -20;
-        public static final double BACK_YAW_OFFSET = 0.0;
+        public static final double BACK_PITCH_OFFSET = 20;
+        public static final double BACK_YAW_OFFSET = 180;
 
         public static final double LEFT_FORWARD_OFFSET = 0.0;
         public static final double LEFT_SIDE_OFFSET = 0.0;
@@ -195,7 +195,7 @@ public class Constants {
         public static final double LEFT_YAW_OFFSET = 0; // Yaw (degrees)
 
         public static final double RIGHT_FORWARD_OFFSET = 0; // Forward offset (meters)
-        public static final double RIGHT_SIDE_OFFSET = 0; // Side offset (meters) right is positive
+        public static final double RIGHT_SIDE_OFFSET = 0; // Side offset (meters)
         public static final double RIGHT_HEIGHT_OFFSET = 0; // Height offset (meters)
         public static final double RIGHT_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double RIGHT_PITCH_OFFSET = 0; // Pitch (degrees)
