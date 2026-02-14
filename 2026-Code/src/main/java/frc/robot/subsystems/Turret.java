@@ -103,6 +103,10 @@ public class Turret extends SubsystemBase {
     return m_motor.getPosition().getValueAsDouble();
   }
 
+  public double getFieldRelativeAngle() {
+    return m_motor.getPosition().getValueAsDouble();
+  }
+
   public double getCurrentVoltage() {
     return m_motor.getMotorVoltage().getValueAsDouble();
   }
@@ -117,26 +121,11 @@ public class Turret extends SubsystemBase {
 
   private double getAdjustedTargetAngle() {
     double currentAngle = getCurrentAngle();
-    double angleDiff = m_targetAngle - currentAngle;
+    double currentFieldRelativeAngle = currentAngle + Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
+    double angleDiff = currentFieldRelativeAngle - calculateFieldRelativeTargetAngle();
+    double closeTarget = Math.min(angleDiff, angleDiff >= 0 ? angleDiff - 360 : angleDiff + 360);
 
-    if (angleDiff > 180.0) {
-      angleDiff -= 360.0;
-    } else if (angleDiff < -180.0) {
-      angleDiff += 360.0;
-    }
-
-    double target = currentAngle + angleDiff;
-
-    if (target > MAX_WINDUP || target < MIN_WINDUP) {
-      if (angleDiff > 0) {
-        angleDiff -= 360.0;
-      } else {
-        angleDiff += 360.0;
-      }
-      target = currentAngle + angleDiff;
-    }
-
-    return target;
+    return m_totalWrap + closeTarget;
   }
 
   public boolean isAtTarget() {
