@@ -39,7 +39,7 @@ public class Turret extends SubsystemBase {
   private TalonFX m_motor = new TalonFX(MOTOR_ID, RIO_BUS);
   private double m_targetAngle = STARTUP_ANGLE;
   private double m_previousAngle = STARTUP_ANGLE;
-  private double m_totalWrap = 0;
+  private double m_totalWrap = STARTUP_ANGLE;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final MotionMagicVoltage m_motionMagicRequest = new MotionMagicVoltage(STARTUP_ANGLE).withSlot(0);
@@ -116,27 +116,33 @@ public class Turret extends SubsystemBase {
   }
 
   private double getAdjustedTargetAngle() {
-    double currentAngle = getCurrentAngle();
-    double angleDiff1 = m_targetAngle;
-    double angleDiff2 = m_targetAngle;
-    if (currentAngle > m_targetAngle) {
-      angleDiff1 = m_targetAngle - currentAngle;
-      if (m_totalWrap + angleDiff1 < MIN_WINDUP) {
-        System.out.println("Too negative! Wrapping");
-        return m_targetAngle + 360;
-      }
-    } else if (currentAngle < m_targetAngle) {
-      angleDiff2 = m_targetAngle - currentAngle;
-      if (m_totalWrap + angleDiff2 > MAX_WINDUP) {
-        System.out.println("Too positive! Wrapping");
-        return m_targetAngle - 360;
-      }
+    // Compute robot-relative desired angle (degrees)
+    double robotHeading = Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
+    double desiredRobotRelative = calculateFieldRelativeTargetAngle() - robotHeading;
+
+    // Normalize desired into (-180, 180]
+    desiredRobotRelative = ((desiredRobotRelative + 180) % 360 + 360) % 360 - 180;
+
+    // m_totalWrap is the continuous robot-relative turret angle (degrees). Choose
+    // the
+    // 360-degree-equivalent of the desired angle that is closest to the current
+    // continuous angle so the turret takes the shortest path unless constrained.
+    double k = Math.round((m_totalWrap - desiredRobotRelative) / 360.0);
+    double candidate = desiredRobotRelative + k * 360.0;
+
+    // Enforce mechanical wind limits (MIN_WINDUP..MAX_WINDUP). If the closest
+    // candidate
+    // would violate the limits, clamp to the allowed range (this forces the longer
+    // path
+    // if necessary to avoid exceeding the windup limits).
+    if (candidate > MAX_WINDUP) {
+      candidate = MAX_WINDUP;
+    } else if (candidate < MIN_WINDUP) {
+      candidate = MIN_WINDUP;
     }
-    if (Math.abs(angleDiff1) < Math.abs(angleDiff2)) {
-      return angleDiff1;
-    } else {
-      return angleDiff2;
-    }
+
+    return candidate;
+
   }
 
   public boolean isAtTarget() {
@@ -180,20 +186,28 @@ public class Turret extends SubsystemBase {
       }
     }
 
-    updateWrap();
-    adjustTurret(getAdjustedTargetAngle());
     final long now = NetworkTablesJNI.now();
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
+      updateWrap();
+      adjustTurret(getAdjustedTargetAngle());
       turretPosePub.set(new Pose2d(Subsystems.swerve.getCurrentPose().getMeasureX().baseUnitMagnitude(),
           Subsystems.swerve.getCurrentPose().getMeasureY().baseUnitMagnitude(),
-          new Rotation2d(calculateFieldRelativeTargetAngle() * Math.PI / 180)),
-          now);
+          new Rotation2d((getAdjustedTargetAngle()) * Math.PI / 180)), now);
     }
   }
 
   private void updateWrap() {
-    m_totalWrap += getCurrentAngle() - m_previousAngle;
-    m_previousAngle = getCurrentAngle();
+    double current = getCurrentAngle();
+    double delta = current - m_previousAngle;
+    // Correct for sensor wrap-around using a 180-degree threshold
+    if (delta > 180.0) {
+      delta -= 360.0;
+    } else if (delta < -180.0) {
+      delta += 360.0;
+    }
+
+    m_totalWrap += delta;
+    m_previousAngle = current;
   }
 
   private double calculateFieldRelativeTargetAngle() {
