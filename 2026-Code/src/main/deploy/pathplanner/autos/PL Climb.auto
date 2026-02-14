@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AlphaSpinUp"
+                  "name": null
                 }
               }
             ]
@@ -36,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AlphaSpinUp"
+                  "name": null
                 }
               }
             ]
@@ -55,13 +55,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AlphaSpinUp"
+                  "name": null
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AlphaKick"
+                  "name": null
                 }
               }
             ]
