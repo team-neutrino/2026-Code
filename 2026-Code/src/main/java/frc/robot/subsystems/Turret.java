@@ -116,33 +116,27 @@ public class Turret extends SubsystemBase {
   }
 
   private double getAdjustedTargetAngle() {
-    // Compute robot-relative desired angle (degrees)
-    double robotHeading = Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
-    double desiredRobotRelative = calculateFieldRelativeTargetAngle() - robotHeading;
+    double currentAngle = getCurrentAngle();
+    double angleDiff = m_targetAngle - currentAngle;
 
-    // Normalize desired into (-180, 180]
-    desiredRobotRelative = ((desiredRobotRelative + 180) % 360 + 360) % 360 - 180;
-
-    // m_totalWrap is the continuous robot-relative turret angle (degrees). Choose
-    // the
-    // 360-degree-equivalent of the desired angle that is closest to the current
-    // continuous angle so the turret takes the shortest path unless constrained.
-    double k = Math.round((m_totalWrap - desiredRobotRelative) / 360.0);
-    double candidate = desiredRobotRelative + k * 360.0;
-
-    // Enforce mechanical wind limits (MIN_WINDUP..MAX_WINDUP). If the closest
-    // candidate
-    // would violate the limits, clamp to the allowed range (this forces the longer
-    // path
-    // if necessary to avoid exceeding the windup limits).
-    if (candidate > MAX_WINDUP) {
-      candidate = MAX_WINDUP;
-    } else if (candidate < MIN_WINDUP) {
-      candidate = MIN_WINDUP;
+    if (angleDiff > 180.0) {
+      angleDiff -= 360.0;
+    } else if (angleDiff < -180.0) {
+      angleDiff += 360.0;
     }
 
-    return candidate;
+    double target = currentAngle + angleDiff;
 
+    if (target > MAX_WINDUP || target < MIN_WINDUP) {
+      if (angleDiff > 0) {
+        angleDiff -= 360.0;
+      } else {
+        angleDiff += 360.0;
+      }
+      target = currentAngle + angleDiff;
+    }
+
+    return target;
   }
 
   public boolean isAtTarget() {
@@ -192,7 +186,9 @@ public class Turret extends SubsystemBase {
       adjustTurret(getAdjustedTargetAngle());
       turretPosePub.set(new Pose2d(Subsystems.swerve.getCurrentPose().getMeasureX().baseUnitMagnitude(),
           Subsystems.swerve.getCurrentPose().getMeasureY().baseUnitMagnitude(),
-          new Rotation2d((getAdjustedTargetAngle()) * Math.PI / 180)), now);
+          new Rotation2d((getAdjustedTargetAngle() - Subsystems.swerve.getCurrentPose().getRotation().getDegrees())
+              * Math.PI / 180)),
+          now);
     }
   }
 
