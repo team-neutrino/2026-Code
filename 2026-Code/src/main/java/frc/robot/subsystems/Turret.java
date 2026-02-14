@@ -131,18 +131,28 @@ public class Turret extends SubsystemBase {
         180.0);
     double angleDiff = turrent_angle_global_degrees - calculateFieldRelativeTargetAngle();
     double closeTarget;
+    double farTarget;
     if (Math.abs(angleDiff) < Math
         .abs(GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
             : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360))) {
       closeTarget = angleDiff;
+      farTarget = GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
+          : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360);
     } else {
       closeTarget = GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
           : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360);
+      farTarget = angleDiff;
     }
     System.out.println(
         "Turret Angle: " + turrent_angle_global_degrees + " Target Angle: " + calculateFieldRelativeTargetAngle()
-            + " AngleDiff: " + angleDiff + " closeTarget: " + closeTarget);
+            + " AngleDiff: " + angleDiff + " closeTarget: " + closeTarget + " totalWindup: " + m_totalWrap);
+    if (m_totalWrap - closeTarget >= MAX_WINDUP) {
+      return m_totalWrap - closeTarget - 360;
+    } else if (m_totalWrap - closeTarget <= MIN_WINDUP) {
+      return m_totalWrap - closeTarget + 360;
+    }
     return m_totalWrap - closeTarget;
+
   }
 
   public boolean isAtTarget() {
