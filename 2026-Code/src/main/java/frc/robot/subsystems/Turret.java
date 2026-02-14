@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
@@ -40,6 +41,7 @@ public class Turret extends SubsystemBase {
   private double m_targetAngle = STARTUP_ANGLE;
   private double m_previousAngle = STARTUP_ANGLE;
   private double m_totalWrap = STARTUP_ANGLE;
+  private double m_turret_angle = 0;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final MotionMagicVoltage m_motionMagicRequest = new MotionMagicVoltage(STARTUP_ANGLE).withSlot(0);
@@ -120,12 +122,16 @@ public class Turret extends SubsystemBase {
   }
 
   private double getAdjustedTargetAngle() {
-    double currentAngle = getCurrentAngle();
-    double currentFieldRelativeAngle = currentAngle + Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
-    double angleDiff = currentFieldRelativeAngle - calculateFieldRelativeTargetAngle();
-    double closeTarget = Math.min(angleDiff, angleDiff >= 0 ? angleDiff - 360 : angleDiff + 360);
+    Rotation2d turret_rotation = new Rotation2d(Math.toRadians(m_turret_angle));
+    Rotation2d turrent_angle_global = turret_rotation.plus(Subsystems.swerve.getCurrentPose().getRotation());
 
-    return m_totalWrap + closeTarget;
+    double turrent_angle_global_degrees = MathUtil.inputModulus(
+        turrent_angle_global.getDegrees(),
+        -180.0,
+        180.0);
+    double angleDiff = turrent_angle_global_degrees - calculateFieldRelativeTargetAngle();
+    double closeTarget = Math.min(angleDiff, angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360);
+    return m_totalWrap - closeTarget;
   }
 
   public boolean isAtTarget() {
@@ -172,24 +178,35 @@ public class Turret extends SubsystemBase {
     final long now = NetworkTablesJNI.now();
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
       updateWrap();
+      getAdjustedTargetAngle();
       adjustTurret(getAdjustedTargetAngle());
+      m_turret_angle = simulateTurretMovement(getAdjustedTargetAngle());
       turretPosePub.set(new Pose2d(Subsystems.swerve.getCurrentPose().getMeasureX().baseUnitMagnitude(),
           Subsystems.swerve.getCurrentPose().getMeasureY().baseUnitMagnitude(),
-          new Rotation2d((getAdjustedTargetAngle() - Subsystems.swerve.getCurrentPose().getRotation().getDegrees())
+          new Rotation2d((m_turret_angle + Subsystems.swerve.getCurrentPose().getRotation().getDegrees())
               * Math.PI / 180)),
           now);
     }
   }
 
-  private void updateWrap() {
-    double current = getCurrentAngle();
-    double delta = current - m_previousAngle;
-    // Correct for sensor wrap-around using a 180-degree threshold
-    if (delta > 180.0) {
-      delta -= 360.0;
-    } else if (delta < -180.0) {
-      delta += 360.0;
+  private double simulateTurretMovement(double turret_target_turret_space) {
+    double delta_turret = turret_target_turret_space - m_turret_angle;
+    double dt = 0.02;
+    double max_turret_rot_rate = 1;
+    double max_turret_movement = delta_turret * max_turret_rot_rate * dt;
+    double constrained_delta_turret;
+    if (Math.abs(delta_turret) < Math.abs(max_turret_movement)) {
+      constrained_delta_turret = delta_turret;
+    } else {
+      constrained_delta_turret = max_turret_movement;
     }
+
+    return m_turret_angle + constrained_delta_turret;
+  }
+
+  private void updateWrap() {
+    double current = m_turret_angle;
+    double delta = current - m_previousAngle;
 
     m_totalWrap += delta;
     m_previousAngle = current;
