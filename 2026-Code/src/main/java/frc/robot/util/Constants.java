@@ -351,6 +351,8 @@ public class Constants {
     }
 
     public static class LEDConstants {
-        public static final int CANDLE_ID = 90;
+        public static final int CANDLE_ID = 32;
+        public static final int START_INDEX = 8;
+        public static final int END_INDEX = 16;
     }
 }

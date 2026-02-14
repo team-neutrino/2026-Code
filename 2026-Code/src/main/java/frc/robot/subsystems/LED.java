@@ -2,8 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.util.Constants;
+
+import static frc.robot.util.Constants.LEDConstants.*;
 import frc.robot.util.Subsystems;
 import frc.robot.util.HubActiveStatus;
 
@@ -13,7 +13,7 @@ import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.controls.*;
 
 public class LED extends SubsystemBase {
-    private final CANdle m_candle = new CANdle(Constants.LEDConstants.CANDLE_ID, "rio");
+    private final CANdle m_candle = new CANdle(CANDLE_ID, "rio");
 
     private double m_gameTime;
     private HubActiveStatus m_hub_status = Subsystems.hubState;
@@ -36,28 +36,17 @@ public class LED extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         m_gameTime = DriverStation.getMatchTime();
-        m_candle.setControl(new SolidColor(8, 20).withColor(purple));
-        // blink 5 seconds before alliance shift changes
-        if (m_gameTime <= 135 && m_gameTime >= 130) { // 2:15-2:10
-            return;
-        }
 
-        else if (m_gameTime <= 110 && m_gameTime >= 105) { // 1:50-1:45
-            return;
-        }
-
-        else if (m_gameTime <= 85 && m_gameTime >= 80) { // 1:25-1:20
-            return;
-        }
-
-        else if (m_gameTime <= 60 && m_gameTime >= 55) { // 1:00-0:55
-            return;
-        }
-
-        else if (m_gameTime <= 35 && m_gameTime >= 30) {
-            return;
-        }
+        // blink 5 seconds before all alliance shift changes
+        // if ((m_gameTime <= 135 && m_gameTime >= 130) || (m_gameTime <= 110 && m_gameTime >= 105)
+        //        || (m_gameTime <= 85 && m_gameTime >= 80) || (m_gameTime <= 60 && m_gameTime >= 55)
+        //        || (m_gameTime <= 35 && m_gameTime >= 30)) { // 2:15-2:10, 1:50-1:45, 1:25-1:20, 1:00-0:55
+        //    m_candle.setControl(new StrobeAnimation(START_INDEX, END_INDEX).withColor(white));
+        //    System.out.println("white");
+        //    return;
+        //}
 
         // alignment to shoot/pass/climb. determine based on drive to point
         //
@@ -70,29 +59,36 @@ public class LED extends SubsystemBase {
         // m_state_pub.set("solid");
 
         // when hopper full = orange
-        if (m_index.fullCapacity()) {
-            m_candle.setControl(new SolidColor(8, 20).withColor(orange));
-            return;
-        }
+        // if (m_index.fullCapacity()) {
+        // m_candle.setControl(new SolidColor(START_INDEX,
+        // END_INDEX).withColor(orange));
+        // return;
+        // }
 
         // hopper empty = green (color could change, sarah randomly picked)
-        if (m_index.isHopperEmpty()) {
-            m_candle.setControl(new SolidColor(8, 20).withColor(green));
-            return;
-        }
+        // if (m_index.isHopperEmpty()) {
+        // m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(green));
+        // return;
+        // }
 
         // red hub active
-        if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
-            m_candle.setControl(new SolidColor(8, 20).withColor(red));
-            return;
-        }
+        // else if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
+        // m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(red));
+        // return;
+        // }
 
         // blue hub active
-        else if (m_hub_status.isBlueHubActive() && !m_hub_status.isRedHubActive()) {
-            m_candle.setControl(new SolidColor(8, 20).withColor(blue));
-            return;
-        }
+        // else if (m_hub_status.isBlueHubActive() && !m_hub_status.isRedHubActive()) {
+        // m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(blue));
+        // return;
+        // }
 
-        // default to purple (during auton, transition shift, endgame)
+        // else { // default to purple (during auton, transition shift, endgame)
+        // m_candle.setControl(new SolidColor(START_INDEX,
+        // END_INDEX).withColor(purple));
+        // }
+
+        m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(purple));
+        System.out.println("LEDing");
     }
 }
