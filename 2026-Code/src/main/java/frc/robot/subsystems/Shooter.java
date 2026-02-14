@@ -45,6 +45,8 @@ public class Shooter extends SubsystemBase {
 
   private double m_tuningDistance = 5;
 
+  private boolean m_recentering = false;
+
   /**
    * Creates a new Shooter.
    * 
@@ -253,6 +255,14 @@ public class Shooter extends SubsystemBase {
         shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
             hubState.isBlueHubActive());
       }
+
+      if (m_recentering) {
+        m_hoodMotor.setVoltage(-1);
+        controlShooterMotor();
+      } else {
+        controlHoodMotor();
+        controlShooterMotor();
+      }
     }
   }
 
@@ -283,15 +293,18 @@ public class Shooter extends SubsystemBase {
   public Command resetHood() {
     return new FunctionalCommand(
         () -> {
-          m_hoodMotor.setVoltage(-1);
+          m_recentering = true;
         }, // set motor to go backwards on command start. please do make sure this is
            // spinning the correct direction on the real robot or bad things will happen
         () -> {
           controlShooterMotor(); // keep shooter running
         },
-        interrupted -> m_hoodMotor.setPosition(0), // set motor position to 0 when command ends
-        () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE
-            && Math.abs(getShooterRPM() / 60) < ALLOWED_RPM_ERROR), // end command when current spike and no movement
+        interrupt -> {
+          m_hoodMotor.setPosition(0);
+          m_recentering = false;
+        },
+        // set motor position to 0 when command ends
+        () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > 29), // end command when current spike
         this // require shooter subsystem
     );
   }
@@ -312,9 +325,6 @@ public class Shooter extends SubsystemBase {
       // SHOOTER_SPEED_ZONES.floorEntry(swerve.getDistanceFromHub()).getValue();
       // m_targetAngle = INTERPOLATION_HOOD.get(swerve.getDistanceFromHub());
       // code for having actual real shooter distance
-
-      controlShooterMotor();
-      controlHoodMotor();
     });
   }
 }
