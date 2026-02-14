@@ -7,18 +7,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import static frc.robot.util.Constants.VisionConstants.*;
 
-public class VisionReceiver extends SubsystemBase {
-    // Port should match your Python sender
-    private static final int PORT = 5800;
-
+public class FuelUDPReceiver extends SubsystemBase {
     // The "Lock" object prevents the Main Thread and UDP Thread from
     // colliding while reading/writing these variables.
     private final Object lock = new Object();
     private double x, y, theta;
     private double lastTimestamp;
 
-    public VisionReceiver() {
+    public FuelUDPReceiver() {
         // Create the background thread so we don't block the main robot loop
         Thread udpThread = new Thread(this::runSocket);
 
@@ -31,7 +29,7 @@ public class VisionReceiver extends SubsystemBase {
     }
 
     private void runSocket() { // try-with-resources ensures the socket closes if the thread crashes
-        try (DatagramSocket socket = new DatagramSocket(PORT)) {
+        try (DatagramSocket socket = new DatagramSocket(PORT_ID)) {
             byte[] buffer = new byte[24]; // 3 doubles * 8 bytes = 24 bytes
 
             while (!Thread.currentThread().isInterrupted()) {
@@ -42,7 +40,7 @@ public class VisionReceiver extends SubsystemBase {
                 socket.receive(packet);
 
                 ByteBuffer bb = ByteBuffer.wrap(buffer);
-                bb.order(ByteOrder.BIG_ENDIAN); // Standard for Python struct.pack
+                bb.order(ByteOrder.BIG_ENDIAN); // Not sure if BIG or Littel ENDIAN matters
 
                 double newX = bb.getDouble();
                 double newY = bb.getDouble();
@@ -91,9 +89,8 @@ public class VisionReceiver extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println("X" + getX());
-        System.out.println("Y" + getY());
-        System.out.println("Theta" + getTheta());
-
+        // System.out.println("X" + getX());
+        // System.out.println("Y" + getY());
+        // System.out.println("Theta" + getTheta());
     }
 }

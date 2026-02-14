@@ -190,7 +190,7 @@ public class Constants {
         public static final double HOPPER_CHECK_VOLTAGE = 4;
     }
 
-    public static class LimelightConstants {
+    public static class VisionConstants {
         public static final String LL_FRONT = "limelight-front";
         public static final String LL_BACK = "limelight-back";
         public static final String LL_LEFT = "limelight-left";
