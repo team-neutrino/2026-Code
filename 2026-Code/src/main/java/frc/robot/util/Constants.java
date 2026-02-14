@@ -172,19 +172,19 @@ public class Constants {
         public static final String LL_LEFT = "limelight-left";
         public static final String LL_RIGHT = "limelight-right";
 
-        // Camera pose offsets
-        public static final double FRONT_FORWARD_OFFSET = 0.0;
+        // Camera pose offsets in meters
+        public static final double FRONT_FORWARD_OFFSET = 0.0325374;
         public static final double FRONT_SIDE_OFFSET = 0.0;
-        public static final double FRONT_HEIGHT_OFFSET = 0.0;
+        public static final double FRONT_HEIGHT_OFFSET = 0.7458202;
         public static final double FRONT_ROLL_OFFSET = 0.0;
-        public static final double FRONT_PITCH_OFFSET = 0.0;
+        public static final double FRONT_PITCH_OFFSET = 27.5;
         public static final double FRONT_YAW_OFFSET = 0.0;
 
-        public static final double BACK_FORWARD_OFFSET = 0.0;
-        public static final double BACK_SIDE_OFFSET = 0.0;
-        public static final double BACK_HEIGHT_OFFSET = 0.80;
+        public static final double BACK_FORWARD_OFFSET = -0.3310382;
+        public static final double BACK_SIDE_OFFSET = 0.17145;
+        public static final double BACK_HEIGHT_OFFSET = 0.3654298;
         public static final double BACK_ROLL_OFFSET = 0.0;
-        public static final double BACK_PITCH_OFFSET = 0.0;
+        public static final double BACK_PITCH_OFFSET = -20;
         public static final double BACK_YAW_OFFSET = 0.0;
 
         public static final double LEFT_FORWARD_OFFSET = 0.0;
