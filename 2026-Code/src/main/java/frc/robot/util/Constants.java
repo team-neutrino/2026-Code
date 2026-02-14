@@ -61,8 +61,8 @@ public class Constants {
         public static final double SHOOTING_KP = 0.6;
         public static final double SHOOTING_KI = 1.2;
         public static final double SHOOTING_KD = 0.0;
-        public static final double HOOD_KP = 2.5;
-        public static final double HOOD_KI = 2.5;
+        public static final double HOOD_KP = 300;
+        public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
         public static final double ALLOWED_ERROR = 0.1;
         public static final double ALLOWED_RPM_ERROR = 25;
@@ -78,7 +78,7 @@ public class Constants {
         public static final double DEFAULT = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double CURRENT_SPIKE = 20.0;
-        public static final double HOOD_GEAR_RATIO = 13.5;
+        public static final double HOOD_GEAR_RATIO = 105.8239;
 
         public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
             RADIAL_CLOSE,

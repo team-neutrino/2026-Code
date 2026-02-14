@@ -4,9 +4,6 @@
       "open": false
     },
     "transitory": {
-      "FMSInfo": {
-        "open": true
-      },
       "shooter": {
         "open": true,
         "{tuning}hoodMotor": {
@@ -27,7 +24,12 @@
     }
   },
   "NetworkTables Info": {
-    "visible": true
+    "Clients": {
+      "open": true
+    },
+    "Server": {
+      "open": true
+    }
   },
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
