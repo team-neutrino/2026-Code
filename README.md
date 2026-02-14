@@ -44,7 +44,7 @@
 | Climb     |                   | 20      | CANrange    |
 | Indexer   | Left Top Hopper   | 25      | CANrange    |
 | Indexer   | Right Top Hopper  | 26      | CANrange    |
-| Indexer   |                   | 27      | CanandColor |
+| Indexer   |                   | 28      | CanandColor |
 | Turret    |                   | 29      | Kraken x44  |
 
 ## DIO
