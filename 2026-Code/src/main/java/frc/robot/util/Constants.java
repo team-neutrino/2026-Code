@@ -16,6 +16,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Distance;
 
 public class Constants {
+
     public static class RioConstants {
         public static final CANBus RIO_BUS = new CANBus("rio");
     }
@@ -347,5 +348,9 @@ public class Constants {
 
     public static class AutonConstants {
         public static final String CURRENT_AUTON = "Neutral Half L";
+    }
+
+    public static class LEDConstants {
+        public static final int CANDLE_ID = 90;
     }
 }

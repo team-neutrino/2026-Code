@@ -3,28 +3,35 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StringTopic;
-import edu.wpi.first.networktables.StringPublisher;
-
-import frc.robot.util.HubActiveStatus;
+import frc.robot.util.Constants;
 import frc.robot.util.Subsystems;
+import frc.robot.util.HubActiveStatus;
+
+import java.util.GregorianCalendar;
+
+import com.ctre.phoenix6.configs.CANdleConfiguration;
+import com.ctre.phoenix6.hardware.CANdle;
 
 public class LED extends SubsystemBase {
-    private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
-    private StringTopic m_color_topic = m_nt.getStringTopic("/LED/color");
-    private StringTopic m_state_topic = m_nt.getStringTopic("/LED/state");
-
-    private final StringPublisher m_color_pub;
-    private final StringPublisher m_state_pub;
+    private final CANdle m_candle = new CANdle(Constants.LEDConstants.CANDLE_ID, "rio");
 
     private double m_gameTime;
     private HubActiveStatus m_hub_status = Subsystems.hubState;
     private Index m_index = Subsystems.index;
 
+    private int[] white = { 64, 64, 64 }; // blink countdown
+    private int[] red = { 64, 0, 0 }; // red hub
+    private int[] orange = { 84, 18, 0 }; // full hopper
+    private int[] yellow = { 64, 64, 0 };
+    private int[] green = { 0, 64, 0 }; // empty hopper
+    private int[] blue = { 0, 0, 64 }; // blue hub
+    private int[] purple = { 64, 0, 64 }; // default (when both hubs active: auton, transition shift, endgame)
+    private int[] black = { 0, 0, 0 }; // off
+
     public LED() {
-        m_color_pub = m_color_topic.publish();
-        m_state_pub = m_state_topic.publish();
+        CANdleConfiguration configAll = new CANdleConfiguration();
+        configAll.stripType = LEDStripType.RGB;
+        m_candle.configAllSettings(configAll);
     }
 
     @Override
@@ -33,32 +40,27 @@ public class LED extends SubsystemBase {
 
         // blink 5 seconds before alliance shift changes
         if (m_gameTime <= 135 && m_gameTime >= 130) { // 2:15-2:10
-            m_color_pub.set("white");
-            m_state_pub.set("blink");
+            m_candle.setLEDs(white);
             return;
         }
 
         else if (m_gameTime <= 110 && m_gameTime >= 105) { // 1:50-1:45
-            m_color_pub.set("white");
-            m_state_pub.set("blink");
+            m_candle.setLEDs(white);
             return;
         }
 
         else if (m_gameTime <= 85 && m_gameTime >= 80) { // 1:25-1:20
-            m_color_pub.set("white");
-            m_state_pub.set("blink");
+            m_candle.setLEDs(white);
             return;
         }
 
         else if (m_gameTime <= 60 && m_gameTime >= 55) { // 1:00-0:55
-            m_color_pub.set("white");
-            m_state_pub.set("blink");
+            m_candle.setLEDs(white);
             return;
         }
 
         else if (m_gameTime <= 35 && m_gameTime >= 30) {
-            m_color_pub.set("white");
-            m_state_pub.set("blink");
+            m_candle.setLEDs(white);
             return;
         }
 
@@ -74,38 +76,29 @@ public class LED extends SubsystemBase {
 
         // when hopper full = orange
         if (m_index.fullCapacity()) {
-            m_color_pub.set("orange");
-            m_state_pub.set("solid");
+            m_candle.setLEDs(orange);
             return;
         }
 
         // hopper empty = green (color could change, sarah randomly picked)
         if (m_index.isHopperEmpty()) {
-            m_color_pub.set("green");
+            m_candle.setLEDs(green);
             return;
         }
 
         // red hub active
         if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
-            m_color_pub.set("red");
-            m_state_pub.set("solid");
+            m_candle.setLEDs(red);
             return;
         }
 
         // blue hub active
         else if (m_hub_status.isBlueHubActive() && !m_hub_status.isRedHubActive()) {
-            m_color_pub.set("blue");
-            m_state_pub.set("solid");
+            m_candle.setLEDs(blue);
             return;
         }
 
         // default to purple (during auton, transition shift, endgame)
-        m_color_pub.set("purple");
-        m_state_pub.set("solid");
-
-        // System.out.println(DriverStation.getGameSpecificMessage());
-        // System.out.println("blue hub: " + m_hub_status.isBlueHubActive());
-        // System.out.println("red hub: " + m_hub_status.isRedHubActive());
-
+        m_candle.setLEDs(purple);
     }
 }
