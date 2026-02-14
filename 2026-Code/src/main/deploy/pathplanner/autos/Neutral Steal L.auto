@@ -13,6 +13,25 @@
                 "data": {
                   "pathName": "Steal - 1L"
                 }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "deployAndRunIntake"
+                      }
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -26,6 +45,12 @@
                 "data": {
                   "pathName": "Steal - 2L"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "runIntake"
+                }
               }
             ]
           }
@@ -38,6 +63,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "Steal - 3L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "runIntake"
                 }
               }
             ]
