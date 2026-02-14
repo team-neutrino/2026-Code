@@ -42,7 +42,7 @@ public class VisionReceiver extends SubsystemBase {
                 socket.receive(packet);
 
                 ByteBuffer bb = ByteBuffer.wrap(buffer);
-                bb.order(ByteOrder.LITTLE_ENDIAN); // Standard for Python struct.pack
+                bb.order(ByteOrder.BIG_ENDIAN); // Standard for Python struct.pack
 
                 double newX = bb.getDouble();
                 double newY = bb.getDouble();
