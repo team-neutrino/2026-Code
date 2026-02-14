@@ -130,7 +130,18 @@ public class Turret extends SubsystemBase {
         -180.0,
         180.0);
     double angleDiff = turrent_angle_global_degrees - calculateFieldRelativeTargetAngle();
-    double closeTarget = Math.min(angleDiff, angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360);
+    double closeTarget;
+    if (Math.abs(angleDiff) < Math
+        .abs(GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
+            : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360))) {
+      closeTarget = angleDiff;
+    } else {
+      closeTarget = GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
+          : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360);
+    }
+    System.out.println(
+        "Turret Angle: " + turrent_angle_global_degrees + " Target Angle: " + calculateFieldRelativeTargetAngle()
+            + " AngleDiff: " + angleDiff + " closeTarget: " + closeTarget);
     return m_totalWrap - closeTarget;
   }
 
