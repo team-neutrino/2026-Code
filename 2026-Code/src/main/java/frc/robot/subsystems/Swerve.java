@@ -109,7 +109,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         double pigeonWeight = 1 - MT1Weight;
         double xAvg = (pigeonWeight * Math.cos(Math.toRadians(getYawDegrees())))
                 + (MT1Weight * Math.cos(Math.toRadians(MT1YawDegrees)));
-        double yAvg = (MT1Weight * Math.sin(Math.toRadians(MT1YawDegrees)))
+        double yAvg = (pigeonWeight * Math.sin(Math.toRadians(getYawDegrees())))
                 + (MT1Weight * Math.sin(Math.toRadians(MT1YawDegrees)));
         double weightedAverage = Math.atan2(yAvg, xAvg);
         resetRotation(new Rotation2d(weightedAverage));
