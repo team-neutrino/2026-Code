@@ -48,6 +48,7 @@ public class Vision extends SubsystemBase {
   private DoublePublisher m_backYawPub;
   private DoublePublisher m_leftYawPub;
   private DoublePublisher m_rightYawPub;
+  private Limelight[] limelights;
 
   public Vision() {
     m_front = new Limelight(LL_FRONT, 4);
@@ -70,6 +71,7 @@ public class Vision extends SubsystemBase {
     m_rightYawPub = m_rightYaw.publish(PubSubOption.keepDuplicates(false));
 
     limelightInitialization();
+    limelights = new Limelight[] { m_front, m_back, m_left, m_right };
   }
 
   private void limelightInitialization() {
@@ -156,7 +158,7 @@ public class Vision extends SubsystemBase {
     // .getBotPoseEstimate_wpiBlue_MegaTag2
     // supply current robot orientation to every Limelight before asking for pose
 
-    for (Limelight limelight : new Limelight[] { m_front, m_back, m_left, m_right }) {
+    for (Limelight limelight : limelights) {
       limelight.setRobotOrientation(yaw_degrees, pitch_degrees, roll_degrees, yaw_rate, pitch_rate, roll_rate);
       limelight.updateFusionMegatag();
       limelight.updatePigeonSeed();
@@ -185,7 +187,7 @@ public class Vision extends SubsystemBase {
     private final double model;
     private double lastFrame = -2;
     private double frame = -2;
-    private double BumpScaleFactor = 1;
+    private double bumpScaleFactor = 1;
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
 
@@ -217,7 +219,6 @@ public class Vision extends SubsystemBase {
     }
 
     private double getCalcXYStdev() {
-      estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
       frame = getFrame();
 
       if (!verifyPoseValidity()) {
@@ -232,7 +233,7 @@ public class Vision extends SubsystemBase {
     }
 
     private double getCalcYawStdev() {
-      estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
+
       if (!verifyYawValidity()) {
         return IGNORE_MEASUREMENT_STD_DEV;
       }
@@ -248,9 +249,14 @@ public class Vision extends SubsystemBase {
       } else if (!verifyPoseValidity() && verifyYawValidity()) {
         timestamp = estimateMT1.timestampSeconds;
         pose = estimateMT1.pose;
-      } else {
+      } else if (verifyPoseValidity() && !verifyYawValidity()) {
         timestamp = estimateMT2.timestampSeconds;
         pose = estimateMT2.pose;
+      } else {
+        pose = new Pose2d(
+            estimateMT2.pose.getTranslation(),
+            estimateMT1.pose.getRotation());
+        timestamp = Math.max(estimateMT1.timestampSeconds, estimateMT2.timestampSeconds);
       }
       swerve.addVisionMeasurement(pose, timestamp,
           VecBuilder.fill(getCalcXYStdev(), getCalcXYStdev(), getCalcYawStdev()));
@@ -277,17 +283,17 @@ public class Vision extends SubsystemBase {
           && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
           && frame > lastFrame
           && !Double.isNaN(estimateMT2.avgTagDist)
-          && poseInField();
+          && poseInField(estimateMT2);
     }
 
     private boolean verifyYawValidity() {
       return estimateMT1 != null && estimateMT1.tagCount > 1
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 2 && poseInField();
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 2 && poseInField(estimateMT1);
     }
 
     private boolean verifyPigeonSeedUpdate() {
       return estimateMT1 != null && estimateMT1.tagCount > 1
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 4 && poseInField()
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 4 && poseInField(estimateMT1)
           && m_timer.hasElapsed(PIGEON_SEED_PERIOD);
     }
 
@@ -345,13 +351,13 @@ public class Vision extends SubsystemBase {
       double minimumXyStdDev = getMinimumStdDev();
       xyStdv = Math.max(
           minimumXyStdDev,
-          (Math.pow(distance, 3) * errorFactor) * BumpScaleFactor / Math.pow(numberOfTags, 2));
+          (Math.pow(distance, 3) * errorFactor) * bumpScaleFactor / Math.pow(numberOfTags, 2));
       return xyStdv;
     }
 
     private double setThetastdev(double distance) {
       if (!verifyYawValidity()) {
-        return 9999999999.9;
+        return IGNORE_MEASUREMENT_STD_DEV;
       }
       double errorFactor = getErrorFactor();
       double minimumThetaStDev = getMinimumStdDevTheta();
@@ -375,26 +381,23 @@ public class Vision extends SubsystemBase {
     }
 
     private void setBumpScaleFactor() {
-      if (onBump()) {
-        BumpScaleFactor = .5;
-      }
-      BumpScaleFactor = 1;
+      bumpScaleFactor = onBump() ? 0.5 : 1;
     }
 
     public void adjustIMUMode() {
-      if (model == 4 && !m_enabled) {
-        LimelightHelpers.SetIMUMode(name, 1);
-        if (model == 4 && m_enabled) {
-          LimelightHelpers.SetIMUMode(name, 4);
-        }
+      if (model == 4) {
+        LimelightHelpers.SetIMUMode(name, m_enabled ? 4 : 1);
       }
     }
 
-    public boolean poseInField() {
-      return estimateMT2.pose.getMeasureX().compareTo(ZERO) >= 0
-          && estimateMT2.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
-          && estimateMT2.pose.getMeasureY().compareTo(ZERO) >= 0
-          && estimateMT2.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
+    public boolean poseInField(PoseEstimate poseEstimate) {
+      if (poseEstimate == null) {
+        return false;
+      }
+      return poseEstimate.pose.getMeasureX().compareTo(ZERO) >= 0
+          && poseEstimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
+          && poseEstimate.pose.getMeasureY().compareTo(ZERO) >= 0
+          && poseEstimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
     }
   }
 }
