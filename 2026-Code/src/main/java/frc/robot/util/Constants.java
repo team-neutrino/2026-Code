@@ -241,7 +241,7 @@ public class Constants {
         public static final double PIGEON_SEED_PERIOD = 10;
         public static final double EXTERNAL_WEIGHT = 0.01; // larger number (0-1) = lower trust in internal IMU
 
-        public static final double PORT_ID = 5800;
+        public static final int PORT_ID = 5800;
     }
 
     public static class SwerveConstants {
