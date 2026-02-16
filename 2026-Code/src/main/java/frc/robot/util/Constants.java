@@ -213,10 +213,6 @@ public class Constants {
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
         public static final double MT1_WEIGHT_YAW = .7;
         public static final double PIGEON_SEED_PERIOD = 10;
-
-        public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
-        public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
-        public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     }
 
     public static class SwerveConstants {
@@ -311,6 +307,8 @@ public class Constants {
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 0, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 8, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 0, new Rotation2d(0));
-
+        public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
+        public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
+        public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
     }
 }
