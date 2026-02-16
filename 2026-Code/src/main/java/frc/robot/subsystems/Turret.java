@@ -41,7 +41,6 @@ public class Turret extends SubsystemBase {
   private double m_targetAngle = STARTUP_ANGLE;
   private double m_previousAngle = STARTUP_ANGLE;
   private double m_totalWrap = STARTUP_ANGLE;
-  private double m_turret_angle = 0;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final MotionMagicVoltage m_motionMagicRequest = new MotionMagicVoltage(STARTUP_ANGLE).withSlot(0);
@@ -57,7 +56,6 @@ public class Turret extends SubsystemBase {
   private final StatusSignal<AngularVelocity> m_velocity = m_motor.getVelocity(false);
   private final StatusSignal<Angle> m_encoderPosition = m_encoder.getPosition(false);
   private final StatusSignal<AngularVelocity> m_encoderVelocity = m_encoder.getVelocity(false);
-  private final StatusSignal<Angle> m_rotorPosition = m_motor.getRotorPosition(false);
 
   NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private final NetworkTable driveStateTable = nt.getTable("Turret");
@@ -122,7 +120,7 @@ public class Turret extends SubsystemBase {
   }
 
   private double getAdjustedTargetAngle() {
-    Rotation2d turret_rotation = new Rotation2d(Math.toRadians(m_turret_angle));
+    Rotation2d turret_rotation = new Rotation2d(Math.toRadians(getCurrentAngle()));
     Rotation2d turrent_angle_global = turret_rotation.plus(Subsystems.swerve.getCurrentPose().getRotation());
 
     double turrent_angle_global_degrees = MathUtil.inputModulus(
@@ -131,21 +129,14 @@ public class Turret extends SubsystemBase {
         180.0);
     double angleDiff = turrent_angle_global_degrees - calculateFieldRelativeTargetAngle();
     double closeTarget;
-    double farTarget;
     if (Math.abs(angleDiff) < Math
         .abs(GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
             : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360))) {
       closeTarget = angleDiff;
-      farTarget = GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
-          : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360);
     } else {
       closeTarget = GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
           : (angleDiff >= 0 ? angleDiff + 360 : angleDiff - 360);
-      farTarget = angleDiff;
     }
-    System.out.println(
-        "Turret Angle: " + turrent_angle_global_degrees + " Target Angle: " + calculateFieldRelativeTargetAngle()
-            + " AngleDiff: " + angleDiff + " closeTarget: " + closeTarget + " totalWindup: " + m_totalWrap);
     if (m_totalWrap - closeTarget >= MAX_WINDUP) {
       return m_totalWrap - closeTarget - 360;
     } else if (m_totalWrap - closeTarget <= MIN_WINDUP) {
@@ -199,34 +190,17 @@ public class Turret extends SubsystemBase {
     final long now = NetworkTablesJNI.now();
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
       updateWrap();
-      getAdjustedTargetAngle();
       adjustTurret(getAdjustedTargetAngle());
-      m_turret_angle = simulateTurretMovement(getAdjustedTargetAngle());
       turretPosePub.set(new Pose2d(Subsystems.swerve.getCurrentPose().getMeasureX().baseUnitMagnitude(),
           Subsystems.swerve.getCurrentPose().getMeasureY().baseUnitMagnitude(),
-          new Rotation2d((m_turret_angle + Subsystems.swerve.getCurrentPose().getRotation().getDegrees())
+          new Rotation2d((getCurrentAngle() + Subsystems.swerve.getCurrentPose().getRotation().getDegrees())
               * Math.PI / 180)),
           now);
     }
   }
 
-  private double simulateTurretMovement(double turret_target_turret_space) {
-    double delta_turret = turret_target_turret_space - m_turret_angle;
-    double dt = 0.02;
-    double max_turret_rot_rate = 1;
-    double max_turret_movement = delta_turret * max_turret_rot_rate * dt;
-    double constrained_delta_turret;
-    if (Math.abs(delta_turret) < Math.abs(max_turret_movement)) {
-      constrained_delta_turret = delta_turret;
-    } else {
-      constrained_delta_turret = max_turret_movement;
-    }
-
-    return m_turret_angle + constrained_delta_turret;
-  }
-
   private void updateWrap() {
-    double current = m_turret_angle;
+    double current = getCurrentAngle();
     double delta = current - m_previousAngle;
 
     m_totalWrap += delta;
@@ -259,7 +233,14 @@ public class Turret extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
-      m_targetAngle = calculateRobotRelativeTargetAngle();
+      // m_targetAngle = calculateRobotRelativeTargetAngle();
+      m_targetAngle = 0;
+    });
+  }
+
+  public Command setTargetAngleCommand(double targetAngle) {
+    return run(() -> {
+      m_targetAngle = targetAngle;
     });
   }
 }

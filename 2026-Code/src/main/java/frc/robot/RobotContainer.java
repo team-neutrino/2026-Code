@@ -13,8 +13,6 @@ import frc.robot.util.Subsystems;
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.util.Subsystems.*;
 
-import java.util.function.BooleanSupplier;
-
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
@@ -46,6 +44,9 @@ public class RobotContainer {
 
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
+
+    m_buttonController.x().whileTrue(turret.setTargetAngleCommand(40));
+    m_buttonController.y().whileTrue(turret.setTargetAngleCommand(-40));
   }
 
   public Command getAutonomousCommand() {
