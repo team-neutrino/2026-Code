@@ -4,8 +4,8 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.CANrange;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.core.CoreCANrange;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
@@ -28,8 +28,8 @@ public class Index extends SubsystemBase {
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
-    private CoreCANrange m_canRange1 = new CoreCANrange(CANRANGE_CAN_ID_1, m_CANbus);
-    private CoreCANrange m_canRange2 = new CoreCANrange(CANRANGE_CAN_ID_2, m_CANbus);
+    private CANrange m_canRange1 = new CANrange(CANRANGE_CAN_ID_1, m_CANbus);
+    private CANrange m_canRange2 = new CANrange(CANRANGE_CAN_ID_2, m_CANbus);
     private CANrangeConfiguration m_CANRangeConfiguration = new CANrangeConfiguration();
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
@@ -66,7 +66,7 @@ public class Index extends SubsystemBase {
         m_canRange2.getConfigurator().apply(m_CANRangeConfiguration);
     }
 
-    public double getCanRangeDistance(CoreCANrange canRange) {
+    public double getCanRangeDistance(CANrange canRange) {
         return canRange.getDistance().getValueAsDouble();
     }
 
