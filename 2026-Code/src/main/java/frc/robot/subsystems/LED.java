@@ -71,7 +71,6 @@ public class LED extends SubsystemBase {
 
         // battery voltage under 12 for more than a minute (not during a match)
         else if (under12For1() && !DriverStation.isFMSAttached()) {
-            m_candle.setControl(new EmptyAnimation(0));
             m_candle.setControl(new SingleFadeAnimation(START_INDEX, END_INDEX).withColor(orange).withSlot(0));
             System.out.println("Battery under 12V for 1 minute... Change the battery!!!");
         }
@@ -96,7 +95,6 @@ public class LED extends SubsystemBase {
 
         // rainbow if disabled and not connected to FMS
         else if (m_isDisabled && !DriverStation.isFMSAttached()) {
-            m_candle.setControl(new EmptyAnimation(0));
             m_candle.setControl(new RainbowAnimation(START_INDEX, END_INDEX).withSlot(0).withBrightness(0.1));
         }
 
