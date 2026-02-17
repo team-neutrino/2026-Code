@@ -69,5 +69,4 @@ public class HubActiveStatus {
     public boolean isBlueHubActive() {
         return isHubActive(Alliance.BLUE);
     }
-
 }
