@@ -7,10 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTablesJNI;
-import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,6 +37,7 @@ public class Turret extends SubsystemBase {
   private double m_targetAngle = STARTUP_ANGLE;
   private double m_previousAngle = STARTUP_ANGLE;
   private double m_totalWrap = STARTUP_ANGLE;
+  private double m_ff = TURRET_FF;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final MotionMagicVoltage m_motionMagicRequest = new MotionMagicVoltage(STARTUP_ANGLE).withSlot(0);
@@ -56,11 +53,6 @@ public class Turret extends SubsystemBase {
   private final StatusSignal<AngularVelocity> m_velocity = m_motor.getVelocity(false);
   private final StatusSignal<Angle> m_encoderPosition = m_encoder.getPosition(false);
   private final StatusSignal<AngularVelocity> m_encoderVelocity = m_encoder.getVelocity(false);
-
-  NetworkTableInstance nt = NetworkTableInstance.getDefault();
-  private final NetworkTable driveStateTable = nt.getTable("Turret");
-  private final StructPublisher<Pose2d> turretPosePub = driveStateTable.getStructTopic("TurretPose", Pose2d.struct)
-      .publish();
 
   public Turret() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -116,10 +108,10 @@ public class Turret extends SubsystemBase {
         .getValueAsDouble();
     m_motor
         .setControl(
-            m_motionMagicRequest.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * TURRET_FF));
+            m_motionMagicRequest.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * m_ff));
   }
 
-  private double getAdjustedTargetAngle() {
+  public double getAdjustedTargetAngle() {
     Rotation2d turret_rotation = new Rotation2d(Math.toRadians(getCurrentAngle()));
     Rotation2d turrent_angle_global = turret_rotation.plus(Subsystems.swerve.getCurrentPose().getRotation());
 
@@ -148,7 +140,7 @@ public class Turret extends SubsystemBase {
 
   public boolean isAtTarget() {
     double currentAngle = getCurrentAngle();
-    return currentAngle <= m_targetAngle + ALLOWED_ERROR && currentAngle >= m_targetAngle - ALLOWED_ERROR;
+    return Math.abs(currentAngle - m_targetAngle) < ALLOWED_ERROR;
   }
 
   @Override
@@ -187,15 +179,9 @@ public class Turret extends SubsystemBase {
       }
     }
 
-    final long now = NetworkTablesJNI.now();
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
       updateWrap();
       adjustTurret(getAdjustedTargetAngle());
-      turretPosePub.set(new Pose2d(Subsystems.swerve.getCurrentPose().getMeasureX().baseUnitMagnitude(),
-          Subsystems.swerve.getCurrentPose().getMeasureY().baseUnitMagnitude(),
-          new Rotation2d((getCurrentAngle() + Subsystems.swerve.getCurrentPose().getRotation().getDegrees())
-              * Math.PI / 180)),
-          now);
     }
   }
 
@@ -242,5 +228,22 @@ public class Turret extends SubsystemBase {
     return run(() -> {
       m_targetAngle = targetAngle;
     });
+  }
+
+  public void changePID(double p, double i, double d) {
+    m_motorConfig.Slot0.kP = p;
+    m_motorConfig.Slot0.kI = i;
+    m_motorConfig.Slot0.kD = d;
+    m_motor.getConfigurator().apply(m_motorConfig);
+  }
+
+  public void changeFF(double ff) {
+    m_ff = ff;
+  }
+
+  public void changeMotionmagic(double velocity, double acceleration, double jerk) {
+    m_motorConfig.MotionMagic.MotionMagicCruiseVelocity = velocity;
+    m_motorConfig.MotionMagic.MotionMagicAcceleration = acceleration;
+    m_motorConfig.MotionMagic.MotionMagicJerk = jerk;
   }
 }

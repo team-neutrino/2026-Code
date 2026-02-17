@@ -1,8 +1,7 @@
 package frc.robot.util;
 
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.NetworkTables.ClimbNT;
-import frc.robot.subsystems.NetworkTables.ShooterNT;
+import frc.robot.subsystems.NetworkTables.*;
 
 public class Subsystems {
     public static final HubActiveStatus hubState = new HubActiveStatus();
@@ -14,7 +13,7 @@ public class Subsystems {
     public static final Vision limelight = new Vision();
     public static final Shooter shooter = new ShooterNT();
     public static final Swerve swerve = new Swerve();
-    public static final Turret turret = new Turret();
+    public static final Turret turret = new TurretNT();
 
     public static final ShooterArbiter shooterArbiter = new ShooterArbiter();
 }
