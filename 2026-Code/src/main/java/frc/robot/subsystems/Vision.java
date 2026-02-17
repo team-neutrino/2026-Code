@@ -56,6 +56,7 @@ public class Vision extends SubsystemBase {
     m_back = new Limelight(LL_BACK, 4);
     m_left = new Limelight(LL_LEFT, 3);
     m_right = new Limelight(LL_RIGHT, 3.5);
+    limelights = new Limelight[] { m_front, m_back, m_left, m_right };
 
     m_frontPosePub = m_frontPose.publish();
     m_frontPosePub.setDefault(blank);
@@ -72,11 +73,9 @@ public class Vision extends SubsystemBase {
     m_rightYawPub = m_rightYaw.publish(PubSubOption.keepDuplicates(false));
 
     limelightInitialization();
-    limelights = new Limelight[] { m_front, m_back, m_left, m_right };
   }
 
   private void limelightInitialization() {
-
     LimelightHelpers.setLEDMode_ForceOff(LL_FRONT);
     LimelightHelpers.setCameraPose_RobotSpace(LL_FRONT,
         FRONT_FORWARD_OFFSET, // Forward offset (meters)
@@ -119,6 +118,14 @@ public class Vision extends SubsystemBase {
         RIGHT_PITCH_OFFSET, // Pitch (degrees)
         RIGHT_YAW_OFFSET // Yaw (degrees)
     );
+
+    for (Limelight limelight : limelights) {
+      LimelightHelpers.setPipelineIndex(limelight.name, 0);
+      if (limelight.model == 4) {
+        LimelightHelpers.setRewindEnabled(limelight.name, true);
+        LimelightHelpers.SetIMUAssistAlpha(limelight.name, EXTERNAL_WEIGHT);
+      }
+    }
   }
 
   private void manageLimelightTemperature() {
@@ -164,6 +171,7 @@ public class Vision extends SubsystemBase {
       limelight.updateFusionMegatag();
       limelight.updatePigeonSeed();
       limelight.adjustIMUMode();
+      limelight.triggerCaptureRewind();
     }
 
     m_frontPosePub.set(m_front.getEstimatePose());
@@ -389,7 +397,13 @@ public class Vision extends SubsystemBase {
 
     public void adjustIMUMode() {
       if (model == 4) {
-        LimelightHelpers.SetIMUMode(name, m_enabled ? 4 : 1);
+        LimelightHelpers.SetIMUMode(name, m_enabled ? 4 : 1); // potential issue with setting to 4 over and over again
+      }
+    }
+
+    public void triggerCaptureRewind() {
+      if (model == 4 && DriverStation.getMatchTime() > 162) {
+        LimelightHelpers.triggerRewindCapture(name, 165);
       }
     }
 
