@@ -123,6 +123,7 @@ public class Vision extends SubsystemBase {
       LimelightHelpers.setPipelineIndex(limelight.name, 0);
       if (limelight.model == 4) {
         LimelightHelpers.setRewindEnabled(limelight.name, true);
+        LimelightHelpers.SetIMUAssistAlpha(limelight.name, EXTERNAL_WEIGHT);
       }
     }
   }
