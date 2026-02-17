@@ -22,35 +22,64 @@ import static frc.robot.util.Subsystems.swerve;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.networktables.StructTopic;
 
+/**
+ * Vision subsystem responsible for configuring, managing, validating,
+ * and fusing pose data from multiple Limelight cameras into the
+ * drivetrain pose estimator.
+ *
+ * <p>
+ * This subsystem:
+ * <ul>
+ * <li>Configures camera offsets and IMU fusion modes</li>
+ * <li>Supplies robot orientation data to Limelights</li>
+ * <li>Validates MegaTag1 (MT1) and MegaTag2 (MT2) measurements</li>
+ * <li>Dynamically computes measurement covariance</li>
+ * <li>Fuses trusted measurements into the swerve estimator</li>
+ * <li>Publishes pose/yaw data to NetworkTables</li>
+ * <li>Manages thermal throttling while disabled</li>
+ * </ul>
+ */
 public class Vision extends SubsystemBase {
+
   private final Limelight m_front;
   private final Limelight m_back;
   private final Limelight m_left;
   private final Limelight m_right;
+
   private boolean m_enabled = false;
   private long m_slow_count = 0;
   private Timer m_timer = new Timer();
 
   private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
+
   private StructTopic<Pose2d> m_frontPose = m_nt.getStructTopic("/limelight_poses/front", Pose2d.struct);
   private StructTopic<Pose2d> m_backPose = m_nt.getStructTopic("/limelight_poses/back", Pose2d.struct);
   private StructTopic<Pose2d> m_leftPose = m_nt.getStructTopic("/limelight_poses/left", Pose2d.struct);
   private StructTopic<Pose2d> m_rightPose = m_nt.getStructTopic("/limelight_poses/right", Pose2d.struct);
+
   private StructPublisher<Pose2d> m_frontPosePub;
   private StructPublisher<Pose2d> m_backPosePub;
   private StructPublisher<Pose2d> m_leftPosePub;
   private StructPublisher<Pose2d> m_rightPosePub;
+
   private Pose2d blank = new Pose2d();
+
   private DoubleTopic m_frontYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/frontYaw");
   private DoubleTopic m_backYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/backYaw");
   private DoubleTopic m_leftYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/leftYaw");
   private DoubleTopic m_rightYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/rightYaw");
+
   private DoublePublisher m_frontYawPub;
   private DoublePublisher m_backYawPub;
   private DoublePublisher m_leftYawPub;
   private DoublePublisher m_rightYawPub;
+
   private Limelight[] limelights;
 
+  /**
+   * Constructs the Vision subsystem and initializes all Limelights,
+   * publishers, and configuration parameters.
+   */
   public Vision() {
     m_front = new Limelight(LL_FRONT, 4);
     m_back = new Limelight(LL_BACK, 4);
@@ -75,49 +104,51 @@ public class Vision extends SubsystemBase {
     limelightInitialization();
   }
 
+  /**
+   * Performs one-time initialization of all Limelights:
+   * sets LED modes, camera pose offsets, fiducial scaling,
+   * and IMU fusion configuration.
+   */
   private void limelightInitialization() {
+
     LimelightHelpers.setLEDMode_ForceOff(LL_FRONT);
     LimelightHelpers.setCameraPose_RobotSpace(LL_FRONT,
-        FRONT_FORWARD_OFFSET, // Forward offset (meters)
-        FRONT_SIDE_OFFSET, // Side offset (meters) left is positive
-        FRONT_HEIGHT_OFFSET, // Height offset (meters)
-        FRONT_ROLL_OFFSET, // Roll (degrees)
-        FRONT_PITCH_OFFSET, // Pitch (degrees)
-        FRONT_YAW_OFFSET // Yaw (degrees)
-    );
+        FRONT_FORWARD_OFFSET,
+        FRONT_SIDE_OFFSET,
+        FRONT_HEIGHT_OFFSET,
+        FRONT_ROLL_OFFSET,
+        FRONT_PITCH_OFFSET,
+        FRONT_YAW_OFFSET);
     LimelightHelpers.SetFiducialDownscalingOverride(LL_FRONT, 3);
 
     LimelightHelpers.setLEDMode_ForceOff(LL_BACK);
     LimelightHelpers.setCameraPose_RobotSpace(LL_BACK,
-        BACK_FORWARD_OFFSET, // Forward offset (meters)
-        BACK_SIDE_OFFSET, // Side offset (meters) left is positive
-        BACK_HEIGHT_OFFSET, // Height offset (meters)
-        BACK_ROLL_OFFSET, // Roll (degrees)
-        BACK_PITCH_OFFSET, // Pitch (degrees)
-        BACK_YAW_OFFSET // Yaw (degrees)
-    );
+        BACK_FORWARD_OFFSET,
+        BACK_SIDE_OFFSET,
+        BACK_HEIGHT_OFFSET,
+        BACK_ROLL_OFFSET,
+        BACK_PITCH_OFFSET,
+        BACK_YAW_OFFSET);
     LimelightHelpers.SetFiducialDownscalingOverride(LL_LEFT, 3);
 
     LimelightHelpers.setLEDMode_ForceOff(LL_LEFT);
     LimelightHelpers.setCameraPose_RobotSpace(LL_LEFT,
-        LEFT_FORWARD_OFFSET, // Forward offset (meters)
-        LEFT_SIDE_OFFSET, // Side offset (meters) left is positive
-        LEFT_HEIGHT_OFFSET, // Height offset (meters)
-        LEFT_ROLL_OFFSET, // Roll (degrees)
-        LEFT_PITCH_OFFSET, // Pitch (degrees)
-        LEFT_YAW_OFFSET // Yaw (degrees)
-    );
+        LEFT_FORWARD_OFFSET,
+        LEFT_SIDE_OFFSET,
+        LEFT_HEIGHT_OFFSET,
+        LEFT_ROLL_OFFSET,
+        LEFT_PITCH_OFFSET,
+        LEFT_YAW_OFFSET);
 
     LimelightHelpers.SetFiducialDownscalingOverride(LL_RIGHT, 3);
     LimelightHelpers.setLEDMode_ForceOff(LL_RIGHT);
     LimelightHelpers.setCameraPose_RobotSpace(LL_RIGHT,
-        RIGHT_FORWARD_OFFSET, // Forward offset (meters)
-        RIGHT_SIDE_OFFSET, // Side offset (meters) left is positive
-        RIGHT_HEIGHT_OFFSET, // Height offset (meters)
-        RIGHT_ROLL_OFFSET, // Roll (degrees)
-        RIGHT_PITCH_OFFSET, // Pitch (degrees)
-        RIGHT_YAW_OFFSET // Yaw (degrees)
-    );
+        RIGHT_FORWARD_OFFSET,
+        RIGHT_SIDE_OFFSET,
+        RIGHT_HEIGHT_OFFSET,
+        RIGHT_ROLL_OFFSET,
+        RIGHT_PITCH_OFFSET,
+        RIGHT_YAW_OFFSET);
 
     for (Limelight limelight : limelights) {
       LimelightHelpers.setPipelineIndex(limelight.name, 0);
@@ -128,6 +159,10 @@ public class Vision extends SubsystemBase {
     }
   }
 
+  /**
+   * Adjusts Limelight throttle settings to reduce processing load
+   * and thermal buildup while the robot is disabled.
+   */
   private void manageLimelightTemperature() {
     m_slow_count++;
     if (m_enabled && (m_slow_count % 50) != 0) {
@@ -141,12 +176,24 @@ public class Vision extends SubsystemBase {
     m_right.setThrottle(throttle);
   }
 
+  /**
+   * Returns the default command for this subsystem.
+   *
+   * @return empty run command
+   */
   public Command limelightDefaultCommand() {
     return run(() -> {
-
     });
   }
 
+  /**
+   * Called once per scheduler cycle.
+   *
+   * Supplies robot orientation to Limelights,
+   * performs fusion updates,
+   * manages yaw reseeding,
+   * and publishes pose/yaw estimates.
+   */
   @Override
   public void periodic() {
     manageLimelightTemperature();
@@ -162,12 +209,9 @@ public class Vision extends SubsystemBase {
     final double pitch_rate = swerve.getPitchRate();
     final double roll_rate = swerve.getRollRate();
 
-    // according to limelight docs, this needs to be called before using
-    // .getBotPoseEstimate_wpiBlue_MegaTag2
-    // supply current robot orientation to every Limelight before asking for pose
-
     for (Limelight limelight : limelights) {
-      limelight.setRobotOrientation(yaw_degrees, pitch_degrees, roll_degrees, yaw_rate, pitch_rate, roll_rate);
+      limelight.setRobotOrientation(yaw_degrees, pitch_degrees, roll_degrees,
+          yaw_rate, pitch_rate, roll_rate);
       limelight.updateFusionMegatag();
       limelight.updatePigeonSeed();
       limelight.adjustIMUMode();
@@ -187,9 +231,14 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 
+  /**
+   * Represents a single Limelight camera instance.
+   *
+   * Encapsulates validation, covariance calculation,
+   * yaw reseeding, and measurement fusion logic.
+   */
   private class Limelight {
 
     private final String name;
@@ -200,20 +249,12 @@ public class Vision extends SubsystemBase {
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
 
-    // 0 EXTERNAL_ONLY External (NT/HTTP) No internal IMU processing. MT2 uses
-    // interpolated yaw from robot's gyro sent via SetRobotOrientation().
-    // 1 EXTERNAL_SEED External (NT/HTTP) Internal IMU offset is calibrated to match
-    // external yaw each frame (seeding). MT2 still uses external yaw for botpose.
-    // 2 INTERNAL_ONLY Internal IMU Uses internal IMU's fused yaw only. No external
-    // input required.
-    // 3 INTERNAL_MT1_ASSIST Internal IMU + MT1 Complementary filter fuses internal
-    // IMU with MT1 vision yaw. When MT1 gets a valid pose, it slowly corrects
-    // internal IMU drift.
-    // 4 INTERNAL_EXTERNAL_ASSIST Internal IMU + External IMU Complementary filter
-    // fuses internal IMU with external yaw from SetRobotOrientation(). This is the
-    // recommended mode, as the internal IMU's 1khz update rate is utilized for
-    // frame-by-frame motion while the robot's IMU corrects for any drift over time.
-
+    /**
+     * Constructs a Limelight wrapper.
+     *
+     * @param p_name  NetworkTables name
+     * @param p_model Limelight hardware model
+     */
     Limelight(String p_name, double p_model) {
       name = p_name;
       model = p_model;
@@ -222,34 +263,18 @@ public class Vision extends SubsystemBase {
       }
     }
 
-    public void setRobotOrientation(double yawDeg, double pitchDeg, double rollDeg, double yawRate, double pitchRate,
-        double rollRate) {
-      LimelightHelpers.SetRobotOrientation(name, yawDeg, pitchDeg, rollDeg, yawRate, pitchRate, rollRate);
+    /** Supplies robot orientation to the Limelight for IMU fusion. */
+    public void setRobotOrientation(double yawDeg, double pitchDeg, double rollDeg,
+        double yawRate, double pitchRate, double rollRate) {
+      LimelightHelpers.SetRobotOrientation(name, yawDeg, pitchDeg, rollDeg,
+          yawRate, pitchRate, rollRate);
     }
 
-    private double getCalcXYStdev() {
-      frame = getFrame();
-
-      if (!verifyPoseValidity()) {
-        updateFrame();
-        return IGNORE_MEASUREMENT_STD_DEV;
-      }
-
-      double numberOfTags = estimateMT2.tagCount;
-      double distance = estimateMT2.avgTagDist;
-      updateFrame();
-      return setXYstdev(distance, numberOfTags);
-    }
-
-    private double getCalcYawStdev() {
-
-      if (!verifyYawValidity()) {
-        return IGNORE_MEASUREMENT_STD_DEV;
-      }
-      double distance = estimateMT1.avgTagDist;
-      return setThetastdev(distance);
-    }
-
+    /**
+     * Retrieves MT1 and MT2 pose estimates, validates them,
+     * selects the best available measurement,
+     * and fuses into the drivetrain estimator.
+     */
     public void updateFusionMegatag() {
       double timestamp;
       Pose2d pose;
@@ -273,6 +298,7 @@ public class Vision extends SubsystemBase {
           VecBuilder.fill(getCalcXYStdev(), getCalcXYStdev(), getCalcYawStdev()));
     }
 
+    /** @return Latest MT2 pose or blank pose if unavailable. */
     public Pose2d getEstimatePose() {
       if (estimateMT2 == null) {
         return new Pose2d();
@@ -280,34 +306,42 @@ public class Vision extends SubsystemBase {
       return estimateMT2.pose;
     }
 
+    /** @return Latest MT1 yaw in degrees or ignore value if invalid. */
     public double getEstimateYawMT1() {
       if (estimateMT1 == null) {
-        // placeholder value so we know it's wrong and we don't have
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       return estimateMT1.pose.getRotation().getDegrees();
     }
 
+    /** Determines whether MT2 pose measurement is valid for fusion. */
     private boolean verifyPoseValidity() {
       return estimateMT2 != null
           && estimateMT2.tagCount != 0
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI // maybe change to two depending on max speed
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI
           && frame > lastFrame
           && !Double.isNaN(estimateMT2.avgTagDist)
           && poseInField(estimateMT2);
     }
 
+    /** Determines whether MT1 yaw measurement is valid for fusion. */
     private boolean verifyYawValidity() {
-      return estimateMT1 != null && estimateMT1.tagCount > 1
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 2 && poseInField(estimateMT1);
+      return estimateMT1 != null
+          && estimateMT1.tagCount > 1
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 2
+          && poseInField(estimateMT1);
     }
 
+    /** Determines whether conditions are safe for yaw reseeding. */
     private boolean verifyPigeonSeedUpdate() {
-      return estimateMT1 != null && estimateMT1.tagCount > 1
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 4 && poseInField(estimateMT1)
+      return estimateMT1 != null
+          && estimateMT1.tagCount > 1
+          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 4
+          && poseInField(estimateMT1)
           && m_timer.hasElapsed(PIGEON_SEED_PERIOD);
     }
 
+    /** Seeds drivetrain yaw using MT1 measurement if conditions allow. */
     public void updatePigeonSeed() {
       if (verifyPigeonSeedUpdate()) {
         swerve.seedYawMT1(estimateMT1.pose.getRotation().getRadians(), MT1_WEIGHT_YAW);
@@ -315,67 +349,90 @@ public class Vision extends SubsystemBase {
       }
     }
 
+    /** Calculates XY measurement standard deviation dynamically. */
+    private double getCalcXYStdev() {
+      frame = getFrame();
+      if (!verifyPoseValidity()) {
+        updateFrame();
+        return IGNORE_MEASUREMENT_STD_DEV;
+      }
+      double numberOfTags = estimateMT2.tagCount;
+      double distance = estimateMT2.avgTagDist;
+      updateFrame();
+      return setXYstdev(distance, numberOfTags);
+    }
+
+    /** Calculates rotational (theta) measurement standard deviation dynamically. */
+    private double getCalcYawStdev() {
+      if (!verifyYawValidity()) {
+        return IGNORE_MEASUREMENT_STD_DEV;
+      }
+      double distance = estimateMT1.avgTagDist;
+      return setThetastdev(distance);
+    }
+
+    /** Updates stored frame value to prevent duplicate measurements. */
     private void updateFrame() {
       lastFrame = frame;
     }
 
+    /** Returns error factor constant based on Limelight model. */
     private double getErrorFactor() {
       double errorFactor = 2000;
-      if (model == 4) {
+      if (model == 4)
         errorFactor = ERROR_FACTOR_LL4;
-      } else if (model == 3.5) {
+      else if (model == 3.5)
         errorFactor = ERROR_FACTOR_LL3G;
-      } else if (model == 3) {
+      else if (model == 3)
         errorFactor = ERROR_FACTOR_LL3;
-      }
       return errorFactor;
     }
 
+    /** Returns minimum allowed XY standard deviation for model. */
     private double getMinimumStdDev() {
       double minStdDev = 2000;
-      if (model == 4) {
+      if (model == 4)
         minStdDev = MINIMUM_XY_STD_DEV_LL4;
-      } else if (model == 3.5) {
+      else if (model == 3.5)
         minStdDev = MINIMUM_XY_STD_DEV_LL3G;
-      } else if (model == 3) {
+      else if (model == 3)
         minStdDev = MINIMUM_XY_STD_DEV_LL3;
-      }
       return minStdDev;
     }
 
+    /** Returns minimum allowed rotational standard deviation for model. */
     private double getMinimumStdDevTheta() {
       double minStdDev = 2000;
-      if (model == 4) {
+      if (model == 4)
         minStdDev = MINIMUM_THETA_STD_DEV_LL4;
-      } else if (model == 3.5) {
+      else if (model == 3.5)
         minStdDev = MINIMUM_THETA_STD_DEV_LL3G;
-      } else if (model == 3) {
+      else if (model == 3)
         minStdDev = MINIMUM_THETA_STD_DEV_LL3;
-      }
       return minStdDev;
     }
 
+    /** Computes XY standard deviation using tag distance and count. */
     private double setXYstdev(double distance, double numberOfTags) {
       setBumpScaleFactor();
-      double xyStdv = 0;
       double errorFactor = getErrorFactor();
       double minimumXyStdDev = getMinimumStdDev();
-      xyStdv = Math.max(
+      return Math.max(
           minimumXyStdDev,
           (Math.pow(distance, 3) * errorFactor) * bumpScaleFactor / Math.pow(numberOfTags, 2));
-      return xyStdv;
     }
 
+    /** Computes rotational standard deviation using tag distance. */
     private double setThetastdev(double distance) {
       if (!verifyYawValidity()) {
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       double errorFactor = getErrorFactor();
       double minimumThetaStDev = getMinimumStdDevTheta();
-      double thetaStdv = Math.max(minimumThetaStDev, (Math.pow(distance, 2) * errorFactor));
-      return thetaStdv;
+      return Math.max(minimumThetaStDev, (Math.pow(distance, 2) * errorFactor));
     }
 
+    /** Returns current Limelight frame heartbeat value. */
     private double getFrame() {
       return NetworkTableInstance.getDefault()
           .getTable(name)
@@ -383,17 +440,38 @@ public class Vision extends SubsystemBase {
           .getDouble(-1);
     }
 
+    /** Sets processing throttle for this Limelight. */
     public void setThrottle(int throttle) {
-      NetworkTableInstance.getDefault().getTable(name).getEntry("throttle_set").setNumber(throttle);
+      NetworkTableInstance.getDefault().getTable(name)
+          .getEntry("throttle_set")
+          .setNumber(throttle);
     }
 
+    /** @return true if robot pitch exceeds bump threshold. */
     public boolean onBump() {
       return Math.abs(swerve.getPitch()) > BUMP_MINIMUM_THRESHOLD;
     }
 
+    /** Adjusts scaling factor when robot is on bump. */
     private void setBumpScaleFactor() {
       bumpScaleFactor = onBump() ? 0.5 : 1;
     }
+
+    /** Adjusts IMU fusion mode dynamically based on enable state. */
+
+    // 0 EXTERNAL_ONLY External (NT/HTTP) No internal IMU processing. MT2 uses
+    // interpolated yaw from robot's gyro sent via SetRobotOrientation().
+    // 1 EXTERNAL_SEED External (NT/HTTP) Internal IMU offset is calibrated to match
+    // external yaw each frame (seeding). MT2 still uses external yaw for botpose.
+    // 2 INTERNAL_ONLY Internal IMU Uses internal IMU's fused yaw only. No external
+    // input required.
+    // 3 INTERNAL_MT1_ASSIST Internal IMU + MT1 Complementary filter fuses internal
+    // IMU with MT1 vision yaw. When MT1 gets a valid pose, it slowly corrects
+    // internal IMU drift.
+    // 4 INTERNAL_EXTERNAL_ASSIST Internal IMU + External IMU Complementary filter
+    // fuses internal IMU with external yaw from SetRobotOrientation(). This is the
+    // recommended mode, as the internal IMU's 1khz update rate is utilized for
+    // frame-by-frame motion while the robot's IMU corrects for any drift over time.
 
     public void adjustIMUMode() {
       if (model == 4) {
@@ -401,12 +479,14 @@ public class Vision extends SubsystemBase {
       }
     }
 
+    /** Triggers capture rewind for LL4 cameras at match start. */
     public void triggerCaptureRewind() {
       if (model == 4 && DriverStation.getMatchTime() > 162) {
         LimelightHelpers.triggerRewindCapture(name, 165);
       }
     }
 
+    /** Validates that a pose lies within official field boundaries. */
     public boolean poseInField(PoseEstimate poseEstimate) {
       if (poseEstimate == null) {
         return false;
