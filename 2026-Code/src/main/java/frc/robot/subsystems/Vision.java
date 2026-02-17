@@ -245,6 +245,8 @@ public class Vision extends SubsystemBase {
     public void updateFusionMegatag() {
       double timestamp;
       Pose2d pose;
+      estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
+      estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
       if (!verifyPoseValidity() && !verifyYawValidity()) {
         return;
       } else if (!verifyPoseValidity() && verifyYawValidity()) {
