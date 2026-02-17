@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.CANrangeConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -29,6 +30,7 @@ public class Index extends SubsystemBase {
 
     private CoreCANrange m_canRange1 = new CoreCANrange(CANRANGE_CAN_ID_1, m_CANbus);
     private CoreCANrange m_canRange2 = new CoreCANrange(CANRANGE_CAN_ID_2, m_CANbus);
+    private CANrangeConfiguration m_CANRangeConfiguration = new CANrangeConfiguration();
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
@@ -57,6 +59,11 @@ public class Index extends SubsystemBase {
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
 
         m_canandColor.setSettings(m_settings);
+
+        m_CANRangeConfiguration.ProximityParams.ProximityThreshold = CANRANGE_THRESHOLD;
+        m_CANRangeConfiguration.ProximityParams.ProximityHysteresis = CANRANGE_HYSTERSIS;
+        m_canRange1.getConfigurator().apply(m_CANRangeConfiguration);
+        m_canRange2.getConfigurator().apply(m_CANRangeConfiguration);
     }
 
     public double getCanRangeDistance(CoreCANrange canRange) {

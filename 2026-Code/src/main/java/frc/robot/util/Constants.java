@@ -156,6 +156,9 @@ public class Constants {
         public static final int CANRANGE_CAN_ID_2 = 25;
         public static final int CANANDCOLOR_ID = 28;
 
+        public static final double CANRANGE_THRESHOLD = 0.5;
+        public static final double CANRANGE_HYSTERSIS = 0.05;
+
         public static final double FULL_CAPACITY_DISTANCE = 0.1;
         public static final double TOWER_CANANDCOLOR_DISTANCE = 0.15;
 
