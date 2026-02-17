@@ -1,9 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import static edu.wpi.first.wpilibj.RobotController.*;
 
 import static frc.robot.util.Constants.LEDConstants.*;
@@ -22,11 +21,10 @@ public class LED extends SubsystemBase {
 
     private boolean m_isDisabled;
     private double m_gameTime;
-    private double m_batteryV;
     private HubActiveStatus m_hub_status = Subsystems.hubState;
     private Index m_index = Subsystems.index;
 
-    private Debouncer m_debouncer = new Debouncer(5);
+    private Debouncer m_debouncer = new Debouncer(VOLTAGE_WARNING_DEBOUNCED_TIME);
 
     private RGBWColor white = new RGBWColor(64, 64, 64); // blink before shift changes
     private RGBWColor red = new RGBWColor(64, 0, 0); // red hub
@@ -39,13 +37,10 @@ public class LED extends SubsystemBase {
     public LED() {
         CANdleConfiguration configAll = new CANdleConfiguration();
         m_candle.getConfigurator().apply(configAll);
-        // slot 0: strobe animation ; rainbow animation
-        // slot 1: battery single fade
-
     }
 
     public boolean under12V() {
-        return getBatteryVoltage() <= 13;
+        return getBatteryVoltage() < 12;
     }
 
     public boolean under12For1() {
@@ -74,10 +69,11 @@ public class LED extends SubsystemBase {
             m_candle.setControl(new StrobeAnimation(START_INDEX, END_INDEX).withColor(white).withSlot(0));
         }
 
-        // under 12 for more than a minute
+        // battery voltage under 12 for more than a minute (not during a match)
         else if (under12For1() && !DriverStation.isFMSAttached()) {
+            m_candle.setControl(new EmptyAnimation(0));
             m_candle.setControl(new SingleFadeAnimation(START_INDEX, END_INDEX).withColor(orange).withSlot(0));
-            System.out.println("Change the battery!!!");
+            System.out.println("Battery under 12V for 1 minute... Change the battery!!!");
         }
 
         // when hopper full = green
@@ -100,6 +96,7 @@ public class LED extends SubsystemBase {
 
         // rainbow if disabled and not connected to FMS
         else if (m_isDisabled && !DriverStation.isFMSAttached()) {
+            m_candle.setControl(new EmptyAnimation(0));
             m_candle.setControl(new RainbowAnimation(START_INDEX, END_INDEX).withSlot(0).withBrightness(0.1));
         }
 
