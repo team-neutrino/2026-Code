@@ -72,7 +72,7 @@ public class Turret extends SubsystemBase {
 
     m_motor.getConfigurator().apply(m_motorConfig);
 
-    m_motor.setNeutralMode(NeutralModeValue.Brake);
+    m_motor.setNeutralMode(NeutralModeValue.Coast);
     m_motor.setPosition(STARTUP_ANGLE);
     m_encoder.setPosition(STARTUP_ANGLE);
   }
@@ -129,7 +129,6 @@ public class Turret extends SubsystemBase {
       return m_totalWrap - closeTarget + 360;
     }
     return m_totalWrap - closeTarget;
-
   }
 
   public boolean isAtTarget() {
