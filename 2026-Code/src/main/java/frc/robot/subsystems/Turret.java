@@ -7,15 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Subsystems;
-
-import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -43,17 +38,6 @@ public class Turret extends SubsystemBase {
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final MotionMagicVoltage m_motionMagicRequest = new MotionMagicVoltage(STARTUP_ANGLE).withSlot(0);
   private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
-  private int printCount = 0;
-
-  private final StatusSignal<Boolean> f_fusedSensorOutOfSync = m_motor.getFault_FusedSensorOutOfSync(false);
-  private final StatusSignal<Boolean> sf_fusedSensorOutOfSync = m_motor.getStickyFault_FusedSensorOutOfSync(false);
-  private final StatusSignal<Boolean> f_remoteSensorInvalid = m_motor.getFault_RemoteSensorDataInvalid(false);
-  private final StatusSignal<Boolean> sf_remoteSensorInvalid = m_motor.getStickyFault_RemoteSensorDataInvalid(false);
-
-  private final StatusSignal<Angle> m_position = m_motor.getPosition(false);
-  private final StatusSignal<AngularVelocity> m_velocity = m_motor.getVelocity(false);
-  private final StatusSignal<Angle> m_encoderPosition = m_encoder.getPosition(false);
-  private final StatusSignal<AngularVelocity> m_encoderVelocity = m_encoder.getVelocity(false);
 
   public Turret() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -110,10 +94,12 @@ public class Turret extends SubsystemBase {
   }
 
   private void adjustTurret(double targetAngle) {
-    double robotAngularVelocity = Subsystems.swerve.getPigeon2().getAngularVelocityZDevice()
-        .getValueAsDouble();
+    // double robotAngularVelocity =
+    // Subsystems.swerve.getPigeon2().getAngularVelocityZDevice()
+    // .getValueAsDouble();
     m_motor
         .setControl(
+            // Motion Magic Control Request, untested
             // m_motionMagicRequest.withPosition(targetAngle).withFeedForward(-robotAngularVelocity
             // * m_ff));
             new PositionVoltage(targetAngle / 360));
@@ -153,39 +139,6 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (++printCount >= 10) {
-      printCount = 0;
-      BaseStatusSignal.refreshAll(
-          f_fusedSensorOutOfSync,
-          sf_fusedSensorOutOfSync,
-          f_remoteSensorInvalid,
-          sf_remoteSensorInvalid,
-          m_position, m_velocity,
-          m_encoderPosition, m_encoderVelocity);
-    }
-
-    boolean anyFault = sf_fusedSensorOutOfSync.getValue() || sf_remoteSensorInvalid.getValue();
-    if (anyFault) {
-      System.out.println("A fault has occurred:");
-      /*
-       * If we're live, indicate live, otherwise if we're sticky indicate sticky,
-       * otherwise do nothing
-       */
-      if (f_fusedSensorOutOfSync.getValue()) {
-        System.out.println("Fused sensor out of sync live-faulted");
-      } else if (sf_fusedSensorOutOfSync.getValue()) {
-        System.out.println("Fused sensor out of sync sticky-faulted");
-      }
-      /*
-       * If we're live, indicate live, otherwise if we're sticky indicate sticky,
-       * otherwise do nothing
-       */
-      if (f_remoteSensorInvalid.getValue()) {
-        System.out.println("Missing remote sensor live-faulted");
-      } else if (sf_remoteSensorInvalid.getValue()) {
-        System.out.println("Missing remote sensor sticky-faulted");
-      }
-    }
 
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
       updateWrap();
@@ -228,7 +181,6 @@ public class Turret extends SubsystemBase {
   public Command defaultCommand() {
     return run(() -> {
       m_targetAngle = calculateRobotRelativeTargetAngle();
-      // m_targetAngle = 0;
     });
   }
 
