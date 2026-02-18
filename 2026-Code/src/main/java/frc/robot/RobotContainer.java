@@ -44,9 +44,6 @@ public class RobotContainer {
 
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
-
-    m_buttonController.x().whileTrue(turret.setTargetAngleCommand(40));
-    m_buttonController.y().whileTrue(turret.setTargetAngleCommand(-40));
   }
 
   public Command getAutonomousCommand() {
