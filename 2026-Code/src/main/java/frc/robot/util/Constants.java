@@ -216,14 +216,14 @@ public class Constants {
         public static final double LEFT_HEIGHT_OFFSET = 0.208553;
         public static final double LEFT_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double LEFT_PITCH_OFFSET = 31; // Pitch (degrees)
-        public static final double LEFT_YAW_OFFSET = 286; // Yaw (degrees)
+        public static final double LEFT_YAW_OFFSET = 74; // Yaw (degrees)
 
         public static final double RIGHT_FORWARD_OFFSET = -0.260255; // Forward offset (meters)
         public static final double RIGHT_SIDE_OFFSET = -0.308226; // Side offset (meters)
         public static final double RIGHT_HEIGHT_OFFSET = 0.208553; // Height offset (meters)
         public static final double RIGHT_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double RIGHT_PITCH_OFFSET = 31; // Pitch (degrees)
-        public static final double RIGHT_YAW_OFFSET = 74; // Yaw (degrees)
+        public static final double RIGHT_YAW_OFFSET = 286; // Yaw (degrees)
 
         public static final double MINIMUM_XY_STD_DEV_LL4 = 0;
         public static final double MINIMUM_THETA_STD_DEV_LL4 = 0;
