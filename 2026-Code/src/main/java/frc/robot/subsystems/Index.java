@@ -36,7 +36,7 @@ public class Index extends SubsystemBase {
     private CanandcolorSettings m_settings = new CanandcolorSettings();
 
     private Debouncer m_fullCapacityDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
-            Debouncer.DebounceType.kRising);
+            Debouncer.DebounceType.kRising); // tune full capacity debounced time
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
     private Debouncer m_emptyDebouncer1 = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
     private Debouncer m_emptyDebouncer2 = new Debouncer(MOTOR_STOP_TIME, Debouncer.DebounceType.kRising);
@@ -71,7 +71,7 @@ public class Index extends SubsystemBase {
     }
 
     public boolean bothCanRangesDetect() {
-        return getCanRangeDistance(m_canRange1) < FULL_CAPACITY_DISTANCE
+        return getCanRangeDistance(m_canRange1) < FULL_CAPACITY_DISTANCE // figure out actual full capacity distance
                 && getCanRangeDistance(m_canRange2) < FULL_CAPACITY_DISTANCE;
     }
 
