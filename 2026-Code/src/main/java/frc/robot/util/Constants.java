@@ -135,8 +135,8 @@ public class Constants {
         public static final double TARGET_CRUISE_VELOCITY = 1;
         public static final double TARGET_ACCELERATION = 1;
         public static final double TARGET_JERK = 1;
-        public static final double MAX_WINDUP = 330;
-        public static final double MIN_WINDUP = -330;
+        public static final double MAX_WINDUP = 360;
+        public static final double MIN_WINDUP = -180;
         public static final double TARGET_TOLERANCE = 1;
     }
 
