@@ -20,6 +20,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
@@ -89,10 +90,15 @@ public class Turret extends SubsystemBase {
 
     m_motor.setNeutralMode(NeutralModeValue.Brake);
     m_motor.setPosition(STARTUP_ANGLE);
+    m_encoder.setPosition(STARTUP_ANGLE);
   }
 
   public double getCurrentAngle() {
-    return m_motor.getPosition().getValueAsDouble();
+    return m_motor.getPosition().getValueAsDouble() * 360;
+  }
+
+  public double getAbsoluteEncoderValue() {
+    return m_encoder.getAbsolutePosition().getValueAsDouble();
   }
 
   public double getFieldRelativeAngle() {
@@ -108,7 +114,9 @@ public class Turret extends SubsystemBase {
         .getValueAsDouble();
     m_motor
         .setControl(
-            m_motionMagicRequest.withPosition(targetAngle).withFeedForward(-robotAngularVelocity * m_ff));
+            // m_motionMagicRequest.withPosition(targetAngle).withFeedForward(-robotAngularVelocity
+            // * m_ff));
+            new PositionVoltage(targetAngle / 360));
   }
 
   public double getAdjustedTargetAngle() {
@@ -219,8 +227,8 @@ public class Turret extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
-      // m_targetAngle = calculateRobotRelativeTargetAngle();
-      m_targetAngle = 0;
+      m_targetAngle = calculateRobotRelativeTargetAngle();
+      // m_targetAngle = 0;
     });
   }
 
@@ -228,6 +236,10 @@ public class Turret extends SubsystemBase {
     return run(() -> {
       m_targetAngle = targetAngle;
     });
+  }
+
+  public double getTargetAngle() {
+    return m_targetAngle;
   }
 
   public void changePID(double p, double i, double d) {

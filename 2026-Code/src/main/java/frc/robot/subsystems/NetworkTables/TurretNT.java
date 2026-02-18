@@ -71,7 +71,7 @@ public class TurretNT extends Turret {
         final long now = NetworkTablesJNI.now();
         encoderPositionPub.set(getCurrentAngle(), now);
         if (RED_ALLIANCE.isPresent()) {
-            targetPositionPub.set(getAdjustedTargetAngle(), now);
+            targetPositionPub.set(getTargetAngle(), now);
         }
         scoreReadyPub.set(isAtTarget(), now);
 

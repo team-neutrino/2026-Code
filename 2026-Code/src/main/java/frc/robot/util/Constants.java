@@ -119,12 +119,12 @@ public class Constants {
         public static final int ENCODER_ID = 30;
         public static final double STARTUP_ANGLE = 0;
         public static final double CURRENT_LIMIT = 40;
-        public static final double TURRET_P = 1;
+        public static final double TURRET_P = 180;
         public static final double TURRET_I = 0;
         public static final double TURRET_D = 0;
         public static final double TURRET_FF = 1;
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
-        public static final double ROTOR_TO_SENSOR_RATIO = 1;
+        public static final double ROTOR_TO_SENSOR_RATIO = 12 / 56;
         public static final double TORQUE_LOAD = 0;
         public static final double ALLOWED_ERROR = 1;
         public static final double DISCONTINUITY_POINT = 1;
