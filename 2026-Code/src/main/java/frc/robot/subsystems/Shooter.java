@@ -5,6 +5,7 @@ import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -17,7 +18,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.Subsystems.swerve; // this import is actually needed
+import static frc.robot.util.Subsystems.swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -238,15 +239,33 @@ public class Shooter extends SubsystemBase {
     return Math.min(originalAngle, MAX_SAFE_HOOD_ANGLE);
   }
 
-  // public double shooterCalculator() {
-  // double flywheelVelocity = ((m_targetShooterRpm/60)*FLYWHEEL_CIRCUMFRANCE);
-  // double changeY = Y_DISPLACEMENT;
-  // // double changeX = Swerve.getDistanceFromHub();
-  // // double hoodAngle = ((Math.pow(flywheelVelocity,
-  // 2)*(changeX)-GRAVITY*Math.pow(changeX, 2))/
-  // 4*changeY*Math.pow(flywheelVelocity, 2));
-  // // return hoodAngle;
-  // }
+  public double shooterCalculator() {
+    double flywheelVelocity = ((m_targetShooterRpm / 60) * FLYWHEEL_CIRCUMFRANCE);
+    double changeY = Y_DISPLACEMENT;
+    double changeX = swerve.getDistanceFromHub();
+
+    double x2 = Math.pow(changeX, 2);
+    double v02 = Math.pow(flywheelVelocity, 2);
+
+    double a = (GRAVITY * x2) / (2 * v02);
+    double b = -changeX;
+    double c = changeY + a;
+
+    double discriminant = (Math.pow(b, 2)) - (4 * a * c);
+
+    double plus = Math.atan((-b + Math.sqrt(discriminant)) / (2 * a));
+    double minus = Math.atan((-b - Math.sqrt(discriminant)) / (2 * a));
+
+    if ((Math.pow(b, 2)) - (4 * a * c) < 0) {
+      return 20928347908342.0;
+    }
+
+    if (plus * 57.295 > 90) {
+      return minus * 57.295;
+    }
+
+    return plus * 57.295;
+  }
 
   @Override
   public void periodic() {
@@ -319,9 +338,9 @@ public class Shooter extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
-      if (true) { // replace with !swerve.inNeutralOrOpposingZone() when not on test board
-        m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(m_tuningDistance).getValue();
-        m_targetAngle = INTERPOLATION_HOOD.get(m_tuningDistance);
+      if (!swerve.inNeutralOrOpposingZone()) {
+        m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(swerve.getDistanceFromHub()).getValue();
+        m_targetAngle = shooterCalculator();
       } else {
         m_targetAngle = SHUTTLE_ANGLE;
         m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
