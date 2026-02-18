@@ -31,7 +31,7 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     climb.setDefaultCommand(climb.defaultClimbCommand());
     shooter.setDefaultCommand(shooter.defaultCommand());
-    // intake.setDefaultCommand(intake.defaultCommand());
+    intake.setDefaultCommand(intake.defaultCommand());
     index.setDefaultCommand(index.defaultCommand());
     kicker.setDefaultCommand(kicker.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
