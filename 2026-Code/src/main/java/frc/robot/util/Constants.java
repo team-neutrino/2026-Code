@@ -159,7 +159,7 @@ public class Constants {
         public static final double CANRANGE_THRESHOLD = 0.5;
         public static final double CANRANGE_HYSTERSIS = 0.05;
 
-        public static final double FULL_CAPACITY_DISTANCE = 0.1;
+        public static final double FULL_CAPACITY_DISTANCE = 0.2;
         public static final double TOWER_CANANDCOLOR_DISTANCE = 0.15;
 
         public static final double START_RUMBLE_DEBOUNCED_TIME = 0.75;
