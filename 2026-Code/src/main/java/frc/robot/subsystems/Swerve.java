@@ -24,6 +24,8 @@ import com.pathplanner.lib.config.RobotConfig;
 
 import static frc.robot.util.Constants.GlobalConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import java.io.IOException;
@@ -131,9 +133,13 @@ public class Swerve extends CommandSwerveDrivetrain {
                         .withRotationalRate(speeds.omegaRadiansPerSecond));
     }
 
-    public double getDistanceFromHub() {
-        double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude();
-        double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude();
+    public double getFromHubToTurret() {
+        double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude() + TURRET_OFFSET_Y;
+        double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude() + TURRET_OFFSET_X;
+
+        if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
+            return 0;
+        }
 
         Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
 

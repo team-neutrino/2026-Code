@@ -9,6 +9,7 @@ import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -21,7 +22,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.Subsystems.swerve; // this import is actually needed
+import static frc.robot.util.Subsystems.swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
@@ -39,7 +40,9 @@ public class Shooter extends SubsystemBase {
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final CurrentLimitsConfigs m_hoodCurrentLimitConfig = new CurrentLimitsConfigs();
 
-  private double m_targetAngle = START_POSITION;
+  public double m_targetAngle = START_POSITION;
+
+  public double m_tuningAngle;
 
   private double m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
 
@@ -244,8 +247,8 @@ public class Shooter extends SubsystemBase {
 
   public double shooterCalculator() {
     double flywheelVelocity = ((m_targetShooterRpm / 60) * FLYWHEEL_CIRCUMFRANCE);
-    double changeY = Y_DISPLACEMENT;
-    double changeX = swerve.getDistanceFromHub();
+    double changeY = Y_DISPLACEMENT - 0.1016;
+    double changeX = swerve.getFromHubToTurret();
 
     double x2 = Math.pow(changeX, 2);
     double v02 = Math.pow(flywheelVelocity, 2);
@@ -264,10 +267,10 @@ public class Shooter extends SubsystemBase {
     }
 
     if (plus * 57.295 > 90) {
-      return minus * 57.295;
+      return Math.abs(minus * 57.295);
     }
 
-    return plus * 57.295;
+    return Math.abs(plus * 57.295);
   }
 
   @Override
@@ -337,22 +340,15 @@ public class Shooter extends SubsystemBase {
     );
   }
 
-  @SuppressWarnings("unused")
-
   public Command defaultCommand() {
     return run(() -> {
       if (!swerve.inNeutralOrOpposingZone()) {
-        m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(swerve.getDistanceFromHub()).getValue();
-        m_targetAngle = shooterCalculator();
+        m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(swerve.getFromHubToTurret()).getValue();
+        m_targetAngle = INTERPOLATION_HOOD.get(swerve.getFromHubToTurret());
       } else {
         m_targetAngle = SHUTTLE_ANGLE;
         m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
       }
-
-      // m_targetShooterRpm =
-      // SHOOTER_SPEED_ZONES.floorEntry(swerve.getDistanceFromHub()).getValue();
-      // m_targetAngle = INTERPOLATION_HOOD.get(swerve.getDistanceFromHub());
-      // code for having actual real shooter distance
     });
   }
 }

@@ -2,6 +2,7 @@ package frc.robot.subsystems.NetworkTables;
 
 import frc.robot.util.PIDTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
+import static frc.robot.util.Subsystems.swerve;
 
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleSubscriber;
@@ -41,11 +42,18 @@ public class ShooterNT extends Shooter {
 
     private DoubleTopic m_hoodPositionTopic;
     private DoublePublisher m_hoodPositionPublisher;
-    private DoubleSubscriber m_hoodPositionSubscriber;
 
     private DoubleTopic m_hoodCurrentTopic;
     private DoublePublisher m_hoodCurrentPublisher;
     private DoubleSubscriber m_hoodCurrentSubscriber;
+
+    private DoubleTopic m_targetAngleTopic;
+    private DoublePublisher m_targetAnglePublisher;
+    private DoubleSubscriber m_targetAngleSubscriber;
+
+    private DoubleTopic m_realDistanceTopic;
+    private DoublePublisher m_realDistancePublisher;
+    private DoubleSubscriber m_realDistanceSubscriber;
 
     /**
      * Creates a new class to organize network tables related to the Shooter
@@ -85,11 +93,19 @@ public class ShooterNT extends Shooter {
 
         m_hoodPositionTopic = m_globalNT.getDoubleTopic("shooter/hoodPosition");
         m_hoodPositionPublisher = m_hoodPositionTopic.publish();
-        m_hoodPositionSubscriber = m_hoodPositionTopic.subscribe(0.0);
+
+        m_targetAngleTopic = m_globalNT.getDoubleTopic("shooter/tagetAngle");
+        m_targetAnglePublisher = m_targetAngleTopic.publish();
+        m_targetAngleSubscriber = m_targetAngleTopic.subscribe(-1.0);
+        m_targetAnglePublisher.set(-1.0);
 
         m_hoodCurrentTopic = m_globalNT.getDoubleTopic("shooter/hoodCurrent");
         m_hoodCurrentPublisher = m_hoodCurrentTopic.publish();
         m_hoodCurrentSubscriber = m_hoodCurrentTopic.subscribe(0.0);
+
+        m_realDistanceTopic = m_globalNT.getDoubleTopic("shooter/distance");
+        m_realDistancePublisher = m_realDistanceTopic.publish();
+        m_realDistanceSubscriber = m_realDistanceTopic.subscribe(0.0);
 
         // m_previousShootingKP = SHOOTING_KP;
         // m_previousShootingKI = SHOOTING_KI;
@@ -125,6 +141,8 @@ public class ShooterNT extends Shooter {
         m_hoodTargetPublisher.set(getTargetPosition() / 360);
         m_hoodPositionPublisher.set(getHoodAngle());
         m_hoodCurrentPublisher.set(getHoodCurrent());
+        m_realDistancePublisher.set(swerve.getFromHubToTurret());
+        m_tuningAngle = m_targetAngleSubscriber.get();
     }
 
 }

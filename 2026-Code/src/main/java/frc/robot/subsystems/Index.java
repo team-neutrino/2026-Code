@@ -147,16 +147,25 @@ public class Index extends SubsystemBase {
     @Override
     public void periodic() {
         checkRumble();
-        checkEmptyHopper();
+        m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
     public Command defaultCommand() {
         return run(() -> {
-            if (shooterArbiter.readyToFire()) {
-                indexWhileShoot();
-            } else {
-                m_isShooting = false;
-            }
+            m_spindexerMotorVoltage = 0;
+
+            // if (shooterArbiter.readyToFire()) {
+            // indexWhileShoot();
+            // } else {
+            // m_isShooting = false;
+            // }
+            // checkEmptyHopper();
+        });
+    }
+
+    public Command spinWhenPress() {
+        return run(() -> {
+            m_spindexerMotorVoltage = -10;
         });
     }
 }
