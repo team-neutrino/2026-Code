@@ -49,6 +49,9 @@ public class Index extends SubsystemBase {
     public Timer m_hopperCheckTimer = new Timer();
     private boolean m_isShooting = false;
 
+    private boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
+    private boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
+
     public Index() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
                 .withSupplyCurrentLimitEnable(true)
@@ -79,12 +82,21 @@ public class Index extends SubsystemBase {
         return m_fullCapacityDebouncer.calculate(bothCanRangesDetect());
     }
 
+    public boolean isEmptyCANRange() {
+        return getCanRangeDistance(m_canRange1) > EMPTY_HOPPER_DISTANCE
+                && getCanRangeDistance(m_canRange2) > EMPTY_HOPPER_DISTANCE;
+    }
+
     public double getCanAndColorDistance() {
         return m_canandColor.getProximity();
     }
 
     public boolean canandColorDetect() {
         return getCanAndColorDistance() < TOWER_CANANDCOLOR_DISTANCE;
+    }
+
+    public void setIsHopperEmpty(boolean isEmpty) {
+        m_isHopperEmpty = isEmpty;
     }
 
     public boolean isHopperEmpty() {
@@ -123,37 +135,54 @@ public class Index extends SubsystemBase {
         m_hopperCheckTimer.reset();
     }
 
+    public void setSpindexerVoltage(double voltage) {
+        m_spindexerMotorVoltage = voltage;
+    }
+
+    // If the CanandColor hasn't detected anything, motor spins, then stops after 3
+    // seconds if nothing else is detected.
+    private void isHopperEmptyCycle() {
+        if (m_hopperCheckTimer.isRunning() &&
+                m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
+            setIsHopperEmpty(true);
+            setSpindexerVoltage(0);
+        } else if (motorStartDebounce) {
+            setSpindexerVoltage(HOPPER_CHECK_VOLTAGE);
+            m_hopperCheckTimer.start();
+        }
+    }
+
+    // If the CanandColor detects something, stops motor, but if it doesn't, then
+    // runs isHopperEmptyCycle() method.
+    public void canandColorDetectionLogic() {
+        if (motorStopDebounce) {
+            setIsHopperEmpty(false);
+            setSpindexerVoltage(0);
+            m_hopperCheckTimer.stop();
+            m_hopperCheckTimer.reset();
+        } else {
+            isHopperEmptyCycle();
+        }
+    }
+
     public void checkEmptyHopper() {
-        boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
-        boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
         if (!m_isShooting) {
-            if (motorStopDebounce) {
-                m_isHopperEmpty = false;
-                m_spindexerMotorVoltage = 0;
-                m_hopperCheckTimer.stop();
-                m_hopperCheckTimer.reset();
-            } else {
-                if (m_hopperCheckTimer.isRunning() &&
-                        m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
-                    m_isHopperEmpty = true;
-                    m_spindexerMotorVoltage = 0;
-                } else if (motorStartDebounce) {
-                    m_spindexerMotorVoltage = HOPPER_CHECK_VOLTAGE;
-                    m_hopperCheckTimer.start();
-                }
-            }
+            canandColorDetectionLogic();
             if (fullCapacity()) {
-                m_isHopperEmpty = false;
+                setIsHopperEmpty(false);
             }
         } else {
-            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+            setSpindexerVoltage(INDEXING_VOLTAGE);
+            if (motorStartDebounce) {
+                setIsHopperEmpty(true);
+            }
         }
-        m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
     @Override
     public void periodic() {
         checkRumble();
+        checkEmptyHopper();
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 

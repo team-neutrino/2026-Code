@@ -160,6 +160,7 @@ public class Constants {
         public static final double CANRANGE_HYSTERSIS = 0.05;
 
         public static final double FULL_CAPACITY_DISTANCE = 0.2;
+        public static final double EMPTY_HOPPER_DISTANCE = 0.75;
         public static final double TOWER_CANANDCOLOR_DISTANCE = 0.15;
 
         public static final double START_RUMBLE_DEBOUNCED_TIME = 0.75;
@@ -195,7 +196,7 @@ public class Constants {
         public static final int KICKER_MOTOR_ID = 18;
         public static final double KICKER_CURRENT_LIMIT = 40;
         public static final double KICKER_VOLTAGE = 8;
-        public static final double HOPPER_CHECK_VOLTAGE = 4;
+        public static final double KICKER_SLOW_VOLTAGE = 4;
     }
 
     public static class LimelightConstants {
