@@ -14,7 +14,6 @@ import frc.robot.util.Subsystems;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -33,10 +32,8 @@ public class Turret extends SubsystemBase {
   private double m_targetAngle = STARTUP_ANGLE;
   private double m_previousAngle = STARTUP_ANGLE;
   private double m_totalWrap = STARTUP_ANGLE;
-  private double m_ff = TURRET_FF;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
-  private final MotionMagicVoltage m_motionMagicRequest = new MotionMagicVoltage(STARTUP_ANGLE).withSlot(0);
   private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
 
   public Turret() {
@@ -65,11 +62,6 @@ public class Turret extends SubsystemBase {
     slot0Configs.kI = TURRET_I; // no output for integrated error
     slot0Configs.kD = TURRET_D; // A velocity error of 1 rps results in 0.1 V output
 
-    var motionMagicConfigs = m_motorConfig.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = TARGET_CRUISE_VELOCITY;
-    motionMagicConfigs.MotionMagicAcceleration = TARGET_ACCELERATION;
-    motionMagicConfigs.MotionMagicJerk = TARGET_JERK;
-
     m_motor.getConfigurator().apply(m_motorConfig);
 
     m_motor.setNeutralMode(NeutralModeValue.Coast);
@@ -94,15 +86,8 @@ public class Turret extends SubsystemBase {
   }
 
   private void adjustTurret(double targetAngle) {
-    // double robotAngularVelocity =
-    // Subsystems.swerve.getPigeon2().getAngularVelocityZDevice()
-    // .getValueAsDouble();
     m_motor
-        .setControl(
-            // Motion Magic Control Request, untested
-            // m_motionMagicRequest.withPosition(targetAngle).withFeedForward(-robotAngularVelocity
-            // * m_ff));
-            new PositionVoltage(targetAngle / 360));
+        .setControl(new PositionVoltage(targetAngle / 360));
   }
 
   public double getAdjustedTargetAngle() {
@@ -167,8 +152,8 @@ public class Turret extends SubsystemBase {
         || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
 
     Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
-    double targetDistanceX = targetPose.getX() - robotX; // add turret offset from center
-    double targetDistanceY = targetPose.getY() - robotY;
+    double targetDistanceX = targetPose.getX() - (robotX + TURRET_OFFSET_X);
+    double targetDistanceY = targetPose.getY() - (robotY + TURRET_OFFSET_Y);
 
     return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
   }
@@ -198,15 +183,5 @@ public class Turret extends SubsystemBase {
     m_motorConfig.Slot0.kI = i;
     m_motorConfig.Slot0.kD = d;
     m_motor.getConfigurator().apply(m_motorConfig);
-  }
-
-  public void changeFF(double ff) {
-    m_ff = ff;
-  }
-
-  public void changeMotionmagic(double velocity, double acceleration, double jerk) {
-    m_motorConfig.MotionMagic.MotionMagicCruiseVelocity = velocity;
-    m_motorConfig.MotionMagic.MotionMagicAcceleration = acceleration;
-    m_motorConfig.MotionMagic.MotionMagicJerk = jerk;
   }
 }
