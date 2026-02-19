@@ -58,8 +58,8 @@ public class Constants {
     public static class ShooterConstants {
         public static final double CURRENT_LIMIT = 40;
         public static final double CURRENT_HOOD_LIMIT = 4;
-        public static final double SHOOTING_KP = 0.6;
-        public static final double SHOOTING_KI = 1.2;
+        public static final double SHOOTING_KP = 90.0;
+        public static final double SHOOTING_KI = 0.0;
         public static final double SHOOTING_KD = 0.0;
         public static final double HOOD_KP = 300;
         public static final double HOOD_KI = 150.0;
@@ -95,16 +95,17 @@ public class Constants {
         };
 
         public static final InterpolatingDoubleTreeMap INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 0.0),
-                Map.entry(5.0, 5.0),
-                Map.entry(15.0, 15.0),
-                Map.entry(25.0, 20.0),
-                Map.entry(35.0, 25.0),
-                Map.entry(50.0, 30.0));
+                Map.entry(0.0, 6.5),
+                Map.entry(1.64, 10.0),
+                Map.entry(2.33, 13.5),
+                Map.entry(2.68, 15.0),
+                Map.entry(3.36, 30.0),
+                Map.entry(4.0, 30.0));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, 3000.0),
-                Map.entry(4.0, 3928.0),
+                Map.entry(3.5, 3250.0),
+                Map.entry(4.0, 3550.0),
                 Map.entry(23.9, 5800.0)));
 
         public static final double SHUTTLE_SHOOTING_SPEED = 6000;

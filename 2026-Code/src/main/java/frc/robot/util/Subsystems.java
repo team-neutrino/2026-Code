@@ -11,8 +11,8 @@ public class Subsystems {
     public static final Index index = new Index();
     public static final Kicker kicker = new Kicker();
     public static final Vision limelight = new Vision();
-    public static final Shooter shooter = new ShooterNT();
     public static final Swerve swerve = new Swerve();
+    public static final Shooter shooter = new ShooterNT();
     public static final Turret turret = new TurretNT();
 
     public static final ShooterArbiter shooterArbiter = new ShooterArbiter();

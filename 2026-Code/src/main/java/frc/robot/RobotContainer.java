@@ -44,6 +44,7 @@ public class RobotContainer {
 
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
+    m_driverController.x().whileTrue(SuperstructureFactory.FeedShooter());
   }
 
   public Command getAutonomousCommand() {
