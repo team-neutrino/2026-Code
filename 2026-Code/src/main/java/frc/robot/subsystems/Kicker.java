@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.KickerConstants.*;
+import static frc.robot.util.Subsystems.index;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import com.ctre.phoenix6.CANBus;
@@ -54,6 +55,13 @@ public class Kicker extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if (shooterArbiter.readyToFire()) {
+      m_kickerMotorVoltage = KICKER_VOLTAGE;
+    } else if (index.isRunning()) {
+      m_kickerMotorVoltage = KICKLER_SLOW_VOLTAGE;
+    } else {
+      m_kickerMotorVoltage = 0;
+    }
     m_kickerMotor.setVoltage(m_kickerMotorVoltage);
   }
 }

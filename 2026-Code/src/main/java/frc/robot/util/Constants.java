@@ -118,6 +118,7 @@ public class Constants {
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
             NO_JOYSTICK,
+            NOT_EMPTY,
         }
     }
 
@@ -196,7 +197,7 @@ public class Constants {
         public static final int KICKER_MOTOR_ID = 18;
         public static final double KICKER_CURRENT_LIMIT = 40;
         public static final double KICKER_VOLTAGE = 8;
-        public static final double KICKER_SLOW_VOLTAGE = 4;
+        public static final double KICKLER_SLOW_VOLTAGE = 4;
     }
 
     public static class LimelightConstants {

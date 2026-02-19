@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
 import static frc.robot.util.Subsystems.shooterArbiter;
@@ -48,6 +49,7 @@ public class Index extends SubsystemBase {
     public boolean m_isHopperEmpty;
     public Timer m_hopperCheckTimer = new Timer();
     private boolean m_isShooting = false;
+    public boolean m_isRunning = false;
 
     private boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
     private boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
@@ -103,6 +105,14 @@ public class Index extends SubsystemBase {
         return m_isHopperEmpty;
     }
 
+    public void setIsRunning(boolean isRunning) {
+        m_isRunning = isRunning;
+    }
+
+    public boolean isRunning() {
+        return m_isRunning;
+    }
+
     public void setRumble(double strength) {
         m_rumbleDriver.setRumble(RumbleType.kBothRumble, strength);
         m_rumbleButtons.setRumble(RumbleType.kBothRumble, strength);
@@ -135,6 +145,14 @@ public class Index extends SubsystemBase {
         m_hopperCheckTimer.reset();
     }
 
+    public void checkIsShooting() {
+        if (shooterArbiter.readyToFire()) {
+            indexWhileShoot();
+        } else {
+            m_isShooting = false;
+        }
+    }
+
     public void setSpindexerVoltage(double voltage) {
         m_spindexerMotorVoltage = voltage;
     }
@@ -146,9 +164,12 @@ public class Index extends SubsystemBase {
                 m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
             setIsHopperEmpty(true);
             setSpindexerVoltage(0);
+            setIsRunning(false);
+
         } else if (motorStartDebounce) {
             setSpindexerVoltage(HOPPER_CHECK_VOLTAGE);
             m_hopperCheckTimer.start();
+            setIsRunning(true);
         }
     }
 
@@ -158,6 +179,7 @@ public class Index extends SubsystemBase {
         if (motorStopDebounce) {
             setIsHopperEmpty(false);
             setSpindexerVoltage(0);
+            setIsRunning(false);
             m_hopperCheckTimer.stop();
             m_hopperCheckTimer.reset();
         } else {
@@ -181,6 +203,9 @@ public class Index extends SubsystemBase {
 
     @Override
     public void periodic() {
+        shooterArbiter.setCondition(shooterConditions.NOT_EMPTY, !isHopperEmpty());
+
+        checkIsShooting();
         checkRumble();
         checkEmptyHopper();
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
