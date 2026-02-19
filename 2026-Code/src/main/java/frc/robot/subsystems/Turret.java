@@ -50,17 +50,17 @@ public class Turret extends SubsystemBase {
     m_encoder.getConfigurator().apply(encoderConfig);
 
     m_motorConfig.Feedback.FeedbackRemoteSensorID = m_encoder.getDeviceID();
-    m_motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    m_motorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
     m_motorConfig.Feedback.SensorToMechanismRatio = SENSOR_TO_MECHANISM_RATIO;
     m_motorConfig.Feedback.RotorToSensorRatio = ROTOR_TO_SENSOR_RATIO;
 
     var slot0Configs = m_motorConfig.Slot0;
-    slot0Configs.kS = STATIC_FF; // Add 0.25 V output to overcome static friction
-    slot0Configs.kV = VELOCITY_FF; // A velocity target of 1 rps results in 0.12 V output
-    slot0Configs.kA = ACCELERATION_FF; // An acceleration of 1 rps/s requires 0.01 V output
-    slot0Configs.kP = TURRET_P; // A position error of 2.5 rotations results in 12 V output
-    slot0Configs.kI = TURRET_I; // no output for integrated error
-    slot0Configs.kD = TURRET_D; // A velocity error of 1 rps results in 0.1 V output
+    slot0Configs.kS = STATIC_FF;
+    slot0Configs.kV = VELOCITY_FF;
+    slot0Configs.kA = ACCELERATION_FF;
+    slot0Configs.kP = TURRET_P;
+    slot0Configs.kI = TURRET_I;
+    slot0Configs.kD = TURRET_D;
 
     m_motor.getConfigurator().apply(m_motorConfig);
 
@@ -123,7 +123,6 @@ public class Turret extends SubsystemBase {
 
   @Override
   public void periodic() {
-
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
       updateWrap();
       adjustTurret(getAdjustedTargetAngle());
@@ -165,12 +164,6 @@ public class Turret extends SubsystemBase {
   public Command defaultCommand() {
     return run(() -> {
       m_targetAngle = calculateRobotRelativeTargetAngle();
-    });
-  }
-
-  public Command setTargetAngleCommand(double targetAngle) {
-    return run(() -> {
-      m_targetAngle = targetAngle;
     });
   }
 
