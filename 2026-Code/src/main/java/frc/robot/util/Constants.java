@@ -121,8 +121,7 @@ public class Constants {
         public static final double CURRENT_LIMIT = 40;
         public static final double TURRET_P = 180;
         public static final double TURRET_I = 0;
-        public static final double TURRET_D = 0;
-        public static final double TURRET_FF = 1;
+        public static final double TURRET_D = 7;
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12 / 56;
         public static final double TORQUE_LOAD = 0;
@@ -132,12 +131,11 @@ public class Constants {
         public static final double STATIC_FF = 0;
         public static final double VELOCITY_FF = 0;
         public static final double ACCELERATION_FF = 0;
-        public static final double TARGET_CRUISE_VELOCITY = 1;
-        public static final double TARGET_ACCELERATION = 1;
-        public static final double TARGET_JERK = 1;
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
         public static final double TARGET_TOLERANCE = 1;
+        public static final double TURRET_OFFSET_X = -0.127;
+        public static final double TURRET_OFFSET_Y = -0.1016;
     }
 
     public static class IndexerConstants {

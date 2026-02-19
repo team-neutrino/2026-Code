@@ -11,8 +11,6 @@ import edu.wpi.first.networktables.NetworkTablesJNI;
 import frc.robot.subsystems.Turret;
 import frc.robot.util.PIDTuner;
 import frc.robot.util.Constants.TurretConstants;
-import frc.robot.util.FFTuner;
-import frc.robot.util.MotionMagicTuner;
 
 public class TurretNT extends Turret {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
@@ -28,12 +26,6 @@ public class TurretNT extends Turret {
     private double m_previousP = TurretConstants.TURRET_P;
     private double m_previousI = TurretConstants.TURRET_I;
     private double m_previousD = TurretConstants.TURRET_D;
-    private double m_previousFF = TurretConstants.TURRET_FF;
-    private FFTuner m_FFTuner;
-    private MotionMagicTuner m_motionMagicTuner;
-    private double m_previousMaxAcceleration = TurretConstants.TARGET_ACCELERATION;
-    private double m_previousMaxVelocity = TurretConstants.TARGET_CRUISE_VELOCITY;
-    private double m_previousMaxJerk = TurretConstants.TARGET_JERK;
 
     public TurretNT() {
         encoderPositionPub = encoderPosition.publish();
@@ -53,16 +45,6 @@ public class TurretNT extends Turret {
         m_PIDTuner.setP(m_previousP);
         m_PIDTuner.setI(m_previousI);
         m_PIDTuner.setD(m_previousD);
-
-        m_FFTuner = new FFTuner("turret/{tuning}PIDF");
-
-        m_FFTuner.setFF(m_previousFF);
-
-        m_motionMagicTuner = new MotionMagicTuner("turret/{tuning}MotionMagic");
-
-        m_motionMagicTuner.setVelocity(m_previousMaxVelocity);
-        m_motionMagicTuner.setAcceleration(m_previousMaxAcceleration);
-        m_motionMagicTuner.setJerk(m_previousMaxJerk);
     }
 
     @Override
@@ -82,18 +64,7 @@ public class TurretNT extends Turret {
             m_previousD = m_PIDTuner.getD();
         }
 
-        if (m_FFTuner.getFF() != m_previousFF) {
-            changeFF(m_FFTuner.getFF());
-            m_previousFF = m_FFTuner.getFF();
-        }
-
-        if (m_motionMagicTuner.isDifferentValues(m_previousMaxVelocity, m_previousMaxAcceleration,
-                m_previousMaxJerk)) {
-            changeMotionmagic(m_motionMagicTuner.getVelocity(), m_motionMagicTuner.getAcceleration(),
-                    m_motionMagicTuner.getJerk());
-            m_previousMaxVelocity = m_motionMagicTuner.getVelocity();
-            m_previousMaxAcceleration = m_motionMagicTuner.getAcceleration();
-            m_previousMaxJerk = m_motionMagicTuner.getJerk();
-        }
     }
 }
+
+
