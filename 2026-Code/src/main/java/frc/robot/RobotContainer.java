@@ -35,7 +35,7 @@ public class RobotContainer {
     index.setDefaultCommand(index.defaultCommand());
     kicker.setDefaultCommand(kicker.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
-    turret.setDefaultCommand(turret.defaultCommand());
+    // turret.setDefaultCommand(turret.defaultCommand());
   }
 
   private void configureBindings() {
