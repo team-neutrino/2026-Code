@@ -27,9 +27,6 @@ public class Index extends SubsystemBase {
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
-    private CoreCANrange m_canRange1 = new CoreCANrange(CANRANGE_CAN_ID_1, m_CANbus);
-    private CoreCANrange m_canRange2 = new CoreCANrange(CANRANGE_CAN_ID_2, m_CANbus);
-
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
 
@@ -59,29 +56,12 @@ public class Index extends SubsystemBase {
         m_canandColor.setSettings(m_settings);
     }
 
-    public double getCanRangeDistance(CoreCANrange canRange) {
-        return canRange.getDistance().getValueAsDouble();
-    }
-
-    public boolean bothCanRangesDetect() {
-        return getCanRangeDistance(m_canRange1) < FULL_CAPACITY_DISTANCE
-                && getCanRangeDistance(m_canRange2) < FULL_CAPACITY_DISTANCE;
-    }
-
     public boolean fullCapacity() {
-        return m_fullCapacityDebouncer.calculate(bothCanRangesDetect());
-    }
-
-    public double getCanAndColorDistance() {
-        return m_canandColor.getProximity();
-    }
-
-    public boolean canandColorDetect() {
-        return getCanAndColorDistance() < TOWER_CANANDCOLOR_DISTANCE;
+        return false;
     }
 
     public boolean isHopperEmpty() {
-        return m_isHopperEmpty;
+        return false;
     }
 
     public void setRumble(double strength) {
@@ -112,54 +92,22 @@ public class Index extends SubsystemBase {
 
     public void indexWhileShoot() {
         m_isShooting = true;
-        m_hopperCheckTimer.stop();
-        m_hopperCheckTimer.reset();
-    }
-
-    public void checkEmptyHopper() {
-        boolean motorStartDebounce = m_emptyDebouncer1.calculate(!canandColorDetect());
-        boolean motorStopDebounce = m_emptyDebouncer2.calculate(canandColorDetect());
-        if (!m_isShooting) {
-            if (motorStopDebounce) {
-                m_isHopperEmpty = false;
-                m_spindexerMotorVoltage = 0;
-                m_hopperCheckTimer.stop();
-                m_hopperCheckTimer.reset();
-            } else {
-                if (m_hopperCheckTimer.isRunning() &&
-                        m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
-                    m_isHopperEmpty = true;
-                    m_spindexerMotorVoltage = 0;
-                } else if (motorStartDebounce) {
-                    m_spindexerMotorVoltage = HOPPER_CHECK_VOLTAGE;
-                    m_hopperCheckTimer.start();
-                }
-            }
-            if (fullCapacity()) {
-                m_isHopperEmpty = false;
-            }
-        } else {
-            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-        }
-        m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
+        m_spindexerMotorVoltage = INDEXING_VOLTAGE;
     }
 
     @Override
     public void periodic() {
-        checkRumble();
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
     public Command defaultCommand() {
         return run(() -> {
-            m_spindexerMotorVoltage = 0;
-
-            // if (shooterArbiter.readyToFire()) {
-            // indexWhileShoot();
-            // } else {
-            // m_isShooting = false;
-            // }
-            // checkEmptyHopper();
+            if (shooterArbiter.readyToFire()) {
+                indexWhileShoot();
+            } else {
+                m_isShooting = false;
+                m_spindexerMotorVoltage = 0.0;
+            }
         });
     }
 
