@@ -79,6 +79,7 @@ public class Constants {
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double CURRENT_SPIKE = 20.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
+        public static final double NOT_MOVING_THRESHOLD = 0.1;
 
         // meters shooter math
         public static final double FLYWHEEL_DIAMETER = 0.1016;
@@ -117,7 +118,7 @@ public class Constants {
             HOOD_ANGLE_CORRECT,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
-            NO_JOYSTICK,
+            NOT_DRIVING,
         }
     }
 

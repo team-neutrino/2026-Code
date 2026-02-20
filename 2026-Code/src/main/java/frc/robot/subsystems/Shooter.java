@@ -277,6 +277,8 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
+    shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
+    shooterArbiter.setCondition(shooterConditions.NOT_DRIVING, swerve.getSpeedMetersPerSecond() < NOT_MOVING_THRESHOLD);
 
     if (hubState.hasValidGameData()) {
       if (RED_ALLIANCE.get()) {

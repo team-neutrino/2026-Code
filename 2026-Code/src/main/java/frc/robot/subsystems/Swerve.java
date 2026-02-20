@@ -159,6 +159,11 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
     }
 
+    public double getSpeedMetersPerSecond() {
+        return Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2)
+                + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2));
+    }
+
     private void configurePathPlanner() {
         double pTranslation = 1;
         double iTranslation = 0;
