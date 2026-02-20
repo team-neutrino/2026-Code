@@ -33,14 +33,11 @@ public class Index extends SubsystemBase {
     private Debouncer m_fullCapacityDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
             Debouncer.DebounceType.kRising);
     private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
-    private Debouncer m_emptyDebouncer1 = new Debouncer(MOTOR_START_TIME, Debouncer.DebounceType.kRising);
-    private Debouncer m_emptyDebouncer2 = new Debouncer(MOTOR_STOP_TIME, Debouncer.DebounceType.kRising);
 
     private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
     private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
     private boolean m_hasRumbled;
 
-    public boolean m_isHopperEmpty;
     public Timer m_hopperCheckTimer = new Timer();
     private boolean m_isShooting = false;
 
@@ -95,19 +92,23 @@ public class Index extends SubsystemBase {
         m_spindexerMotorVoltage = INDEXING_VOLTAGE;
     }
 
+    public void checkIfShooting() {
+        if (shooterArbiter.readyToFire()) {
+            indexWhileShoot();
+        } else {
+            m_isShooting = false;
+            m_spindexerMotorVoltage = 0.0;
+        }
+    }
+
     @Override
     public void periodic() {
+        checkIfShooting();
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
     public Command defaultCommand() {
         return run(() -> {
-            if (shooterArbiter.readyToFire()) {
-                indexWhileShoot();
-            } else {
-                m_isShooting = false;
-                m_spindexerMotorVoltage = 0.0;
-            }
         });
     }
 
