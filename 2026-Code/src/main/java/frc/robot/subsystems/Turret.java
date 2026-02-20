@@ -69,25 +69,28 @@ public class Turret extends SubsystemBase {
     m_encoder.setPosition(STARTUP_ANGLE);
   }
 
+  @Override
+  public void periodic() {
+    if (GlobalConstants.RED_ALLIANCE.isPresent()) {
+      updateWrap();
+      adjustTurret(getAdjustedTargetAngle());
+    }
+  }
+
   public double getCurrentAngle() {
     return m_motor.getPosition().getValueAsDouble() * 360;
+  }
+
+  public double getTargetAngle() {
+    return m_targetAngle;
   }
 
   public double getAbsoluteEncoderValue() {
     return m_encoder.getAbsolutePosition().getValueAsDouble();
   }
 
-  public double getFieldRelativeAngle() {
-    return m_motor.getPosition().getValueAsDouble();
-  }
-
   public double getCurrentVoltage() {
     return m_motor.getMotorVoltage().getValueAsDouble();
-  }
-
-  private void adjustTurret(double targetAngle) {
-    m_motor
-        .setControl(new PositionVoltage(targetAngle / 360));
   }
 
   public double getAdjustedTargetAngle() {
@@ -121,12 +124,9 @@ public class Turret extends SubsystemBase {
     return Math.abs(currentAngle - m_targetAngle) < ALLOWED_ERROR;
   }
 
-  @Override
-  public void periodic() {
-    if (GlobalConstants.RED_ALLIANCE.isPresent()) {
-      updateWrap();
-      adjustTurret(getAdjustedTargetAngle());
-    }
+  private void adjustTurret(double targetAngle) {
+    m_motor
+        .setControl(new PositionVoltage(targetAngle / 360));
   }
 
   private void updateWrap() {
@@ -167,8 +167,10 @@ public class Turret extends SubsystemBase {
     });
   }
 
-  public double getTargetAngle() {
-    return m_targetAngle;
+  public Command setTargetAngleCommand(double targetAngle) {
+    return run(() -> {
+      m_targetAngle = targetAngle;
+    });
   }
 
   public void changePID(double p, double i, double d) {
