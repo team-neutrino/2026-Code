@@ -335,6 +335,13 @@ public class Shooter extends SubsystemBase {
     });
   }
 
+  public Command runShooterAndHood(double speed, double angle) {
+    return run(() -> {
+      m_targetShooterRpm = speed;
+      m_targetAngle = angle;
+    });
+  }
+
   public Command resetHood() {
     return new FunctionalCommand(
         () -> {
