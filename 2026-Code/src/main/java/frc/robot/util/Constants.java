@@ -97,7 +97,15 @@ public class Constants {
             OUTPOST
         };
 
-        public static final InterpolatingDoubleTreeMap INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
+        public static final InterpolatingDoubleTreeMap SLOW_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 6.5),
+                Map.entry(1.64, 10.0),
+                Map.entry(2.33, 13.5),
+                Map.entry(2.68, 15.0),
+                Map.entry(3.36, 30.0),
+                Map.entry(4.0, 30.0));
+
+        public static final InterpolatingDoubleTreeMap FAST_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 6.5),
                 Map.entry(1.64, 10.0),
                 Map.entry(2.33, 13.5),
