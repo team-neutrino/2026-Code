@@ -61,7 +61,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "DriveToShoot"
+                  "name": null
                 }
               },
               {
