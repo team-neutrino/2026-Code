@@ -4,17 +4,10 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.core.CoreCANrange;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.reduxrobotics.sensors.canandcolor.Canandcolor;
-import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
-import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexerConstants.*;
@@ -27,20 +20,6 @@ public class Index extends SubsystemBase {
     private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
 
-    private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
-    private CanandcolorSettings m_settings = new CanandcolorSettings();
-
-    private Debouncer m_fullCapacityDebouncer = new Debouncer(START_RUMBLE_DEBOUNCED_TIME,
-            Debouncer.DebounceType.kRising);
-    private Debouncer m_stopRumbleDebouncer = new Debouncer(STOP_RUMBLE_DEBOUNCED_TIME, Debouncer.DebounceType.kRising);
-
-    private CommandGenericHID m_rumbleDriver = new CommandGenericHID(0);
-    private CommandGenericHID m_rumbleButtons = new CommandGenericHID(1);
-    private boolean m_hasRumbled;
-
-    public Timer m_hopperCheckTimer = new Timer();
-    private boolean m_isShooting = false;
-
     public Index() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
                 .withSupplyCurrentLimitEnable(true)
@@ -49,54 +28,12 @@ public class Index extends SubsystemBase {
         m_motorConfig.CurrentLimits = m_currentLimitConfig;
         m_spindexerMotor.getConfigurator().apply(m_motorConfig);
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
-
-        m_canandColor.setSettings(m_settings);
-    }
-
-    public boolean fullCapacity() {
-        return false;
-    }
-
-    public boolean isHopperEmpty() {
-        return false;
-    }
-
-    public void setRumble(double strength) {
-        m_rumbleDriver.setRumble(RumbleType.kBothRumble, strength);
-        m_rumbleButtons.setRumble(RumbleType.kBothRumble, strength);
-    }
-
-    public void rumbleControllers() {
-        if (fullCapacity()) {
-            setRumble(RUMBLE_STRENGTH);
-        } else {
-            setRumble(0);
-        }
-        if (m_stopRumbleDebouncer.calculate(fullCapacity())) {
-            setRumble(0);
-            m_hasRumbled = true;
-        }
-    }
-
-    public void checkRumble() {
-        if (!m_hasRumbled) {
-            rumbleControllers();
-        }
-        if (!fullCapacity()) {
-            m_hasRumbled = false;
-        }
-    }
-
-    public void indexWhileShoot() {
-        m_isShooting = true;
-        m_spindexerMotorVoltage = INDEXING_VOLTAGE;
     }
 
     public void checkIfShooting() {
         if (shooterArbiter.readyToFire()) {
-            indexWhileShoot();
+            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
         } else {
-            m_isShooting = false;
             m_spindexerMotorVoltage = 0.0;
         }
     }
@@ -109,12 +46,6 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-        });
-    }
-
-    public Command spinWhenPress() {
-        return run(() -> {
-            m_spindexerMotorVoltage = -10;
         });
     }
 }

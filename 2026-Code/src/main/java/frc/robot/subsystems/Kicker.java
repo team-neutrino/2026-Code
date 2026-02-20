@@ -36,12 +36,6 @@ public class Kicker extends SubsystemBase {
     m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
   }
 
-  public Command kickWhenPress() {
-    return run(() -> {
-      m_kickerMotorVoltage = KICKER_VOLTAGE;
-    });
-  }
-
   @Override
   public void periodic() {
     if (shooterArbiter.readyToFire()) {
