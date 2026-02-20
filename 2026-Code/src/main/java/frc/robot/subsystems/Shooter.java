@@ -40,7 +40,7 @@ public class Shooter extends SubsystemBase {
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final CurrentLimitsConfigs m_hoodCurrentLimitConfig = new CurrentLimitsConfigs();
 
-  public double m_targetAngle = START_POSITION;
+  private double m_targetAngle = START_POSITION;
 
   public double m_tuningAngle;
 
