@@ -162,11 +162,13 @@ public class Index extends SubsystemBase {
     private void isHopperEmptyCycle() {
         if (m_hopperCheckTimer.isRunning() &&
                 m_hopperCheckTimer.hasElapsed(HOPPER_CHECK_TIME)) {
+            System.out.println("empty hopper");
             setIsHopperEmpty(true);
             setSpindexerVoltage(0);
             setIsRunning(false);
 
         } else if (motorStartDebounce) {
+            System.out.println("looking for fuel");
             setSpindexerVoltage(HOPPER_CHECK_VOLTAGE);
             m_hopperCheckTimer.start();
             setIsRunning(true);
@@ -177,6 +179,7 @@ public class Index extends SubsystemBase {
     // runs isHopperEmptyCycle() method.
     public void canandColorDetectionLogic() {
         if (motorStopDebounce) {
+            System.out.println("Fuel found");
             setIsHopperEmpty(false);
             setSpindexerVoltage(0);
             setIsRunning(false);
@@ -205,6 +208,9 @@ public class Index extends SubsystemBase {
     public void periodic() {
         shooterArbiter.setCondition(shooterConditions.NOT_EMPTY, !isHopperEmpty());
 
+        System.out.println("canandcolor: " + canandColorDetect());
+        System.out.println("hopper empty: " + isHopperEmpty());
+        System.out.println("full " + fullCapacity());
         checkIsShooting();
         checkRumble();
         checkEmptyHopper();
@@ -221,6 +227,12 @@ public class Index extends SubsystemBase {
             // m_isShooting = false;
             // }
             // checkEmptyHopper();
+        });
+    }
+
+    public Command spinWhenPress() {
+        return run(() -> {
+            m_spindexerMotorVoltage = -10;
         });
     }
 

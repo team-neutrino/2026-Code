@@ -53,15 +53,21 @@ public class Kicker extends SubsystemBase {
     });
   }
 
+  public Command kickWhenPress() {
+    return run(() -> {
+      m_kickerMotorVoltage = KICKER_VOLTAGE;
+    });
+  }
+
   @Override
   public void periodic() {
-    if (shooterArbiter.readyToFire()) {
-      m_kickerMotorVoltage = KICKER_VOLTAGE;
-    } else if (index.isRunning()) {
-      m_kickerMotorVoltage = KICKLER_SLOW_VOLTAGE;
-    } else {
-      m_kickerMotorVoltage = 0;
-    }
+    // if (shooterArbiter.readyToFire()) {
+    // m_kickerMotorVoltage = KICKER_VOLTAGE;
+    // } else if (index.isRunning()) {
+    // m_kickerMotorVoltage = KICKLER_SLOW_VOLTAGE;
+    // } else {
+    // m_kickerMotorVoltage = 0;
+    // }
     m_kickerMotor.setVoltage(m_kickerMotorVoltage);
   }
 }

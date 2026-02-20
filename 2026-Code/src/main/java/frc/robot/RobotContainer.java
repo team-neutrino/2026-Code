@@ -35,12 +35,13 @@ public class RobotContainer {
     index.setDefaultCommand(index.defaultCommand());
     kicker.setDefaultCommand(kicker.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
-    turret.setDefaultCommand(turret.defaultCommand());
+    // turret.setDefaultCommand(turret.defaultCommand());
   }
 
   private void configureBindings() {
     m_driverController.leftBumper().whileTrue(SuperstructureFactory.driveAndClimb(m_driverController));
     m_driverController.start().whileTrue(swerve.resetYaw());
+    m_driverController.x().whileTrue(SuperstructureFactory.FeedShooter());
 
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
