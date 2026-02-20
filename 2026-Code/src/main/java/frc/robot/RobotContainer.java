@@ -63,6 +63,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES));
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("runIntake", IntakeFactory.runIntake());
+    NamedCommands.registerCommand("feedShooter", SuperstructureFactory.FeedShooter());
   }
 
   public Command getAutonomousCommand() {
