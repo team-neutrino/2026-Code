@@ -64,6 +64,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("runIntake", IntakeFactory.runIntake());
     NamedCommands.registerCommand("feedShooter", SuperstructureFactory.FeedShooter());
+    NamedCommands.registerCommand("noShoot", SuperstructureFactory.noShooting());
   }
 
   public Command getAutonomousCommand() {

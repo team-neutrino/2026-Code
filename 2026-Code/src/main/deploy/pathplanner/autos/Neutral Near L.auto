@@ -32,6 +32,12 @@
                     }
                   ]
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
               }
             ]
           }
@@ -51,14 +57,33 @@
                 "data": {
                   "name": "runIntake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Near - 3L"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Near - 3L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
+              }
+            ]
           }
         },
         {

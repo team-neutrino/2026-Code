@@ -25,6 +25,10 @@ public class SuperstructureFactory {
                 .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE));
     }
 
+    public static Command noShooting() {
+        return (kicker.noKick().alongWith(index.noSpin()));
+    }
+
     public static Command DriveToPointFinite(List<Pose2d> poses) {
         DriveToPoint drive = new DriveToPoint(poses);
         return drive.until(() -> swerve.getCurrentPose().getX() - drive.getTarget().getX() <= .1
