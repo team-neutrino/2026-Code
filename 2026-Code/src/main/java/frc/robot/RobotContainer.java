@@ -29,7 +29,6 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands() {
-    climb.setDefaultCommand(climb.defaultClimbCommand());
     shooter.setDefaultCommand(shooter.defaultCommand());
     intake.setDefaultCommand(intake.defaultCommand());
     index.setDefaultCommand(index.defaultCommand());
