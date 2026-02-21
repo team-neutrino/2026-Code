@@ -64,8 +64,8 @@ public class Constants {
         public static final double HOOD_KP = 300;
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
-        public static final double ALLOWED_ERROR = 0.1;
-        public static final double ALLOWED_RPM_ERROR = 25;
+        public static final double ALLOWED_ERROR = 2.5;
+        public static final double ALLOWED_RPM_ERROR = 80;
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
@@ -80,6 +80,7 @@ public class Constants {
         public static final double CURRENT_SPIKE = 20.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double NOT_MOVING_THRESHOLD = 0.1;
+        public static final double SHOOTER_RPM_NOISE = 0.9;
 
         // meters shooter math
         public static final double FLYWHEEL_DIAMETER = 0.1016;
