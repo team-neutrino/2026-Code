@@ -18,4 +18,9 @@ public class SuperstructureFactory {
                 .alongWith(climb.defaultClimbCommand().until(() -> climb.isCANRangeDetected())
                         .andThen(ClimbFactory.climbSequentialCommand())));
     }
+
+    public static Command FeedShooter() {
+        return (kicker.kickWhenPress()
+                .alongWith(index.spinWhenPress()));
+    }
 }

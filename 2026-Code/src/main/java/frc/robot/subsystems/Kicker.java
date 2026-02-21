@@ -46,6 +46,12 @@ public class Kicker extends SubsystemBase {
     m_kickerMotor.setVoltage(m_kickerMotorVoltage);
   }
 
+  public Command kickWhenPress() {
+    return run(() -> {
+      m_kickerMotorVoltage = KICKER_VOLTAGE;
+    });
+  }
+
   public Command defaultCommand() {
     return run(() -> {
     });

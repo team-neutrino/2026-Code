@@ -44,6 +44,12 @@ public class Index extends SubsystemBase {
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
+    public Command spinWhenPress() {
+        return run(() -> {
+            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+        });
+    }
+
     public Command defaultCommand() {
         return run(() -> {
         });
