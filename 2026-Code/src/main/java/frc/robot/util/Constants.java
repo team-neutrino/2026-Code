@@ -131,7 +131,7 @@ public class Constants {
         public static final double TURRET_P = 180;
         public static final double TURRET_I = 0;
         public static final double TURRET_D = 7;
-        public static final double TURRET_FF = 1.0;
+        public static final double TURRET_FF = 0.05;
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12 / 56;
         public static final double TORQUE_LOAD = 0;

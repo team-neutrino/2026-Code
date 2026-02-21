@@ -126,7 +126,7 @@ public class Turret extends SubsystemBase {
 
   private void adjustTurret(double targetAngle) {
     m_motor
-        .setControl(new PositionVoltage(targetAngle / 360).withFeedForward(TURRET_FF * m_totalWrap));
+        .setControl(new PositionVoltage(targetAngle / 360).withFeedForward(-TURRET_FF * m_totalWrap));
   }
 
   private void updateWrap() {
