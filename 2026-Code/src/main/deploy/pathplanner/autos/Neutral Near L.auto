@@ -106,12 +106,6 @@
                 "data": {
                   "name": "shooterDefault"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
               }
             ]
           }

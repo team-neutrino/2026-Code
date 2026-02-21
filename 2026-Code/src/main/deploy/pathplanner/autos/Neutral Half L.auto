@@ -17,13 +17,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "shooterDefault"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "noShoot"
                 }
               }
             ]
@@ -48,13 +48,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "shooterDefault"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "noShoot"
                 }
               }
             ]
@@ -65,12 +65,6 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Half - 3L"
@@ -80,6 +74,12 @@
                 "type": "named",
                 "data": {
                   "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
                 }
               }
             ]
@@ -98,19 +98,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "feedShooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "shooterDefault"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "feedShooter"
                 }
               }
             ]

@@ -17,13 +17,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "shooterDefault"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "noShoot"
                 }
               }
             ]
@@ -48,13 +48,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "shooterDefault"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "noShoot"
                 }
               }
             ]
@@ -73,13 +73,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "shooterDefault"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "noShoot"
                 }
               }
             ]
@@ -93,18 +93,6 @@
                 "type": "named",
                 "data": {
                   "name": "DriveToPoint"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
                 }
               }
             ]

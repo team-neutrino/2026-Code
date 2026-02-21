@@ -5,7 +5,7 @@
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -61,7 +61,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -73,22 +73,28 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "noShoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "shooterDefault"
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -99,12 +105,6 @@
                 "type": "named",
                 "data": {
                   "name": "feedShooter"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
                 }
               }
             ]
