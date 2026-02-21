@@ -70,12 +70,6 @@ public class Constants {
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
         public static final double START_POSITION = 0;
-        public static final double RADIAL_CLOSE_ANGLE = 0.5;
-        public static final double RADIAL_FAR_ANGLE = 2;
-        public static final double WALL_ANGLE = 1;
-        public static final double DEPOT_ANGLE = 3;
-        public static final double OUTPOST_ANGLE = 0.1;
-        public static final double DEFAULT = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double CURRENT_SPIKE = 20.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
@@ -118,6 +112,13 @@ public class Constants {
                 Map.entry(3.5, 3250.0),
                 Map.entry(4.0, 3550.0),
                 Map.entry(23.9, 5800.0)));
+
+        public static TreeMap<Double, InterpolatingDoubleTreeMap> SPEED_HOOD_INTERPOLATION = new TreeMap<Double, InterpolatingDoubleTreeMap>(
+                Map.ofEntries(
+                        Map.entry(0.0, SLOW_INTERPOLATION_HOOD),
+                        Map.entry(3000.0, SLOW_INTERPOLATION_HOOD),
+                        Map.entry(3550.0, FAST_INTERPOLATION_HOOD),
+                        Map.entry(5800.0, FAST_INTERPOLATION_HOOD)));
 
         public static final double SHUTTLE_SHOOTING_SPEED = 6000;
         public static final double SHUTTLE_ANGLE = 25;

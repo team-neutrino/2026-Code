@@ -9,6 +9,7 @@ import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants;
 import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.ctre.phoenix6.CANBus;
@@ -24,6 +25,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Subsystems.swerve;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -356,15 +358,18 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command defaultCommand() {
-    double hubDistance = swerve.getFromHubToTurret();
-
     return run(() -> {
+      double hubDistance = swerve.getFromHubToTurret();
+
       if (!swerve.inNeutralOrOpposingZone()) {
-        m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
-        m_targetAngle = INTERPOLATION_HOOD.get(hubDistance);
+        double shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
+        InterpolatingDoubleTreeMap hoodInterpolator = SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
+
+        m_targetShooterRpm = shooterSpeed;
+        m_targetAngle = hoodInterpolator.get(hubDistance);
       } else {
         m_targetAngle = SHUTTLE_ANGLE;
-        m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
+        m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
       }
     });
   }
