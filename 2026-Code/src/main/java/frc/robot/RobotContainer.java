@@ -43,8 +43,8 @@ public class RobotContainer {
 
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.x().whileTrue(SuperstructureFactory.FeedShooter());
-    m_buttonController.leftTrigger().whileTrue(IntakeFactory.deployAndRunIntake());
-    m_buttonController.rightTrigger().whileTrue(IntakeFactory.deployAndRunOuttake());
+    m_buttonController.leftTrigger().toggleOnTrue(IntakeFactory.deployAndRunIntake());
+    m_buttonController.rightTrigger().toggleOnTrue(IntakeFactory.deployAndRunOuttake());
 
   }
 
