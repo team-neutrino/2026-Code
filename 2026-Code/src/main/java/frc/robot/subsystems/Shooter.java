@@ -50,6 +50,8 @@ public class Shooter extends SubsystemBase {
 
   private boolean m_recentering = false;
 
+  private double m_filteredSpeed;
+
   /**
    * Creates a new Shooter.
    * 
@@ -128,7 +130,7 @@ public class Shooter extends SubsystemBase {
    * @return The current position of the hood motor as a double.
    */
   public double getHoodAngle() {
-    return m_hoodMotor.getPosition().getValueAsDouble();
+    return m_hoodMotor.getPosition().getValueAsDouble() * 360;
   }
 
   /**
@@ -137,7 +139,7 @@ public class Shooter extends SubsystemBase {
    * @return The current RPM of the shooter motor as a double.
    */
   public double getShooterRPM() {
-    return m_shooterMotor.getVelocity().getValueAsDouble() * 60.0;
+    return m_filteredSpeed;
   }
 
   /**
@@ -275,29 +277,32 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
+    m_filteredSpeed = SHOOTER_RPM_NOISE * m_filteredSpeed
+        + (1 - SHOOTER_RPM_NOISE) * (m_shooterMotor.getVelocity().getValueAsDouble() * 60.0);
+
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
     if (RED_ALLIANCE.isPresent()) {
       shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
     shooterArbiter.setCondition(shooterConditions.NOT_DRIVING, swerve.getSpeedMetersPerSecond() < NOT_MOVING_THRESHOLD);
+    shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, true);
 
-    if (hubState.hasValidGameData()) {
-      if (RED_ALLIANCE.get()) {
-        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-            hubState.isRedHubActive());
-      } else {
-        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-            hubState.isBlueHubActive());
-      }
+    // if (hubState.hasValidGameData()) {
+    // if (RED_ALLIANCE.get()) {
+    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+    // hubState.isRedHubActive());
+    // } else {
+    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+    // hubState.isBlueHubActive());
+    // }
 
-      if (m_recentering) {
-        m_hoodMotor.setVoltage(-1);
-        controlShooterMotor();
-      } else {
-        controlHoodMotor();
-        controlShooterMotor();
-      }
+    if (m_recentering) {
+      m_hoodMotor.setVoltage(-1);
+      controlShooterMotor();
+    } else {
+      controlHoodMotor();
+      controlShooterMotor();
     }
   }
 

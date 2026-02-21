@@ -36,12 +36,13 @@ public class ShooterArbiter {
      *         conditions are unmet.
      */
     public boolean readyToFire() {
-        // for (Map.Entry<shooterConditions, Boolean> val : m_conditions.entrySet()) {
-        //
-        // if (!val.getValue()) {
-        // System.out.println(val.getKey());
-        // }
-        // } uncomment for debugging
+        for (Map.Entry<shooterConditions, Boolean> val : m_conditions.entrySet()) {
+
+            if (!val.getValue()) {
+                System.out.println(val.getKey());
+            }
+        }
+        // uncomment for debugging
         return !(m_conditions.containsValue(false));
     }
 
