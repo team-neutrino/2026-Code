@@ -38,12 +38,6 @@ public class Kicker extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (shooterArbiter.readyToFire()) {
-      m_kickerMotorVoltage = KICKER_VOLTAGE;
-    } else {
-      m_kickerMotorVoltage = 0;
-    }
-    m_kickerMotor.setVoltage(m_kickerMotorVoltage);
   }
 
   public Command kickWhenPress() {
@@ -54,6 +48,12 @@ public class Kicker extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
+      if (shooterArbiter.readyToFire()) {
+        m_kickerMotorVoltage = KICKER_VOLTAGE;
+      } else {
+        m_kickerMotorVoltage = 0;
+      }
+      m_kickerMotor.setVoltage(m_kickerMotorVoltage);
     });
   }
 }
