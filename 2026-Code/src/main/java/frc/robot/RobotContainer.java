@@ -36,6 +36,7 @@ public class RobotContainer {
     configureBindings();
     configureNamedCommands();
     m_autonPath = new PathPlannerAuto(AutonConstants.CURRENT_AUTON);
+    swerve.registerTelemetry(logger::telemeterize);
   }
 
   private void configureDefaultCommands() {

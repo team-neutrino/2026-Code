@@ -5,32 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
                   "pathName": "Near - 1L"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "deployAndRunIntake"
-                      }
-                    }
-                  ]
                 }
               },
               {
@@ -55,20 +36,20 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "runIntake"
+                  "name": "noShoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "deployAndRunIntake"
                 }
               }
             ]
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
