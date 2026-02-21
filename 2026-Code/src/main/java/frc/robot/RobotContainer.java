@@ -45,6 +45,7 @@ public class RobotContainer {
     m_buttonController.x().whileTrue(SuperstructureFactory.FeedShooter());
     m_buttonController.leftTrigger().whileTrue(IntakeFactory.deployAndRunIntake());
     m_buttonController.rightTrigger().whileTrue(IntakeFactory.deployAndRunOuttake());
+
   }
 
   public Command getAutonomousCommand() {

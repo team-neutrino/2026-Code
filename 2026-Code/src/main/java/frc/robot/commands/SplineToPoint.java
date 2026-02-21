@@ -47,7 +47,7 @@ public class SplineToPoint extends Command {
   }
 
   private boolean isHopperEmpty() {
-    return index.isHopperEmpty();
+    return false;
   }
 
   private void spline(Pose2d target) {

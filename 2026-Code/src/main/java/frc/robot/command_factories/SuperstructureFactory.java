@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.SplineToPoint;
 import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
-import static frc.robot.subsystems.Kicker.*;
 
 import static frc.robot.util.Subsystems.*;
 
@@ -24,5 +23,4 @@ public class SuperstructureFactory {
         return (kicker.kickWhenPress()
                 .alongWith(index.spinWhenPress()));
     }
-
 }

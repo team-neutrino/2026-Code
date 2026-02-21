@@ -7,8 +7,8 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import static frc.robot.util.Subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,7 +19,8 @@ public class Intake extends SubsystemBase {
     private TalonFX m_rollerMotor = new TalonFX(ROLLER_MOTOR_ID, m_CANbus);
     private TalonFX m_deployMotor = new TalonFX(DEPLOY_MOTOR_ID, m_CANbus);
     private double m_rollerMotorVoltage;
-    private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
+    private TalonFXConfiguration m_rollerMotorConfig = new TalonFXConfiguration();
+    private TalonFXConfiguration m_deployMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
     private double m_targetAngle;
 
@@ -28,16 +29,18 @@ public class Intake extends SubsystemBase {
                 .withSupplyCurrentLimitEnable(true)
                 .withStatorCurrentLimit(CURRENT_LIMIT)
                 .withStatorCurrentLimitEnable(true);
-        m_motorConfig.CurrentLimits = m_currentLimitConfig;
+        m_rollerMotorConfig.CurrentLimits = m_currentLimitConfig;
+        m_deployMotorConfig.CurrentLimits = m_currentLimitConfig;
 
-        m_motorConfig.Slot0.kP = INTAKE_kP;
-        m_motorConfig.Slot0.kI = INTAKE_kI;
-        m_motorConfig.Slot0.kD = INTAKE_kD;
+        m_deployMotorConfig.Slot0.kP = INTAKE_kP;
+        m_deployMotorConfig.Slot0.kI = INTAKE_kI;
+        m_deployMotorConfig.Slot0.kD = INTAKE_kD;
 
-        m_rollerMotor.getConfigurator().apply(m_motorConfig);
-        m_deployMotor.getConfigurator().apply(m_motorConfig);
+        m_rollerMotor.getConfigurator().apply(m_rollerMotorConfig);
+        m_deployMotor.getConfigurator().apply(m_deployMotorConfig);
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
+        m_rollerMotorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_deployMotor.setPosition(0);
     }
 
@@ -67,10 +70,7 @@ public class Intake extends SubsystemBase {
 
     public Command runIntake(double speed) {
         return run(() -> {
-            if (!index.fullCapacity()) {
-                m_rollerMotorVoltage = speed;
-                index.m_hopperCheckTimer.reset();
-            }
+            m_rollerMotorVoltage = speed;
         });
     }
 
@@ -82,22 +82,14 @@ public class Intake extends SubsystemBase {
 
     public Command deployAndRunIntake(double speed, double targetAngle) {
         return run(() -> {
-            if (!index.fullCapacity()) {
-                m_targetAngle = targetAngle;
-                m_rollerMotorVoltage = speed;
-                if (speed > 0) {
-                    index.m_hopperCheckTimer.reset();
-                }
-            }
+            m_targetAngle = targetAngle;
+            m_rollerMotorVoltage = speed;
         });
     }
 
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
-            if (!index.fullCapacity()) {
-                m_targetAngle = STARTING_POSITION;
-            }
         });
     }
 }
