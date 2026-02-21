@@ -148,7 +148,7 @@ public class Constants {
     public static class IndexerConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
 
-        public static final double INDEXING_VOLTAGE = 10;
+        public static final double INDEXING_VOLTAGE = -10;
         public static final double CURRENT_LIMIT = 40;
     }
 
