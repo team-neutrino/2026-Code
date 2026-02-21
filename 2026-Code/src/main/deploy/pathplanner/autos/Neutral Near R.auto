@@ -13,9 +13,35 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
+                      "type": "race",
                       "data": {
-                        "pathName": "Near - 1R"
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Near - 1R"
+                            }
+                          },
+                          {
+                            "type": "sequential",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 2.0
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "deployAndRunIntake"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
                       }
                     },
                     {
@@ -25,7 +51,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "name": "runIntake"
                             }
                           },
                           {
