@@ -19,6 +19,12 @@
                 "data": {
                   "name": "noShoot"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
               }
             ]
           }
@@ -44,6 +50,12 @@
                 "data": {
                   "name": "deployAndRunIntake"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
               }
             ]
           }
@@ -63,6 +75,12 @@
                 "data": {
                   "name": "noShoot"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
               }
             ]
           }
@@ -81,6 +99,12 @@
                 "type": "named",
                 "data": {
                   "name": "feedShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
                 }
               }
             ]

@@ -7,6 +7,12 @@
         {
           "type": "parallel",
           "data": {
+            "commands": []
+          }
+        },
+        {
+          "type": "race",
+          "data": {
             "commands": [
               {
                 "type": "path",
@@ -15,22 +21,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "deployAndRunIntake"
-                      }
-                    }
-                  ]
+                  "name": "noShoot"
                 }
               }
             ]
@@ -49,7 +42,32 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "runIntake"
+                  "name": "deployAndRunIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Far - 3L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
                 }
               }
             ]
@@ -60,9 +78,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Far - 3L"
+                  "name": "DriveToPoint"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
                 }
               }
             ]
