@@ -55,7 +55,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "DriveToPointFinite"
+                  "name": null
                 }
               },
               {
