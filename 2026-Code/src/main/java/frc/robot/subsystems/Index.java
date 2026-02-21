@@ -30,7 +30,7 @@ public class Index extends SubsystemBase {
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
     }
 
-    public void checkIfShooting() {
+    public void setVoltageIfShooting() {
         if (shooterArbiter.readyToFire()) {
             m_spindexerMotorVoltage = INDEXING_VOLTAGE;
         } else {
@@ -40,7 +40,6 @@ public class Index extends SubsystemBase {
 
     @Override
     public void periodic() {
-        checkIfShooting();
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
     }
 
@@ -52,6 +51,7 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
+            setVoltageIfShooting();
         });
     }
 }
