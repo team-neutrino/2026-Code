@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.command_factories.ClimbFactory;
 import frc.robot.command_factories.IntakeFactory;
 import frc.robot.command_factories.SuperstructureFactory;
 import frc.robot.generated.Telemetry;
@@ -42,9 +43,10 @@ public class RobotContainer {
     m_driverController.start().whileTrue(swerve.resetYaw());
 
     m_buttonController.a().onTrue(shooter.resetHood());
-    m_buttonController.x().whileTrue(SuperstructureFactory.FeedShooter());
+    m_buttonController.back().onTrue(ClimbFactory.climbReleaseCommand());
     m_buttonController.leftTrigger().whileTrue(IntakeFactory.deployAndRunIntake());
     m_buttonController.rightTrigger().whileTrue(IntakeFactory.deployAndRunOuttake());
+
   }
 
   public Command getAutonomousCommand() {

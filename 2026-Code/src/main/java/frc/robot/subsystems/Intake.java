@@ -86,7 +86,7 @@ public class Intake extends SubsystemBase {
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
-            m_targetAngle = STARTING_POSITION;
+            // m_targetAngle = STARTING_POSITION;
         });
     }
 }
