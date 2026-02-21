@@ -156,10 +156,10 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
 
-        public static final double CURRENT_LIMIT = 20;
+        public static final double CURRENT_LIMIT = 60;
 
-        public static final double INTAKE_VOLTAGE = 5;
-        public static final double OUTTAKE_VOLTAGE = -5;
+        public static final double INTAKE_VOLTAGE = -12;
+        public static final double OUTTAKE_VOLTAGE = 12;
 
         public static final double STARTING_POSITION = -.50;
         public static final double DEPLOYED_POSITION = -8.5;

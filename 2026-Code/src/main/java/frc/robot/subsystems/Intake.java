@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,7 +19,8 @@ public class Intake extends SubsystemBase {
     private TalonFX m_rollerMotor = new TalonFX(ROLLER_MOTOR_ID, m_CANbus);
     private TalonFX m_deployMotor = new TalonFX(DEPLOY_MOTOR_ID, m_CANbus);
     private double m_rollerMotorVoltage;
-    private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
+    private TalonFXConfiguration m_rollerMotorConfig = new TalonFXConfiguration();
+    private TalonFXConfiguration m_deployMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
     private double m_targetAngle;
 
@@ -27,16 +29,18 @@ public class Intake extends SubsystemBase {
                 .withSupplyCurrentLimitEnable(true)
                 .withStatorCurrentLimit(CURRENT_LIMIT)
                 .withStatorCurrentLimitEnable(true);
-        m_motorConfig.CurrentLimits = m_currentLimitConfig;
+        m_rollerMotorConfig.CurrentLimits = m_currentLimitConfig;
+        m_deployMotorConfig.CurrentLimits = m_currentLimitConfig;
 
-        m_motorConfig.Slot0.kP = INTAKE_kP;
-        m_motorConfig.Slot0.kI = INTAKE_kI;
-        m_motorConfig.Slot0.kD = INTAKE_kD;
+        m_deployMotorConfig.Slot0.kP = INTAKE_kP;
+        m_deployMotorConfig.Slot0.kI = INTAKE_kI;
+        m_deployMotorConfig.Slot0.kD = INTAKE_kD;
 
-        m_rollerMotor.getConfigurator().apply(m_motorConfig);
-        m_deployMotor.getConfigurator().apply(m_motorConfig);
+        m_rollerMotor.getConfigurator().apply(m_rollerMotorConfig);
+        m_deployMotor.getConfigurator().apply(m_deployMotorConfig);
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
+        m_rollerMotorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_deployMotor.setPosition(0);
     }
 
