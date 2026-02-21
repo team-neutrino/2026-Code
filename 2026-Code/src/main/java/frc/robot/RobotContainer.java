@@ -66,7 +66,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("runIntake", IntakeFactory.runIntake());
     NamedCommands.registerCommand("feedShooter", SuperstructureFactory.FeedShooter());
     NamedCommands.registerCommand("noShoot", SuperstructureFactory.noShooting());
-    NamedCommands.registerCommand("shoooterDefault", shooter.defaultCommand());
+    NamedCommands.registerCommand("shooterDefault", shooter.defaultCommand());
   }
 
   public Command getAutonomousCommand() {
