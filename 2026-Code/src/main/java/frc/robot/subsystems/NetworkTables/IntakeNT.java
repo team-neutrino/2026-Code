@@ -1,8 +1,6 @@
 package frc.robot.subsystems.NetworkTables;
 
-import static frc.robot.util.Constants.IntakeConstants.INTAKE_kD;
-import static frc.robot.util.Constants.IntakeConstants.INTAKE_kI;
-import static frc.robot.util.Constants.IntakeConstants.INTAKE_kP;
+import static frc.robot.util.Constants.IntakeConstants.*;
 
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanTopic;

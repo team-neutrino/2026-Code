@@ -63,11 +63,11 @@ public class Intake extends SubsystemBase {
     }
 
     public void setIntakePID(double new_P, double new_I, double new_D) {
-        m_motorConfig.Slot0.kP = new_P;
-        m_motorConfig.Slot0.kI = new_I;
-        m_motorConfig.Slot0.kD = new_D;
+        m_deployMotorConfig.Slot0.kP = new_P;
+        m_deployMotorConfig.Slot0.kI = new_I;
+        m_deployMotorConfig.Slot0.kD = new_D;
 
-        m_deployMotor.getConfigurator().apply(m_motorConfig);
+        m_deployMotor.getConfigurator().apply(m_deployMotorConfig);
     }
 
     @Override

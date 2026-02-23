@@ -6,7 +6,7 @@ import frc.robot.subsystems.NetworkTables.*;
 public class Subsystems {
     public static final HubActiveStatus hubState = new HubActiveStatus();
 
-    public static final Climb climb = new ClimbNT();
+    public static final Climb climb = null;
     public static final Intake intake = new IntakeNT();
     public static final Index index = new Index();
     public static final Kicker kicker = new Kicker();
