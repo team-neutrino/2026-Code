@@ -15,32 +15,52 @@ import static frc.robot.util.Subsystems.shooterArbiter;
 
 public class Index extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
+
     private TalonFX m_spindexerMotor = new TalonFX(SPINDEXER_MOTOR_ID, m_CANbus);
     private double m_spindexerMotorVoltage;
-    private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
-    private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
+    private TalonFXConfiguration m_indexMotorConfig = new TalonFXConfiguration();
+    private final CurrentLimitsConfigs m_indexCurrentLimitConfig = new CurrentLimitsConfigs();
+
+    private TalonFX m_kickerMotor = new TalonFX(KICKER_MOTOR_ID, m_CANbus);
+    private double m_kickerMotorVoltage;
+    private TalonFXConfiguration m_kickerMotorConfig = new TalonFXConfiguration();
+    private final CurrentLimitsConfigs m_kickerCurrentLimitConfig = new CurrentLimitsConfigs();
 
     public Index() {
-        m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
+        m_indexCurrentLimitConfig.withSupplyCurrentLimit(INDEX_CURRENT_LIMIT)
                 .withSupplyCurrentLimitEnable(true)
-                .withStatorCurrentLimit(CURRENT_LIMIT)
+                .withStatorCurrentLimit(INDEX_CURRENT_LIMIT)
                 .withStatorCurrentLimitEnable(true);
-        m_motorConfig.CurrentLimits = m_currentLimitConfig;
-        m_spindexerMotor.getConfigurator().apply(m_motorConfig);
+        m_indexMotorConfig.CurrentLimits = m_indexCurrentLimitConfig;
+
+        m_kickerCurrentLimitConfig.withSupplyCurrentLimit(KICKER_CURRENT_LIMIT)
+                .withSupplyCurrentLimitEnable(true)
+                .withStatorCurrentLimit(KICKER_CURRENT_LIMIT)
+                .withStatorCurrentLimitEnable(true);
+        m_kickerMotorConfig.CurrentLimits = m_kickerCurrentLimitConfig;
+
+        m_spindexerMotor.getConfigurator().apply(m_indexMotorConfig);
+        m_kickerMotor.getConfigurator().apply(m_kickerMotorConfig);
+
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
+        m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
     }
 
     public void setVoltageIfShooting() {
         if (shooterArbiter.readyToFire()) {
             m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+            m_kickerMotorVoltage = KICKER_VOLTAGE;
         } else {
             m_spindexerMotorVoltage = 0.0;
+            m_kickerMotorVoltage = 0.0;
         }
     }
 
     @Override
     public void periodic() {
+        setVoltageIfShooting();
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
+        m_kickerMotor.setVoltage(m_kickerMotorVoltage);
     }
 
     public Command spinWhenPress() {
@@ -49,9 +69,14 @@ public class Index extends SubsystemBase {
         });
     }
 
+    public Command kickWhenPress() {
+        return run(() -> {
+            m_kickerMotorVoltage = KICKER_VOLTAGE;
+        });
+    }
+
     public Command defaultCommand() {
         return run(() -> {
-            setVoltageIfShooting();
         });
     }
 }

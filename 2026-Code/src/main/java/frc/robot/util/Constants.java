@@ -155,9 +155,13 @@ public class Constants {
 
     public static class IndexerConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
+        public static final int KICKER_MOTOR_ID = 18;
 
         public static final double INDEXING_VOLTAGE = -10;
-        public static final double CURRENT_LIMIT = 40;
+        public static final double INDEX_CURRENT_LIMIT = 40;
+
+        public static final double KICKER_VOLTAGE = 8;
+        public static final double KICKER_CURRENT_LIMIT = 40;
     }
 
     public static class IntakeConstants {
@@ -179,13 +183,6 @@ public class Constants {
         public static final double INTAKE_kP = 2;
         public static final double INTAKE_kI = 0.0;
         public static final double INTAKE_kD = 0.0;
-    }
-
-    public static class KickerConstants {
-        public static final int KICKER_MOTOR_ID = 18;
-
-        public static final double KICKER_CURRENT_LIMIT = 40;
-        public static final double KICKER_VOLTAGE = 8;
     }
 
     public static class LimelightConstants {
