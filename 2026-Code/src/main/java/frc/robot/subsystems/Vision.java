@@ -264,10 +264,10 @@ public class Vision extends SubsystemBase {
     }
 
     /** Supplies robot orientation to the Limelight for IMU fusion. */
-    public void setRobotOrientation(double yawDeg, double pitchDeg, double rollDeg,
-        double yawRate, double pitchRate, double rollRate) {
-      LimelightHelpers.SetRobotOrientation(name, yawDeg, pitchDeg, rollDeg,
-          yawRate, pitchRate, rollRate);
+    public void setRobotOrientation(double yawDeg, double yawRate, double pitchDeg,
+        double pitchRate, double rollDeg, double rollRate) {
+      LimelightHelpers.SetRobotOrientation(name, yawDeg, yawRate, pitchDeg, pitchRate, rollDeg, rollRate);
+
     }
 
     /**
@@ -318,7 +318,7 @@ public class Vision extends SubsystemBase {
     private boolean verifyPoseValidity() {
       return estimateMT2 != null
           && estimateMT2.tagCount != 0
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI
+          && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI
           && frame > lastFrame
           && !Double.isNaN(estimateMT2.avgTagDist)
           && poseInField(estimateMT2);
@@ -328,7 +328,7 @@ public class Vision extends SubsystemBase {
     private boolean verifyYawValidity() {
       return estimateMT1 != null
           && estimateMT1.tagCount > 1
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 2
+          && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI / 2
           && poseInField(estimateMT1);
     }
 
@@ -336,7 +336,7 @@ public class Vision extends SubsystemBase {
     private boolean verifyPigeonSeedUpdate() {
       return estimateMT1 != null
           && estimateMT1.tagCount > 1
-          && swerve.getState().Speeds.omegaRadiansPerSecond < Math.PI / 4
+          && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI / 4
           && poseInField(estimateMT1)
           && m_timer.hasElapsed(PIGEON_SEED_PERIOD);
     }
@@ -344,7 +344,7 @@ public class Vision extends SubsystemBase {
     /** Seeds drivetrain yaw using MT1 measurement if conditions allow. */
     public void updatePigeonSeed() {
       if (verifyPigeonSeedUpdate()) {
-        swerve.seedYawMT1(estimateMT1.pose.getRotation().getRadians(), MT1_WEIGHT_YAW);
+        swerve.seedYawMT1(estimateMT1.pose.getRotation().getDegrees(), MT1_WEIGHT_YAW);
         m_timer.restart();
       }
     }
@@ -419,7 +419,7 @@ public class Vision extends SubsystemBase {
       double minimumXyStdDev = getMinimumStdDev();
       return Math.max(
           minimumXyStdDev,
-          (Math.pow(distance, 3) * errorFactor) * bumpScaleFactor / Math.pow(numberOfTags, 2));
+          (Math.pow(distance, 2) * errorFactor) * bumpScaleFactor / Math.pow(numberOfTags, 2));
     }
 
     /** Computes rotational standard deviation using tag distance. */
