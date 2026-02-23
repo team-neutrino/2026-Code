@@ -2,8 +2,6 @@ package frc.robot.subsystems.NetworkTables;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
 
-import edu.wpi.first.networktables.BooleanPublisher;
-import edu.wpi.first.networktables.BooleanTopic;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -16,11 +14,9 @@ public class IntakeNT extends Intake {
 
     DoubleTopic currentDeployPosition = nt.getDoubleTopic("/intake/current_intake_position");
     DoubleTopic targetDeployPosition = nt.getDoubleTopic("/intake/target_intake_position");
-    BooleanTopic atTargetDeployPosition = nt.getBooleanTopic("/intake/at_target_intake_position");
 
     final DoublePublisher currentDeployPositionPub;
     final DoublePublisher targetDeployPositionPub;
-    final BooleanPublisher atTargetDeployPositionPub;
 
     private PIDTuner m_deployPIDTuner;
 
@@ -34,9 +30,6 @@ public class IntakeNT extends Intake {
 
         targetDeployPositionPub = targetDeployPosition.publish();
         targetDeployPositionPub.setDefault(0.0);
-
-        atTargetDeployPositionPub = atTargetDeployPosition.publish();
-        atTargetDeployPositionPub.setDefault(false);
 
         m_deployPIDTuner = new PIDTuner("intake/{tuning}deployMotor", false);
 
@@ -52,7 +45,6 @@ public class IntakeNT extends Intake {
 
         currentDeployPositionPub.set(getMotorAngle(), now);
         targetDeployPositionPub.set(getTargetAngle(), now);
-        atTargetDeployPositionPub.set(isAtTarget(), now);
 
         if (m_deployPIDTuner.isDifferentValues(m_previousDeployKP, m_previousDeployKI, m_previousDeployKD)) {
             m_previousDeployKP = m_deployPIDTuner.getP();
