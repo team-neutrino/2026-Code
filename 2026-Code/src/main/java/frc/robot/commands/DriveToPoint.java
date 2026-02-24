@@ -17,11 +17,13 @@ import java.util.List;
 public class DriveToPoint extends Command {
     private DriveToPointPID m_drivePID;
     private Pose2d m_target;
+    private boolean m_rotating;
 
-    public DriveToPoint(List<Pose2d> shootPoses) {
+    public DriveToPoint(List<Pose2d> shootPoses, boolean rotating) {
         addRequirements(swerve);
         m_drivePID = new DriveToPointPID();
         m_target = swerve.getCurrentPose().nearest(shootPoses);
+        m_rotating = rotating;
     }
 
     private void drive() {
@@ -31,6 +33,15 @@ public class DriveToPoint extends Command {
         yVelocity = MathUtil.clamp(yVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
 
         swerve.setVelocity(xVelocity, yVelocity, m_drivePID.getRotation());
+    }
+
+    private void driveNoRotation() {
+        double xVelocity = m_drivePID.getXVelocity(), yVelocity = m_drivePID.getYVelocity();
+
+        xVelocity = MathUtil.clamp(xVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
+        yVelocity = MathUtil.clamp(yVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
+
+        swerve.setVelocity(xVelocity, yVelocity, swerve.getCurrentPose().getRotation());
     }
 
     public Pose2d getTarget() {
@@ -44,7 +55,11 @@ public class DriveToPoint extends Command {
 
     @Override
     public void execute() {
-        drive();
+        if (m_rotating) {
+            drive();
+        } else {
+            driveNoRotation();
+        }
     }
 
     @Override
