@@ -11,7 +11,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.TunerConstants;
@@ -31,6 +34,7 @@ import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.json.simple.parser.ParseException;
 
@@ -159,6 +163,34 @@ public class Swerve extends CommandSwerveDrivetrain {
         } else {
             return robotX > ALLIANCE_ZONE_BLUE;
         }
+    }
+
+    public Pose2d getProjectedPose(
+            double exitVelocity) {
+
+        double latencyFactor = 0.2;
+        Pose2d currentPose = getCurrentPose();
+        ChassisSpeeds currentSpeeds = getChassisSpeeds();
+        double lookAheadTime = 0.0;
+        Translation2d currentTranslation = currentPose.getTranslation();
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        Translation2d hubLocation = alliance.get() == Alliance.Blue ? BLUE_HUB.getTranslation()
+                : RED_HUB.getTranslation();
+        for (int i = 0; i < 3; i++) {
+            Translation2d trialTranslation = currentTranslation.plus(
+                    new Translation2d(
+                            currentSpeeds.vxMetersPerSecond * lookAheadTime,
+                            currentSpeeds.vyMetersPerSecond * lookAheadTime));
+
+            double distance = trialTranslation.getDistance(hubLocation);
+            lookAheadTime = (distance / exitVelocity) + latencyFactor;
+        }
+        Translation2d finalProjectedTranslation = currentTranslation.plus(
+                new Translation2d(
+                        currentSpeeds.vxMetersPerSecond * lookAheadTime,
+                        currentSpeeds.vyMetersPerSecond * lookAheadTime));
+
+        return new Pose2d(finalProjectedTranslation, currentPose.getRotation());
     }
 
     public double getSpeedMetersPerSecond() {
