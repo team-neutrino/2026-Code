@@ -153,7 +153,7 @@ public class Constants {
         public static final double TURRET_OFFSET_Y = -0.1016;
     }
 
-    public static class IndexerConstants {
+    public static class IndexConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
         public static final int KICKER_MOTOR_ID = 18;
 
