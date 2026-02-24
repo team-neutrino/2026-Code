@@ -11,14 +11,13 @@ import static frc.robot.util.Subsystems.*;
 
 /** Add your docs here. */
 public class SuperstructureFactory {
-
     public static Command feedShooter() {
-        return (kicker.kickWhenPress()
+        return (index.kickWhenPress()
                 .alongWith(index.spinWhenPress()));
     }
 
     public static Command shuttle() {
-        return (kicker.kickWhenPress().alongWith(shooter.shuttle()));
+        return (index.kickWhenPress().alongWith(shooter.shuttle()));
     }
 
     public static Command spitFuel() {

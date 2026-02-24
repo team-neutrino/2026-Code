@@ -56,6 +56,22 @@ public class Index extends SubsystemBase {
         }
     }
 
+    public double getSpindexerVoltage() {
+        return m_spindexerMotor.getMotorVoltage().getValueAsDouble();
+    }
+
+    public double getSpindexerTargetVoltage() {
+        return m_spindexerMotorVoltage;
+    }
+
+    public double getKickerVoltage() {
+        return m_kickerMotor.getMotorVoltage().getValueAsDouble();
+    }
+
+    public double getKickerTargetVoltage() {
+        return m_kickerMotorVoltage;
+    }
+
     @Override
     public void periodic() {
         setVoltageIfShooting();
