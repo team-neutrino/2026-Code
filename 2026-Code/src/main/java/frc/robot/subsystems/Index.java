@@ -91,6 +91,13 @@ public class Index extends SubsystemBase {
         });
     }
 
+    public Command feedShooter() {
+        return run(() -> {
+            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+            m_kickerMotorVoltage = KICKER_VOLTAGE;
+        });
+    }
+
     public Command defaultCommand() {
         return run(() -> {
         });
