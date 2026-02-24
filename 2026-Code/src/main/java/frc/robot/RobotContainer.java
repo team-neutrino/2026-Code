@@ -41,6 +41,7 @@ public class RobotContainer {
     m_driverController.start().whileTrue(swerve.resetYaw());
 
     m_buttonController.a().onTrue(shooter.resetHood());
+    m_buttonController.b().whileTrue(SuperstructureFactory.Shuttle());
     m_buttonController.x().whileTrue(SuperstructureFactory.FeedShooter());
     m_buttonController.leftTrigger().toggleOnTrue(IntakeFactory.deployAndRunIntake());
     m_buttonController.rightTrigger().toggleOnTrue(IntakeFactory.deployAndRunOuttake());
