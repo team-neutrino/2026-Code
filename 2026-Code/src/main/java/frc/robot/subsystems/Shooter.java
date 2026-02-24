@@ -349,6 +349,12 @@ public class Shooter extends SubsystemBase {
     );
   }
 
+  public Command shuttle() {
+    return run(() -> {
+      m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
+    });
+  }
+
   public Command defaultCommand() {
     return run(() -> {
       if (!swerve.inNeutralOrOpposingZone()) {
