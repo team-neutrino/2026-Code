@@ -56,7 +56,7 @@ public class Index extends SubsystemBase {
         }
     }
 
-    public double getSpindexerVoltage() {
+    public double getSpindexerCurrentVoltage() {
         return m_spindexerMotor.getMotorVoltage().getValueAsDouble();
     }
 
@@ -64,7 +64,7 @@ public class Index extends SubsystemBase {
         return m_spindexerMotorVoltage;
     }
 
-    public double getKickerVoltage() {
+    public double getKickerCurrentVoltage() {
         return m_kickerMotor.getMotorVoltage().getValueAsDouble();
     }
 

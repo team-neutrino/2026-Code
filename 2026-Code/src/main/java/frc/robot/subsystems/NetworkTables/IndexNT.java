@@ -9,26 +9,26 @@ import frc.robot.subsystems.Index;
 public class IndexNT extends Index {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
-    DoubleTopic spindexerVoltage = nt.getDoubleTopic("/index/spindexer_voltage");
+    DoubleTopic spindexerCurrentVoltage = nt.getDoubleTopic("/index/spindexer_current_voltage");
     DoubleTopic spindexerTargetVoltage = nt.getDoubleTopic("/index/spindexer_target_voltage");
-    DoubleTopic kickerVoltage = nt.getDoubleTopic("/index/kicker_voltage");
+    DoubleTopic kickerCurrentVoltage = nt.getDoubleTopic("/index/kicker_current_voltage");
     DoubleTopic kickerTargetVoltage = nt.getDoubleTopic("/index/kicker_target_voltage");
 
-    final DoublePublisher spindexerVoltagePub;
+    final DoublePublisher spindexerCurrentVoltagePub;
     final DoublePublisher spindexerTargetVoltagePub;
 
-    final DoublePublisher kickerVoltagePub;
+    final DoublePublisher kickerCurrentVoltagePub;
     final DoublePublisher kickerTargetVoltagePub;
 
     public IndexNT() {
-        spindexerVoltagePub = spindexerVoltage.publish();
-        spindexerVoltagePub.setDefault(0.0);
+        spindexerCurrentVoltagePub = spindexerCurrentVoltage.publish();
+        spindexerCurrentVoltagePub.setDefault(0.0);
 
         spindexerTargetVoltagePub = spindexerTargetVoltage.publish();
         spindexerTargetVoltagePub.setDefault(0.0);
 
-        kickerVoltagePub = kickerVoltage.publish();
-        kickerVoltagePub.setDefault(0.0);
+        kickerCurrentVoltagePub = kickerCurrentVoltage.publish();
+        kickerCurrentVoltagePub.setDefault(0.0);
 
         kickerTargetVoltagePub = kickerTargetVoltage.publish();
         kickerTargetVoltagePub.setDefault(0.0);
@@ -39,10 +39,10 @@ public class IndexNT extends Index {
         super.periodic();
         final long now = NetworkTablesJNI.now();
 
-        spindexerVoltagePub.set(getSpindexerVoltage(), now);
+        spindexerCurrentVoltagePub.set(getSpindexerCurrentVoltage(), now);
         spindexerTargetVoltagePub.set(getSpindexerTargetVoltage(), now);
 
-        kickerVoltagePub.set(getKickerVoltage(), now);
+        kickerCurrentVoltagePub.set(getKickerCurrentVoltage(), now);
         kickerTargetVoltagePub.set(getKickerTargetVoltage(), now);
     }
 }
