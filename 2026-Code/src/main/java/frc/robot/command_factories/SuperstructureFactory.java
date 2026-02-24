@@ -14,4 +14,8 @@ public class SuperstructureFactory {
         return (kicker.kickWhenPress()
                 .alongWith(index.spinWhenPress()));
     }
+
+    public static Command Shuttle() {
+        return (kicker.kickWhenPress().alongWith(shooter.shuttle()));
+    }
 }
