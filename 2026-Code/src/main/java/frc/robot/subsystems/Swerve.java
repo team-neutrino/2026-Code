@@ -154,7 +154,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     public boolean inNeutralOrOpposingZone() {
         double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude();
 
-        if (GlobalConstants.RED_ALLIANCE.get()) {
+        if (GlobalConstants.RED_ALLIANCE.isPresent() && GlobalConstants.RED_ALLIANCE.get()) {
             return robotX < ALLIANCE_ZONE_RED;
         } else {
             return robotX > ALLIANCE_ZONE_BLUE;
