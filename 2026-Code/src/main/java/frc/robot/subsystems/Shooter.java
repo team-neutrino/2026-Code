@@ -282,6 +282,10 @@ public class Shooter extends SubsystemBase {
     return Math.abs(plus * 57.295);
   }
 
+  public double getInterpolatedRPM() {
+    return m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(swerve.getFromHubToTurret()).getValue();
+  }
+
   @Override
   public void periodic() {
     m_filteredSpeed = SHOOTER_RPM_NOISE * m_filteredSpeed

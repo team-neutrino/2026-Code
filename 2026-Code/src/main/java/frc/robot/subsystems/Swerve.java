@@ -89,6 +89,14 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getPigeon2().getAngularVelocityXWorld().getValueAsDouble();
     }
 
+    public double getAccelerationX() {
+        return getPigeon2().getAccelerationX().getValueAsDouble();
+    }
+
+    public double getAccelerationY() {
+        return getPigeon2().getAccelerationY().getValueAsDouble();
+    }
+
     public double getYawRadians() {
         return MathUtil.angleModulus(Math.toRadians(getPigeon2().getYaw().getValueAsDouble()));
     }
