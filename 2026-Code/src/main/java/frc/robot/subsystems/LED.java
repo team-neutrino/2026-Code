@@ -3,11 +3,19 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 import static edu.wpi.first.wpilibj.RobotController.*;
 
 import static frc.robot.util.Constants.LEDConstants.*;
-import frc.robot.util.Subsystems;
+
+import java.util.HashMap;
+import java.util.Optional;
+
+import static frc.robot.util.Subsystems.*;
 import frc.robot.util.HubActiveStatus;
+import frc.robot.util.ShooterArbiter;
+import frc.robot.util.Constants.ShooterConstants;
 
 import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.hardware.CANdle;
@@ -21,18 +29,10 @@ public class LED extends SubsystemBase {
 
     private boolean m_isDisabled;
     private double m_gameTime;
-    private HubActiveStatus m_hub_status = Subsystems.hubState;
-    private Index m_index = Subsystems.index;
+    private HubActiveStatus m_hub_status = hubState;
+    private Index m_index = index;
 
     private Debouncer m_debouncer = new Debouncer(VOLTAGE_WARNING_DEBOUNCED_TIME);
-
-    private RGBWColor white = new RGBWColor(64, 64, 64); // blink before shift changes
-    private RGBWColor red = new RGBWColor(64, 0, 0); // red hub
-    private RGBWColor orange = new RGBWColor(84, 18, 0);
-    private RGBWColor yellow = new RGBWColor(64, 64, 0);
-    private RGBWColor green = new RGBWColor(0, 64, 0); // full hopper
-    private RGBWColor blue = new RGBWColor(0, 0, 64); // blue hub
-    private RGBWColor purple = new RGBWColor(64, 0, 64); // default (when both hubs active: auton, transition, endgame)
 
     public LED() {
         CANdleConfiguration configAll = new CANdleConfiguration();
@@ -66,31 +66,28 @@ public class LED extends SubsystemBase {
                 m_gameTime >= 105)
                 || (m_gameTime <= 85 && m_gameTime >= 80) || (m_gameTime <= 60 && m_gameTime >= 55)
                 || (m_gameTime <= 35 && m_gameTime >= 30)) {
-            m_candle.setControl(new StrobeAnimation(START_INDEX, END_INDEX).withColor(white).withSlot(0));
+            m_candle.setControl(new StrobeAnimation(START_INDEX, END_INDEX).withColor(WHITE).withSlot(0));
         }
 
         // battery voltage under 12 for more than a minute (not during a match)
         else if (under12For1() && !DriverStation.isFMSAttached()) {
-            m_candle.setControl(new SingleFadeAnimation(START_INDEX, END_INDEX).withColor(orange).withSlot(0));
+            m_candle.setControl(new SingleFadeAnimation(START_INDEX, END_INDEX).withColor(ORANGE).withSlot(0));
             System.out.println("Battery under 12V for 1 minute... Change the battery!!!");
-        }
-
-        // when hopper full = green
-        else if (m_index.fullCapacity()) {
-            m_candle.setControl(new EmptyAnimation(0));
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(green));
+        }else if (!shooterArbiter.readyToFire()){
+            HashMap<ShooterConstants.shooterConditions, Boolean> conditions = shooterArbiter.getConditions();
+            ShooterConstants.shooterConditions[] shooterValues = ShooterConstants.shooterConditions.values();
         }
 
         // red hub active
         else if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
             m_candle.setControl(new EmptyAnimation(0));
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(red));
+            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(RED));
         }
 
         // blue hub active
         else if (m_hub_status.isBlueHubActive() && !m_hub_status.isRedHubActive()) {
             m_candle.setControl(new EmptyAnimation(0));
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(blue));
+            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(BLUE));
         }
 
         // rainbow if disabled and not connected to FMS
@@ -101,7 +98,7 @@ public class LED extends SubsystemBase {
         // default to purple (auton, transition shift, endgame)
         else {
             m_candle.setControl(new EmptyAnimation(0));
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(purple));
+            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(PURPLE));
         }
 
         System.out.println("LEDing");

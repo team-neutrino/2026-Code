@@ -2,6 +2,9 @@ package frc.robot.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.reduxrobotics.frames.ShortArrayFrame.ShortArrayToType;
+
 import static frc.robot.util.Constants.ShooterConstants.*;
 
 /**
@@ -39,12 +42,16 @@ public class ShooterArbiter {
     public boolean readyToFire() {
         // for (Map.Entry<shooterConditions, Boolean> val : m_conditions.entrySet()) {
 
-        // if (!val.getValue()) {
-        // System.out.println(val.getKey());
-        // }
+        //     if (!val.getValue()) {
+        //         System.out.println(val.getKey());
+        //     }
         // }
         // uncomment for debugging
         return !(m_conditions.containsValue(false));
+    }
+
+    public HashMap<shooterConditions, Boolean> getConditions(){
+        return m_conditions;
     }
 
     /**
