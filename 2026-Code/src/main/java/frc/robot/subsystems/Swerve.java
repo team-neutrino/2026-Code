@@ -190,33 +190,47 @@ public class Swerve extends CommandSwerveDrivetrain {
         return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
     }
 
+    // Define these at the top of your Subsystem class
+    private ChassisSpeeds lastSpeeds = new ChassisSpeeds();
+    private static final double LOOP_TIME = 0.02; // 20ms standard
+
     public Pose2d getProjectedPose(double exitVelocity) {
-        double latencyFactor = 0;
         Pose2d currentPose = getCurrentPose();
         ChassisSpeeds currentSpeeds = getChassisSpeeds();
-        double lookAheadTime = 0.0;
-        Translation2d currentTranslation = currentPose.getTranslation();
+
+        double ax = (currentSpeeds.vxMetersPerSecond - lastSpeeds.vxMetersPerSecond) / LOOP_TIME;
+        double ay = (currentSpeeds.vyMetersPerSecond - lastSpeeds.vyMetersPerSecond) / LOOP_TIME;
+
         Optional<Alliance> alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            Translation2d hubLocation = alliance.get() == Alliance.Blue ? BLUE_HUB.getTranslation()
-                    : RED_HUB.getTranslation();
-            for (int i = 0; i < 2; i++) {
-                Translation2d trialTranslation = currentTranslation.plus(
-                        new Translation2d(
-                                currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                                currentSpeeds.vyMetersPerSecond * lookAheadTime));
+        if (alliance.isEmpty())
+            return currentPose;
 
-                double distance = trialTranslation.getDistance(hubLocation);
-                lookAheadTime = (distance / exitVelocity) + latencyFactor;
-            }
-            Translation2d finalProjectedTranslation = currentTranslation.plus(
-                    new Translation2d(
-                            -currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                            -currentSpeeds.vyMetersPerSecond * lookAheadTime));
+        Translation2d hubLocation = (alliance.get() == Alliance.Blue)
+                ? BLUE_HUB.getTranslation()
+                : RED_HUB.getTranslation();
 
-            return new Pose2d(finalProjectedTranslation, currentPose.getRotation());
+        Translation2d currentTranslation = currentPose.getTranslation();
+
+        double timeOfFlight = 0.0;
+        double mechanicalLatency = 0.05;
+
+        for (int i = 0; i < 2; i++) {
+            double distance = currentTranslation.getDistance(hubLocation);
+            timeOfFlight = (distance / exitVelocity) + mechanicalLatency;
         }
-        return new Pose2d();
+
+        double dx = (currentSpeeds.vxMetersPerSecond * timeOfFlight) + (0.5 * ax * Math.pow(timeOfFlight, 2));
+        double dy = (currentSpeeds.vyMetersPerSecond * timeOfFlight) + (0.5 * ay * Math.pow(timeOfFlight, 2));
+
+        Translation2d virtualTranslation = new Translation2d(
+                currentTranslation.getX() - dx,
+                currentTranslation.getY() - dy);
+
+        Rotation2d targetRotation = hubLocation.minus(virtualTranslation).getAngle();
+
+        lastSpeeds = currentSpeeds;
+
+        return new Pose2d(virtualTranslation, targetRotation);
     }
 
     public double getSpeedMetersPerSecond() {
