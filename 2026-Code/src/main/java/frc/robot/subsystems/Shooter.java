@@ -223,10 +223,10 @@ public class Shooter extends SubsystemBase {
     m_targetAngle = target;
   }
 
-  public double calculateExitVelocity(double efficiency) {
+  public double calculateExitVelocity() {
     double rps = getShooterRPM() / 60.0;
     double surfaceSpeed = rps * FLYWHEEL_CIRCUMFRANCE;
-    return surfaceSpeed * efficiency;
+    return surfaceSpeed;
   }
 
   /**
