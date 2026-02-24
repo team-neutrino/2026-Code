@@ -80,6 +80,7 @@ public class Constants {
         public static final double CURRENT_SPIKE = 20.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double NOT_MOVING_THRESHOLD = 0.1;
+        public static final double NOT_TURNING_THRESHOLD = 10;
         public static final double SHOOTER_RPM_NOISE = 0.9;
 
         // meters shooter math

@@ -23,6 +23,8 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 
 import static frc.robot.util.Constants.GlobalConstants.*;
+import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
 import static frc.robot.util.Constants.SwerveConstants.*;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
@@ -162,6 +164,15 @@ public class Swerve extends CommandSwerveDrivetrain {
     public double getSpeedMetersPerSecond() {
         return Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2)
                 + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2));
+    }
+
+    public double getAngularSpeedDegreesPerSecond() {
+        return Math.abs(Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond));
+    }
+
+    public boolean isNotMovingOrTurning() {
+        return getSpeedMetersPerSecond() < NOT_MOVING_THRESHOLD
+                && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD;
     }
 
     private void configurePathPlanner() {
