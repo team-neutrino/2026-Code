@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.NetworkTables.*;
+import frc.robot.util.jetson.FuelUDPReceiver;
 
 public class Subsystems {
     public static final HubActiveStatus hubState = new HubActiveStatus();
