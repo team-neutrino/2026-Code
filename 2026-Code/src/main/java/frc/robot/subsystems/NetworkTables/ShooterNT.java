@@ -1,7 +1,6 @@
 package frc.robot.subsystems.NetworkTables;
 
 import frc.robot.util.Constants.GlobalConstants;
-import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 import frc.robot.util.PIDTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
 import static frc.robot.util.Subsystems.hubState;
@@ -35,22 +34,18 @@ public class ShooterNT extends Shooter {
 
     private DoubleTopic m_shooterSpeedTopic;
     private DoublePublisher m_shooterSpeedPublisher;
-    private DoubleSubscriber m_shooterSpeedSubscriber;
 
     private DoubleTopic m_shooterTargetTopic;
     private DoublePublisher m_shooterTargetPublisher;
-    private DoubleSubscriber m_shooterTargetSubscriber;
 
     private DoubleTopic m_hoodTargetTopic;
     private DoublePublisher m_hoodTargetPublisher;
-    private DoubleSubscriber m_hoodTargetSubscriber;
 
     private DoubleTopic m_hoodPositionTopic;
     private DoublePublisher m_hoodPositionPublisher;
 
     private DoubleTopic m_hoodCurrentTopic;
     private DoublePublisher m_hoodCurrentPublisher;
-    private DoubleSubscriber m_hoodCurrentSubscriber;
 
     private DoubleTopic m_targetAngleTopic;
     private DoublePublisher m_targetAnglePublisher;
@@ -58,7 +53,6 @@ public class ShooterNT extends Shooter {
 
     private DoubleTopic m_realDistanceTopic;
     private DoublePublisher m_realDistancePublisher;
-    private DoubleSubscriber m_realDistanceSubscriber;
 
     private BooleanTopic m_speedAtTargetTopic;
     private BooleanPublisher m_speedAtTargetPublisher;
@@ -101,31 +95,26 @@ public class ShooterNT extends Shooter {
 
         m_shooterSpeedTopic = m_globalNT.getDoubleTopic("shooter/shooterSpeed");
         m_shooterSpeedPublisher = m_shooterSpeedTopic.publish();
-        m_shooterSpeedSubscriber = m_shooterSpeedTopic.subscribe(0.0);
 
         m_shooterTargetTopic = m_globalNT.getDoubleTopic("shooter/shooterTarget");
         m_shooterTargetPublisher = m_shooterTargetTopic.publish();
-        m_shooterTargetSubscriber = m_shooterTargetTopic.subscribe(0.0);
 
         m_hoodTargetTopic = m_globalNT.getDoubleTopic("shooter/hoodTarget");
         m_hoodTargetPublisher = m_hoodTargetTopic.publish();
-        m_hoodTargetSubscriber = m_hoodTargetTopic.subscribe(0.0);
 
         m_hoodPositionTopic = m_globalNT.getDoubleTopic("shooter/hoodPosition");
         m_hoodPositionPublisher = m_hoodPositionTopic.publish();
 
-        m_targetAngleTopic = m_globalNT.getDoubleTopic("shooter/tagetAngle");
+        m_targetAngleTopic = m_globalNT.getDoubleTopic("shooter/targetAngle");
         m_targetAnglePublisher = m_targetAngleTopic.publish();
         m_targetAngleSubscriber = m_targetAngleTopic.subscribe(-1.0);
         m_targetAnglePublisher.set(-1.0);
 
         m_hoodCurrentTopic = m_globalNT.getDoubleTopic("shooter/hoodCurrent");
         m_hoodCurrentPublisher = m_hoodCurrentTopic.publish();
-        m_hoodCurrentSubscriber = m_hoodCurrentTopic.subscribe(0.0);
 
         m_realDistanceTopic = m_globalNT.getDoubleTopic("shooter/distance");
         m_realDistancePublisher = m_realDistanceTopic.publish();
-        m_realDistanceSubscriber = m_realDistanceTopic.subscribe(0.0);
 
         m_speedAtTargetTopic = m_globalNT.getBooleanTopic("shooter/speedAtTarget");
         m_speedAtTargetPublisher = m_speedAtTargetTopic.publish();
