@@ -8,7 +8,7 @@ public class Subsystems {
 
     public static final Climb climb = null;
     public static final Intake intake = new IntakeNT();
-    public static final Index index = new Index();
+    public static final Index index = new IndexNT();
     public static final Vision limelight = new Vision();
     public static final Swerve swerve = new Swerve();
     public static final Shooter shooter = new ShooterNT();

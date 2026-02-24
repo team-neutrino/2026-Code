@@ -11,11 +11,6 @@ import static frc.robot.util.Subsystems.*;
 
 /** Add your docs here. */
 public class SuperstructureFactory {
-    public static Command feedShooter() {
-        return (index.kickWhenPress()
-                .alongWith(index.spinWhenPress()));
-    }
-
     public static Command shuttle() {
         return (index.kickWhenPress().alongWith(shooter.shuttle()));
     }
