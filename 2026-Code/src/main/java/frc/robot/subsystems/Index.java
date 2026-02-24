@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
 
-import static frc.robot.util.Constants.IndexerConstants.*;
+import static frc.robot.util.Constants.IndexConstants.*;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 public class Index extends SubsystemBase {
