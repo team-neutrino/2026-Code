@@ -1,9 +1,14 @@
 package frc.robot.subsystems.NetworkTables;
 
+import frc.robot.util.Constants.GlobalConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 import frc.robot.util.PIDTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
+import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.swerve;
 
+import edu.wpi.first.networktables.BooleanPublisher;
+import edu.wpi.first.networktables.BooleanTopic;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.DoubleTopic;
@@ -54,6 +59,21 @@ public class ShooterNT extends Shooter {
     private DoubleTopic m_realDistanceTopic;
     private DoublePublisher m_realDistancePublisher;
     private DoubleSubscriber m_realDistanceSubscriber;
+
+    private BooleanTopic m_speedAtTargetTopic;
+    private BooleanPublisher m_speedAtTargetPublisher;
+
+    private BooleanTopic m_hoodAtTargetTopic;
+    private BooleanPublisher m_hoodAtTargetPublisher;
+
+    private BooleanTopic m_inAllianceZoneTopic;
+    private BooleanPublisher m_inAllianceZonePublisher;
+
+    private BooleanTopic m_notDrivingTopic;
+    private BooleanPublisher m_notDrivingPublisher;
+
+    private BooleanTopic m_hubActiveTopic;
+    private BooleanPublisher m_hubActivePublisher;
 
     /**
      * Creates a new class to organize network tables related to the Shooter
@@ -107,6 +127,21 @@ public class ShooterNT extends Shooter {
         m_realDistancePublisher = m_realDistanceTopic.publish();
         m_realDistanceSubscriber = m_realDistanceTopic.subscribe(0.0);
 
+        m_speedAtTargetTopic = m_globalNT.getBooleanTopic("shooter/speedAtTarget");
+        m_speedAtTargetPublisher = m_speedAtTargetTopic.publish();
+
+        m_hoodAtTargetTopic = m_globalNT.getBooleanTopic("shooter/hoodAtTarget");
+        m_hoodAtTargetPublisher = m_hoodAtTargetTopic.publish();
+
+        m_inAllianceZoneTopic = m_globalNT.getBooleanTopic("shooter/inAllianceZone");
+        m_inAllianceZonePublisher = m_inAllianceZoneTopic.publish();
+
+        m_notDrivingTopic = m_globalNT.getBooleanTopic("shooter/notDriving");
+        m_notDrivingPublisher = m_notDrivingTopic.publish();
+
+        m_hubActiveTopic = m_globalNT.getBooleanTopic("shooter/hubActive");
+        m_hubActivePublisher = m_hubActiveTopic.publish();
+
         // m_previousShootingKP = SHOOTING_KP;
         // m_previousShootingKI = SHOOTING_KI;
         // m_previousShootingKD = SHOOTING_KD;
@@ -143,6 +178,17 @@ public class ShooterNT extends Shooter {
         m_hoodCurrentPublisher.set(getHoodCurrent());
         m_realDistancePublisher.set(swerve.getFromHubToTurret());
         m_tuningAngle = m_targetAngleSubscriber.get();
+        m_speedAtTargetPublisher.set(atTargetRPM());
+        m_hoodAtTargetPublisher.set(atTargetPosition());
+        m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone());
+        m_notDrivingPublisher.set(swerve.isNotMovingOrTurning());
+        if (hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+            if (GlobalConstants.RED_ALLIANCE.get()) {
+                m_hubActivePublisher.set(hubState.isRedHubActive());
+            } else {
+                m_hubActivePublisher.set(hubState.isBlueHubActive());
+            }
+        }
     }
 
 }
