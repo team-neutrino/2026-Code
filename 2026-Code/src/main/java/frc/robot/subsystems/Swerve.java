@@ -165,32 +165,33 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
     }
 
-    public Pose2d getProjectedPose(
-            double exitVelocity) {
-
-        double latencyFactor = 0.2;
+    public Pose2d getProjectedPose(double exitVelocity) {
+        double latencyFactor = 0;
         Pose2d currentPose = getCurrentPose();
         ChassisSpeeds currentSpeeds = getChassisSpeeds();
         double lookAheadTime = 0.0;
         Translation2d currentTranslation = currentPose.getTranslation();
         Optional<Alliance> alliance = DriverStation.getAlliance();
-        Translation2d hubLocation = alliance.get() == Alliance.Blue ? BLUE_HUB.getTranslation()
-                : RED_HUB.getTranslation();
-        for (int i = 0; i < 3; i++) {
-            Translation2d trialTranslation = currentTranslation.plus(
+        if (alliance.isPresent()) {
+            Translation2d hubLocation = alliance.get() == Alliance.Blue ? BLUE_HUB.getTranslation()
+                    : RED_HUB.getTranslation();
+            for (int i = 0; i < 2; i++) {
+                Translation2d trialTranslation = currentTranslation.plus(
+                        new Translation2d(
+                                currentSpeeds.vxMetersPerSecond * lookAheadTime,
+                                currentSpeeds.vyMetersPerSecond * lookAheadTime));
+
+                double distance = trialTranslation.getDistance(hubLocation);
+                lookAheadTime = (distance / exitVelocity) + latencyFactor;
+            }
+            Translation2d finalProjectedTranslation = currentTranslation.plus(
                     new Translation2d(
-                            currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                            currentSpeeds.vyMetersPerSecond * lookAheadTime));
+                            -currentSpeeds.vxMetersPerSecond * lookAheadTime,
+                            -currentSpeeds.vyMetersPerSecond * lookAheadTime));
 
-            double distance = trialTranslation.getDistance(hubLocation);
-            lookAheadTime = (distance / exitVelocity) + latencyFactor;
+            return new Pose2d(finalProjectedTranslation, currentPose.getRotation());
         }
-        Translation2d finalProjectedTranslation = currentTranslation.plus(
-                new Translation2d(
-                        currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                        currentSpeeds.vyMetersPerSecond * lookAheadTime));
-
-        return new Pose2d(finalProjectedTranslation, currentPose.getRotation());
+        return new Pose2d();
     }
 
     public double getSpeedMetersPerSecond() {
