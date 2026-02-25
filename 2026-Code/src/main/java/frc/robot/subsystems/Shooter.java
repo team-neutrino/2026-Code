@@ -36,7 +36,8 @@ public class Shooter extends SubsystemBase {
 
   private TalonFXConfiguration m_shooterMotorConfig = new TalonFXConfiguration();
   private TalonFXConfiguration m_hoodMotorConfig = new TalonFXConfiguration();
-  private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
+  private final CurrentLimitsConfigs m_shooterCurrentLimitConfig = new CurrentLimitsConfigs();
+  private final CurrentLimitsConfigs m_hoodCurrentLimitConfig = new CurrentLimitsConfigs();
 
   private double m_targetAngle = START_POSITION;
 
@@ -58,13 +59,17 @@ public class Shooter extends SubsystemBase {
    * @return A new shooter. What else would it give you
    */
   public Shooter() {
-    m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
+    m_shooterCurrentLimitConfig.withSupplyCurrentLimit(SHOOTER_CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
-        .withStatorCurrentLimit(CURRENT_LIMIT)
+        .withStatorCurrentLimit(SHOOTER_CURRENT_LIMIT)
         .withStatorCurrentLimitEnable(true);
-    m_shooterMotorConfig.CurrentLimits = m_currentLimitConfig;
+    m_shooterMotorConfig.CurrentLimits = m_shooterCurrentLimitConfig;
 
-    m_hoodMotorConfig.CurrentLimits = m_currentLimitConfig;
+    m_hoodCurrentLimitConfig.withSupplyCurrentLimit(HOOD_CURRENT_LIMIT)
+        .withSupplyCurrentLimitEnable(true)
+        .withStatorCurrentLimit(HOOD_CURRENT_LIMIT)
+        .withStatorCurrentLimitEnable(true);
+    m_hoodMotorConfig.CurrentLimits = m_hoodCurrentLimitConfig;
 
     m_shooterMotorConfig.Slot0.kP = SHOOTING_KP;
     m_shooterMotorConfig.Slot0.kI = SHOOTING_KI;
