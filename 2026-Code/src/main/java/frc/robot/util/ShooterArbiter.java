@@ -42,15 +42,15 @@ public class ShooterArbiter {
     public boolean readyToFire() {
         // for (Map.Entry<shooterConditions, Boolean> val : m_conditions.entrySet()) {
 
-        //     if (!val.getValue()) {
-        //         System.out.println(val.getKey());
-        //     }
+        // if (!val.getValue()) {
+        // System.out.println(val.getKey());
+        // }
         // }
         // uncomment for debugging
         return !(m_conditions.containsValue(false));
     }
 
-    public HashMap<shooterConditions, Boolean> getConditions(){
+    public HashMap<shooterConditions, Boolean> getConditions() {
         return m_conditions;
     }
 

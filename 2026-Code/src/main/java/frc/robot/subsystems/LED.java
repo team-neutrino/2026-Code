@@ -71,36 +71,48 @@ public class LED extends SubsystemBase {
 
         // battery voltage under 12 for more than a minute (not during a match)
         else if (under12For1() && !DriverStation.isFMSAttached()) {
-            m_candle.setControl(new SingleFadeAnimation(START_INDEX, END_INDEX).withColor(ORANGE).withSlot(0));
+            m_candle.setControl(new SingleFadeAnimation(START_INDEX,
+                    END_INDEX).withColor(ORANGE).withSlot(0));
             System.out.println("Battery under 12V for 1 minute... Change the battery!!!");
-        }else if (!shooterArbiter.readyToFire()){
+        } else if (!shooterArbiter.readyToFire()) {
             HashMap<ShooterConstants.shooterConditions, Boolean> conditions = shooterArbiter.getConditions();
             ShooterConstants.shooterConditions[] shooterValues = ShooterConstants.shooterConditions.values();
+            for (int i = 0; i < shooterValues.length; i++) {
+                if (!conditions.get(shooterValues[i])) {
+                    m_candle.setControl(
+                            new SolidColor(START_INDEX, END_INDEX).withColor(COLOR_MAP.get(shooterValues[i])));
+                    break;
+                }
+            }
+        } else {
+            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(GREEN));
         }
 
         // red hub active
-        else if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
-            m_candle.setControl(new EmptyAnimation(0));
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(RED));
-        }
+        // else if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
+        // m_candle.setControl(new EmptyAnimation(0));
+        // m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(RED));
+        // }
 
         // blue hub active
-        else if (m_hub_status.isBlueHubActive() && !m_hub_status.isRedHubActive()) {
-            m_candle.setControl(new EmptyAnimation(0));
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(BLUE));
-        }
+        // else if (m_hub_status.isBlueHubActive() && !m_hub_status.isRedHubActive()) {
+        // m_candle.setControl(new EmptyAnimation(0));
+        // m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(BLUE));
+        // }
 
         // rainbow if disabled and not connected to FMS
-        else if (m_isDisabled && !DriverStation.isFMSAttached()) {
-            m_candle.setControl(new RainbowAnimation(START_INDEX, END_INDEX).withSlot(0).withBrightness(0.1));
-        }
+        // else if (m_isDisabled && !DriverStation.isFMSAttached()) {
+        // m_candle.setControl(new RainbowAnimation(START_INDEX,
+        // END_INDEX).withSlot(0).withBrightness(0.1));
+        // }
 
         // default to purple (auton, transition shift, endgame)
-        else {
-            m_candle.setControl(new EmptyAnimation(0));
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(PURPLE));
-        }
+        // else {
+        // m_candle.setControl(new EmptyAnimation(0));
+        // m_candle.setControl(new SolidColor(START_INDEX,
+        // END_INDEX).withColor(PURPLE));
+        // }
 
-        System.out.println("LEDing");
+        // System.out.println("LEDdon'ting");
     }
 }

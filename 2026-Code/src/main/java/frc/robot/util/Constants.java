@@ -366,18 +366,12 @@ public class Constants {
         public static final RGBWColor BLUE = new RGBWColor(0, 0, 64);
         public static final RGBWColor PURPLE = new RGBWColor(64, 0, 64);
 
-        public static final HashMap<ShooterConstants.shooterConditions, RGBWColor> COLOR_MAP = new HashMap<ShooterConstants.shooterConditions, RGBWColor>(Map.ofEntries(
-            Map.entry(ShooterConstants.shooterConditions.SHOOTER_SPEED_CORRECT, ORANGE),
-            Map.entry(ShooterConstants.shooterConditions.HOOD_ANGLE_CORRECT, YELLOW),
-            Map.entry(ShooterConstants.shooterConditions.NOT_DRIVING, GREEN),
-            Map.entry(ShooterConstants.shooterConditions.IN_ALLIANCE_ZONE, BLUE),
-            Map.entry(ShooterConstants.shooterConditions.HUB_ACTIVE, PURPLE)
-        ));
-
-        public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
-                Map.entry(0.0, 3000.0),
-                Map.entry(3.5, 3250.0),
-                Map.entry(4.0, 3550.0),
-                Map.entry(23.9, 5800.0)));
+        public static final HashMap<ShooterConstants.shooterConditions, RGBWColor> COLOR_MAP = new HashMap<ShooterConstants.shooterConditions, RGBWColor>(
+                Map.ofEntries(
+                        Map.entry(ShooterConstants.shooterConditions.SHOOTER_SPEED_CORRECT, RED),
+                        Map.entry(ShooterConstants.shooterConditions.HOOD_ANGLE_CORRECT, ORANGE),
+                        Map.entry(ShooterConstants.shooterConditions.NOT_DRIVING, BLUE),
+                        Map.entry(ShooterConstants.shooterConditions.IN_ALLIANCE_ZONE, YELLOW),
+                        Map.entry(ShooterConstants.shooterConditions.HUB_ACTIVE, PURPLE)));
     }
 }
