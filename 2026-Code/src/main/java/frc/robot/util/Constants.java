@@ -239,6 +239,7 @@ public class Constants {
     }
 
     public static class SwerveConstants {
+        public static final double SLEW_LIMIT = 4.0;
         public static final double GYRO_SCALAR_Z = -3.9;
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
