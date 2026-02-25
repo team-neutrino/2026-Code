@@ -192,7 +192,7 @@ public class Constants {
 
         // Camera pose offsets in meters
         public static final double FRONT_FORWARD_OFFSET = 0.0325374;
-        public static final double FRONT_SIDE_OFFSET = 0.0;
+        public static final double FRONT_SIDE_OFFSET = -0.047625;
         public static final double FRONT_HEIGHT_OFFSET = 0.7458202;
         public static final double FRONT_ROLL_OFFSET = 0.0;
         public static final double FRONT_PITCH_OFFSET = 27.5;
@@ -206,33 +206,33 @@ public class Constants {
         public static final double BACK_YAW_OFFSET = 180;
 
         public static final double LEFT_FORWARD_OFFSET = -0.260255;
-        public static final double LEFT_SIDE_OFFSET = 0.308226;
+        public static final double LEFT_SIDE_OFFSET = -0.308226;
         public static final double LEFT_HEIGHT_OFFSET = 0.208553;
         public static final double LEFT_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double LEFT_PITCH_OFFSET = 31; // Pitch (degrees)
         public static final double LEFT_YAW_OFFSET = 74; // Yaw (degrees)
 
         public static final double RIGHT_FORWARD_OFFSET = -0.260255; // Forward offset (meters)
-        public static final double RIGHT_SIDE_OFFSET = -0.308226; // Side offset (meters)
+        public static final double RIGHT_SIDE_OFFSET = 0.308226; // Side offset (meters)
         public static final double RIGHT_HEIGHT_OFFSET = 0.208553; // Height offset (meters)
         public static final double RIGHT_ROLL_OFFSET = 0; // Roll (degrees)
         public static final double RIGHT_PITCH_OFFSET = 31; // Pitch (degrees)
         public static final double RIGHT_YAW_OFFSET = 286; // Yaw (degrees)
 
-        public static final double MINIMUM_XY_STD_DEV_LL4 = 0;
-        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0;
-        public static final double MINIMUM_XY_STD_DEV_LL3G = 0;
-        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0;
-        public static final double MINIMUM_XY_STD_DEV_LL3 = 0;
-        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0;
-        public static final double ERROR_FACTOR_LL4 = 0;
-        public static final double ERROR_FACTOR_LL3 = 0;
-        public static final double ERROR_FACTOR_LL3G = 0;
+        public static final double MINIMUM_XY_STD_DEV_LL4 = 1.1;
+        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0.2;
+        public static final double MINIMUM_XY_STD_DEV_LL3G = 1.5;
+        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.4;
+        public static final double MINIMUM_XY_STD_DEV_LL3 = 1.8;
+        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.6;
+        public static final double ERROR_FACTOR_LL4 = 0.5;
+        public static final double ERROR_FACTOR_LL3 = 0.9;
+        public static final double ERROR_FACTOR_LL3G = 0.7;
 
         public static final double BUMP_MINIMUM_THRESHOLD = 7;
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
         public static final double MT1_WEIGHT_YAW = .7;
-        public static final double PIGEON_SEED_PERIOD = 10;
+        public static final double PIGEON_SEED_PERIOD = 5;
         public static final double EXTERNAL_WEIGHT = 0.01; // larger number (0-1) = lower trust in internal IMU
     }
 

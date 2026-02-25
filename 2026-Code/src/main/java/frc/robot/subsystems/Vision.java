@@ -101,6 +101,8 @@ public class Vision extends SubsystemBase {
     m_leftYawPub = m_leftYaw.publish(PubSubOption.keepDuplicates(false));
     m_rightYawPub = m_rightYaw.publish(PubSubOption.keepDuplicates(false));
 
+    m_timer.start();
+
     limelightInitialization();
   }
 
@@ -210,8 +212,7 @@ public class Vision extends SubsystemBase {
     final double roll_rate = swerve.getRollRate();
 
     for (Limelight limelight : limelights) {
-      limelight.setRobotOrientation(yaw_degrees, pitch_degrees, roll_degrees,
-          yaw_rate, pitch_rate, roll_rate);
+      limelight.setRobotOrientation(yaw_degrees, yaw_rate, pitch_degrees, pitch_rate, roll_degrees, roll_rate);
       limelight.updateFusionMegatag();
       limelight.updatePigeonSeed();
       limelight.adjustIMUMode();
@@ -319,7 +320,7 @@ public class Vision extends SubsystemBase {
       return estimateMT2 != null
           && estimateMT2.tagCount != 0
           && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI
-          && frame > lastFrame
+          // && frame > lastFrame
           && !Double.isNaN(estimateMT2.avgTagDist)
           && poseInField(estimateMT2);
     }
