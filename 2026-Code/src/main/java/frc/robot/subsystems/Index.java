@@ -46,13 +46,6 @@ public class Index extends SubsystemBase {
         m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
     }
 
-    public void setVoltageIfShooting() {
-        if (shooterArbiter.readyToFire()) {
-            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-            m_kickerMotorVoltage = KICKER_VOLTAGE;
-        }
-    }
-
     public double getSpindexerCurrentVoltage() {
         return m_spindexerMotor.getMotorVoltage().getValueAsDouble();
     }
@@ -71,7 +64,6 @@ public class Index extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setVoltageIfShooting();
         m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
         m_kickerMotor.setVoltage(m_kickerMotorVoltage);
     }
@@ -97,8 +89,13 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            m_spindexerMotorVoltage = 0.0;
-            m_kickerMotorVoltage = 0.0;
+            if (shooterArbiter.readyToFire()) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+                m_kickerMotorVoltage = KICKER_VOLTAGE;
+            } else {
+                m_spindexerMotorVoltage = 0.0;
+                m_kickerMotorVoltage = 0.0;
+            }
         });
     }
 }
