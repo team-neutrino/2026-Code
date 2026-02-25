@@ -41,7 +41,7 @@ import frc.robot.util.Subsystems;
 
 public class Swerve extends CommandSwerveDrivetrain {
 
-    private SlewRateLimiter m_slewLimit = new SlewRateLimiter(4, -Integer.MAX_VALUE, 0);
+    private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -241,10 +241,12 @@ public class Swerve extends CommandSwerveDrivetrain {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
+            double magnitude = Math.hypot(forward, left) * MAX_SPEED;
+            magnitude = m_slewLimit.calculate(magnitude);
 
             setControl(SwerveRequestStash.drive
-                    .withVelocityX(forward * MAX_SPEED)
-                    .withVelocityY(left * MAX_SPEED)
+                    .withVelocityX(forward * magnitude)
+                    .withVelocityY(left * magnitude)
                     .withRotationalRate(rotation * MAX_ROTATION_SPEED));
         });
     }
