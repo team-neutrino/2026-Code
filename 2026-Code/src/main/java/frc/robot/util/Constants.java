@@ -64,41 +64,29 @@ public class Constants {
         public static final double HOOD_KP = 300;
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
-        public static final double ALLOWED_ERROR = 2.5;
-        public static final double ALLOWED_RPM_ERROR = 80;
+        public static final double HOOD_ALLOWED_ERROR = 2.5;
+        public static final double RPM_ALLOWED_ERROR = 80;
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
         public static final double START_POSITION = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
+        public static final double FAST_SHOOTING_RPM = 4000;
         public static final double CURRENT_SPIKE = 20.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double NOT_MOVING_THRESHOLD = 0.1;
         public static final double NOT_TURNING_THRESHOLD = 10;
         public static final double SHOOTER_RPM_NOISE = 0.9;
-        public static final double SHOOTER_RPM = 4000;
+
+        public static final double SHUTTLE_SHOOTING_SPEED = 6000;
+        public static final double SHUTTLE_ANGLE = 25;
+        public static final double MAX_SAFE_HOOD_ANGLE = 25;
 
         // meters shooter math
         public static final double FLYWHEEL_DIAMETER = 0.1016;
         public static final double FLYWHEEL_CIRCUMFRANCE = (FLYWHEEL_DIAMETER * Math.PI);
         public static final double Y_DISPLACEMENT = 1.2376;
         public static final double GRAVITY = -9.807;
-
-        public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
-            RADIAL_CLOSE,
-            RADIAL_FAR,
-            WALL,
-            DEPOT,
-            OUTPOST
-        };
-
-        public static final InterpolatingDoubleTreeMap CONSTANT_SPEED_HOOD = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 6.5),
-                Map.entry(1.64, 10.0),
-                Map.entry(2.33, 13.5),
-                Map.entry(2.68, 15.0),
-                Map.entry(3.36, 30.0),
-                Map.entry(4.0, 30.0));
 
         public static final InterpolatingDoubleTreeMap SLOW_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 6.5),
@@ -119,21 +107,15 @@ public class Constants {
                 Map.entry(5.7, 21.0));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
-                Map.entry(0.0, 3000.0),
-                Map.entry(3.5, 4000.0),
-                Map.entry(4.0, 4000.0),
-                Map.entry(23.9, 5800.0)));
+                Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
+                Map.entry(3.5, FAST_SHOOTING_RPM),
+                Map.entry(4.0, FAST_SHOOTING_RPM)));
 
         public static TreeMap<Double, InterpolatingDoubleTreeMap> SPEED_HOOD_INTERPOLATION = new TreeMap<Double, InterpolatingDoubleTreeMap>(
                 Map.ofEntries(
                         Map.entry(0.0, SLOW_INTERPOLATION_HOOD),
-                        Map.entry(3000.0, SLOW_INTERPOLATION_HOOD),
-                        Map.entry(4000.0, FAST_INTERPOLATION_HOOD),
-                        Map.entry(5800.0, FAST_INTERPOLATION_HOOD)));
-
-        public static final double SHUTTLE_SHOOTING_SPEED = 6000;
-        public static final double SHUTTLE_ANGLE = 25;
-        public static final double MAX_SAFE_HOOD_ANGLE = 25;
+                        Map.entry(DEFAULT_SHOOTING_SPEED, SLOW_INTERPOLATION_HOOD),
+                        Map.entry(FAST_SHOOTING_RPM, FAST_INTERPOLATION_HOOD)));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,

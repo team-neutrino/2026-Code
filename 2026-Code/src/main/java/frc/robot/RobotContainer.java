@@ -11,7 +11,6 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.util.Subsystems;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.util.Constants.ShooterConstants.SHUTTLE_SHOOTING_SPEED;
 import static frc.robot.util.Subsystems.*;
 
 public class RobotContainer {

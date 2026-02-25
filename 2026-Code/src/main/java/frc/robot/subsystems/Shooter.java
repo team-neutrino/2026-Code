@@ -5,12 +5,9 @@
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.ShooterConstants.*;
-import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
-import frc.robot.util.Constants.ShooterConstants;
-import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -40,11 +37,8 @@ public class Shooter extends SubsystemBase {
   private TalonFXConfiguration m_shooterMotorConfig = new TalonFXConfiguration();
   private TalonFXConfiguration m_hoodMotorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
-  private final CurrentLimitsConfigs m_hoodCurrentLimitConfig = new CurrentLimitsConfigs();
 
   private double m_targetAngle = START_POSITION;
-
-  public double m_tuningAngle;
 
   private double m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
 
@@ -53,6 +47,10 @@ public class Shooter extends SubsystemBase {
   private boolean m_recentering = false;
 
   private double m_filteredSpeed;
+
+  public double m_tuningAngle;
+
+  public double m_tuningSpeed;
 
   /**
    * Creates a new Shooter.
@@ -187,7 +185,7 @@ public class Shooter extends SubsystemBase {
    * @return True if the shooter is at the target position, False if it is not.
    */
   public boolean atTargetPosition() {
-    return Math.abs(getHoodAngle() - m_targetAngle) <= ALLOWED_ERROR;
+    return Math.abs(getHoodAngle() - m_targetAngle) <= HOOD_ALLOWED_ERROR;
   }
 
   /**
@@ -196,7 +194,7 @@ public class Shooter extends SubsystemBase {
    * @return True if the shooter is at the target RPM, false if it is not.
    */
   public boolean atTargetRPM() {
-    return Math.abs(getShooterRPM() - m_targetShooterRpm) <= ALLOWED_RPM_ERROR;
+    return Math.abs(getShooterRPM() - m_targetShooterRpm) <= RPM_ALLOWED_ERROR;
   }
 
   /**
@@ -372,8 +370,9 @@ public class Shooter extends SubsystemBase {
         m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
       }
 
+      // Manually tuning hood and speed
       // if (!swerve.inNeutralOrOpposingZone()) {
-      // m_targetShooterRpm = SHOOTER_RPM;
+      // m_targetShooterRpm = m_tuningSpeed;
       // m_targetAngle = m_tuningAngle;
       // }
     });
