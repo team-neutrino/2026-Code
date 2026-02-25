@@ -289,10 +289,10 @@ public class Shooter extends SubsystemBase {
         + (1 - SHOOTER_RPM_NOISE) * (m_shooterMotor.getVelocity().getValueAsDouble()
             * 60.0);
 
-    shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, false);
-    shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, false);
+    shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
+    shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
     if (RED_ALLIANCE.isPresent()) {
-      shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, true);
+      shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
     shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
     swerve.isNotMovingOrTurning());
