@@ -105,28 +105,30 @@ public class Constants {
                 Map.entry(1.64, 10.0),
                 Map.entry(2.33, 13.5),
                 Map.entry(2.68, 15.0),
-                Map.entry(3.36, 30.0),
-                Map.entry(4.0, 30.0));
+                Map.entry(3.36, 25.0),
+                Map.entry(4.0, 25.0));
 
         public static final InterpolatingDoubleTreeMap FAST_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 6.5),
-                Map.entry(1.64, 10.0),
-                Map.entry(2.33, 13.5),
-                Map.entry(2.68, 15.0),
-                Map.entry(3.36, 30.0),
-                Map.entry(4.0, 30.0));
+                Map.entry(0.0, 8.5),
+                Map.entry(1.94, 5.0),
+                Map.entry(2.46, 7.5),
+                Map.entry(3.0, 9.0),
+                Map.entry(3.64, 11.0),
+                Map.entry(4.28, 13.0),
+                Map.entry(4.92, 17.0),
+                Map.entry(5.7, 21.0));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, 3000.0),
-                Map.entry(3.5, 3250.0),
-                Map.entry(4.0, 3550.0),
+                Map.entry(3.5, 4000.0),
+                Map.entry(4.0, 4000.0),
                 Map.entry(23.9, 5800.0)));
 
         public static TreeMap<Double, InterpolatingDoubleTreeMap> SPEED_HOOD_INTERPOLATION = new TreeMap<Double, InterpolatingDoubleTreeMap>(
                 Map.ofEntries(
                         Map.entry(0.0, SLOW_INTERPOLATION_HOOD),
                         Map.entry(3000.0, SLOW_INTERPOLATION_HOOD),
-                        Map.entry(3550.0, FAST_INTERPOLATION_HOOD),
+                        Map.entry(4000.0, FAST_INTERPOLATION_HOOD),
                         Map.entry(5800.0, FAST_INTERPOLATION_HOOD)));
 
         public static final double SHUTTLE_SHOOTING_SPEED = 6000;
