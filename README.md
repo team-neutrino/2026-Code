@@ -119,4 +119,13 @@ Neutral Zone Paths:
 - Depot-side start + end
 - Depot-side start, outpost-side end
 
-## Raspberry Pi
+## LEDs
+White Flashing - Transition Shift
+Orange Fading - Battery Under 12v for 1 minute outside of match
+
+Shooting Conditions:
+Red - Shooter Speed False
+Orange - Hood Angle False
+Blue - Driving
+Purple - Out of Alliance Zone
+Yellow - Hub Inactive
