@@ -126,6 +126,8 @@ Orange Fading - Battery Under 12v for 1 minute outside of match
 Shooting Conditions:
 Red - Shooter Speed False
 Orange - Hood Angle False
-Blue - Driving
-Purple - Out of Alliance Zone
 Yellow - Hub Inactive
+Purple - Out of Alliance Zone
+Blue - Driving
+
+Green - All Conditions True

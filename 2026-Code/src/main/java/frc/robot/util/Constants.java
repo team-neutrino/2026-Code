@@ -370,8 +370,8 @@ public class Constants {
                 Map.ofEntries(
                         Map.entry(ShooterConstants.shooterConditions.SHOOTER_SPEED_CORRECT, RED),
                         Map.entry(ShooterConstants.shooterConditions.HOOD_ANGLE_CORRECT, ORANGE),
-                        Map.entry(ShooterConstants.shooterConditions.NOT_DRIVING, BLUE),
+                        Map.entry(ShooterConstants.shooterConditions.HUB_ACTIVE, YELLOW),
                         Map.entry(ShooterConstants.shooterConditions.IN_ALLIANCE_ZONE, PURPLE),
-                        Map.entry(ShooterConstants.shooterConditions.HUB_ACTIVE, YELLOW)));
+                        Map.entry(ShooterConstants.shooterConditions.NOT_DRIVING, BLUE)));
     }
 }
