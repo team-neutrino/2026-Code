@@ -64,9 +64,22 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "race",
                       "data": {
-                        "pathName": "Far - 3R"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "runIntake"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Far - 3R"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -88,7 +101,7 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -100,7 +113,89 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "DriveToPoint"
+                  "name": "feedShooter"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 5.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "NoMove"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Loop Back - 1L"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "runIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Loop Back - 2L"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "NoMove"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
                 }
               },
               {

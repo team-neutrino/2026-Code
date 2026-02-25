@@ -187,6 +187,31 @@
               }
             ]
           }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "NoMove"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
+                }
+              }
+            ]
+          }
         }
       ]
     }
