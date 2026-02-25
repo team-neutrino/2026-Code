@@ -16,7 +16,7 @@ public class SuperstructureFactory {
     }
 
     public static Command spitFuel() {
-        return index.kickWhenPress().alongWith(index.spinWhenPress())
+        return index.feedShooter()
                 .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE));
     }
 
