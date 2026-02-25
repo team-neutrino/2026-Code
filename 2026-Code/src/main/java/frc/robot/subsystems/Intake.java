@@ -52,6 +52,10 @@ public class Intake extends SubsystemBase {
         return m_targetAngle;
     }
 
+    public double getRollerRPM() {
+        return m_rollerMotor.getVelocity().getValueAsDouble() * 60;
+    }
+
     public boolean isAtTarget() {
         return getMotorAngle() >= getTargetAngle() - ALLOWED_TARGET_ERROR
                 && getMotorAngle() <= getTargetAngle() + ALLOWED_TARGET_ERROR;

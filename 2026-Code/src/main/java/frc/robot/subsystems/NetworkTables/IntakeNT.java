@@ -12,11 +12,13 @@ import frc.robot.util.PIDTuner;
 public class IntakeNT extends Intake {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
-    DoubleTopic currentDeployPosition = nt.getDoubleTopic("/intake/current_intake_position");
-    DoubleTopic targetDeployPosition = nt.getDoubleTopic("/intake/target_intake_position");
+    DoubleTopic currentDeployPosition = nt.getDoubleTopic("/intake/deploy_position");
+    DoubleTopic targetDeployPosition = nt.getDoubleTopic("/intake/deploy_target_position");
+    DoubleTopic rollerRPM = nt.getDoubleTopic("/intake/roller_rpm");
 
-    final DoublePublisher currentDeployPositionPub;
+    final DoublePublisher deployPositionPub;
     final DoublePublisher targetDeployPositionPub;
+    final DoublePublisher rollerRPMPub;
 
     private PIDTuner m_deployPIDTuner;
 
@@ -25,11 +27,14 @@ public class IntakeNT extends Intake {
     private double m_previousDeployKD;
 
     public IntakeNT() {
-        currentDeployPositionPub = currentDeployPosition.publish();
-        currentDeployPositionPub.setDefault(0.0);
+        deployPositionPub = currentDeployPosition.publish();
+        deployPositionPub.setDefault(0.0);
 
         targetDeployPositionPub = targetDeployPosition.publish();
         targetDeployPositionPub.setDefault(0.0);
+
+        rollerRPMPub = rollerRPM.publish();
+        rollerRPMPub.setDefault(0.0);
 
         m_deployPIDTuner = new PIDTuner("intake/{tuning}deployMotor", false);
 
@@ -43,8 +48,9 @@ public class IntakeNT extends Intake {
         super.periodic();
         final long now = NetworkTablesJNI.now();
 
-        currentDeployPositionPub.set(getMotorAngle(), now);
+        deployPositionPub.set(getMotorAngle(), now);
         targetDeployPositionPub.set(getTargetAngle(), now);
+        rollerRPMPub.set(getRollerRPM(), now);
 
         if (m_deployPIDTuner.isDifferentValues(m_previousDeployKP, m_previousDeployKI, m_previousDeployKD)) {
             m_previousDeployKP = m_deployPIDTuner.getP();

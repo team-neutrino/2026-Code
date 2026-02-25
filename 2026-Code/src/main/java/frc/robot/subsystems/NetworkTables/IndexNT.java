@@ -9,9 +9,9 @@ import frc.robot.subsystems.Index;
 public class IndexNT extends Index {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
-    DoubleTopic spindexerCurrentVoltage = nt.getDoubleTopic("/index/spindexer_current_voltage");
+    DoubleTopic spindexerCurrentVoltage = nt.getDoubleTopic("/index/spindexer_voltage");
     DoubleTopic spindexerTargetVoltage = nt.getDoubleTopic("/index/spindexer_target_voltage");
-    DoubleTopic kickerCurrentVoltage = nt.getDoubleTopic("/index/kicker_current_voltage");
+    DoubleTopic kickerCurrentVoltage = nt.getDoubleTopic("/index/kicker_voltage");
     DoubleTopic kickerTargetVoltage = nt.getDoubleTopic("/index/kicker_target_voltage");
 
     final DoublePublisher spindexerCurrentVoltagePub;
