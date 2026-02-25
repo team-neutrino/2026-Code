@@ -383,6 +383,13 @@ public class Swerve extends CommandSwerveDrivetrain {
                 this);
     }
 
+    public Command noMove() {
+        return run(() -> {
+            setVelocity(0,0, getCurrentPose().getRotation());
+        });
+    }
+        
+
     public Command swerveDefaultCommand(CommandXboxController joystick) {
         return run(() -> {
             double forward = -joystick.getLeftY();
