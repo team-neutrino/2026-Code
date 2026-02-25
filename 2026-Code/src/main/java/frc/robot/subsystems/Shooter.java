@@ -361,15 +361,21 @@ public class Shooter extends SubsystemBase {
     return run(() -> {
       double hubDistance = swerve.getFromHubToTurret();
 
-      if (!swerve.inNeutralOrOpposingZone()) {
-        double shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
-        InterpolatingDoubleTreeMap hoodInterpolator = SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
+      // if (!swerve.inNeutralOrOpposingZone()) {
+      // double shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
+      // InterpolatingDoubleTreeMap hoodInterpolator =
+      // SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
 
-        m_targetShooterRpm = shooterSpeed;
-        m_targetAngle = hoodInterpolator.get(hubDistance);
-      } else {
-        m_targetAngle = SHUTTLE_ANGLE;
-        m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+      // m_targetShooterRpm = shooterSpeed;
+      // m_targetAngle = hoodInterpolator.get(hubDistance);
+      // } else {
+      // m_targetAngle = SHUTTLE_ANGLE;
+      // m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+      // }
+
+      if (!swerve.inNeutralOrOpposingZone()) {
+        m_targetShooterRpm = SHOOTER_RPM;
+        m_targetAngle = CONSTANT_SPEED_HOOD.get(swerve.getFromHubToTurret());
       }
     });
   }

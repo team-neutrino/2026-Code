@@ -162,7 +162,7 @@ public class ShooterNT extends Shooter {
         setTuningDistance(m_distanceSubscriber.get());
         m_shooterSpeedPublisher.set(getShooterRPM());
         m_shooterTargetPublisher.set(getTargetRPM());
-        m_hoodTargetPublisher.set(getTargetPosition() / 360);
+        m_hoodTargetPublisher.set(getTargetPosition());
         m_hoodPositionPublisher.set(getHoodAngle());
         m_hoodCurrentPublisher.set(getHoodCurrent());
         m_realDistancePublisher.set(swerve.getFromHubToTurret());

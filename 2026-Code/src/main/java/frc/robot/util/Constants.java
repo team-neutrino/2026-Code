@@ -76,6 +76,7 @@ public class Constants {
         public static final double NOT_MOVING_THRESHOLD = 0.1;
         public static final double NOT_TURNING_THRESHOLD = 10;
         public static final double SHOOTER_RPM_NOISE = 0.9;
+        public static final double SHOOTER_RPM = 4000;
 
         // meters shooter math
         public static final double FLYWHEEL_DIAMETER = 0.1016;
@@ -90,6 +91,14 @@ public class Constants {
             DEPOT,
             OUTPOST
         };
+
+        public static final InterpolatingDoubleTreeMap CONSTANT_SPEED_HOOD = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 6.5),
+                Map.entry(1.64, 10.0),
+                Map.entry(2.33, 13.5),
+                Map.entry(2.68, 15.0),
+                Map.entry(3.36, 30.0),
+                Map.entry(4.0, 30.0));
 
         public static final InterpolatingDoubleTreeMap SLOW_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 6.5),
