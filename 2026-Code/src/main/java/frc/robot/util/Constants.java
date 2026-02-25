@@ -78,7 +78,7 @@ public class Constants {
         public static final double NOT_TURNING_THRESHOLD = 10;
         public static final double SHOOTER_RPM_NOISE = 0.9;
         public static final double SOFT_SHOT_ANGLE = 20;
-        public static final double SOFT_SHOT_SPEED = 500;
+        public static final double SOFT_SHOT_SPEED = 1700;
 
         public static final double SHUTTLE_SHOOTING_SPEED = 6000;
         public static final double SHUTTLE_ANGLE = 25;
