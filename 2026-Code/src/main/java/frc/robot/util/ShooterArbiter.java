@@ -15,6 +15,7 @@ import static frc.robot.util.Constants.ShooterConstants.*;
  * condition.
  */
 
+@SuppressWarnings("unused")
 public class ShooterArbiter {
     private HashMap<shooterConditions, Boolean> m_conditions = new HashMap<shooterConditions, Boolean>();
 

@@ -56,32 +56,31 @@ public class Constants {
     }
 
     public static class ShooterConstants {
-        public static final double CURRENT_LIMIT = 40;
-        public static final double CURRENT_HOOD_LIMIT = 4;
+        public static final double SHOOTER_CURRENT_LIMIT = 40;
+        public static final double HOOD_CURRENT_LIMIT = 4;
         public static final double SHOOTING_KP = 90.0;
         public static final double SHOOTING_KI = 0.0;
         public static final double SHOOTING_KD = 0.0;
         public static final double HOOD_KP = 300;
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
-        public static final double ALLOWED_ERROR = 2.5;
-        public static final double ALLOWED_RPM_ERROR = 80;
+        public static final double HOOD_ALLOWED_ERROR = 2.5;
+        public static final double RPM_ALLOWED_ERROR = 80;
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
         public static final double START_POSITION = 0;
-        public static final double RADIAL_CLOSE_ANGLE = 0.5;
-        public static final double RADIAL_FAR_ANGLE = 2;
-        public static final double WALL_ANGLE = 1;
-        public static final double DEPOT_ANGLE = 3;
-        public static final double OUTPOST_ANGLE = 0.1;
-        public static final double DEFAULT = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
+        public static final double FAST_SHOOTING_RPM = 4000;
         public static final double CURRENT_SPIKE = 20.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double NOT_MOVING_THRESHOLD = 0.1;
         public static final double NOT_TURNING_THRESHOLD = 10;
         public static final double SHOOTER_RPM_NOISE = 0.9;
+
+        public static final double SHUTTLE_SHOOTING_SPEED = 6000;
+        public static final double SHUTTLE_ANGLE = 25;
+        public static final double MAX_SAFE_HOOD_ANGLE = 25;
 
         // meters shooter math
         public static final double FLYWHEEL_DIAMETER = 0.1016;
@@ -89,31 +88,34 @@ public class Constants {
         public static final double Y_DISPLACEMENT = 1.2376;
         public static final double GRAVITY = -9.807;
 
-        public static enum fakeEnum { // fake temporary enum while swerve sets up fixed positions for shooter
-            RADIAL_CLOSE,
-            RADIAL_FAR,
-            WALL,
-            DEPOT,
-            OUTPOST
-        };
-
-        public static final InterpolatingDoubleTreeMap INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
+        public static final InterpolatingDoubleTreeMap SLOW_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 6.5),
                 Map.entry(1.64, 10.0),
                 Map.entry(2.33, 13.5),
                 Map.entry(2.68, 15.0),
-                Map.entry(3.36, 30.0),
-                Map.entry(4.0, 30.0));
+                Map.entry(3.36, 25.0),
+                Map.entry(4.0, 25.0));
+
+        public static final InterpolatingDoubleTreeMap FAST_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 8.5),
+                Map.entry(1.94, 5.0),
+                Map.entry(2.46, 7.5),
+                Map.entry(3.0, 9.0),
+                Map.entry(3.64, 11.0),
+                Map.entry(4.28, 13.0),
+                Map.entry(4.92, 17.0),
+                Map.entry(5.7, 21.0));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
-                Map.entry(0.0, 3000.0),
-                Map.entry(3.5, 3250.0),
-                Map.entry(4.0, 3550.0),
-                Map.entry(23.9, 5800.0)));
+                Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
+                Map.entry(3.5, FAST_SHOOTING_RPM),
+                Map.entry(4.0, FAST_SHOOTING_RPM)));
 
-        public static final double SHUTTLE_SHOOTING_SPEED = 6000;
-        public static final double SHUTTLE_ANGLE = 25;
-        public static final double MAX_SAFE_HOOD_ANGLE = 25;
+        public static TreeMap<Double, InterpolatingDoubleTreeMap> SPEED_HOOD_INTERPOLATION = new TreeMap<Double, InterpolatingDoubleTreeMap>(
+                Map.ofEntries(
+                        Map.entry(0.0, SLOW_INTERPOLATION_HOOD),
+                        Map.entry(DEFAULT_SHOOTING_SPEED, SLOW_INTERPOLATION_HOOD),
+                        Map.entry(FAST_SHOOTING_RPM, FAST_INTERPOLATION_HOOD)));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
@@ -324,10 +326,10 @@ public class Constants {
         public static final double MID_FIELD = 4.034663;
         public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034663, new Rotation2d(0));
         public static final Pose2d BLUE_HUB = new Pose2d(4.625594, 4.034663, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 8, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 0, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 8, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 0, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 7, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 1, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 7, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 1, new Rotation2d(0));
         public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
         public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
         public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);

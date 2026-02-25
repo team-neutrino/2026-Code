@@ -51,6 +51,10 @@ public class ShooterNT extends Shooter {
     private DoublePublisher m_targetAnglePublisher;
     private DoubleSubscriber m_targetAngleSubscriber;
 
+    private DoubleTopic m_targetShooterRpmTopic;
+    private DoublePublisher m_targetShooterRpmPublisher;
+    private DoubleSubscriber m_targetShooterRpmSubscriber;
+
     private DoubleTopic m_realDistanceTopic;
     private DoublePublisher m_realDistancePublisher;
 
@@ -105,10 +109,15 @@ public class ShooterNT extends Shooter {
         m_hoodPositionTopic = m_globalNT.getDoubleTopic("shooter/hoodPosition");
         m_hoodPositionPublisher = m_hoodPositionTopic.publish();
 
-        m_targetAngleTopic = m_globalNT.getDoubleTopic("shooter/targetAngle");
+        m_targetAngleTopic = m_globalNT.getDoubleTopic("shooter/tuningAngle");
         m_targetAnglePublisher = m_targetAngleTopic.publish();
         m_targetAngleSubscriber = m_targetAngleTopic.subscribe(-1.0);
         m_targetAnglePublisher.set(-1.0);
+
+        m_targetShooterRpmTopic = m_globalNT.getDoubleTopic("shooter/tuningSpeed");
+        m_targetShooterRpmPublisher = m_targetShooterRpmTopic.publish();
+        m_targetShooterRpmSubscriber = m_targetShooterRpmTopic.subscribe(-1.0);
+        m_targetShooterRpmPublisher.set(-1.0);
 
         m_hoodCurrentTopic = m_globalNT.getDoubleTopic("shooter/hoodCurrent");
         m_hoodCurrentPublisher = m_hoodCurrentTopic.publish();
@@ -162,11 +171,12 @@ public class ShooterNT extends Shooter {
         setTuningDistance(m_distanceSubscriber.get());
         m_shooterSpeedPublisher.set(getShooterRPM());
         m_shooterTargetPublisher.set(getTargetRPM());
-        m_hoodTargetPublisher.set(getTargetPosition() / 360);
+        m_hoodTargetPublisher.set(getTargetPosition());
         m_hoodPositionPublisher.set(getHoodAngle());
         m_hoodCurrentPublisher.set(getHoodCurrent());
         m_realDistancePublisher.set(swerve.getFromHubToTurret());
         m_tuningAngle = m_targetAngleSubscriber.get();
+        m_tuningSpeed = m_targetShooterRpmSubscriber.get();
         m_speedAtTargetPublisher.set(atTargetRPM());
         m_hoodAtTargetPublisher.set(atTargetPosition());
         m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone());

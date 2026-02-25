@@ -5,11 +5,9 @@
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.ShooterConstants.*;
-import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
-import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -24,6 +22,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Subsystems.swerve;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,12 +36,10 @@ public class Shooter extends SubsystemBase {
 
   private TalonFXConfiguration m_shooterMotorConfig = new TalonFXConfiguration();
   private TalonFXConfiguration m_hoodMotorConfig = new TalonFXConfiguration();
-  private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
+  private final CurrentLimitsConfigs m_shooterCurrentLimitConfig = new CurrentLimitsConfigs();
   private final CurrentLimitsConfigs m_hoodCurrentLimitConfig = new CurrentLimitsConfigs();
 
   private double m_targetAngle = START_POSITION;
-
-  public double m_tuningAngle;
 
   private double m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
 
@@ -52,19 +49,27 @@ public class Shooter extends SubsystemBase {
 
   private double m_filteredSpeed;
 
+  public double m_tuningAngle;
+
+  public double m_tuningSpeed;
+
   /**
    * Creates a new Shooter.
    * 
    * @return A new shooter. What else would it give you
    */
   public Shooter() {
-    m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
+    m_shooterCurrentLimitConfig.withSupplyCurrentLimit(SHOOTER_CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
-        .withStatorCurrentLimit(CURRENT_LIMIT)
+        .withStatorCurrentLimit(SHOOTER_CURRENT_LIMIT)
         .withStatorCurrentLimitEnable(true);
-    m_shooterMotorConfig.CurrentLimits = m_currentLimitConfig;
+    m_shooterMotorConfig.CurrentLimits = m_shooterCurrentLimitConfig;
 
-    m_hoodMotorConfig.CurrentLimits = m_currentLimitConfig;
+    m_hoodCurrentLimitConfig.withSupplyCurrentLimit(HOOD_CURRENT_LIMIT)
+        .withSupplyCurrentLimitEnable(true)
+        .withStatorCurrentLimit(HOOD_CURRENT_LIMIT)
+        .withStatorCurrentLimitEnable(true);
+    m_hoodMotorConfig.CurrentLimits = m_hoodCurrentLimitConfig;
 
     m_shooterMotorConfig.Slot0.kP = SHOOTING_KP;
     m_shooterMotorConfig.Slot0.kI = SHOOTING_KI;
@@ -185,7 +190,7 @@ public class Shooter extends SubsystemBase {
    * @return True if the shooter is at the target position, False if it is not.
    */
   public boolean atTargetPosition() {
-    return Math.abs(getHoodAngle() - m_targetAngle) <= ALLOWED_ERROR;
+    return Math.abs(getHoodAngle() - m_targetAngle) <= HOOD_ALLOWED_ERROR;
   }
 
   /**
@@ -194,7 +199,7 @@ public class Shooter extends SubsystemBase {
    * @return True if the shooter is at the target RPM, false if it is not.
    */
   public boolean atTargetRPM() {
-    return Math.abs(getShooterRPM() - m_targetShooterRpm) <= ALLOWED_RPM_ERROR;
+    return Math.abs(getShooterRPM() - m_targetShooterRpm) <= RPM_ALLOWED_ERROR;
   }
 
   /**
@@ -357,13 +362,24 @@ public class Shooter extends SubsystemBase {
 
   public Command defaultCommand() {
     return run(() -> {
+      double hubDistance = swerve.getFromHubToTurret();
+
       if (!swerve.inNeutralOrOpposingZone()) {
-        m_targetShooterRpm = SHOOTER_SPEED_ZONES.floorEntry(swerve.getFromHubToTurret()).getValue();
-        m_targetAngle = INTERPOLATION_HOOD.get(swerve.getFromHubToTurret());
+        double shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
+        InterpolatingDoubleTreeMap hoodInterpolator = SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
+
+        m_targetShooterRpm = shooterSpeed;
+        m_targetAngle = hoodInterpolator.get(hubDistance);
       } else {
         m_targetAngle = SHUTTLE_ANGLE;
-        m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
+        m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
       }
+
+      // Manually tuning hood and speed
+      // if (!swerve.inNeutralOrOpposingZone()) {
+      // m_targetShooterRpm = m_tuningSpeed;
+      // m_targetAngle = m_tuningAngle;
+      // }
     });
   }
 }
