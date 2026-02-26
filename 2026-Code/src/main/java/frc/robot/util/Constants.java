@@ -109,6 +109,21 @@ public class Constants {
                 Map.entry(4.92, 17.0),
                 Map.entry(5.7, 21.0));
 
+        public static final InterpolatingDoubleTreeMap SLOW_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 0.30),
+                Map.entry(1.64, 0.58),
+                Map.entry(2.33, 0.68),
+                Map.entry(2.68, 0.75),
+                Map.entry(3.36, 0.95),
+                Map.entry(4.0, 1.05));
+
+        public static final InterpolatingDoubleTreeMap FAST_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(4.0, 0.65),
+                Map.entry(4.28, 0.71),
+                Map.entry(4.92, 0.84),
+                Map.entry(5.7, 0.98),
+                Map.entry(7.0, 1.15));
+
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
                 Map.entry(3.5, FAST_SHOOTING_RPM),
@@ -126,7 +141,7 @@ public class Constants {
             TURRET_ANGLE_CORRECT,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
-            NOT_DRIVING,
+            // NOT_DRIVING,
         }
     }
 
@@ -141,7 +156,7 @@ public class Constants {
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 2;
+        public static final double ALLOWED_ERROR = 5;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
         public static final double STATIC_FF = 0.1;
@@ -242,7 +257,7 @@ public class Constants {
     public static class SwerveConstants {
         public static final double SLEW_LIMIT = 4.0;
         public static final double GYRO_SCALAR_Z = -3.9;
-        public static final double MAX_SPEED = 5.7;
+        public static final double MAX_SPEED = 1;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double SLOW_MAX_ROTATION_SPEED = 2;
         public static final double SLOW_MAX_SPEED = 0.4;

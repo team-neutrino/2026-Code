@@ -222,6 +222,12 @@ public class Shooter extends SubsystemBase {
     m_targetAngle = target;
   }
 
+  public double calculateExitVelocity(double velocity) {
+    double rps = velocity / 60.0;
+    double surfaceSpeed = rps * FLYWHEEL_CIRCUMFRANCE;
+    return surfaceSpeed;
+  }
+
   /**
    * Control the hood motor to reach a certain amount of rotations as defined by
    * m_TargetAngle.
@@ -293,8 +299,8 @@ public class Shooter extends SubsystemBase {
     if (RED_ALLIANCE.isPresent()) {
       shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
-    shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
-        swerve.isNotMovingOrTurning());
+    // shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
+    // swerve.isNotMovingOrTurning());
 
     if (hubState.hasValidGameData() && RED_ALLIANCE.isPresent()) {
       if (RED_ALLIANCE.get()) {
