@@ -61,6 +61,7 @@ public class Constants {
         public static final double SHOOTING_KP = 90.0;
         public static final double SHOOTING_KI = 0.0;
         public static final double SHOOTING_KD = 0.0;
+        public static final double SHOOTING_KV = 0.0;
         public static final double HOOD_KP = 300;
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;

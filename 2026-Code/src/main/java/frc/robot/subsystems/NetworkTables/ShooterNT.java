@@ -2,6 +2,7 @@ package frc.robot.subsystems.NetworkTables;
 
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.PIDTuner;
+import frc.robot.util.FFTuner;
 import static frc.robot.util.Constants.ShooterConstants.*;
 import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.swerve;
@@ -17,10 +18,12 @@ import frc.robot.subsystems.Shooter;
 public class ShooterNT extends Shooter {
     private PIDTuner m_shooterPIDTuner;
     private PIDTuner m_hoodPIDTuner;
+    private FFTuner m_shooterFFTuner;
 
     private double m_previousShootingKP;
     private double m_previousShootingKI;
     private double m_previousShootingKD;
+    private double m_previousShootingFF;
 
     private double m_previousHoodKP;
     private double m_previousHoodKI;
@@ -82,6 +85,7 @@ public class ShooterNT extends Shooter {
     public ShooterNT() {
         m_shooterPIDTuner = new PIDTuner("shooter/{tuning}shooterMotor", false);
         m_hoodPIDTuner = new PIDTuner("shooter/{tuning}hoodMotor", false);
+        m_shooterFFTuner = new FFTuner("shooter/{tuning}shooterFF");
 
         m_shooterPIDTuner.setP(SHOOTING_KP);
         m_shooterPIDTuner.setI(SHOOTING_KI);
@@ -140,6 +144,8 @@ public class ShooterNT extends Shooter {
         m_hubActiveTopic = m_globalNT.getBooleanTopic("shooter/hubActive");
         m_hubActivePublisher = m_hubActiveTopic.publish();
 
+        m_previousShootingFF = SHOOTING_KV;
+
         // m_previousShootingKP = SHOOTING_KP;
         // m_previousShootingKI = SHOOTING_KI;
         // m_previousShootingKD = SHOOTING_KD;
@@ -166,6 +172,10 @@ public class ShooterNT extends Shooter {
             m_previousHoodKI = m_hoodPIDTuner.getI();
             m_previousHoodKD = m_hoodPIDTuner.getD();
             setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(), m_hoodPIDTuner.getD());
+        }
+
+        if (m_shooterFFTuner.getFF() != m_previousShootingFF) {
+            setShooterFF(m_shooterFFTuner.getFF());
         }
 
         setTuningDistance(m_distanceSubscriber.get());

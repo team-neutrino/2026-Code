@@ -74,6 +74,7 @@ public class Shooter extends SubsystemBase {
     m_shooterMotorConfig.Slot0.kP = SHOOTING_KP;
     m_shooterMotorConfig.Slot0.kI = SHOOTING_KI;
     m_shooterMotorConfig.Slot0.kD = SHOOTING_KD;
+    m_shooterMotorConfig.Slot0.kV = SHOOTING_KV;
 
     m_hoodMotorConfig.Slot0.kP = HOOD_KP;
     m_hoodMotorConfig.Slot0.kI = HOOD_KI;
@@ -127,6 +128,12 @@ public class Shooter extends SubsystemBase {
     m_hoodMotorConfig.Slot0.kD = new_D;
 
     m_hoodMotor.getConfigurator().apply(m_hoodMotorConfig);
+  }
+
+  public void setShooterFF(double new_FF) {
+    m_shooterMotorConfig.Slot0.kV = new_FF;
+
+    m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
   }
 
   /**
