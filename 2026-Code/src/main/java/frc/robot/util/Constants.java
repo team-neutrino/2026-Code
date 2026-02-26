@@ -109,6 +109,24 @@ public class Constants {
                 Map.entry(4.92, 17.0),
                 Map.entry(5.7, 21.0));
 
+        public static final InterpolatingDoubleTreeMap SLOW_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 6.5),
+                Map.entry(1.64, 10.0),
+                Map.entry(2.33, 13.5),
+                Map.entry(2.68, 15.0),
+                Map.entry(3.36, 25.0),
+                Map.entry(4.0, 25.0));
+
+        public static final InterpolatingDoubleTreeMap FAST_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 8.5),
+                Map.entry(1.94, 5.0),
+                Map.entry(2.46, 7.5),
+                Map.entry(3.0, 9.0),
+                Map.entry(3.64, 11.0),
+                Map.entry(4.28, 13.0),
+                Map.entry(4.92, 17.0),
+                Map.entry(5.7, 21.0));
+
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
                 Map.entry(3.5, FAST_SHOOTING_RPM),
