@@ -126,7 +126,7 @@ public class Constants {
             TURRET_ANGLE_CORRECT,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
-            NOT_DRIVING,
+            // NOT_DRIVING,
         }
     }
 
@@ -141,7 +141,7 @@ public class Constants {
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12 / 56;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 2;
+        public static final double ALLOWED_ERROR = 5;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
         public static final double STATIC_FF = 0;
@@ -240,7 +240,7 @@ public class Constants {
 
     public static class SwerveConstants {
         public static final double GYRO_SCALAR_Z = -3.9;
-        public static final double MAX_SPEED = 5.7;
+        public static final double MAX_SPEED = 1;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;

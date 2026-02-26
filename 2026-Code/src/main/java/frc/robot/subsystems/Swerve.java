@@ -3,11 +3,17 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.FieldMeasurementConstants.ALLIANCE_ZONE_BLUE;
 import static frc.robot.util.Constants.FieldMeasurementConstants.ALLIANCE_ZONE_RED;
 import static frc.robot.util.Constants.FieldMeasurementConstants.BLUE_HUB;
+import static frc.robot.util.Constants.FieldMeasurementConstants.MID_FIELD;
 import static frc.robot.util.Constants.FieldMeasurementConstants.RED_HUB;
+import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_BOTTOM_BLUE;
+import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_BOTTOM_RED;
+import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_TOP_BLUE;
+import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_TOP_RED;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.Constants.ShooterConstants.INTERPOLATION_HOOD;
 import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.SHOOTER_SPEED_ZONES;
+import static frc.robot.util.Constants.ShooterConstants.SLOW_INTERPOLATION_HOOD;
 import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
 import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
 import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
@@ -146,6 +152,26 @@ public class Swerve extends CommandSwerveDrivetrain {
                         .withRotationalRate(speeds.omegaRadiansPerSecond));
     }
 
+    public double calculateFieldRelativeTargetAngle() {
+        Pose2d robotPose = Subsystems.swerve.getCurrentPose();
+        double robotX = robotPose.getMeasureX().baseUnitMagnitude();
+        double robotY = robotPose.getMeasureY().baseUnitMagnitude();
+
+        Pose2d hubPose = getHubPose2();
+        Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
+                ? (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
+                : (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
+
+        boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
+                || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
+
+        Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
+        double targetDistanceX = targetPose.getX() - (robotX + TURRET_OFFSET_X);
+        double targetDistanceY = targetPose.getY() - (robotY + TURRET_OFFSET_Y);
+
+        return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
+    }
+
     public double getFromHubToTurret() {
         double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude() + TURRET_OFFSET_Y;
         double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude() + TURRET_OFFSET_X;
@@ -154,7 +180,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             return 0;
         }
 
-        Pose2d hubPose = getHubPose1();
+        Pose2d hubPose = getHubPose2();
 
         double hubDistanceX = hubPose.getX() - robotX;
         double hubDistanceY = hubPose.getY() - robotY;
@@ -241,8 +267,9 @@ public class Swerve extends CommandSwerveDrivetrain {
 
                 futureDistance = futureRobotTranslation.getDistance(realHubLocation);
 
-                double hoodAngleDegrees = INTERPOLATION_HOOD.get(futureDistance);
-                double launchVelocity = Subsystems.shooter.calculateExitVelocity();
+                double hoodAngleDegrees = SLOW_INTERPOLATION_HOOD.get(futureDistance);
+                double launchVelocity = Subsystems.shooter
+                        .calculateExitVelocity(SHOOTER_SPEED_ZONES.floorEntry(futureDistance).getValue());
                 double horizontalVelocity = launchVelocity * Math.cos(Math.toRadians(hoodAngleDegrees));
 
                 if (horizontalVelocity > 0) {

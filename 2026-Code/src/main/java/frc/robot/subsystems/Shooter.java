@@ -223,7 +223,7 @@ public class Shooter extends SubsystemBase {
     m_targetAngle = target;
   }
 
-  public double calculateExitVelocity() {
+  public double calculateExitVelocity(double velocity) {
     double rps = velocity / 60.0;
     double surfaceSpeed = rps * FLYWHEEL_CIRCUMFRANCE;
     return surfaceSpeed;
@@ -300,7 +300,8 @@ public class Shooter extends SubsystemBase {
     if (RED_ALLIANCE.isPresent()) {
       shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
-    shooterArbiter.setCondition(shooterConditions.NOT_DRIVING, swerve.isNotMovingOrTurning());
+    // shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
+    // swerve.isNotMovingOrTurning());
     shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, m_hubStatus);
 
     // if (hubState.hasValidGameData()) {
