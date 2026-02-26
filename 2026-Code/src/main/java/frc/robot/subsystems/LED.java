@@ -23,6 +23,7 @@ import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.controls.*;
 
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.networktables.StructSubscriber;
 
 public class LED extends SubsystemBase {
     private final CANdle m_candle = new CANdle(CANDLE_ID, "rio");
@@ -34,9 +35,14 @@ public class LED extends SubsystemBase {
 
     private Debouncer m_debouncer = new Debouncer(VOLTAGE_WARNING_DEBOUNCED_TIME);
 
+    private NetworkTableInstance nt = NetworkTableInstance.getTable("DriveState");
+    private StructSubcriber driveStateSubcriber;
+
     public LED() {
         CANdleConfiguration configAll = new CANdleConfiguration();
         m_candle.getConfigurator().apply(configAll);
+
+        driveStateSubcriber = nt.getDoubleTopic("Pose").subscribe(0);
     }
 
     public boolean under12V() {
@@ -67,52 +73,44 @@ public class LED extends SubsystemBase {
                 || (m_gameTime <= 85 && m_gameTime >= 80) || (m_gameTime <= 60 && m_gameTime >= 55)
                 || (m_gameTime <= 35 && m_gameTime >= 30)) {
             m_candle.setControl(new StrobeAnimation(START_INDEX, END_INDEX).withColor(WHITE).withSlot(0));
+            return;
         }
 
         // battery voltage under 12 for more than a minute (not during a match)
         else if (under12For1() && !DriverStation.isFMSAttached()) {
             m_candle.setControl(new SingleFadeAnimation(START_INDEX,
-                    END_INDEX).withColor(ORANGE).withSlot(0));
+                    MID_INDEX).withColor(ORANGE).withSlot(0));
             System.out.println("Battery under 12V for 1 minute... Change the battery!!!");
-        } else if (!shooterArbiter.readyToFire()) {
-            HashMap<ShooterConstants.shooterConditions, Boolean> conditions = shooterArbiter.getConditions();
-            ShooterConstants.shooterConditions[] shooterValues = ShooterConstants.shooterConditions.values();
-            for (int i = 0; i < shooterValues.length; i++) {
-                if (!conditions.get(shooterValues[i])) {
-                    m_candle.setControl(
-                            new SolidColor(START_INDEX, END_INDEX).withColor(COLOR_MAP.get(shooterValues[i])));
-                    break;
-                }
-            }
-        } else {
-            m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(GREEN));
         }
 
-        // red hub active
-        // else if (m_hub_status.isRedHubActive() && !m_hub_status.isBlueHubActive()) {
-        // m_candle.setControl(new EmptyAnimation(0));
-        // m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(RED));
-        // }
-
-        // blue hub active
-        // else if (m_hub_status.isBlueHubActive() && !m_hub_status.isRedHubActive()) {
-        // m_candle.setControl(new EmptyAnimation(0));
-        // m_candle.setControl(new SolidColor(START_INDEX, END_INDEX).withColor(BLUE));
-        // }
-
-        // rainbow if disabled and not connected to FMS
-        // else if (m_isDisabled && !DriverStation.isFMSAttached()) {
-        // m_candle.setControl(new RainbowAnimation(START_INDEX,
-        // END_INDEX).withSlot(0).withBrightness(0.1));
-        // }
-
-        // default to purple (auton, transition shift, endgame)
-        // else {
-        // m_candle.setControl(new EmptyAnimation(0));
-        // m_candle.setControl(new SolidColor(START_INDEX,
-        // END_INDEX).withColor(PURPLE));
-        // }
-
-        // System.out.println("LEDdon'ting");
+        ShooterConditionsCheck();
+        OdometryCheck();
     }
+}
+
+private void ShooterConditionsCheck(){
+    if (!shooterArbiter.readyToFire()) {
+        HashMap<ShooterConstants.shooterConditions, Boolean> conditions = shooterArbiter.getConditions();
+        ShooterConstants.shooterConditions[] shooterValues = ShooterConstants.shooterConditions.values();
+        for (int i = 0; i < shooterValues.length; i++) {
+            if (!conditions.get(shooterValues[i])) {
+                m_candle.setControl(
+                        new SolidColor(START_INDEX, MID_INDEX).withColor(COLOR_MAP.get(shooterValues[i])));
+                break;
+            }
+        }
+    } else {
+        m_candle.setControl(new SolidColor(START_INDEX, MID_INDEX).withColor(GREEN));
+    }
+}
+
+private void OdometryCheck(){
+
+    if () {
+
+    }
+}
+
+private getDriveState(){
+    return driveStateSubcriber.get();
 }
