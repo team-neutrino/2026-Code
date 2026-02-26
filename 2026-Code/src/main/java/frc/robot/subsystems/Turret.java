@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.GlobalConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 import frc.robot.util.Subsystems;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -23,8 +24,10 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import static edu.wpi.first.units.Units.Rotations;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
+import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Constants.RioConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
+import static frc.robot.util.Subsystems.shooterArbiter;
 
 public class Turret extends SubsystemBase {
 
@@ -32,6 +35,7 @@ public class Turret extends SubsystemBase {
   private double m_targetAngle = STARTUP_ANGLE;
   private double m_previousAngle = STARTUP_ANGLE;
   private double m_totalWrap = STARTUP_ANGLE;
+  private double m_adjustedTargetAngle = STARTUP_ANGLE;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
@@ -72,9 +76,11 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
+      m_adjustedTargetAngle = getAdjustedTargetAngle();
       updateWrap();
-      adjustTurret(getAdjustedTargetAngle());
+      adjustTurret(m_adjustedTargetAngle);
     }
+    shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
   }
 
   public double getCurrentAngle() {
@@ -120,13 +126,17 @@ public class Turret extends SubsystemBase {
   }
 
   public boolean isAtTarget() {
+    double targetAngle = m_targetAngle;
     double currentAngle = getCurrentAngle();
-    return Math.abs(currentAngle - m_targetAngle) < ALLOWED_ERROR;
+    if (RED_ALLIANCE.isPresent()) {
+      targetAngle = m_adjustedTargetAngle;
+    }
+    return Math.abs(currentAngle - targetAngle) < ALLOWED_ERROR;
   }
 
   private void adjustTurret(double targetAngle) {
     m_motor
-        .setControl(new PositionVoltage(targetAngle / 360).withFeedForward(-TURRET_FF * m_totalWrap));
+        .setControl(new PositionVoltage(targetAngle / 360));
   }
 
   private void updateWrap() {
