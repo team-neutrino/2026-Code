@@ -53,6 +53,8 @@ public class Shooter extends SubsystemBase {
 
   public double m_tuningSpeed;
 
+  private boolean m_hubStatus = true;
+
   /**
    * Creates a new Shooter.
    * 
@@ -291,7 +293,7 @@ public class Shooter extends SubsystemBase {
       shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
     shooterArbiter.setCondition(shooterConditions.NOT_DRIVING, swerve.isNotMovingOrTurning());
-    shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, true);
+    shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, m_hubStatus);
 
     // if (hubState.hasValidGameData()) {
     // if (RED_ALLIANCE.get()) {
@@ -386,6 +388,7 @@ public class Shooter extends SubsystemBase {
       // if (!swerve.inNeutralOrOpposingZone()) {
       // m_targetShooterRpm = m_tuningSpeed;
       // m_targetAngle = m_tuningAngle;
+      // m_hubstatus = false;
       // }
     });
   }
