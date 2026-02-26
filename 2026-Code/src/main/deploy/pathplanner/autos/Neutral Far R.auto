@@ -125,7 +125,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "NoMove"
+                  "name": "DriveToPoint"
                 }
               }
             ]
@@ -189,7 +189,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "NoMove"
+                  "name": "DriveToPoint"
                 }
               },
               {
