@@ -122,6 +122,7 @@ public class Constants {
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
             HOOD_ANGLE_CORRECT,
+            TURRET_ANGLE_CORRECT,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
             NOT_DRIVING,
@@ -136,11 +137,10 @@ public class Constants {
         public static final double TURRET_P = 180;
         public static final double TURRET_I = 0;
         public static final double TURRET_D = 7;
-        public static final double TURRET_FF = 0.05;
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12 / 56;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 1;
+        public static final double ALLOWED_ERROR = 2;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
         public static final double STATIC_FF = 0;
