@@ -76,8 +76,8 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
-      m_adjustedTargetAngle = getAdjustedTargetAngle();
       updateWrap();
+      m_adjustedTargetAngle = getAdjustedTargetAngle();
       adjustTurret(m_adjustedTargetAngle);
     }
     shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
