@@ -286,20 +286,15 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public Pose2d getHubPose3() {
         double latency = 0.05;
-        Pose2d intialPose2d = BLUE_HUB;
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            intialPose2d = (alliance.get() == Alliance.Blue)
-                    ? BLUE_HUB
-                    : RED_HUB;
-        }
-        Translation2d realHubLocation = intialPose2d.getTranslation();
+
+        Pose2d hubPose = (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) ? RED_HUB : BLUE_HUB;
+        Translation2d hubLocation = hubPose.getTranslation();
 
         Pose2d currentPose = getCurrentPose();
         Translation2d currentTranslation = currentPose.getTranslation();
         ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
 
-        double currentDist = currentTranslation.getDistance(realHubLocation);
+        double currentDist = currentTranslation.getDistance(hubLocation);
         double shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
         double lookAheadTime;
 
@@ -310,23 +305,23 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
 
         for (int i = 0; i < 3; i++) {
-            double offsetX = realHubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * lookAheadTime);
-            double offsetY = realHubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * lookAheadTime);
+            double offsetX = hubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * lookAheadTime);
+            double offsetY = hubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * lookAheadTime);
             Translation2d adjustedHub = new Translation2d(offsetX, offsetY);
             currentDist = currentTranslation.getDistance(adjustedHub);
             shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
-            double timeOfFlight;
             if (shootingSpeed == DEFAULT_SHOOTING_SPEED) {
-                timeOfFlight = SLOW_TIME_OF_FLIGHT.get(currentDist);
+                lookAheadTime = SLOW_TIME_OF_FLIGHT.get(currentDist);
             } else {
-                timeOfFlight = FAST_TIME_OF_FLIGHT.get(currentDist);
+                lookAheadTime = FAST_TIME_OF_FLIGHT.get(currentDist);
             }
-            lookAheadTime = timeOfFlight + latency;
         }
 
+        double totalLookAhead = lookAheadTime + latency;
+
         Translation2d finalHubLocation = new Translation2d(
-                realHubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * lookAheadTime),
-                realHubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * lookAheadTime));
+                hubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * totalLookAhead),
+                hubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * totalLookAhead));
 
         return new Pose2d(finalHubLocation, currentPose.getRotation());
     }
