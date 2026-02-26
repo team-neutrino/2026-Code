@@ -242,7 +242,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public Pose2d getHubPose2() {
-        double latencyFactor = 0.02;
+        double latencyFactor = 0.4;
         Pose2d currentPose = getCurrentPose();
         ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds();
         double lookAheadTime = 0.0;

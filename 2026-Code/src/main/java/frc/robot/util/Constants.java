@@ -240,7 +240,7 @@ public class Constants {
 
     public static class SwerveConstants {
         public static final double GYRO_SCALAR_Z = -3.9;
-        public static final double MAX_SPEED = 1;
+        public static final double MAX_SPEED = 1.5;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
