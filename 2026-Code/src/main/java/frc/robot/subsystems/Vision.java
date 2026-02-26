@@ -56,11 +56,19 @@ public class Vision extends SubsystemBase {
   private StructTopic<Pose2d> m_backPose = m_nt.getStructTopic("/limelight_poses/back", Pose2d.struct);
   private StructTopic<Pose2d> m_leftPose = m_nt.getStructTopic("/limelight_poses/left", Pose2d.struct);
   private StructTopic<Pose2d> m_rightPose = m_nt.getStructTopic("/limelight_poses/right", Pose2d.struct);
+  private StructTopic<Pose2d> m_frontPoseMT1 = m_nt.getStructTopic("/limelight_poses/frontMT1", Pose2d.struct);
+  private StructTopic<Pose2d> m_backPoseMT1 = m_nt.getStructTopic("/limelight_poses/backMT1", Pose2d.struct);
+  private StructTopic<Pose2d> m_leftPoseMT1 = m_nt.getStructTopic("/limelight_poses/leftMT1", Pose2d.struct);
+  private StructTopic<Pose2d> m_rightPoseMT1 = m_nt.getStructTopic("/limelight_poses/rightMT1", Pose2d.struct);
 
   private StructPublisher<Pose2d> m_frontPosePub;
   private StructPublisher<Pose2d> m_backPosePub;
   private StructPublisher<Pose2d> m_leftPosePub;
   private StructPublisher<Pose2d> m_rightPosePub;
+  private StructPublisher<Pose2d> m_frontPoseMT1Pub;
+  private StructPublisher<Pose2d> m_backPoseMT1Pub;
+  private StructPublisher<Pose2d> m_leftPoseMT1Pub;
+  private StructPublisher<Pose2d> m_rightPoseMT1Pub;
 
   private Pose2d blank = new Pose2d();
 
@@ -95,6 +103,15 @@ public class Vision extends SubsystemBase {
     m_leftPosePub.setDefault(blank);
     m_rightPosePub = m_rightPose.publish();
     m_rightPosePub.setDefault(blank);
+
+    m_frontPoseMT1Pub = m_frontPoseMT1.publish();
+    m_frontPoseMT1Pub.setDefault(blank);
+    m_backPoseMT1Pub = m_backPoseMT1.publish();
+    m_backPoseMT1Pub.setDefault(blank);
+    m_leftPoseMT1Pub = m_leftPoseMT1.publish();
+    m_leftPoseMT1Pub.setDefault(blank);
+    m_rightPoseMT1Pub = m_rightPoseMT1.publish();
+    m_rightPoseMT1Pub.setDefault(blank);
 
     m_frontYawPub = m_frontYaw.publish(PubSubOption.keepDuplicates(false));
     m_backYawPub = m_backYaw.publish(PubSubOption.keepDuplicates(false));
@@ -229,6 +246,11 @@ public class Vision extends SubsystemBase {
     m_backYawPub.set(m_back.getEstimateYawMT1());
     m_leftYawPub.set(m_left.getEstimateYawMT1());
     m_rightYawPub.set(m_right.getEstimateYawMT1());
+
+    m_frontPoseMT1Pub.set(m_front.getEstimatePoseMT1());
+    m_backPoseMT1Pub.set(m_back.getEstimatePoseMT1());
+    m_leftPoseMT1Pub.set(m_left.getEstimatePoseMT1());
+    m_rightPoseMT1Pub.set(m_right.getEstimatePoseMT1());
   }
 
   @Override
@@ -306,6 +328,14 @@ public class Vision extends SubsystemBase {
         return new Pose2d();
       }
       return estimateMT2.pose;
+    }
+
+    /** @return Latest MT2 pose or blank pose if unavailable. */
+    public Pose2d getEstimatePoseMT1() {
+      if (estimateMT1 == null) {
+        return new Pose2d();
+      }
+      return estimateMT1.pose;
     }
 
     /** @return Latest MT1 yaw in degrees or ignore value if invalid. */
