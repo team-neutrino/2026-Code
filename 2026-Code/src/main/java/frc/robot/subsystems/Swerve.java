@@ -1,11 +1,34 @@
 package frc.robot.subsystems;
 
-import frc.robot.generated.CommandSwerveDrivetrain;
+import static frc.robot.util.Constants.FieldMeasurementConstants.ALLIANCE_ZONE_BLUE;
+import static frc.robot.util.Constants.FieldMeasurementConstants.ALLIANCE_ZONE_RED;
+import static frc.robot.util.Constants.FieldMeasurementConstants.BLUE_HUB;
+import static frc.robot.util.Constants.FieldMeasurementConstants.RED_HUB;
+import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
+import static frc.robot.util.Constants.ShooterConstants.INTERPOLATION_HOOD;
+import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
+import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
+import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
+import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
+import static frc.robot.util.Constants.SwerveConstants.MAX_SPEED;
+import static frc.robot.util.Constants.SwerveConstants.ROTATIONAL_P;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
+
+import java.io.IOException;
+import java.util.Optional;
+
+import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.configs.GyroTrimConfigs;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -17,28 +40,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Subsystems;
-
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-
-import static frc.robot.util.Constants.GlobalConstants.*;
-import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
-import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
-import static frc.robot.util.Constants.SwerveConstants.*;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
-import static frc.robot.util.Constants.FieldMeasurementConstants.*;
-import static frc.robot.util.Constants.ShooterConstants.INTERPOLATION_HOOD;
-
-import java.io.IOException;
-import java.util.Optional;
-
-import org.json.simple.parser.ParseException;
 
 public class Swerve extends CommandSwerveDrivetrain {
 
@@ -149,7 +154,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             return 0;
         }
 
-        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+        Pose2d hubPose = getHubPose1();
 
         double hubDistanceX = hubPose.getX() - robotX;
         double hubDistanceY = hubPose.getY() - robotY;
@@ -176,88 +181,83 @@ public class Swerve extends CommandSwerveDrivetrain {
                 angle);
     }
 
-    public Pose2d getProjectedPose(double exitVelocity) {
-        double latencyFactor = 0;
+    public Pose2d getHubPose1(double exitVelocity) {
+        double latencyFactor = 0.02;
         Pose2d currentPose = getCurrentPose();
         ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds();
         double lookAheadTime = 0.0;
         Translation2d currentTranslation = currentPose.getTranslation();
+        Pose2d intialPose2dHub = BLUE_HUB;
+
         Optional<Alliance> alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
-            Translation2d hubLocation = alliance.get() == Alliance.Blue ? BLUE_HUB.getTranslation()
+            Translation2d realHubLocation = alliance.get() == Alliance.Blue
+                    ? BLUE_HUB.getTranslation()
                     : RED_HUB.getTranslation();
+
             for (int i = 0; i < 2; i++) {
                 Translation2d trialTranslation = currentTranslation.plus(
                         new Translation2d(
                                 currentSpeeds.vxMetersPerSecond * lookAheadTime,
                                 currentSpeeds.vyMetersPerSecond * lookAheadTime));
 
-                double distance = trialTranslation.getDistance(hubLocation);
+                double distance = trialTranslation.getDistance(realHubLocation);
                 lookAheadTime = (distance / exitVelocity) + latencyFactor;
             }
-            Translation2d finalProjectedTranslation = currentTranslation.plus(
+            Translation2d virtualHubTranslation = realHubLocation.minus(
                     new Translation2d(
                             currentSpeeds.vxMetersPerSecond * lookAheadTime,
                             currentSpeeds.vyMetersPerSecond * lookAheadTime));
 
-            return new Pose2d(finalProjectedTranslation, currentPose.getRotation());
+            return new Pose2d(virtualHubTranslation, currentPose.getRotation());
         }
-        return new Pose2d();
+
+        return intialPose2dHub;
     }
 
-    public Pose2d getProjectedPose() {
-        // 1. Setup constants and current state
-        double latencyFactor = 0.02; // 20ms for camera/canbus latency
+    public Pose2d getHubPose2() {
+        double latencyFactor = 0.02;
         Pose2d currentPose = getCurrentPose();
-        ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds(); // Must be field-relative!
-
+        ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds();
         double lookAheadTime = 0.0;
         Translation2d currentTranslation = currentPose.getTranslation();
 
+        Pose2d intialPose2dHub = BLUE_HUB;
+
         Optional<Alliance> alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
-            Translation2d hubLocation = (alliance.get() == Alliance.Blue)
-                    ? BLUE_HUB.getTranslation()
-                    : RED_HUB.getTranslation();
+            Pose2d intialPose2d = (alliance.get() == Alliance.Blue)
+                    ? BLUE_HUB
+                    : RED_HUB;
 
-            // 2. The Iterative Solver
+            Translation2d realHubLocation = intialPose2d.getTranslation();
+            double futureDistance = 0;
+
             for (int i = 0; i < 3; i++) {
-                // Predict where the robot will be based on current TOF guess
-                Translation2d trialTranslation = currentTranslation.plus(
+                Translation2d futureRobotTranslation = currentTranslation.plus(
                         new Translation2d(
                                 currentSpeeds.vxMetersPerSecond * lookAheadTime,
                                 currentSpeeds.vyMetersPerSecond * lookAheadTime));
 
-                double distance = trialTranslation.getDistance(hubLocation);
+                futureDistance = futureRobotTranslation.getDistance(realHubLocation);
 
-                // 3. Table Lookup: Get the shot parameters for this distance
-                // I'm assuming your table is named 'hoodInterpolationTable'
-                double angle = INTERPOLATION_HOOD.get(distance);
-
-                double hoodAngleDegrees = angle;
+                double hoodAngleDegrees = INTERPOLATION_HOOD.get(futureDistance);
                 double launchVelocity = Subsystems.shooter.calculateExitVelocity();
-
-                // 4. Parabolic TOF calculation
-                // Horizontal Velocity (Vx) = V * cos(theta)
                 double horizontalVelocity = launchVelocity * Math.cos(Math.toRadians(hoodAngleDegrees));
 
-                if (horizontalVelocity > 0.5) { // Safety check to avoid division by zero
-                    lookAheadTime = (distance / horizontalVelocity) + latencyFactor;
+                if (horizontalVelocity > 0) {
+                    lookAheadTime = (futureDistance / horizontalVelocity) + latencyFactor;
                 }
             }
-
-            // 5. Calculate the Virtual Pose
-            // We subtract the movement because we want to aim at where the hub
-            // "appears" to be in the robot's moving frame of reference.
-            Translation2d finalProjectedTranslation = currentTranslation.minus(
+            Translation2d virtualHubTranslation = realHubLocation.minus(
                     new Translation2d(
                             currentSpeeds.vxMetersPerSecond * lookAheadTime,
                             currentSpeeds.vyMetersPerSecond * lookAheadTime));
 
-            return new Pose2d(finalProjectedTranslation, currentPose.getRotation());
+            return new Pose2d(virtualHubTranslation, currentPose.getRotation());
         }
 
-        return currentPose; // Return current pose if alliance is unknown
+        return intialPose2dHub;
     }
 
     public double getSpeedMetersPerSecond() {

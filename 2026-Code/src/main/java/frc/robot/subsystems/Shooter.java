@@ -224,7 +224,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double calculateExitVelocity() {
-    double rps = getShooterRPM() / 60.0;
+    double rps = velocity / 60.0;
     double surfaceSpeed = rps * FLYWHEEL_CIRCUMFRANCE;
     return surfaceSpeed;
   }

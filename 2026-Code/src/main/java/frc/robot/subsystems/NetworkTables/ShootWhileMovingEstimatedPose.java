@@ -8,24 +8,25 @@ import edu.wpi.first.networktables.StructTopic;
 import frc.robot.subsystems.Swerve;
 
 public class ShootWhileMovingEstimatedPose extends Swerve {
-    NetworkTableInstance nt = NetworkTableInstance.getDefault();
-    private Pose2d blank = new Pose2d();
+    // NetworkTableInstance nt = NetworkTableInstance.getDefault();
+    // private Pose2d blank = new Pose2d();
 
-    private StructTopic<Pose2d> estimatedPose = nt.getStructTopic("/EstimatedPose", Pose2d.struct);
-    private StructPublisher<Pose2d> m_estimatedPosePub;
+    // private StructTopic<Pose2d> estimatedPose =
+    // nt.getStructTopic("/EstimatedPose", Pose2d.struct);
+    // private StructPublisher<Pose2d> m_estimatedPosePub;
 
-    public ShootWhileMovingEstimatedPose() {
-        m_estimatedPosePub = estimatedPose.publish();
-        m_estimatedPosePub.setDefault(blank);
+    // public ShootWhileMovingEstimatedPose() {
+    // m_estimatedPosePub = estimatedPose.publish();
+    // m_estimatedPosePub.setDefault(blank);
 
-    }
+    // }
 
-    @Override
-    public void periodic() {
-        super.periodic();
-        final long now = NetworkTablesJNI.now();
+    // @Override
+    // public void periodic() {
+    // super.periodic();
+    // final long now = NetworkTablesJNI.now();
 
-        m_estimatedPosePub.set(getProjectedPose(10), now);
+    // m_estimatedPosePub.set(getProjectedPose(10), now);
 
-    }
+    // }
 }
