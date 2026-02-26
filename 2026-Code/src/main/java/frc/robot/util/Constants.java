@@ -72,7 +72,7 @@ public class Constants {
         public static final double START_POSITION = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double FAST_SHOOTING_RPM = 4000;
-        public static final double CURRENT_SPIKE = 20.0;
+        public static final double CURRENT_SPIKE = 29.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double NOT_MOVING_THRESHOLD = 0.1;
         public static final double NOT_TURNING_THRESHOLD = 10;

@@ -356,7 +356,7 @@ public class Shooter extends SubsystemBase {
           m_recentering = false;
         },
         // set motor position to 0 when command ends
-        () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > 29), // end command when current spike
+        () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE), // end command when current spike
         this // require shooter subsystem
     );
   }
