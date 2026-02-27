@@ -26,7 +26,7 @@ public class SuperstructureFactory {
     }
 
     public static Command noShooting() {
-        return (kicker.noKick().alongWith(index.noSpin()));
+        return (index.noKickAndSpin());
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {

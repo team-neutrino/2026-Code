@@ -1,14 +1,8 @@
 package frc.robot.subsystems;
 
-import static frc.robot.util.Constants.FieldMeasurementConstants.ALLIANCE_ZONE_BLUE;
-import static frc.robot.util.Constants.FieldMeasurementConstants.ALLIANCE_ZONE_RED;
-import static frc.robot.util.Constants.FieldMeasurementConstants.BLUE_HUB;
-import static frc.robot.util.Constants.FieldMeasurementConstants.MID_FIELD;
-import static frc.robot.util.Constants.FieldMeasurementConstants.RED_HUB;
-import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_BOTTOM_BLUE;
-import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_BOTTOM_RED;
-import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_TOP_BLUE;
-import static frc.robot.util.Constants.FieldMeasurementConstants.SHUTTLE_TARGET_TOP_RED;
+
+import static frc.robot.util.Constants.FieldMeasurementConstants.*;
+
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Constants.ShooterConstants.DEFAULT_SHOOTING_SPEED;
 import static frc.robot.util.Constants.ShooterConstants.FAST_TIME_OF_FLIGHT;
@@ -163,8 +157,8 @@ public class Swerve extends CommandSwerveDrivetrain {
 
         Pose2d hubPose = getHubPose2();
         Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
-                ? (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
-                : (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
+                ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
+                : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
 
         boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
                 || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);

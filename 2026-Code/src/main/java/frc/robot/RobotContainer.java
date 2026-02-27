@@ -65,7 +65,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("NoMove", swerve.noMove());
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("runIntake", IntakeFactory.runIntake());
-    NamedCommands.registerCommand("feedShooter", SuperstructureFactory.FeedShooter());
+    NamedCommands.registerCommand("feedShooter", index.feedShooter());
     NamedCommands.registerCommand("noShoot", SuperstructureFactory.noShooting());
     NamedCommands.registerCommand("shooterDefault", shooter.defaultCommand());
   }
