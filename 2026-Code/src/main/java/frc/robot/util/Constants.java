@@ -355,8 +355,8 @@ public class Constants {
     public static class LEDConstants {
         public static final int CANDLE_ID = 32;
         public static final int START_INDEX = 8;
-        public static final int MID_INDEX = 12;
-        public static final int END_INDEX = 16;
+        public static final int MID_INDEX = 41;
+        public static final int END_INDEX = 60;
         public static final int VOLTAGE_WARNING_DEBOUNCED_TIME = 60;
 
         public static final RGBWColor WHITE = new RGBWColor(64, 64, 64);

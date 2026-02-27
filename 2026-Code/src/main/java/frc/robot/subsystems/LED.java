@@ -19,13 +19,6 @@ import com.ctre.phoenix6.hardware.CANdle;
 import com.ctre.phoenix6.controls.*;
 
 import edu.wpi.first.math.filter.Debouncer;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.PubSubOption;
-import edu.wpi.first.networktables.PubSubOptions;
-import edu.wpi.first.networktables.StructSubscriber;
-import edu.wpi.first.networktables.StructTopic;
 
 public class LED extends SubsystemBase {
     private final CANdle m_candle = new CANdle(CANDLE_ID, "rio");
@@ -33,19 +26,11 @@ public class LED extends SubsystemBase {
     private boolean m_isDisabled;
     private double m_gameTime;
 
-    private Pose2d blankPose = new Pose2d();
     private Debouncer m_debouncer = new Debouncer(VOLTAGE_WARNING_DEBOUNCED_TIME);
-
-    private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    private final NetworkTable driveStateTable = inst.getTable("DriveState");
-
-    private StructTopic<Pose2d> driveState = driveStateTable.getStructTopic("DriveState/Pose2d", Pose2d.struct);
-    private StructSubscriber<Pose2d> driveStateSubscriber;
 
     public LED() {
         CANdleConfiguration configAll = new CANdleConfiguration();
         m_candle.getConfigurator().apply(configAll);
-        driveStateSubscriber = driveState.subscribe(blankPose);
     }
 
     public boolean under12V() {
@@ -107,16 +92,10 @@ public class LED extends SubsystemBase {
     }
 
     private void OdometryCheck() {
-        if (getDriveState().getX() == 0 && getDriveState().getY() == 0 && false) {
-            m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(RED));
-        } else if (!false) {
+        if (!vision.hasTag()) {
             m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(ORANGE));
         } else {
             m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(GREEN));
         }
-    }
-
-    private Pose2d getDriveState() {
-        return driveStateSubscriber.get();
     }
 }
