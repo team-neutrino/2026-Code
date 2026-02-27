@@ -106,6 +106,11 @@ public class Vision extends SubsystemBase {
     limelightInitialization();
   }
 
+  public boolean hasTag() {
+    return LimelightHelpers.getTV(LL_BACK) || LimelightHelpers.getTV(LL_FRONT) || LimelightHelpers.getTV(LL_LEFT)
+        || LimelightHelpers.getTV(LL_RIGHT);
+  }
+
   /**
    * Performs one-time initialization of all Limelights:
    * sets LED modes, camera pose offsets, fiducial scaling,

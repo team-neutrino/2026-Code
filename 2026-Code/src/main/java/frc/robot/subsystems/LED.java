@@ -3,46 +3,49 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 import static edu.wpi.first.wpilibj.RobotController.*;
 
 import static frc.robot.util.Constants.LEDConstants.*;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 import static frc.robot.util.Subsystems.*;
 import frc.robot.util.HubActiveStatus;
-import frc.robot.util.ShooterArbiter;
 import frc.robot.util.Constants.ShooterConstants;
 
 import com.ctre.phoenix6.configs.CANdleConfiguration;
 import com.ctre.phoenix6.hardware.CANdle;
-import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.controls.*;
 
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.PubSubOption;
+import edu.wpi.first.networktables.PubSubOptions;
 import edu.wpi.first.networktables.StructSubscriber;
+import edu.wpi.first.networktables.StructTopic;
 
 public class LED extends SubsystemBase {
     private final CANdle m_candle = new CANdle(CANDLE_ID, "rio");
 
     private boolean m_isDisabled;
     private double m_gameTime;
-    private HubActiveStatus m_hub_status = hubState;
-    private Index m_index = index;
 
+    private Pose2d blankPose = new Pose2d();
     private Debouncer m_debouncer = new Debouncer(VOLTAGE_WARNING_DEBOUNCED_TIME);
 
-    private NetworkTableInstance nt = NetworkTableInstance.getTable("DriveState");
-    private StructSubcriber driveStateSubcriber;
+    private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    private final NetworkTable driveStateTable = inst.getTable("DriveState");
+
+    private StructTopic<Pose2d> driveState = driveStateTable.getStructTopic("DriveState/Pose2d", Pose2d.struct);
+    private StructSubscriber<Pose2d> driveStateSubscriber;
 
     public LED() {
         CANdleConfiguration configAll = new CANdleConfiguration();
         m_candle.getConfigurator().apply(configAll);
-
-        driveStateSubcriber = nt.getDoubleTopic("Pose").subscribe(0);
+        driveStateSubscriber = driveState.subscribe(blankPose);
     }
 
     public boolean under12V() {
@@ -86,31 +89,34 @@ public class LED extends SubsystemBase {
         ShooterConditionsCheck();
         OdometryCheck();
     }
-}
 
-private void ShooterConditionsCheck(){
-    if (!shooterArbiter.readyToFire()) {
-        HashMap<ShooterConstants.shooterConditions, Boolean> conditions = shooterArbiter.getConditions();
-        ShooterConstants.shooterConditions[] shooterValues = ShooterConstants.shooterConditions.values();
-        for (int i = 0; i < shooterValues.length; i++) {
-            if (!conditions.get(shooterValues[i])) {
-                m_candle.setControl(
-                        new SolidColor(START_INDEX, MID_INDEX).withColor(COLOR_MAP.get(shooterValues[i])));
-                break;
+    private void ShooterConditionsCheck() {
+        if (!shooterArbiter.readyToFire()) {
+            HashMap<ShooterConstants.shooterConditions, Boolean> conditions = shooterArbiter.getConditions();
+            ShooterConstants.shooterConditions[] shooterValues = ShooterConstants.shooterConditions.values();
+            for (int i = 0; i < shooterValues.length; i++) {
+                if (!conditions.get(shooterValues[i])) {
+                    m_candle.setControl(
+                            new SolidColor(START_INDEX, MID_INDEX).withColor(COLOR_MAP.get(shooterValues[i])));
+                    break;
+                }
             }
+        } else {
+            m_candle.setControl(new SolidColor(START_INDEX, MID_INDEX).withColor(GREEN));
         }
-    } else {
-        m_candle.setControl(new SolidColor(START_INDEX, MID_INDEX).withColor(GREEN));
     }
-}
 
-private void OdometryCheck(){
-
-    if () {
-
+    private void OdometryCheck() {
+        if (getDriveState().getX() == 0 && getDriveState().getY() == 0 && false) {
+            m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(RED));
+        } else if (!false) {
+            m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(ORANGE));
+        } else {
+            m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(GREEN));
+        }
     }
-}
 
-private getDriveState(){
-    return driveStateSubcriber.get();
+    private Pose2d getDriveState() {
+        return driveStateSubscriber.get();
+    }
 }

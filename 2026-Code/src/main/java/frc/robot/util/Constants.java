@@ -354,7 +354,7 @@ public class Constants {
     public static class LEDConstants {
         public static final int CANDLE_ID = 32;
         public static final int START_INDEX = 8;
-        public static final int MID_INDEX = 11;
+        public static final int MID_INDEX = 12;
         public static final int END_INDEX = 16;
         public static final int VOLTAGE_WARNING_DEBOUNCED_TIME = 60;
 
@@ -368,10 +368,10 @@ public class Constants {
 
         public static final HashMap<ShooterConstants.shooterConditions, RGBWColor> COLOR_MAP = new HashMap<ShooterConstants.shooterConditions, RGBWColor>(
                 Map.ofEntries(
-                        Map.entry(ShooterConstants.shooterConditions.SHOOTER_SPEED_CORRECT, RED),
+                        Map.entry(ShooterConstants.shooterConditions.SHOOTER_SPEED_CORRECT, YELLOW),
                         Map.entry(ShooterConstants.shooterConditions.HOOD_ANGLE_CORRECT, ORANGE),
                         Map.entry(ShooterConstants.shooterConditions.HUB_ACTIVE, YELLOW),
                         Map.entry(ShooterConstants.shooterConditions.IN_ALLIANCE_ZONE, PURPLE),
-                        Map.entry(ShooterConstants.shooterConditions.NOT_DRIVING, BLUE)));
+                        Map.entry(ShooterConstants.shooterConditions.TURRET_ANGLE_CORRECT, BLUE)));
     }
 }
