@@ -201,10 +201,10 @@ public class Constants {
         public static final double FRONT_YAW_OFFSET = 0.0;
 
         public static final double BACK_FORWARD_OFFSET = -0.3310382;
-        public static final double BACK_SIDE_OFFSET = 0.17145; // figure out if left or right
-        public static final double BACK_HEIGHT_OFFSET = 0.3654298;
+        public static final double BACK_SIDE_OFFSET = 0.103; // figure out if left or right
+        public static final double BACK_HEIGHT_OFFSET = 0.2359406;
         public static final double BACK_ROLL_OFFSET = 0.0;
-        public static final double BACK_PITCH_OFFSET = 20;
+        public static final double BACK_PITCH_OFFSET = 30;
         public static final double BACK_YAW_OFFSET = 180;
 
         public static final double LEFT_FORWARD_OFFSET = -0.260255;
