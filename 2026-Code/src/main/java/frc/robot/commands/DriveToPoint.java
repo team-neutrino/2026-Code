@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
@@ -22,6 +23,7 @@ import java.util.List;
 public class DriveToPoint extends Command {
     private DriveToPointPID m_drivePID;
     private Pose2d m_target;
+    private boolean m_rotating;
     private List<Pose2d> m_poseList;
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private final NetworkTable driveStateTable = nt.getTable("DriveToPoint");
@@ -29,10 +31,10 @@ public class DriveToPoint extends Command {
       .publish();
 
 
-    public DriveToPoint(List<Pose2d> shootPoses) {
-
+    public DriveToPoint(List<Pose2d> shootPoses, boolean rotating) {
         addRequirements(swerve);
         m_poseList = shootPoses;
+        m_rotating = rotating;
         m_drivePID = new DriveToPointPID();
         }
 
@@ -43,6 +45,14 @@ public class DriveToPoint extends Command {
         yVelocity = MathUtil.clamp(yVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
 
         swerve.setVelocity(xVelocity, yVelocity, m_drivePID.getRotation());
+    }
+    private void driveNoRotation() {
+        double xVelocity = m_drivePID.getXVelocity(), yVelocity = m_drivePID.getYVelocity();
+
+        xVelocity = MathUtil.clamp(xVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
+        yVelocity = MathUtil.clamp(yVelocity, -MAX_DRIVETOPOINT_SPEED, MAX_DRIVETOPOINT_SPEED);
+
+        swerve.setVelocity(xVelocity, yVelocity, swerve.getCurrentPose().getRotation());
     }
 
     public Pose2d getTarget() {
@@ -58,7 +68,12 @@ public class DriveToPoint extends Command {
 
     @Override
     public void execute() {
-        drive();
+        if (m_rotating) {
+            drive();
+        } else {
+            driveNoRotation();
+        }
+        
         final long now = NetworkTablesJNI.now();
         driveTarget.set(m_target, now);
     }
