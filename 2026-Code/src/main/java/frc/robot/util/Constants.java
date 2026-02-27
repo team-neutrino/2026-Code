@@ -58,9 +58,10 @@ public class Constants {
     public static class ShooterConstants {
         public static final double SHOOTER_CURRENT_LIMIT = 40;
         public static final double HOOD_CURRENT_LIMIT = 30;
-        public static final double SHOOTING_KP = 90.0;
+        public static final double SHOOTING_KP = 0.63;
         public static final double SHOOTING_KI = 0.0;
         public static final double SHOOTING_KD = 0.0;
+        public static final double SHOOTING_KV = 0.118;
         public static final double HOOD_KP = 300;
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
@@ -76,7 +77,7 @@ public class Constants {
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double NOT_MOVING_THRESHOLD = 0.1;
         public static final double NOT_TURNING_THRESHOLD = 10;
-        public static final double SHOOTER_RPM_NOISE = 0.9;
+        public static final double SHOOTER_RPM_NOISE = 0.5;
         public static final double SOFT_SHOT_ANGLE = 20;
         public static final double SOFT_SHOT_SPEED = 1700;
 
