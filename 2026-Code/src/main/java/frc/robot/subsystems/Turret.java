@@ -147,7 +147,7 @@ public class Turret extends SubsystemBase {
     m_previousAngle = current;
   }
 
-  public double calculateFieldRelativeTargetAngle() {
+  private double calculateFieldRelativeTargetAngle() {
     Pose2d robotPose = Subsystems.swerve.getCurrentPose();
     double robotX = robotPose.getMeasureX().baseUnitMagnitude();
     double robotY = robotPose.getMeasureY().baseUnitMagnitude();
