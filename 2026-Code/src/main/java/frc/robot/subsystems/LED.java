@@ -81,20 +81,24 @@ public class LED extends SubsystemBase {
             ShooterConstants.shooterConditions[] shooterValues = ShooterConstants.shooterConditions.values();
             for (int i = 0; i < shooterValues.length; i++) {
                 if (!conditions.get(shooterValues[i])) {
+                    m_candle.setControl(new EmptyAnimation(0));
                     m_candle.setControl(
                             new SolidColor(START_INDEX, MID_INDEX).withColor(COLOR_MAP.get(shooterValues[i])));
                     break;
                 }
             }
         } else {
+            m_candle.setControl(new EmptyAnimation(0));
             m_candle.setControl(new SolidColor(START_INDEX, MID_INDEX).withColor(GREEN));
         }
     }
 
     private void OdometryCheck() {
         if (!vision.hasTag()) {
+            m_candle.setControl(new EmptyAnimation(0));
             m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(ORANGE));
         } else {
+            m_candle.setControl(new EmptyAnimation(0));
             m_candle.setControl(new SolidColor(MID_INDEX + 1, END_INDEX).withColor(GREEN));
         }
     }
