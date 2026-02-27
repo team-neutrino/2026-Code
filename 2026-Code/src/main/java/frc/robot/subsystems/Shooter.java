@@ -300,18 +300,18 @@ public class Shooter extends SubsystemBase {
     if (RED_ALLIANCE.isPresent()) {
       shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
-    // shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
-    // swerve.isNotMovingOrTurning());
+    shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
+    swerve.isNotMovingOrTurning());
     shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, m_hubStatus);
 
-    // if (hubState.hasValidGameData()) {
-    // if (RED_ALLIANCE.get()) {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isRedHubActive());
-    // } else {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isBlueHubActive());
-    // }
+    if (hubState.hasValidGameData()) {
+    if (RED_ALLIANCE.get()) {
+    shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+    hubState.isRedHubActive());
+    } else {
+    shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+    hubState.isBlueHubActive());
+    }
 
     if (m_recentering) {
       m_hoodMotor.setVoltage(-1);

@@ -144,7 +144,7 @@ public class Constants {
             TURRET_ANGLE_CORRECT,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
-            // NOT_DRIVING,
+            NOT_DRIVING,
         }
     }
 
