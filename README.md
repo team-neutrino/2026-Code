@@ -124,10 +124,11 @@ White Flashing - Transition Shift
 Orange Fading - Battery Under 12v for 1 minute outside of match
 
 Shooting Conditions:
-Red - Shooter Speed False
-Orange - Hood Angle False
-Blue - Driving
-Yellow - Hub Inactive
-Purple - Out of Alliance Zone
+Red - Turret Angle Condition False
+Orange - Hood Angle Condition False
+Aqua - Shooter Speed Condition False
+Blue - Not Driving Condition False (Moving True)
+Yellow - Hub Active Condition False
+Purple - In Alliance Zone Conditon False
 
 Green - All Conditions True

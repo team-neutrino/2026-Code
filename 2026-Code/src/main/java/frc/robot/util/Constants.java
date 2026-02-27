@@ -124,9 +124,10 @@ public class Constants {
                         Map.entry(FAST_SHOOTING_RPM, FAST_INTERPOLATION_HOOD)));
 
         public static enum shooterConditions {
-            SHOOTER_SPEED_CORRECT,
-            HOOD_ANGLE_CORRECT,
             TURRET_ANGLE_CORRECT,
+            HOOD_ANGLE_CORRECT,
+            SHOOTER_SPEED_CORRECT,
+            NOT_DRIVING,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
         }
@@ -363,15 +364,17 @@ public class Constants {
         public static final RGBWColor ORANGE = new RGBWColor(84, 18, 0);
         public static final RGBWColor YELLOW = new RGBWColor(64, 64, 0);
         public static final RGBWColor GREEN = new RGBWColor(0, 64, 0);
+        public static final RGBWColor AQUA = new RGBWColor(0, 64, 64);
         public static final RGBWColor BLUE = new RGBWColor(0, 0, 64);
         public static final RGBWColor PURPLE = new RGBWColor(64, 0, 64);
 
         public static final HashMap<ShooterConstants.shooterConditions, RGBWColor> COLOR_MAP = new HashMap<ShooterConstants.shooterConditions, RGBWColor>(
                 Map.ofEntries(
-                        Map.entry(ShooterConstants.shooterConditions.SHOOTER_SPEED_CORRECT, YELLOW),
+                        Map.entry(ShooterConstants.shooterConditions.TURRET_ANGLE_CORRECT, RED),
                         Map.entry(ShooterConstants.shooterConditions.HOOD_ANGLE_CORRECT, ORANGE),
+                        Map.entry(ShooterConstants.shooterConditions.SHOOTER_SPEED_CORRECT, AQUA),
+                        Map.entry(ShooterConstants.shooterConditions.NOT_DRIVING, BLUE),
                         Map.entry(ShooterConstants.shooterConditions.HUB_ACTIVE, YELLOW),
-                        Map.entry(ShooterConstants.shooterConditions.IN_ALLIANCE_ZONE, PURPLE),
-                        Map.entry(ShooterConstants.shooterConditions.TURRET_ANGLE_CORRECT, BLUE)));
+                        Map.entry(ShooterConstants.shooterConditions.IN_ALLIANCE_ZONE, PURPLE)));
     }
 }
