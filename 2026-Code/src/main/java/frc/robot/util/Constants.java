@@ -109,24 +109,6 @@ public class Constants {
                 Map.entry(4.92, 17.0),
                 Map.entry(5.7, 21.0));
 
-        public static final InterpolatingDoubleTreeMap SLOW_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 6.5),
-                Map.entry(1.64, 10.0),
-                Map.entry(2.33, 13.5),
-                Map.entry(2.68, 15.0),
-                Map.entry(3.36, 25.0),
-                Map.entry(4.0, 25.0));
-
-        public static final InterpolatingDoubleTreeMap FAST_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 8.5),
-                Map.entry(1.94, 5.0),
-                Map.entry(2.46, 7.5),
-                Map.entry(3.0, 9.0),
-                Map.entry(3.64, 11.0),
-                Map.entry(4.28, 13.0),
-                Map.entry(4.92, 17.0),
-                Map.entry(5.7, 21.0));
-
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
                 Map.entry(3.5, FAST_SHOOTING_RPM),
@@ -159,7 +141,7 @@ public class Constants {
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12 / 56;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 5;
+        public static final double ALLOWED_ERROR = 2;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
         public static final double STATIC_FF = 0;
@@ -258,7 +240,7 @@ public class Constants {
 
     public static class SwerveConstants {
         public static final double GYRO_SCALAR_Z = -3.9;
-        public static final double MAX_SPEED = 1.5;
+        public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
@@ -342,9 +324,8 @@ public class Constants {
         public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.040988, 5.819326, new Rotation2d(-45));
         public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.040988, 2.25, new Rotation2d(45));
 
-
-
-        public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM,);
+        public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
+                RED_SHOOT_TOP);
 
     }
 

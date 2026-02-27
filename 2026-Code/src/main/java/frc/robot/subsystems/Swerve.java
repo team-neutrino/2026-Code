@@ -1,16 +1,10 @@
 package frc.robot.subsystems;
 
-
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.Constants.ShooterConstants.DEFAULT_SHOOTING_SPEED;
-import static frc.robot.util.Constants.ShooterConstants.FAST_TIME_OF_FLIGHT;
 import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
-import static frc.robot.util.Constants.ShooterConstants.SHOOTER_SPEED_ZONES;
-import static frc.robot.util.Constants.ShooterConstants.SLOW_INTERPOLATION_HOOD;
-import static frc.robot.util.Constants.ShooterConstants.SLOW_TIME_OF_FLIGHT;
 import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
 import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
 import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
@@ -20,8 +14,6 @@ import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
 
 import java.io.IOException;
-import java.util.Map.Entry;
-import java.util.Optional;
 
 import org.json.simple.parser.ParseException;
 
@@ -38,16 +30,12 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Constants.GlobalConstants;
-import frc.robot.util.Subsystems;
 
 public class Swerve extends CommandSwerveDrivetrain {
 
@@ -150,26 +138,6 @@ public class Swerve extends CommandSwerveDrivetrain {
                         .withRotationalRate(speeds.omegaRadiansPerSecond));
     }
 
-    public double calculateFieldRelativeTargetAngle() {
-        Pose2d robotPose = Subsystems.swerve.getCurrentPose();
-        double robotX = robotPose.getMeasureX().baseUnitMagnitude();
-        double robotY = robotPose.getMeasureY().baseUnitMagnitude();
-
-        Pose2d hubPose = getHubPose2();
-        Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
-                ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
-                : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
-
-        boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
-                || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
-
-        Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
-        double targetDistanceX = targetPose.getX() - (robotX + TURRET_OFFSET_X);
-        double targetDistanceY = targetPose.getY() - (robotY + TURRET_OFFSET_Y);
-
-        return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
-    }
-
     public double getFromHubToTurret() {
         double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude() + TURRET_OFFSET_Y;
         double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude() + TURRET_OFFSET_X;
@@ -178,7 +146,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             return 0;
         }
 
-        Pose2d hubPose = getHubPose2();
+        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
 
         double hubDistanceX = hubPose.getX() - robotX;
         double hubDistanceY = hubPose.getY() - robotY;
@@ -194,137 +162,6 @@ public class Swerve extends CommandSwerveDrivetrain {
         } else {
             return robotX > ALLIANCE_ZONE_BLUE;
         }
-    }
-
-    public ChassisSpeeds getFieldRelativeChassisSpeeds() {
-        Rotation2d angle = Rotation2d.fromDegrees(getYawDegrees());
-        return ChassisSpeeds.fromRobotRelativeSpeeds(
-                getChassisSpeeds().vxMetersPerSecond,
-                getChassisSpeeds().vyMetersPerSecond,
-                getChassisSpeeds().omegaRadiansPerSecond,
-                angle);
-    }
-
-    public Pose2d getHubPose1(double exitVelocity) {
-        double latencyFactor = 0.02;
-        Pose2d currentPose = getCurrentPose();
-        ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds();
-        double lookAheadTime = 0.0;
-        Translation2d currentTranslation = currentPose.getTranslation();
-        Pose2d intialPose2dHub = BLUE_HUB;
-
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            Translation2d realHubLocation = alliance.get() == Alliance.Blue
-                    ? BLUE_HUB.getTranslation()
-                    : RED_HUB.getTranslation();
-
-            for (int i = 0; i < 2; i++) {
-                Translation2d trialTranslation = currentTranslation.plus(
-                        new Translation2d(
-                                currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                                currentSpeeds.vyMetersPerSecond * lookAheadTime));
-
-                double distance = trialTranslation.getDistance(realHubLocation);
-                lookAheadTime = (distance / exitVelocity) + latencyFactor;
-            }
-            Translation2d virtualHubTranslation = realHubLocation.minus(
-                    new Translation2d(
-                            currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                            currentSpeeds.vyMetersPerSecond * lookAheadTime));
-
-            return new Pose2d(virtualHubTranslation, currentPose.getRotation());
-        }
-
-        return intialPose2dHub;
-    }
-
-    public Pose2d getHubPose2() {
-        double latencyFactor = 0.4;
-        Pose2d currentPose = getCurrentPose();
-        ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds();
-        double lookAheadTime = 0.0;
-        Translation2d currentTranslation = currentPose.getTranslation();
-
-        Pose2d intialPose2dHub = BLUE_HUB;
-
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            Pose2d intialPose2d = (alliance.get() == Alliance.Blue)
-                    ? BLUE_HUB
-                    : RED_HUB;
-
-            Translation2d realHubLocation = intialPose2d.getTranslation();
-            double futureDistance = 0;
-
-            for (int i = 0; i < 3; i++) {
-                Translation2d futureRobotTranslation = currentTranslation.plus(
-                        new Translation2d(
-                                currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                                currentSpeeds.vyMetersPerSecond * lookAheadTime));
-
-                futureDistance = futureRobotTranslation.getDistance(realHubLocation);
-
-                double hoodAngleDegrees = SLOW_INTERPOLATION_HOOD.get(futureDistance);
-                double launchVelocity = Subsystems.shooter
-                        .calculateExitVelocity(SHOOTER_SPEED_ZONES.floorEntry(futureDistance).getValue());
-                double horizontalVelocity = launchVelocity * Math.cos(Math.toRadians(hoodAngleDegrees));
-
-                if (horizontalVelocity > 0) {
-                    lookAheadTime = (futureDistance / horizontalVelocity) + latencyFactor;
-                }
-            }
-            Translation2d virtualHubTranslation = realHubLocation.minus(
-                    new Translation2d(
-                            currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                            currentSpeeds.vyMetersPerSecond * lookAheadTime));
-
-            return new Pose2d(virtualHubTranslation, currentPose.getRotation());
-        }
-
-        return intialPose2dHub;
-    }
-
-    public Pose2d getHubPose3() {
-        double latency = 0.05;
-
-        Pose2d hubPose = (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) ? RED_HUB : BLUE_HUB;
-        Translation2d hubLocation = hubPose.getTranslation();
-
-        Pose2d currentPose = getCurrentPose();
-        Translation2d currentTranslation = currentPose.getTranslation();
-        ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
-
-        double currentDist = currentTranslation.getDistance(hubLocation);
-        double shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
-        double lookAheadTime;
-
-        if (shootingSpeed == DEFAULT_SHOOTING_SPEED) {
-            lookAheadTime = SLOW_TIME_OF_FLIGHT.get(currentDist);
-        } else {
-            lookAheadTime = FAST_TIME_OF_FLIGHT.get(currentDist);
-        }
-
-        for (int i = 0; i < 3; i++) {
-            double offsetX = hubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * lookAheadTime);
-            double offsetY = hubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * lookAheadTime);
-            Translation2d adjustedHub = new Translation2d(offsetX, offsetY);
-            currentDist = currentTranslation.getDistance(adjustedHub);
-            shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
-            if (shootingSpeed == DEFAULT_SHOOTING_SPEED) {
-                lookAheadTime = SLOW_TIME_OF_FLIGHT.get(currentDist);
-            } else {
-                lookAheadTime = FAST_TIME_OF_FLIGHT.get(currentDist);
-            }
-        }
-
-        double totalLookAhead = lookAheadTime + latency;
-
-        Translation2d finalHubLocation = new Translation2d(
-                hubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * totalLookAhead),
-                hubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * totalLookAhead));
-
-        return new Pose2d(finalHubLocation, currentPose.getRotation());
     }
 
     public double getSpeedMetersPerSecond() {
@@ -377,13 +214,6 @@ public class Swerve extends CommandSwerveDrivetrain {
                 this);
     }
 
-    public Command noMove() {
-        return run(() -> {
-            setVelocity(0,0, getCurrentPose().getRotation());
-        });
-    }
-        
-
     public Command swerveDefaultCommand(CommandXboxController joystick) {
         return run(() -> {
             double forward = -joystick.getLeftY();
@@ -404,22 +234,6 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public void configureRequestPID() {
         SwerveRequestStash.driveWithVelocity.HeadingController.setPID(ROTATIONAL_P, 0, AUTO_ALIGN_D);
-    }
-
-    private boolean isInBlueHalf() {
-        return getCurrentPose().getMeasureX().baseUnitMagnitude() < MID_FIELD_X;
-    }
-
-    public double calculateTargetAngle(double p_robotX, double p_robotY) {
-        double robotX = p_robotX;
-        double robotY = p_robotY;
-
-        Pose2d hubPose = isInBlueHalf() ? BLUE_HUB : RED_HUB;
-
-        double targetDistanceX = hubPose.getX() - robotX;
-        double targetDistanceY = hubPose.getY() - robotY;
-
-        return Math.atan2(targetDistanceY, targetDistanceX);
     }
 
     public class SwerveRequestStash {
