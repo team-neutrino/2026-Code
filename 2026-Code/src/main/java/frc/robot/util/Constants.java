@@ -139,7 +139,7 @@ public class Constants {
         public static final double TURRET_I = 0;
         public static final double TURRET_D = 7;
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
-        public static final double ROTOR_TO_SENSOR_RATIO = 12 / 56;
+        public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
         public static final double ALLOWED_ERROR = 2;
         public static final double DISCONTINUITY_POINT = 1;
