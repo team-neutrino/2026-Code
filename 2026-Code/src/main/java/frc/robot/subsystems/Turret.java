@@ -35,6 +35,7 @@ public class Turret extends SubsystemBase {
   private double m_previousAngle = STARTUP_ANGLE;
   private double m_totalWrap = STARTUP_ANGLE;
   private double m_adjustedTargetAngle = STARTUP_ANGLE;
+  private double m_previousFieldRelativeTargetAngle = 0.0;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
@@ -86,7 +87,13 @@ public class Turret extends SubsystemBase {
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
       updateWrap();
       m_adjustedTargetAngle = getAdjustedTargetAngle();
-      adjustTurret(m_adjustedTargetAngle);
+
+      final double fieldRelativeTargetAngle = Subsystems.swerve.calculateFieldRelativeTargetAngle();
+      final double translationRate = (fieldRelativeTargetAngle - m_previousFieldRelativeTargetAngle) / 0.020;
+      m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
+      final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
+
+      adjustTurret(m_adjustedTargetAngle, translationRate + rotationRate);
     }
     shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
   }
@@ -142,9 +149,9 @@ public class Turret extends SubsystemBase {
     return Math.abs(currentAngle - targetAngle) < ALLOWED_ERROR;
   }
 
-  private void adjustTurret(double targetAngle) {
-    m_motor
-        .setControl(new PositionVoltage(targetAngle / 360));
+  private void adjustTurret(double targetAngle, double hubVelocity) {
+    double trackingFeedforward = (hubVelocity / 360.0) * TURRET_TRACKING_KV;
+    m_motor.setControl(new PositionVoltage(targetAngle / 360).withFeedForward(trackingFeedforward));
   }
 
   private void updateWrap() {

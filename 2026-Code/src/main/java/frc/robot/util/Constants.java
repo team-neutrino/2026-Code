@@ -144,14 +144,15 @@ public class Constants {
         public static final double ALLOWED_ERROR = 2;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
-        public static final double STATIC_FF = 0;
-        public static final double VELOCITY_FF = 0;
-        public static final double ACCELERATION_FF = 0;
+        public static final double STATIC_FF = 0.1;
+        public static final double VELOCITY_FF = 0.0;
+        public static final double ACCELERATION_FF = 0.0;
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
         public static final double TARGET_TOLERANCE = 1;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
+        public static final double TURRET_TRACKING_KV = 0.0;
     }
 
     public static class IndexConstants {
