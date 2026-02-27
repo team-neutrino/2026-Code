@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.GlobalConstants;
@@ -38,6 +39,9 @@ public class Turret extends SubsystemBase {
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
 
+  // Simulation
+  private TurretSim m_turretSim;
+
   public Turret() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
         .withSupplyCurrentLimitEnable(true)
@@ -69,6 +73,12 @@ public class Turret extends SubsystemBase {
     m_motor.setNeutralMode(NeutralModeValue.Coast);
     m_motor.setPosition(STARTUP_ANGLE);
     m_encoder.setPosition(STARTUP_ANGLE);
+
+    // Initialize simulation
+    if (RobotBase.isSimulation()) {
+      m_turretSim = new TurretSim(m_motor, m_encoder);
+      m_turretSim.resetSimulation(STARTUP_ANGLE);
+    }
   }
 
   @Override
@@ -167,5 +177,12 @@ public class Turret extends SubsystemBase {
     m_motorConfig.Slot0.kI = i;
     m_motorConfig.Slot0.kD = d;
     m_motor.getConfigurator().apply(m_motorConfig);
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    if (m_turretSim != null) {
+      m_turretSim.updateSimulation();
+    }
   }
 }
