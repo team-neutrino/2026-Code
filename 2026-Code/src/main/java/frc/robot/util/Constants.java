@@ -318,12 +318,22 @@ public class Constants {
                 BLUE_CLIMB_RIGHT);
         public static final List<Pose2d> RED_CLIMB_POSES = List.of(RED_CLIMB_LEFT, RED_CLIMB_CENTER, RED_CLIMB_RIGHT);
 
+        public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(3.5, 5.819326, new Rotation2d(-45));
+        public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(3.5, 2.25, new Rotation2d(45));
+
+        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.040988, 5.819326, new Rotation2d(-45));
+        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.040988, 2.25, new Rotation2d(45));
+
+        public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
+                RED_SHOOT_TOP);
+
     }
 
     public static class FieldMeasurementConstants {
         public static final double ALLIANCE_ZONE_BLUE = 3.978;
         public static final double ALLIANCE_ZONE_RED = 12.563;
-        public static final double MID_FIELD = 4.034663;
+        public static final double MID_FIELD_Y = 4.034663;
+        public static final double MID_FIELD_X = 8.270494;
         public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034663, new Rotation2d(0));
         public static final Pose2d BLUE_HUB = new Pose2d(4.625594, 4.034663, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 7, new Rotation2d(0));
@@ -333,5 +343,9 @@ public class Constants {
         public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
         public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
         public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
+    }
+
+    public static class AutonConstants {
+        public static final String CURRENT_AUTON = "Neutral Half L";
     }
 }

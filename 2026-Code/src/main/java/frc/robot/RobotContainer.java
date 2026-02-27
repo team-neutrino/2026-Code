@@ -6,17 +6,24 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.command_factories.IntakeFactory;
 import frc.robot.command_factories.SuperstructureFactory;
+import frc.robot.commands.DriveToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Subsystems;
+import frc.robot.util.Constants.AutonConstants;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.util.Constants.DriveToPointConstants.SHOOT_POSES;
 import static frc.robot.util.Subsystems.*;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
+  private Command m_autonPath;
 
   private Subsystems m_subsystemContainer;
 
@@ -24,8 +31,9 @@ public class RobotContainer {
     m_subsystemContainer = new Subsystems();
     configureDefaultCommands();
     configureBindings();
+    configureNamedCommands();
+    m_autonPath = new PathPlannerAuto(AutonConstants.CURRENT_AUTON);
     swerve.registerTelemetry(logger::telemeterize);
-
   }
 
   private void configureDefaultCommands() {
@@ -48,7 +56,30 @@ public class RobotContainer {
 
   }
 
+  private void configureNamedCommands() {
+    NamedCommands.registerCommand("DriveToPointFinite", SuperstructureFactory.DriveToPointFinite(SHOOT_POSES));
+    NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES));
+    NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
+    NamedCommands.registerCommand("runIntake", IntakeFactory.runIntake());
+    NamedCommands.registerCommand("feedShooter", index.feedShooter());
+    NamedCommands.registerCommand("noShoot", SuperstructureFactory.noShooting());
+    NamedCommands.registerCommand("shooterDefault", shooter.defaultCommand());
+  }
+
   public Command getAutonomousCommand() {
-    return new InstantCommand();
+    Command auto;
+
+    if (Subsystems.swerve == null) {
+      return new InstantCommand();
+    }
+    try {
+      auto = m_autonPath;
+    } catch (Exception e) {
+      // DO NOT CHANGE THE CODE IN THIS CATCH BLOCK
+      System.err.println("Caught exception when loading auto");
+      auto = new PathPlannerAuto("Nothing");
+    }
+
+    return auto;
   }
 }

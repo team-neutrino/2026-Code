@@ -1,11 +1,30 @@
 package frc.robot.subsystems;
 
-import frc.robot.generated.CommandSwerveDrivetrain;
+import static frc.robot.util.Constants.FieldMeasurementConstants.*;
+
+import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
+import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
+import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
+import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
+import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
+import static frc.robot.util.Constants.SwerveConstants.MAX_SPEED;
+import static frc.robot.util.Constants.SwerveConstants.ROTATIONAL_P;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
+
+import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.configs.GyroTrimConfigs;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -14,25 +33,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Constants.GlobalConstants;
-
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-
-import static frc.robot.util.Constants.GlobalConstants.*;
-import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
-import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
-import static frc.robot.util.Constants.SwerveConstants.*;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
-import static frc.robot.util.Constants.FieldMeasurementConstants.*;
-
-import java.io.IOException;
-
-import org.json.simple.parser.ParseException;
 
 public class Swerve extends CommandSwerveDrivetrain {
 

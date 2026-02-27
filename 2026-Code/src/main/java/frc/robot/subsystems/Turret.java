@@ -154,8 +154,8 @@ public class Turret extends SubsystemBase {
 
     Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
     Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
-        ? (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
-        : (robotY > MID_FIELD ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
+        ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
+        : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
 
     boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
         || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
@@ -168,7 +168,8 @@ public class Turret extends SubsystemBase {
   }
 
   private double calculateRobotRelativeTargetAngle() {
-    return calculateFieldRelativeTargetAngle() - Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
+    return calculateFieldRelativeTargetAngle()
+        - Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
   }
 
   public Command defaultCommand() {

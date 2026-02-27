@@ -74,9 +74,17 @@ public class Index extends SubsystemBase {
         });
     }
 
+
     public Command kickWhenPress() {
         return run(() -> {
             m_kickerMotorVoltage = KICKER_VOLTAGE;
+        });
+    }
+
+    public Command noKickAndSpin() {
+        return run(() -> {
+            m_kickerMotorVoltage = 0;
+            m_spindexerMotorVoltage = 0;
         });
     }
 
