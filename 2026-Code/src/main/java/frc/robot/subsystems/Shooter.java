@@ -130,12 +130,6 @@ public class Shooter extends SubsystemBase {
     m_hoodMotor.getConfigurator().apply(m_hoodMotorConfig);
   }
 
-  public void setShooterFF(double new_FF) {
-    m_shooterMotorConfig.Slot0.kV = new_FF;
-
-    m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
-  }
-
   /**
    * Gets the current position of the hood motor.
    * 
@@ -290,7 +284,8 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     m_filteredSpeed = SHOOTER_RPM_NOISE * m_filteredSpeed
-        + (1 - SHOOTER_RPM_NOISE) * (m_shooterMotor.getVelocity().getValueAsDouble() * 60.0);
+        + (1 - SHOOTER_RPM_NOISE) * (m_shooterMotor.getVelocity().getValueAsDouble()
+            * 60.0);
 
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
@@ -363,7 +358,8 @@ public class Shooter extends SubsystemBase {
           m_recentering = false;
         },
         // set motor position to 0 when command ends
-        () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE), // end command when current spike
+        () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE), // end command when current
+                                                                                             // spike
         this // require shooter subsystem
     );
   }
