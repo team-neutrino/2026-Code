@@ -38,6 +38,7 @@ import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Subsystems;
+import static frc.robot.util.Constants.SwerveConstants.*;
 
 public class Swerve extends CommandSwerveDrivetrain {
 
