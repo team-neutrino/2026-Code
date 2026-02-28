@@ -121,7 +121,7 @@ public class Vision extends SubsystemBase {
         FRONT_ROLL_OFFSET,
         FRONT_PITCH_OFFSET,
         FRONT_YAW_OFFSET);
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_FRONT, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_FRONT, 1);
 
     LimelightHelpers.setLEDMode_ForceOff(LL_BACK);
     LimelightHelpers.setCameraPose_RobotSpace(LL_BACK,
@@ -131,10 +131,10 @@ public class Vision extends SubsystemBase {
         BACK_ROLL_OFFSET,
         BACK_PITCH_OFFSET,
         BACK_YAW_OFFSET);
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_BACK, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_BACK, 1);
 
     LimelightHelpers.setLEDMode_ForceOff(LL_LEFT);
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_LEFT, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_LEFT, 1);
     LimelightHelpers.setCameraPose_RobotSpace(LL_LEFT,
         LEFT_FORWARD_OFFSET,
         LEFT_SIDE_OFFSET,
@@ -143,7 +143,7 @@ public class Vision extends SubsystemBase {
         LEFT_PITCH_OFFSET,
         LEFT_YAW_OFFSET);
 
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_RIGHT, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_RIGHT, 1);
     LimelightHelpers.setLEDMode_ForceOff(LL_RIGHT);
     LimelightHelpers.setCameraPose_RobotSpace(LL_RIGHT,
         RIGHT_FORWARD_OFFSET,
@@ -477,7 +477,7 @@ public class Vision extends SubsystemBase {
 
     public void adjustIMUMode() {
       if (model == 4) {
-        LimelightHelpers.SetIMUMode(name, m_enabled ? 4 : 1); // potential issue with setting to 4 over and over again
+        LimelightHelpers.SetIMUMode(name, m_enabled ? 2 : 1); // potential issue with setting to 4 over and over again
       }
     }
 

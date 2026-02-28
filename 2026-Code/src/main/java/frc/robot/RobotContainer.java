@@ -64,6 +64,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("feedShooter", index.feedShooter());
     NamedCommands.registerCommand("noShoot", index.noKickAndSpin());
     NamedCommands.registerCommand("shooterDefault", shooter.defaultCommand());
+    NamedCommands.registerCommand("noDrive", swerve.noDrive());
   }
 
   public Command getAutonomousCommand() {
