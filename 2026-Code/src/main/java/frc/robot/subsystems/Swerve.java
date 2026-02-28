@@ -30,12 +30,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Constants.GlobalConstants;
+import frc.robot.util.Subsystems;
 
 public class Swerve extends CommandSwerveDrivetrain {
 
@@ -114,8 +116,6 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public void seedYawMT1(double MT1YawDegrees, double MT1Weight) {
         double pigeonWeight = 1 - MT1Weight;
-        // double pigeonWeight = 1;
-        MT1Weight = 0;
         double xAvg = (pigeonWeight * Math.cos(Math.toRadians(getYawDegrees())))
                 + (MT1Weight * Math.cos(Math.toRadians(MT1YawDegrees)));
         double yAvg = (pigeonWeight * Math.sin(Math.toRadians(getYawDegrees())))
@@ -140,20 +140,20 @@ public class Swerve extends CommandSwerveDrivetrain {
                         .withRotationalRate(speeds.omegaRadiansPerSecond));
     }
 
-    public double getFromHubToTurret() {
-        double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude() + TURRET_OFFSET_Y;
-        double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude() + TURRET_OFFSET_X;
+    public Translation2d getTurretGlobal() {
+        Translation2d turretTranslation = new Translation2d(TURRET_OFFSET_X, TURRET_OFFSET_Y);
+        return getCurrentPose()
+                .getTranslation()
+                .plus(turretTranslation.rotateBy(new Rotation2d(getYawRadians())));
+    }
 
+    public double getFromHubToTurret() {
         if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
             return 0;
         }
 
         Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
-
-        double hubDistanceX = hubPose.getX() - robotX;
-        double hubDistanceY = hubPose.getY() - robotY;
-
-        return Math.sqrt(Math.pow(hubDistanceX, 2) + Math.pow(hubDistanceY, 2));
+        return hubPose.getTranslation().getDistance(getTurretGlobal());
     }
 
     public boolean inNeutralOrOpposingZone() {
@@ -164,6 +164,26 @@ public class Swerve extends CommandSwerveDrivetrain {
         } else {
             return robotX > ALLIANCE_ZONE_BLUE;
         }
+    }
+
+    public double calculateFieldRelativeTargetAngle() {
+        Pose2d robotPose = Subsystems.swerve.getCurrentPose();
+        Translation2d turretGlobal = getTurretGlobal();
+        double robotX = robotPose.getMeasureX().baseUnitMagnitude();
+        double robotY = robotPose.getMeasureY().baseUnitMagnitude();
+        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+        Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
+                ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
+                : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
+
+        boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
+                || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
+
+        Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
+        double targetDistanceX = targetPose.getX() - (turretGlobal.getX());
+        double targetDistanceY = targetPose.getY() - (turretGlobal.getY());
+
+        return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
     }
 
     public double getSpeedMetersPerSecond() {

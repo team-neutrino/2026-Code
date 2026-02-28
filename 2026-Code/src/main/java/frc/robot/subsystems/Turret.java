@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,7 +22,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 import static edu.wpi.first.units.Units.Rotations;
-import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Constants.RioConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
@@ -107,7 +105,7 @@ public class Turret extends SubsystemBase {
         turrent_angle_global.getDegrees(),
         -180.0,
         180.0);
-    double angleDiff = turrent_angle_global_degrees - calculateFieldRelativeTargetAngle();
+    double angleDiff = turrent_angle_global_degrees - Subsystems.swerve.calculateFieldRelativeTargetAngle();
     double closeTarget;
     if (Math.abs(angleDiff) < Math
         .abs(GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
@@ -147,28 +145,8 @@ public class Turret extends SubsystemBase {
     m_previousAngle = current;
   }
 
-  private double calculateFieldRelativeTargetAngle() {
-    Pose2d robotPose = Subsystems.swerve.getCurrentPose();
-    double robotX = robotPose.getMeasureX().baseUnitMagnitude();
-    double robotY = robotPose.getMeasureY().baseUnitMagnitude();
-
-    Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
-    Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
-        ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
-        : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
-
-    boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
-        || (!GlobalConstants.RED_ALLIANCE.get() && robotX <= ALLIANCE_ZONE_BLUE);
-
-    Pose2d targetPose = isInAllianceZone ? hubPose : shuttlePose;
-    double targetDistanceX = targetPose.getX() - (robotX + TURRET_OFFSET_X);
-    double targetDistanceY = targetPose.getY() - (robotY + TURRET_OFFSET_Y);
-
-    return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
-  }
-
   private double calculateRobotRelativeTargetAngle() {
-    return calculateFieldRelativeTargetAngle()
+    return Subsystems.swerve.calculateFieldRelativeTargetAngle()
         - Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
   }
 
