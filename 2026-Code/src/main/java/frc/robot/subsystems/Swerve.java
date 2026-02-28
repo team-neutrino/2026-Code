@@ -114,6 +114,8 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public void seedYawMT1(double MT1YawDegrees, double MT1Weight) {
         double pigeonWeight = 1 - MT1Weight;
+        // double pigeonWeight = 1;
+        MT1Weight = 0;
         double xAvg = (pigeonWeight * Math.cos(Math.toRadians(getYawDegrees())))
                 + (MT1Weight * Math.cos(Math.toRadians(MT1YawDegrees)));
         double yAvg = (pigeonWeight * Math.sin(Math.toRadians(getYawDegrees())))

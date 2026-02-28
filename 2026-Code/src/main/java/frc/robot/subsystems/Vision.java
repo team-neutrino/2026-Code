@@ -131,9 +131,10 @@ public class Vision extends SubsystemBase {
         BACK_ROLL_OFFSET,
         BACK_PITCH_OFFSET,
         BACK_YAW_OFFSET);
-    LimelightHelpers.SetFiducialDownscalingOverride(LL_LEFT, 3);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_BACK, 3);
 
     LimelightHelpers.setLEDMode_ForceOff(LL_LEFT);
+    LimelightHelpers.SetFiducialDownscalingOverride(LL_LEFT, 3);
     LimelightHelpers.setCameraPose_RobotSpace(LL_LEFT,
         LEFT_FORWARD_OFFSET,
         LEFT_SIDE_OFFSET,
