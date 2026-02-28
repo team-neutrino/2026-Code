@@ -285,7 +285,7 @@ public class Vision extends SubsystemBase {
         return;
       } else if (!verifyPoseValidity() && verifyYawValidity()) {
         timestamp = estimateMT1.timestampSeconds;
-        pose = estimateMT1.pose;
+        return;
       } else if (verifyPoseValidity() && !verifyYawValidity()) {
         timestamp = estimateMT2.timestampSeconds;
         pose = estimateMT2.pose;
