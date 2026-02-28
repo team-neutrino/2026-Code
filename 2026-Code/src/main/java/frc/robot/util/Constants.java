@@ -321,8 +321,8 @@ public class Constants {
         public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(3.1, 5.819326, new Rotation2d(-45));
         public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(3.1, 2.25, new Rotation2d(45));
 
-        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.040988, 5.819326, new Rotation2d(-45));
-        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.040988, 2.25, new Rotation2d(45));
+        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.1, 5.819326, new Rotation2d(-45));
+        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.1, 2.25, new Rotation2d(45));
 
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
@@ -346,6 +346,6 @@ public class Constants {
     }
 
     public static class AutonConstants {
-        public static final String CURRENT_AUTON = "Neutral Half L";
+        public static final String CURRENT_AUTON = "Depot";
     }
 }

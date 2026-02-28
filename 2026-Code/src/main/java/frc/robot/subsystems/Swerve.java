@@ -229,6 +229,12 @@ public class Swerve extends CommandSwerveDrivetrain {
         });
     }
 
+    public Command noDrive() {
+        return run(() -> {
+            setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(0));
+        });
+    }
+
     @Override
     public void periodic() {
         super.periodic();
