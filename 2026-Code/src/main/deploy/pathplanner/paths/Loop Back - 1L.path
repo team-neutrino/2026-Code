@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5,
+        "x": 3.1,
         "y": 2.25
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.5,
+        "x": 4.1,
         "y": 2.25
       },
       "isLocked": false,
@@ -20,12 +20,12 @@
         "y": 2.5
       },
       "prevControl": {
-        "x": 5.565350838127149,
-        "y": 1.7886969440390317
+        "x": 5.4601751215605825,
+        "y": 1.9326888546404097
       },
       "nextControl": {
-        "x": 5.7523487544484,
-        "y": 3.263902728351127
+        "x": 5.807556342366369,
+        "y": 2.941557174804881
       },
       "isLocked": false,
       "linkedName": null
@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 5.65,
-        "y": 5.35
+        "y": 5.5
       },
       "prevControl": {
         "x": 5.725314353499406,
-        "y": 4.66141162514828
+        "y": 4.81141162514828
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,23 +50,37 @@
       "rotationDegrees": 90.0
     },
     {
-      "waypointRelativePos": 1.7978723404255457,
+      "waypointRelativePos": 1.8696808510638314,
       "rotationDegrees": 90.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.748224151539075,
+      "maxWaypointRelativePos": 1.7963693764798632,
+      "constraints": {
+        "maxVelocity": 1.25,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 1.0,
+    "velocity": 1.25,
     "rotation": 59.99999999999999
   },
   "reversed": false,

@@ -492,10 +492,10 @@ public class Vision extends SubsystemBase {
       if (poseEstimate == null) {
         return false;
       }
-      return poseEstimate.pose.getMeasureX().compareTo(ZERO) >= 0
-          && poseEstimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) <= 0
-          && poseEstimate.pose.getMeasureY().compareTo(ZERO) >= 0
-          && poseEstimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) <= 0;
+      return poseEstimate.pose.getMeasureX().compareTo(ZERO) > 0
+          && poseEstimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) < 0
+          && poseEstimate.pose.getMeasureY().compareTo(ZERO) > 0
+          && poseEstimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) < 0;
     }
   }
 }
