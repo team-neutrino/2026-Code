@@ -250,6 +250,7 @@ public class Vision extends SubsystemBase {
     private double bumpScaleFactor = 1;
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
+    private boolean isNewFrame = false;
 
     /**
      * Constructs a Limelight wrapper.
@@ -278,6 +279,8 @@ public class Vision extends SubsystemBase {
      * and fuses into the drivetrain estimator.
      */
     public void updateFusionMegatag() {
+      frame = getFrame();
+      isNewFrame = frame > lastFrame;
       double timestamp;
       Pose2d pose;
       estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
@@ -298,6 +301,7 @@ public class Vision extends SubsystemBase {
       }
       swerve.addVisionMeasurement(pose, timestamp,
           VecBuilder.fill(getCalcXYStdev(), getCalcXYStdev(), getCalcYawStdev()));
+      updateFrame();
     }
 
     /** @return Latest MT2 pose or blank pose if unavailable. */
@@ -321,9 +325,9 @@ public class Vision extends SubsystemBase {
       return estimateMT2 != null
           && estimateMT2.tagCount != 0
           && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI
-          // && frame > lastFrame
           && !Double.isNaN(estimateMT2.avgTagDist)
-          && poseInField(estimateMT2);
+          && poseInField(estimateMT2)
+          && isNewFrame;
     }
 
     /** Determines whether MT1 yaw measurement is valid for fusion. */
@@ -331,7 +335,8 @@ public class Vision extends SubsystemBase {
       return estimateMT1 != null
           && estimateMT1.tagCount > 1
           && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI / 2
-          && poseInField(estimateMT1);
+          && poseInField(estimateMT1)
+          && isNewFrame;
     }
 
     /** Determines whether conditions are safe for yaw reseeding. */
@@ -353,14 +358,11 @@ public class Vision extends SubsystemBase {
 
     /** Calculates XY measurement standard deviation dynamically. */
     private double getCalcXYStdev() {
-      frame = getFrame();
       if (!verifyPoseValidity()) {
-        updateFrame();
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       double numberOfTags = estimateMT2.tagCount;
       double distance = estimateMT2.avgTagDist;
-      updateFrame();
       return setXYstdev(distance, numberOfTags);
     }
 
@@ -376,6 +378,7 @@ public class Vision extends SubsystemBase {
     /** Updates stored frame value to prevent duplicate measurements. */
     private void updateFrame() {
       lastFrame = frame;
+      isNewFrame = false;
     }
 
     /** Returns error factor constant based on Limelight model. */
