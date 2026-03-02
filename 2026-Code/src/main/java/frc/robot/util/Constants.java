@@ -110,6 +110,18 @@ public class Constants {
                 Map.entry(4.92, 17.0),
                 Map.entry(5.7, 21.0));
 
+        public static final InterpolatingDoubleTreeMap DISTANCE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap
+                .ofEntries(
+                        Map.entry(3.5, 3200.0),
+                        Map.entry(4.0, 3500.0),
+                        Map.entry(4.5, 3700.0),
+                        Map.entry(5.0, 4000.0));
+
+        public static TreeMap<Double, InterpolatingDoubleTreeMap> SHOOTING_DISTANCE_HOOD_SPEED = new TreeMap<Double, InterpolatingDoubleTreeMap>(
+                Map.ofEntries(
+                        Map.entry(0.0, SPEED_HOOD_INTERPOLATION),
+                        Map.entry(3.5, DISTANCE_SPEED_INTERPOLATION)));
+
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
                 Map.entry(3.5, FAST_SHOOTING_RPM),
