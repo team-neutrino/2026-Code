@@ -68,19 +68,6 @@ public class Index extends SubsystemBase {
         m_kickerMotor.setVoltage(m_kickerMotorVoltage);
     }
 
-    public Command spinWhenPress() {
-        return run(() -> {
-            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-        });
-    }
-
-
-    public Command kickWhenPress() {
-        return run(() -> {
-            m_kickerMotorVoltage = KICKER_VOLTAGE;
-        });
-    }
-
     public Command noKickAndSpin() {
         return run(() -> {
             m_kickerMotorVoltage = 0;
