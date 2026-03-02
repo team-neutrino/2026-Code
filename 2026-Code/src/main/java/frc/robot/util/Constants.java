@@ -74,6 +74,7 @@ public class Constants {
         public static final double START_POSITION = 0;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double FAST_SHOOTING_RPM = 4000;
+        public static final double START_SPEED_INTERPOLATION_DISTANCE = 3.5;
         public static final double CURRENT_SPIKE = 29.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double NOT_MOVING_THRESHOLD = 0.2;
@@ -91,6 +92,21 @@ public class Constants {
         public static final double FLYWHEEL_CIRCUMFRANCE = (FLYWHEEL_DIAMETER * Math.PI);
         public static final double Y_DISPLACEMENT = 1.2376;
         public static final double GRAVITY = -9.807;
+
+        /*
+         * WHAT EACH MAP HERE DOES:
+         *
+         * SLOW_INTERPOLATION_HOOD is for the hood angle interpolation in close (slow)
+         * speed zones
+         * FAST_INTERPOLATION_HOOD is for the hood angle interpolation in far (fast)
+         * speed zones
+         * DISTANCE_SPEED_INTERPOLATION is for speed interpolation when we are too far
+         * to interpolate with hood alone
+         * SHOOTER_SPEED_ZONES is for speed setting in near zones that don't need speed
+         * interpolation
+         * SPEED_HOOD_INTERPOLATION maps shooting speed to either SLOW hood
+         * interpolation or FAST hood interpolation
+         */
 
         public static final InterpolatingDoubleTreeMap SLOW_INTERPOLATION_HOOD = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 6.5),
@@ -116,11 +132,6 @@ public class Constants {
                         Map.entry(4.0, 3500.0),
                         Map.entry(4.5, 3700.0),
                         Map.entry(5.0, 4000.0));
-
-        public static TreeMap<Double, InterpolatingDoubleTreeMap> SHOOTING_DISTANCE_HOOD_SPEED = new TreeMap<Double, InterpolatingDoubleTreeMap>(
-                Map.ofEntries(
-                        Map.entry(0.0, SPEED_HOOD_INTERPOLATION),
-                        Map.entry(3.5, DISTANCE_SPEED_INTERPOLATION)));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, DEFAULT_SHOOTING_SPEED),

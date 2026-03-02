@@ -9,6 +9,7 @@ import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -377,7 +378,12 @@ public class Shooter extends SubsystemBase {
       double hubDistance = swerve.getFromHubToTurret();
 
       if (!swerve.inNeutralOrOpposingZone()) {
-        double shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
+        double shooterSpeed;
+        if (hubDistance < START_SPEED_INTERPOLATION_DISTANCE) {
+          shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
+        } else {
+          shooterSpeed = DISTANCE_SPEED_INTERPOLATION.get(hubDistance);
+        }
         InterpolatingDoubleTreeMap hoodInterpolator = SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
 
         m_targetShooterRpm = shooterSpeed;
