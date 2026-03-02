@@ -64,6 +64,7 @@ public class Intake extends SubsystemBase {
 
     private void moveToIntake(double targetPosition) {
         PositionVoltage positionControl = new PositionVoltage(targetPosition);
+        positionControl.EnableFOC = true;
         m_deployMotor.setControl(positionControl);
     }
 
