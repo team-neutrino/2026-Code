@@ -17,7 +17,7 @@ import frc.robot.commands.DriveToPoint;
 /** Add your docs here. */
 public class SuperstructureFactory {
     public static Command shuttle() {
-        return (index.kickWhenPress().alongWith(shooter.shuttle()));
+        return index.feedShooter().alongWith(shooter.shuttle());
     }
 
     public static Command spitFuel() {
@@ -26,7 +26,7 @@ public class SuperstructureFactory {
     }
 
     public static Command noShooting() {
-        return (index.noKickAndSpin());
+        return index.noKickAndSpin();
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {
