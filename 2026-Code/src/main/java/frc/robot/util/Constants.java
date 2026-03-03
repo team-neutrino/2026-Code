@@ -81,7 +81,7 @@ public class Constants {
         public static final double SOFT_SHOT_ANGLE = 20;
         public static final double SOFT_SHOT_SPEED = 1700;
 
-        public static final double SHUTTLE_SHOOTING_SPEED = 6000;
+        public static final double SHUTTLE_SHOOTING_SPEED = 3000;
         public static final double SHUTTLE_ANGLE = 25;
         public static final double MAX_SAFE_HOOD_ANGLE = 25;
 
