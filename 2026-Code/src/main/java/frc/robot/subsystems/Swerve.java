@@ -237,6 +237,21 @@ public class Swerve extends CommandSwerveDrivetrain {
                 this);
     }
 
+    public Command slowSwerveDrive(CommandXboxController joystick) {
+        return run(() -> {
+            double forward = -joystick.getLeftY();
+            double left = -joystick.getLeftX();
+            double rotation = -joystick.getRightX();
+            double magnitude = Math.hypot(forward, left) * (MAX_SPEED / 2);
+            magnitude = m_slewLimit.calculate(magnitude);
+
+            setControl(SwerveRequestStash.drive
+                    .withVelocityX(forward * magnitude)
+                    .withVelocityY(left * magnitude)
+                    .withRotationalRate(rotation * MAX_ROTATION_SPEED));
+        });
+    }
+
     public Command swerveDefaultCommand(CommandXboxController joystick) {
         return run(() -> {
             double forward = -joystick.getLeftY();
