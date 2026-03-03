@@ -347,6 +347,6 @@ public class Constants {
     }
 
     public static class AutonConstants {
-        public static final String CURRENT_AUTON = "Depot";
+        public static final String CURRENT_AUTON = "Neutral Far L";
     }
 }
