@@ -1,5 +1,6 @@
 package frc.robot.subsystems.NetworkTables;
 
+import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanTopic;
 import edu.wpi.first.networktables.DoublePublisher;
@@ -7,6 +8,9 @@ import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringTopic;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import static frc.robot.util.Subsystems.swerve;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.HubActiveStatus;
 import frc.robot.util.MatchState;
@@ -14,17 +18,24 @@ import frc.robot.util.MatchState;
 public class DriverDashboard extends HubActiveStatus {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
-    DoubleTopic matchTime = nt.getDoubleTopic("/DriverDashboard/match_time");
-    DoubleTopic remaningShiftTime = nt.getDoubleTopic("/DriverDashboard/remaning_shift_time");
-    BooleanTopic shiftActive = nt.getBooleanTopic("/DriverDashboard/shift_active");
-    StringTopic gameState = nt.getStringTopic("/DriverDashboard/climb_game_state");
-    BooleanTopic activeFirst = nt.getBooleanTopic("/DriverDashboard/active_first");
+    DoubleTopic matchTime = nt.getDoubleTopic("/DriverDashboard/Match Time");
+    DoubleTopic remaningShiftTime = nt.getDoubleTopic("/DriverDashboard/Remaining Shift Time");
+    BooleanTopic shiftActive = nt.getBooleanTopic("/DriverDashboard/Shift Active");
+    StringTopic gameState = nt.getStringTopic("/DriverDashboard/Game State");
+    StringTopic shiftNumber = nt.getStringTopic("/DriverDashboard/Shift Number");
+    StringTopic shiftTimeColor = nt.getStringTopic("/DriverDashboard/Shift Time Color");
+
+    BooleanEntry autonWon = nt.getBooleanTopic("/DriverDashboard/Auton Won").getEntry(false);
+
     final DoublePublisher matchTimePub;
     final DoublePublisher remainingShiftTimePub;
     final BooleanPublisher shiftActivePub;
     final StringPublisher gameStatePub;
-    final BooleanPublisher activeFirstPub;
-    boolean weWon = false;
+    final StringPublisher shiftNumberPub;
+    final StringPublisher shiftTimeColorPub;
+
+    private final Field2d field = new Field2d();
+
     MatchState matchState = new MatchState();
 
     public DriverDashboard() {
@@ -40,16 +51,35 @@ public class DriverDashboard extends HubActiveStatus {
         gameStatePub = gameState.publish();
         gameStatePub.setDefault("UNKNOWN");
 
-        activeFirstPub = activeFirst.publish();
-        activeFirstPub.setDefault(false);
+        shiftNumberPub = shiftNumber.publish();
+        shiftNumberPub.setDefault("NONE");
+
+        shiftTimeColorPub = shiftTimeColor.publish();
+        shiftTimeColorPub.setDefault("white");
+
+        autonWon.setDefault(false);
+
+        SmartDashboard.putData("Field", field);
     }
 
     public void periodic() {
-        matchState.setAutoWinner(weWon);
+        matchState.setAutoWinner(autonWon.get());
         matchTimePub.set(matchState.getMatchTime());
-        remainingShiftTimePub.set(matchState.getRemainingShiftTime());
+
+        double remaining = matchState.getRemainingShiftTime();
+        remainingShiftTimePub.set(remaining);
+
+        if (remaining <= 10) {
+            shiftTimeColorPub.set("red");
+        } else if (remaining >= 25) {
+            shiftTimeColorPub.set("green");
+        } else {
+            shiftTimeColorPub.set("white");
+        }
+
         shiftActivePub.set(matchState.isHubActive(GlobalConstants.RED_ALLIANCE.get() ? Alliance.RED : Alliance.BLUE));
         gameStatePub.set(matchState.getGameState());
-        // activeFirstPub.set(matchState.);
+        shiftNumberPub.set(matchState.getCurrentShiftName());
+        field.setRobotPose(swerve.getCurrentPose());
     }
 }

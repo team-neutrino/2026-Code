@@ -44,11 +44,22 @@ public class MatchState extends HubActiveStatus {
         }
     }
 
-    public int getCurrentShiftNumber() {
+    public String getCurrentShiftName() {
         if (!getGameState().equals("TELEOP"))
-            return 0;
+            return "NONE";
 
-        double teleopElapsed = 130 - DriverStation.getMatchTime();
-        return (int) (teleopElapsed / 25) + 1;
+        double matchTime = DriverStation.getMatchTime();
+
+        if (matchTime > 130)
+            return "Transition";
+        if (matchTime > 105)
+            return "Shift 1";
+        if (matchTime > 80)
+            return "Shift 2";
+        if (matchTime > 55)
+            return "Shift 3";
+        if (matchTime > 30)
+            return "Shift 4";
+        return "End Game";
     }
 }
