@@ -92,9 +92,8 @@ public class Intake extends SubsystemBase {
         });
     }
 
-    public Command deployIntake() {
+    public Command toggleIntake() {
         return runOnce(() -> {
-            System.out.println("running");
             m_isDeployed = !m_isDeployed;
         });
     }
