@@ -20,8 +20,8 @@
         "y": 5.819326
       },
       "prevControl": {
-        "x": 4.23339591192625,
-        "y": 6.4605183278636735
+        "x": 6.335795180722892,
+        "y": 5.980132530120482
       },
       "nextControl": null,
       "isLocked": false,
@@ -55,5 +55,5 @@
     "velocity": 0,
     "rotation": -90.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
