@@ -11,20 +11,24 @@
             "title": "Auton Won",
             "x": 0.0,
             "y": 512.0,
-            "width": 256.0,
+            "width": 384.0,
             "height": 256.0,
-            "type": "Toggle Switch",
+            "type": "Boolean Box",
             "properties": {
               "topic": "/DriverDashboard/Auton Won",
               "period": 0.06,
-              "data_type": "boolean"
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
             }
           },
           {
             "title": "Game State",
-            "x": 0.0,
-            "y": 384.0,
-            "width": 256.0,
+            "x": 896.0,
+            "y": 640.0,
+            "width": 640.0,
             "height": 128.0,
             "type": "Large Text Display",
             "properties": {
@@ -35,9 +39,9 @@
           },
           {
             "title": "Match Time",
-            "x": 384.0,
+            "x": 896.0,
             "y": 0.0,
-            "width": 768.0,
+            "width": 640.0,
             "height": 256.0,
             "type": "Large Text Display",
             "properties": {
@@ -47,23 +51,10 @@
             }
           },
           {
-            "title": "Remaing Shift Time",
-            "x": 384.0,
-            "y": 256.0,
-            "width": 768.0,
-            "height": 256.0,
-            "type": "Large Text Display",
-            "properties": {
-              "topic": "/DriverDashboard/Remaing Shift Time",
-              "period": 0.06,
-              "data_type": "double"
-            }
-          },
-          {
             "title": "Shift Active",
-            "x": 1152.0,
-            "y": 128.0,
-            "width": 384.0,
+            "x": 384.0,
+            "y": 384.0,
+            "width": 512.0,
             "height": 384.0,
             "type": "Boolean Box",
             "properties": {
@@ -78,8 +69,8 @@
           },
           {
             "title": "FMSInfo",
-            "x": 1152.0,
-            "y": 0.0,
+            "x": 0.0,
+            "y": 384.0,
             "width": 384.0,
             "height": 128.0,
             "type": "FMSInfo",
@@ -92,7 +83,7 @@
             "title": "Field",
             "x": 0.0,
             "y": 0.0,
-            "width": 384.0,
+            "width": 896.0,
             "height": 384.0,
             "type": "Field",
             "properties": {
@@ -104,25 +95,48 @@
               "show_other_objects": true,
               "show_trajectories": true,
               "field_rotation": 0.0,
-              "robot_color": 4294198070,
-              "trajectory_color": 4294967295,
+              "robot_color": 4293514767,
+              "trajectory_color": 4283256296,
               "show_robot_outside_widget": true
             }
           },
           {
             "title": "Shift Number",
-            "x": 384.0,
+            "x": 896.0,
             "y": 512.0,
-            "width": 768.0,
+            "width": 640.0,
             "height": 128.0,
             "type": "Large Text Display",
             "properties": {
               "topic": "/DriverDashboard/Shift Number",
               "period": 0.06,
-              "data_type": "int"
+              "data_type": "string"
+            }
+          },
+          {
+            "title": "Remaining Shift Time",
+            "x": 896.0,
+            "y": 256.0,
+            "width": 640.0,
+            "height": 256.0,
+            "type": "Match Time",
+            "properties": {
+              "topic": "/DriverDashboard/Remaining Shift Time",
+              "period": 0.06,
+              "data_type": "double",
+              "time_display_mode": "Minutes and Seconds",
+              "red_start_time": 10,
+              "yellow_start_time": 20
             }
           }
         ]
+      }
+    },
+    {
+      "name": "Autonomous",
+      "grid_layout": {
+        "layouts": [],
+        "containers": []
       }
     }
   ]

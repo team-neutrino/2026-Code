@@ -1,6 +1,5 @@
 package frc.robot.subsystems.NetworkTables;
 
-import edu.wpi.first.networktables.BooleanEntry;
 import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanTopic;
 import edu.wpi.first.networktables.DoublePublisher;
@@ -19,30 +18,28 @@ public class DriverDashboard extends HubActiveStatus {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
     DoubleTopic matchTime = nt.getDoubleTopic("/DriverDashboard/Match Time");
-    DoubleTopic remaningShiftTime = nt.getDoubleTopic("/DriverDashboard/Remaining Shift Time");
+    DoubleTopic remainingShiftTime = nt.getDoubleTopic("/DriverDashboard/Remaining Shift Time");
     BooleanTopic shiftActive = nt.getBooleanTopic("/DriverDashboard/Shift Active");
     StringTopic gameState = nt.getStringTopic("/DriverDashboard/Game State");
     StringTopic shiftNumber = nt.getStringTopic("/DriverDashboard/Shift Number");
-    StringTopic shiftTimeColor = nt.getStringTopic("/DriverDashboard/Shift Time Color");
-
-    BooleanEntry autonWon = nt.getBooleanTopic("/DriverDashboard/Auton Won").getEntry(false);
+    BooleanTopic autonWon = nt.getBooleanTopic("/DriverDashboard/Auton Won");
 
     final DoublePublisher matchTimePub;
     final DoublePublisher remainingShiftTimePub;
     final BooleanPublisher shiftActivePub;
     final StringPublisher gameStatePub;
     final StringPublisher shiftNumberPub;
-    final StringPublisher shiftTimeColorPub;
+    final BooleanPublisher autonWonPub;
 
+    private boolean wonAuton;
     private final Field2d field = new Field2d();
-
     MatchState matchState = new MatchState();
 
     public DriverDashboard() {
         matchTimePub = matchTime.publish();
         matchTimePub.setDefault(0.0);
 
-        remainingShiftTimePub = remaningShiftTime.publish();
+        remainingShiftTimePub = remainingShiftTime.publish();
         remainingShiftTimePub.setDefault(0.0);
 
         shiftActivePub = shiftActive.publish();
@@ -54,28 +51,27 @@ public class DriverDashboard extends HubActiveStatus {
         shiftNumberPub = shiftNumber.publish();
         shiftNumberPub.setDefault("NONE");
 
-        shiftTimeColorPub = shiftTimeColor.publish();
-        shiftTimeColorPub.setDefault("white");
-
-        autonWon.setDefault(false);
+        autonWonPub = autonWon.publish();
+        autonWonPub.setDefault(false);
 
         SmartDashboard.putData("Field", field);
     }
 
     public void periodic() {
-        matchState.setAutoWinner(autonWon.get());
+        update();
+        System.out.println(Math.round(matchState.getMatchTime()));
+        if (hasValidGameData()) {
+            wonAuton = GlobalConstants.RED_ALLIANCE.get()
+                    ? isRedHubActive()
+                    : isBlueHubActive();
+            autonWonPub.set(wonAuton);
+        }
+
+        matchState.setAutoWinner(wonAuton);
         matchTimePub.set(matchState.getMatchTime());
 
         double remaining = matchState.getRemainingShiftTime();
         remainingShiftTimePub.set(remaining);
-
-        if (remaining <= 10) {
-            shiftTimeColorPub.set("red");
-        } else if (remaining >= 25) {
-            shiftTimeColorPub.set("green");
-        } else {
-            shiftTimeColorPub.set("white");
-        }
 
         shiftActivePub.set(matchState.isHubActive(GlobalConstants.RED_ALLIANCE.get() ? Alliance.RED : Alliance.BLUE));
         gameStatePub.set(matchState.getGameState());
