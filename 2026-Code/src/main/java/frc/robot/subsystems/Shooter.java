@@ -377,28 +377,39 @@ public class Shooter extends SubsystemBase {
     return run(() -> {
       double hubDistance = swerve.getFromHubToTurret();
 
-      if (!swerve.inNeutralOrOpposingZone()) {
-        double shooterSpeed;
-        if (hubDistance < START_SPEED_INTERPOLATION_DISTANCE) {
-          shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
-        } else {
-          shooterSpeed = DISTANCE_SPEED_INTERPOLATION.get(hubDistance);
-        }
-        InterpolatingDoubleTreeMap hoodInterpolator = SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
+      // if (!swerve.inNeutralOrOpposingZone()) {
+      // double shooterSpeed;
+      // double hoodAngle;
 
-        m_targetShooterRpm = shooterSpeed;
-        m_targetAngle = hoodInterpolator.get(hubDistance);
-      } else {
-        m_targetAngle = SHUTTLE_ANGLE;
-        m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
-      }
+      // if (hubDistance < START_SPEED_INTERPOLATION_DISTANCE) {
+      // shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
+      // } else {
+      // shooterSpeed = DISTANCE_SPEED_INTERPOLATION.get(hubDistance);
+      // }
+
+      // m_targetShooterRpm = shooterSpeed;
+
+      // InterpolatingDoubleTreeMap hoodInterpolator =
+      // SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
+
+      // if (hubDistance < START_SPEED_INTERPOLATION_DISTANCE) {
+      // hoodAngle = hoodInterpolator.get(hubDistance);
+      // } else {
+      // hoodAngle = MAX_SAFE_HOOD_ANGLE;
+      // }
+
+      // m_targetAngle = hoodAngle;
+      // } else {
+      // m_targetAngle = SHUTTLE_ANGLE;
+      // m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+      // }
 
       // Manually tuning hood and speed
-      // if (!swerve.inNeutralOrOpposingZone()) {
-      // m_targetShooterRpm = m_tuningSpeed;
-      // m_targetAngle = m_tuningAngle;
-      // m_hubstatus = false;
-      // }
+      if (!swerve.inNeutralOrOpposingZone()) {
+        m_targetShooterRpm = m_tuningSpeed;
+        m_targetAngle = m_tuningAngle;
+        m_hubStatus = false;
+      }
     });
   }
 }
