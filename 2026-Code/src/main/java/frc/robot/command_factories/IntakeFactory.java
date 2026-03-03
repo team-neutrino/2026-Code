@@ -14,8 +14,8 @@ public class IntakeFactory {
         return intake.runIntake(OUTTAKE_VOLTAGE);
     }
 
-    public static Command deployIntake() {
-        return intake.deployIntake();
+    public static Command toggleIntake() {
+        return intake.toggleIntake();
     }
 
     public static Command deployAndRunIntake() {

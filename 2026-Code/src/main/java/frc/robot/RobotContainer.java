@@ -52,7 +52,7 @@ public class RobotContainer {
     m_buttonController.b().whileTrue(SuperstructureFactory.shuttle());
     m_buttonController.x().whileTrue(index.feedShooter());
     m_buttonController.y().whileTrue(SuperstructureFactory.spitFuel());
-    m_buttonController.leftTrigger().onTrue(IntakeFactory.deployIntake());
+    m_buttonController.leftTrigger().onTrue(IntakeFactory.toggleIntake());
     m_buttonController.leftBumper().whileTrue(IntakeFactory.runIntake());
     m_buttonController.rightBumper().whileTrue(IntakeFactory.runOuttake());
 
