@@ -5,31 +5,25 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Depot"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Depot"
+                  "pathName": "Depot To Shoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
+                  "name": null
                 }
               }
             ]
@@ -40,91 +34,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Depot Intake"
+                  "name": null
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Depot To Shoot"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "noShoot"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "parallel",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "feedShooter"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "noDrive"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "name": null
                 }
               }
             ]
