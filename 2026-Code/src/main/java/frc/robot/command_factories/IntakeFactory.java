@@ -15,19 +15,10 @@ public class IntakeFactory {
     }
 
     public static Command deployIntake() {
-        return intake.deployIntake(DEPLOYED_POSITION);
+        return intake.deployIntake();
     }
 
     public static Command deployAndRunIntake() {
-        return intake.deployAndRunIntake(INTAKE_VOLTAGE, DEPLOYED_POSITION);
-    }
-
-    public static Command deployAndRunOuttake() {
-        return intake.deployAndRunIntake(OUTTAKE_VOLTAGE, DEPLOYED_POSITION);
-    }
-
-    public static Command shakeBallsInHopper() {
-        return intake.deployIntake(INTERMEDIATE_POSITION_1).until(() -> intake.isAtTarget())
-                .andThen(intake.deployIntake(INTERMEDIATE_POSITION_2).until(() -> intake.isAtTarget()));
+        return intake.deployAndRunIntake(INTAKE_VOLTAGE);
     }
 }

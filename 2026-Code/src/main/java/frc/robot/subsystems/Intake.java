@@ -23,6 +23,7 @@ public class Intake extends SubsystemBase {
     private TalonFXConfiguration m_deployMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
     private double m_targetAngle;
+    private boolean m_isDeployed = false;
 
     public Intake() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -76,6 +77,11 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (m_isDeployed) {
+            m_targetAngle = DEPLOYED_POSITION;
+        } else {
+            m_targetAngle = 0;
+        }
         m_rollerMotor.setVoltage(m_rollerMotorVoltage);
         moveToIntake(m_targetAngle);
     }
@@ -86,15 +92,15 @@ public class Intake extends SubsystemBase {
         });
     }
 
-    public Command deployIntake(double targetAngle) {
+    public Command deployIntake() {
         return run(() -> {
-            m_targetAngle = targetAngle;
+            m_isDeployed = !m_isDeployed;
         });
     }
 
-    public Command deployAndRunIntake(double speed, double targetAngle) {
+    public Command deployAndRunIntake(double speed) {
         return run(() -> {
-            m_targetAngle = targetAngle;
+            m_isDeployed = true;
             m_rollerMotorVoltage = speed;
         });
     }
@@ -102,7 +108,6 @@ public class Intake extends SubsystemBase {
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
-            m_targetAngle = 0;
         });
     }
 }
