@@ -101,6 +101,10 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getState().Speeds;
     }
 
+    public int getSwerveID() {
+        return this.m_drivetrainId;
+    }
+
     /**
      * Resets the yaw to 0, so the direction you're currently facing is the new
      * forwards.

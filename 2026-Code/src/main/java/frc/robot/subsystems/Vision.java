@@ -14,11 +14,15 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.generated.TunerConstants;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import static frc.robot.util.Constants.LimelightConstants.*;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Subsystems.swerve;
+
+import com.ctre.phoenix6.swerve.jni.SwerveJNI;
+
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.networktables.StructTopic;
 
@@ -177,6 +181,11 @@ public class Vision extends SubsystemBase {
     m_back.setThrottle(throttle);
     m_left.setThrottle(throttle);
     m_right.setThrottle(throttle);
+  }
+
+  public void adjustSwerveStdDevs(double x, double y, double theta) {
+    double[] newSwerveStdDevs = { x, y, theta };
+    SwerveJNI.JNI_SetStateStdDevs(swerve.getSwerveID(), newSwerveStdDevs);
   }
 
   /**
