@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 5.65,
-        "y": 2.569326
+        "y": 2.4
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.99920574027238,
-        "y": 2.135956297360991
+        "x": 5.363227109411796,
+        "y": 2.166363662817076
       },
       "isLocked": false,
       "linkedName": null
@@ -69,5 +69,5 @@
     "velocity": 0,
     "rotation": -59.99999999999999
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
