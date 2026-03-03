@@ -35,7 +35,7 @@ public class HubActiveStatus {
         return inactiveFirst != null;
     }
 
-    private boolean isHubActive(Alliance alliance) {
+    public boolean isHubActive(Alliance alliance) {
         if (!hasValidGameData()) {
             return false;
         }

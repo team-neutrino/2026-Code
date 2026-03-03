@@ -4,7 +4,7 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.NetworkTables.*;
 
 public class Subsystems {
-    public static final HubActiveStatus hubState = new HubActiveStatus();
+    public static final DriverDashboard hubState = new DriverDashboard();
 
     public static final Climb climb = null;
     public static final Intake intake = new IntakeNT();
