@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.ShooterConstants.*;
+import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
@@ -52,8 +53,6 @@ public class Shooter extends SubsystemBase {
   public double m_tuningAngle;
 
   public double m_tuningSpeed;
-
-  private boolean m_hubStatus = true;
 
   /**
    * Creates a new Shooter.
@@ -295,17 +294,17 @@ public class Shooter extends SubsystemBase {
       shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
     shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
-    swerve.isNotMovingOrTurning());
-    shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, m_hubStatus);
+        swerve.isNotMovingOrTurning());
 
-    // if (hubState.hasValidGameData()) {
-    // if (RED_ALLIANCE.get()) {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isRedHubActive());
-    // } else {
-    // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-    // hubState.isBlueHubActive());
-    // }
+    if (hubState.hasValidGameData() && RED_ALLIANCE.isPresent()) {
+      if (RED_ALLIANCE.get()) {
+        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+            hubState.isRedHubActive());
+      } else {
+        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+            hubState.isBlueHubActive());
+      }
+    }
 
     if (m_recentering) {
       m_hoodMotor.setVoltage(-1);
