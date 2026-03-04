@@ -193,33 +193,33 @@ public class Constants {
         public static final String LL_RIGHT = "limelight-right";
 
         // Camera pose offsets in meters
-        public static final double FRONT_FORWARD_OFFSET = 0.0325374;
+        public static final double FRONT_FORWARD_OFFSET = 0.032546;
         public static final double FRONT_SIDE_OFFSET = -0.047625;
-        public static final double FRONT_HEIGHT_OFFSET = 0.7458202;
+        public static final double FRONT_HEIGHT_OFFSET = 0.745832;
         public static final double FRONT_ROLL_OFFSET = 0.0;
         public static final double FRONT_PITCH_OFFSET = 27.5;
         public static final double FRONT_YAW_OFFSET = 0.0;
 
-        public static final double BACK_FORWARD_OFFSET = -0.3310382;
-        public static final double BACK_SIDE_OFFSET = 0.103; // figure out if left or right
-        public static final double BACK_HEIGHT_OFFSET = 0.2359406;
+        public static final double BACK_FORWARD_OFFSET = -0.315130;
+        public static final double BACK_SIDE_OFFSET = 0.098425;
+        public static final double BACK_HEIGHT_OFFSET = 0.244846;
         public static final double BACK_ROLL_OFFSET = 0.0;
         public static final double BACK_PITCH_OFFSET = 30;
         public static final double BACK_YAW_OFFSET = 180;
 
-        public static final double LEFT_FORWARD_OFFSET = -0.260255;
-        public static final double LEFT_SIDE_OFFSET = -0.308226;
-        public static final double LEFT_HEIGHT_OFFSET = 0.208553;
-        public static final double LEFT_ROLL_OFFSET = 0; // Roll (degrees)
-        public static final double LEFT_PITCH_OFFSET = 31; // Pitch (degrees)
-        public static final double LEFT_YAW_OFFSET = 74; // Yaw (degrees)
+        public static final double LEFT_FORWARD_OFFSET = -0.258801;
+        public static final double LEFT_SIDE_OFFSET = -0.32166;
+        public static final double LEFT_HEIGHT_OFFSET = 0.190992;
+        public static final double LEFT_ROLL_OFFSET = 180;
+        public static final double LEFT_PITCH_OFFSET = 30;
+        public static final double LEFT_YAW_OFFSET = 87;
 
-        public static final double RIGHT_FORWARD_OFFSET = -0.260255; // Forward offset (meters)
-        public static final double RIGHT_SIDE_OFFSET = 0.308226; // Side offset (meters)
-        public static final double RIGHT_HEIGHT_OFFSET = 0.208553; // Height offset (meters)
+        public static final double RIGHT_FORWARD_OFFSET = -0.271906; // Forward offset (meters)
+        public static final double RIGHT_SIDE_OFFSET = 0.265827; // Side offset (meters)
+        public static final double RIGHT_HEIGHT_OFFSET = 0.211604; // Height offset (meters)
         public static final double RIGHT_ROLL_OFFSET = 0; // Roll (degrees)
-        public static final double RIGHT_PITCH_OFFSET = 31; // Pitch (degrees)
-        public static final double RIGHT_YAW_OFFSET = 286; // Yaw (degrees)
+        public static final double RIGHT_PITCH_OFFSET = 27; // Pitch (degrees)
+        public static final double RIGHT_YAW_OFFSET = 273; // Yaw (degrees)
 
         public static final double MINIMUM_XY_STD_DEV_LL4 = 1.1;
         public static final double MINIMUM_THETA_STD_DEV_LL4 = 0.2;
