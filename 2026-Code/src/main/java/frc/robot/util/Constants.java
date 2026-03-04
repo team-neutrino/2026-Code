@@ -150,8 +150,8 @@ public class Constants {
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
         public static final double TARGET_TOLERANCE = 1;
-        public static final double TURRET_OFFSET_X = -0.098425;
-        public static final double TURRET_OFFSET_Y = -0.154375;
+        public static final double TURRET_OFFSET_FRONT = -0.154375;
+        public static final double TURRET_OFFSET_SIDE = -0.098425;
     }
 
     public static class IndexConstants {
