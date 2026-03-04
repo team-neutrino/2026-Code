@@ -6,6 +6,7 @@ import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -64,8 +65,13 @@ public class Intake extends SubsystemBase {
 
     private void moveToIntake(double targetPosition) {
         PositionVoltage positionControl = new PositionVoltage(targetPosition);
-        positionControl.EnableFOC = true;
         m_deployMotor.setControl(positionControl);
+    }
+
+    private void spinRoller(double voltage) {
+        VoltageOut voltageControl = new VoltageOut(voltage);
+        voltageControl.EnableFOC = true;
+        m_rollerMotor.setControl(voltageControl);
     }
 
     public void setIntakePID(double new_P, double new_I, double new_D) {
@@ -83,7 +89,7 @@ public class Intake extends SubsystemBase {
         } else {
             m_targetAngle = 0;
         }
-        m_rollerMotor.setVoltage(m_rollerMotorVoltage);
+        spinRoller(m_rollerMotorVoltage);
         moveToIntake(m_targetAngle);
     }
 
