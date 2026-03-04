@@ -10,8 +10,8 @@ import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
 import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
 import static frc.robot.util.Constants.SwerveConstants.MAX_SPEED;
 import static frc.robot.util.Constants.SwerveConstants.ROTATIONAL_P;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_X;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_Y;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_FRONT;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_SIDE;
 
 import java.io.IOException;
 
@@ -142,7 +142,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public Translation2d getTurretGlobal() {
-        Translation2d turretTranslation = new Translation2d(TURRET_OFFSET_X, TURRET_OFFSET_Y);
+        Translation2d turretTranslation = new Translation2d(TURRET_OFFSET_FRONT, TURRET_OFFSET_SIDE);
         return getCurrentPose()
                 .getTranslation()
                 .plus(turretTranslation.rotateBy(new Rotation2d(getYawRadians())));
