@@ -66,7 +66,7 @@ public class Constants {
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
         public static final double HOOD_ALLOWED_ERROR = 2.5;
-        public static final double RPM_ALLOWED_ERROR = 80;
+        public static final double RPM_ALLOWED_ERROR = 100;
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
@@ -75,7 +75,7 @@ public class Constants {
         public static final double FAST_SHOOTING_RPM = 4000;
         public static final double CURRENT_SPIKE = 29.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
-        public static final double NOT_MOVING_THRESHOLD = 0.1;
+        public static final double NOT_MOVING_THRESHOLD = 0.2;
         public static final double NOT_TURNING_THRESHOLD = 10;
         public static final double SHOOTER_RPM_NOISE = 0.5;
         public static final double SOFT_SHOT_ANGLE = 20;
