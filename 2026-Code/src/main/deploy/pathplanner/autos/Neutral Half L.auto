@@ -51,7 +51,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "runIntake"
+                              "name": "deployAndRunIntake"
                             }
                           },
                           {
@@ -70,7 +70,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "runIntake"
+                              "name": "deployAndRunIntake"
                             }
                           },
                           {
@@ -152,7 +152,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "runIntake"
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
