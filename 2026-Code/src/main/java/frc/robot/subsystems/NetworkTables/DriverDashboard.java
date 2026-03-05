@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringTopic;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.util.Subsystems.swerve;
@@ -60,22 +61,22 @@ public class DriverDashboard extends HubActiveStatus {
     public void periodic() {
         update();
         System.out.println(Math.round(matchState.getMatchTime()));
-        if (hasValidGameData()) {
-            wonAuton = GlobalConstants.RED_ALLIANCE.get()
-                    ? isRedHubActive()
-                    : isBlueHubActive();
+        if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+            wonAuton = whoWonFirstAuton() == getAlliance();
             autonWonPub.set(wonAuton);
+
+            matchState.setAutoWinner(wonAuton);
+            matchTimePub.set(Math.floor(matchState.getMatchTime()));
+
+            double remaining = matchState.getRemainingShiftTime();
+            remainingShiftTimePub.set(remaining);
+
+            shiftActivePub
+                    .set((isRedHubActive() && getAlliance() == Alliance.RED)
+                            || (isBlueHubActive() && getAlliance() == Alliance.BLUE));
+            gameStatePub.set(matchState.getGameState());
+            shiftNumberPub.set(matchState.getCurrentShiftName());
+            field.setRobotPose(swerve.getCurrentPose());
         }
-
-        matchState.setAutoWinner(wonAuton);
-        matchTimePub.set(matchState.getMatchTime());
-
-        double remaining = matchState.getRemainingShiftTime();
-        remainingShiftTimePub.set(remaining);
-
-        shiftActivePub.set(matchState.isHubActive(GlobalConstants.RED_ALLIANCE.get() ? Alliance.RED : Alliance.BLUE));
-        gameStatePub.set(matchState.getGameState());
-        shiftNumberPub.set(matchState.getCurrentShiftName());
-        field.setRobotPose(swerve.getCurrentPose());
     }
 }
