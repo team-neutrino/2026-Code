@@ -66,7 +66,7 @@ public class Constants {
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
         public static final double HOOD_ALLOWED_ERROR = 2.5;
-        public static final double RPM_ALLOWED_ERROR = 100;
+        public static final double RPM_ALLOWED_ERROR = 120; // 100
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
