@@ -66,7 +66,7 @@ public class Constants {
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
         public static final double HOOD_ALLOWED_ERROR = 2.5;
-        public static final double RPM_ALLOWED_ERROR = 120; // 100
+        public static final double RPM_ALLOWED_ERROR = 400; // 100
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
@@ -158,10 +158,10 @@ public class Constants {
         public static final int SPINDEXER_MOTOR_ID = 14;
         public static final int KICKER_MOTOR_ID = 18;
 
-        public static final double INDEXING_VOLTAGE = -10;
+        public static final double INDEXING_VOLTAGE = -12;
         public static final double INDEX_CURRENT_LIMIT = 40;
 
-        public static final double KICKER_VOLTAGE = 8;
+        public static final double KICKER_VOLTAGE = 12;
         public static final double KICKER_CURRENT_LIMIT = 40;
     }
 
