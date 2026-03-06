@@ -3,13 +3,6 @@
   "grid_size": 128,
   "tabs": [
     {
-      "name": "Autonomous",
-      "grid_layout": {
-        "layouts": [],
-        "containers": []
-      }
-    },
-    {
       "name": "Teleoperated",
       "grid_layout": {
         "layouts": [],
@@ -17,9 +10,9 @@
           {
             "title": "Auton Won",
             "x": 512.0,
-            "y": 0.0,
+            "y": 256.0,
             "width": 256.0,
-            "height": 256.0,
+            "height": 128.0,
             "type": "Boolean Box",
             "properties": {
               "topic": "/DriverDashboard/Auton Won",
@@ -60,7 +53,7 @@
           {
             "title": "Shift Active",
             "x": 512.0,
-            "y": 256.0,
+            "y": 0.0,
             "width": 256.0,
             "height": 256.0,
             "type": "Boolean Box",
