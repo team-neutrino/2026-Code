@@ -235,7 +235,7 @@ public class Constants {
         public static final double BUMP_MINIMUM_THRESHOLD = 7;
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
         public static final double MT1_WEIGHT_YAW = .7;
-        public static final double PIGEON_SEED_PERIOD = 5;
+        public static final double PIGEON_SEED_PERIOD = 3;
         public static final double EXTERNAL_WEIGHT = 0.01; // larger number (0-1) = lower trust in internal IMU
     }
 
