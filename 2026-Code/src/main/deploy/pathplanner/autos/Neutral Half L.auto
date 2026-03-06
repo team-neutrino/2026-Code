@@ -111,12 +111,6 @@
                 }
               },
               {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
-                }
-              },
-              {
                 "type": "wait",
                 "data": {
                   "waitTime": 6.0
@@ -126,6 +120,25 @@
                 "type": "named",
                 "data": {
                   "name": "noDrive"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "feedShooter"
+                      }
+                    }
+                  ]
                 }
               }
             ]
