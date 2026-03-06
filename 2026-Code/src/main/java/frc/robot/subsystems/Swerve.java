@@ -242,13 +242,13 @@ public class Swerve extends CommandSwerveDrivetrain {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
-            double magnitude = Math.hypot(forward, left) * (MAX_SPEED / 2);
+            double magnitude = Math.hypot(forward, left) * (SLOW_MAX_SPEED);
             magnitude = m_slewLimit.calculate(magnitude);
 
             setControl(SwerveRequestStash.drive
                     .withVelocityX(forward * magnitude)
                     .withVelocityY(left * magnitude)
-                    .withRotationalRate(rotation * MAX_ROTATION_SPEED));
+                    .withRotationalRate(rotation * SLOW_MAX_ROTATION_SPEED));
         });
     }
 
