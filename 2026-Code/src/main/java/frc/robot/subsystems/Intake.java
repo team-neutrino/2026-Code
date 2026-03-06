@@ -105,6 +105,13 @@ public class Intake extends SubsystemBase {
         });
     }
 
+    public Command retractIntake() {
+        return run(() -> {
+            m_isDeployed = false;
+            m_rollerMotorVoltage = 0;
+        });
+    }
+
     public Command defaultCommand() {
         return run(() -> {
             m_rollerMotorVoltage = 0;
