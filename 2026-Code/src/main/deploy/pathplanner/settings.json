@@ -10,11 +10,10 @@
   ],
   "autoFolders": [
     "Depot",
-    "Neutral Zone Test",
     "Neutral Zone",
+    "Neutral Zone Test",
     "Nothing",
-    "Outpost",
-    "Preload Climb"
+    "Outpost"
   ],
   "defaultMaxVel": 5.45,
   "defaultMaxAccel": 3.0,
