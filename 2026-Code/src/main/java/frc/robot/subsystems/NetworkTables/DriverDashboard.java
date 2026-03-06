@@ -60,7 +60,6 @@ public class DriverDashboard extends HubActiveStatus {
 
     public void periodic() {
         update();
-        System.out.println(Math.round(matchState.getMatchTime()));
         if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
             wonAuton = whoWonFirstAuton() == getAlliance();
             autonWonPub.set(wonAuton);
