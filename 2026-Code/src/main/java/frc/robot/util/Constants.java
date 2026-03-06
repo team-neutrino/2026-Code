@@ -338,8 +338,8 @@ public class Constants {
         public static final double MID_FIELD_X = 8.270494;
         public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034663, new Rotation2d(0));
         public static final Pose2d BLUE_HUB = new Pose2d(4.625594, 4.034663, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 7, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 1, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 6, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 2, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 7, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 1, new Rotation2d(0));
         public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
