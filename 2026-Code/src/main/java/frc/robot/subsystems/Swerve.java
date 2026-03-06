@@ -161,7 +161,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             return 0;
         }
 
-        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+        Pose2d hubPose = getHubPose2();
         return hubPose.getTranslation().getDistance(getTurretGlobal());
     }
 
@@ -180,7 +180,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         Translation2d turretGlobal = getTurretGlobal();
         double robotX = robotPose.getMeasureX().baseUnitMagnitude();
         double robotY = robotPose.getMeasureY().baseUnitMagnitude();
-        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+        Pose2d hubPose = getHubPose2();
         Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
                 ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
                 : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
