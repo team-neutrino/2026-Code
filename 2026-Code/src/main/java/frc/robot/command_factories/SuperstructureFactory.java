@@ -20,6 +20,10 @@ public class SuperstructureFactory {
         return index.feedShooter().alongWith(shooter.shuttle());
     }
 
+    public static Command shootOnly() {
+        return index.noKickAndSpin().alongWith(shooter.shootingSpeed(6000));
+    }
+
     public static Command spitFuel() {
         return index.feedShooter()
                 .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE));
