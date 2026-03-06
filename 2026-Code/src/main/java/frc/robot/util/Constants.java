@@ -66,7 +66,7 @@ public class Constants {
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
         public static final double HOOD_ALLOWED_ERROR = 2.5;
-        public static final double RPM_ALLOWED_ERROR = 100;
+        public static final double RPM_ALLOWED_ERROR = 400; // 100
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
         public static final int HOOD_ID = 15;
@@ -158,10 +158,10 @@ public class Constants {
         public static final int SPINDEXER_MOTOR_ID = 14;
         public static final int KICKER_MOTOR_ID = 18;
 
-        public static final double INDEXING_VOLTAGE = -10;
+        public static final double INDEXING_VOLTAGE = -12;
         public static final double INDEX_CURRENT_LIMIT = 40;
 
-        public static final double KICKER_VOLTAGE = 8;
+        public static final double KICKER_VOLTAGE = 12;
         public static final double KICKER_CURRENT_LIMIT = 40;
     }
 
@@ -319,11 +319,11 @@ public class Constants {
                 BLUE_CLIMB_RIGHT);
         public static final List<Pose2d> RED_CLIMB_POSES = List.of(RED_CLIMB_LEFT, RED_CLIMB_CENTER, RED_CLIMB_RIGHT);
 
-        public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(3.1, 5.819326, new Rotation2d(-45));
-        public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(3.1, 2.25, new Rotation2d(45));
+        public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(3.1, 5, new Rotation2d(-135));
+        public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(3.1, 3, new Rotation2d(-135));
 
-        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.1, 5.819326, new Rotation2d(-45));
-        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.1, 2.25, new Rotation2d(45));
+        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.1, 5, new Rotation2d(-135));
+        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.1, 3.0, new Rotation2d(-135));
 
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
@@ -347,6 +347,6 @@ public class Constants {
     }
 
     public static class AutonConstants {
-        public static final String CURRENT_AUTON = "Neutral Far L";
+        public static final String CURRENT_AUTON = "Neutral Half L";
     }
 }
