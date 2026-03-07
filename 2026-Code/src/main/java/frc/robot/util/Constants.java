@@ -350,6 +350,6 @@ public class Constants {
     }
 
     public static class AutonConstants {
-        public static final String CURRENT_AUTON = "Neutral Half L";
+        public static final String CURRENT_AUTON = "Neutral Half L + Depot";
     }
 }
