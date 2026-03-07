@@ -169,13 +169,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "Depot Front 2"
-                                  }
-                                },
-                                {
-                                  "type": "path",
-                                  "data": {
-                                    "pathName": "Depot Front 3"
+                                    "pathName": "Depot 3 after neutral"
                                   }
                                 }
                               ]
