@@ -77,7 +77,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getPigeon2().getRoll().getValueAsDouble();
     }
 
-    public boolean goodPitchAndRoll() {
+    public boolean hasGoodPitchAndRoll() {
         if (Math.abs(getPitch()) > NO_SHOOT_TILT || Math.abs(getRoll()) > NO_SHOOT_TILT) {
             return false;
         }

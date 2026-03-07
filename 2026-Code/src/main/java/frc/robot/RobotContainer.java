@@ -64,11 +64,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES, false));
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("retractIntake", intake.retractIntake());
-    NamedCommands.registerCommand("feedShooter", index.feedShooter());
+    NamedCommands.registerCommand("feedShooter", index.checkPitchRollThenFeed());
     NamedCommands.registerCommand("noShoot", index.noKickAndSpin());
     NamedCommands.registerCommand("shooterDefault", shooter.defaultCommand());
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
-    NamedCommands.registerCommand("checkRobotAngle", index.checkBeforeShoot());
   }
 
   public Command getAutonomousCommand() {
