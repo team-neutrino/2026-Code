@@ -144,15 +144,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
-                            "data": {
-                              "pathName": null
-                            }
-                          },
-                          {
                             "type": "named",
                             "data": {
                               "name": "deployAndRunIntake"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": null
                             }
                           }
                         ]
