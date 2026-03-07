@@ -77,6 +77,13 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getPigeon2().getRoll().getValueAsDouble();
     }
 
+    public boolean goodPitchAndRoll() {
+        if (Math.abs(getPitch()) > NO_SHOOT_TILT || Math.abs(getRoll()) > NO_SHOOT_TILT) {
+            return false;
+        }
+        return true;
+    }
+
     public double getYawRate() {
         return getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
     }
