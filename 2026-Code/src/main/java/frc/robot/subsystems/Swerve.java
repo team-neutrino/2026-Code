@@ -77,7 +77,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getPigeon2().getRoll().getValueAsDouble();
     }
 
-    // not necessary, just incase we want it
+    // // not necessary, just incase we want it
     // public boolean hasGoodPitch() {
     // return Math.abs(getPitch()) < NO_SHOOT_TILT || Math.abs(getPitch() - 180) <
     // NO_SHOOT_TILT;
@@ -294,7 +294,8 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
-|    }
+        // System.out.println(hasGoodPitchAndRoll());
+    }
 
     public void configureRequestPID() {
         SwerveRequestStash.driveWithVelocity.HeadingController.setPID(ROTATIONAL_P, 0, AUTO_ALIGN_D);
