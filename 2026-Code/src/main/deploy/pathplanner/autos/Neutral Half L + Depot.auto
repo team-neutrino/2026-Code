@@ -135,12 +135,6 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "checkRobotAngle"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
                         "name": "feedShooter"
                       }
                     }
@@ -175,7 +169,13 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "Depot 3 after neutral"
+                                    "pathName": "Depot Front 2"
+                                  }
+                                },
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "Depot Front 3"
                                   }
                                 }
                               ]
