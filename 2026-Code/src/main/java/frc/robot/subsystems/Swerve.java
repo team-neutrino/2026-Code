@@ -283,6 +283,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
+        System.out.println("Pitch angle: " + getPitch());
+        System.out.println("Roll angle: " + getRoll());
+
     }
 
     public void configureRequestPID() {
