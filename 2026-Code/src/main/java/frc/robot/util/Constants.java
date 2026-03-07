@@ -128,6 +128,7 @@ public class Constants {
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
             NOT_DRIVING,
+            PITCH_AND_ROLL,
         }
     }
 
@@ -247,6 +248,7 @@ public class Constants {
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
+        public static final double NO_SHOOT_TILT = 10;
     }
 
     public static class DriveToPointConstants {
