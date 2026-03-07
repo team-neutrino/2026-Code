@@ -78,20 +78,22 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     // not necessary, just incase we want it
-    public boolean hasGoodPitch() {
-        return Math.abs(getPitch()) < NO_SHOOT_TILT || Math.abs(getPitch() - 180) < NO_SHOOT_TILT;
-    }
+    // public boolean hasGoodPitch() {
+    // return Math.abs(getPitch()) < NO_SHOOT_TILT || Math.abs(getPitch() - 180) <
+    // NO_SHOOT_TILT;
+    // }
 
-    public boolean hasGoodRoll() {
-        return Math.abs(getRoll()) < NO_SHOOT_TILT || Math.abs(getRoll() - 180) < NO_SHOOT_TILT;
-    }
+    // public boolean hasGoodRoll() {
+    // return Math.abs(getRoll()) < NO_SHOOT_TILT || Math.abs(getRoll() - 180) <
+    // NO_SHOOT_TILT;
+    // }
 
-    public boolean hasGoodPitchAndRoll() {
-        if (!((Math.abs(getPitch()) < NO_SHOOT_TILT && hasGoodRoll()))) {
-            return false;
-        }
-        return true;
-    }
+    // public boolean hasGoodPitchAndRoll() {
+    // if (!((Math.abs(getPitch()) < NO_SHOOT_TILT && hasGoodRoll()))) {
+    // return false;
+    // }
+    // return true;
+    // }
 
     public double getYawRate() {
         return getPigeon2().getAngularVelocityZWorld().getValueAsDouble();
@@ -292,7 +294,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
-    }
+|    }
 
     public void configureRequestPID() {
         SwerveRequestStash.driveWithVelocity.HeadingController.setPID(ROTATIONAL_P, 0, AUTO_ALIGN_D);
