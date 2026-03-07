@@ -83,9 +83,12 @@ public class Index extends SubsystemBase {
         });
     }
 
-    public Command checkBeforeShoot() {
+    public Command checkPitchRollThenFeed() {
         return run(() -> {
-            if (!swerve.goodPitchAndRoll()) {
+            if (swerve.hasGoodPitchAndRoll()) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+                m_kickerMotorVoltage = KICKER_VOLTAGE;
+            } else {
                 m_spindexerMotorVoltage = 0.0;
                 m_kickerMotorVoltage = 0.0;
             }
