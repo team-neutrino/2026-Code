@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
@@ -14,7 +13,6 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.Command;
 import static frc.robot.util.Subsystems.swerve;
 import frc.robot.util.DriveToPointPID;
-
 
 import static frc.robot.util.Constants.DriveToPointConstants.*;
 
@@ -26,17 +24,16 @@ public class DriveToPoint extends Command {
     private boolean m_rotating;
     private List<Pose2d> m_poseList;
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
-  private final NetworkTable driveStateTable = nt.getTable("DriveToPoint");
-  private final StructPublisher<Pose2d> driveTarget = driveStateTable.getStructTopic("TargetPose", Pose2d.struct)
-      .publish();
-
+    private final NetworkTable driveStateTable = nt.getTable("DriveToPoint");
+    private final StructPublisher<Pose2d> driveTarget = driveStateTable.getStructTopic("TargetPose", Pose2d.struct)
+            .publish();
 
     public DriveToPoint(List<Pose2d> shootPoses, boolean rotating) {
         addRequirements(swerve);
         m_poseList = shootPoses;
         m_rotating = rotating;
         m_drivePID = new DriveToPointPID();
-        }
+    }
 
     private void drive() {
         double xVelocity = m_drivePID.getXVelocity(), yVelocity = m_drivePID.getYVelocity();
@@ -46,6 +43,7 @@ public class DriveToPoint extends Command {
 
         swerve.setVelocity(xVelocity, yVelocity, m_drivePID.getRotation());
     }
+
     private void driveNoRotation() {
         double xVelocity = m_drivePID.getXVelocity(), yVelocity = m_drivePID.getYVelocity();
 
@@ -63,7 +61,7 @@ public class DriveToPoint extends Command {
     public void initialize() {
         m_target = swerve.getCurrentPose().nearest(m_poseList);
         m_drivePID.setTarget(m_target);
-        
+
     }
 
     @Override
@@ -73,7 +71,7 @@ public class DriveToPoint extends Command {
         } else {
             driveNoRotation();
         }
-        
+
         final long now = NetworkTablesJNI.now();
         driveTarget.set(m_target, now);
     }
