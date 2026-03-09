@@ -12,7 +12,6 @@ import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexConstants.*;
 import static frc.robot.util.Subsystems.shooterArbiter;
-import static frc.robot.util.Subsystems.swerve;
 
 public class Index extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
