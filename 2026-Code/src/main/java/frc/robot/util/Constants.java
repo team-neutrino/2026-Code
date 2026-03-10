@@ -257,6 +257,7 @@ public class Constants {
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
+        public static final double BEACHED_ANGLE = 5;
     }
 
     public static class DriveToPointConstants {
