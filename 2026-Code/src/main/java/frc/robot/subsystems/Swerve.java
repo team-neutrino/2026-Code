@@ -320,10 +320,14 @@ public class Swerve extends CommandSwerveDrivetrain {
             double magnitude = Math.hypot(forward, left) * MAX_SPEED;
             magnitude = m_slewLimit.calculate(magnitude);
 
-            setControl(SwerveRequestStash.drive
-                    .withVelocityX(forward * magnitude)
-                    .withVelocityY(left * magnitude)
+            if(abs(forward) > BRAKE_ALLOWED_ERROR || abs(left) > BRAKE_ALLOWED_ERROR || abs(rotation) > BRAKE_ALLOWED_ERROR){
+                setControl(SwerveRequestStash.drive
+                    .withVelocityY(left * MAX_SPEED)
+                    .withVelocityX(forward * MAX_SPEED)
                     .withRotationalRate(rotation * MAX_ROTATION_SPEED));
+            } else {
+                setControl(SwerveRequestStash.brake);
+            }
         });
     }
 
@@ -355,6 +359,8 @@ public class Swerve extends CommandSwerveDrivetrain {
         public static final SwerveRequest.FieldCentricFacingAngle driveWithVelocity = new SwerveRequest.FieldCentricFacingAngle()
                 .withDriveRequestType(DriveRequestType.Velocity)
                 .withForwardPerspective(ForwardPerspectiveValue.BlueAlliance);
+
+        public static final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     }
 
 }
