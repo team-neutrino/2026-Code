@@ -10,11 +10,6 @@ import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.SHOOTER_SPEED_ZONES;
 import static frc.robot.util.Constants.ShooterConstants.SLOW_INTERPOLATION_HOOD;
 import static frc.robot.util.Constants.ShooterConstants.SLOW_TIME_OF_FLIGHT;
-import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
-import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
-import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
-import static frc.robot.util.Constants.SwerveConstants.MAX_SPEED;
-import static frc.robot.util.Constants.SwerveConstants.ROTATIONAL_P;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_FRONT;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_SIDE;
 
@@ -286,49 +281,49 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public Pose2d getHubPose3() {
         double latency = 0.05;
-        Pose2d intialPose2d = BLUE_HUB;
+        Pose2d intialPose = BLUE_HUB;
         Optional<Alliance> alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
-            intialPose2d = (alliance.get() == Alliance.Blue)
+            intialPose = (alliance.get() == Alliance.Blue)
                     ? BLUE_HUB
                     : RED_HUB;
         }
-        Translation2d realHubLocation = intialPose2d.getTranslation();
+        Translation2d realHubLocation = intialPose.getTranslation();
 
         Pose2d currentPose = getCurrentPose();
         Translation2d currentTranslation = currentPose.getTranslation();
         ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
 
         double currentDist = currentTranslation.getDistance(realHubLocation);
-        double shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
-        double lookAheadTime;
 
-        if (shootingSpeed == DEFAULT_SHOOTING_SPEED) {
-            lookAheadTime = SLOW_TIME_OF_FLIGHT.get(currentDist);
-        } else {
-            lookAheadTime = FAST_TIME_OF_FLIGHT.get(currentDist);
-        }
+        var initialEntry = SHOOTER_SPEED_ZONES.floorEntry(currentDist);
+        if (initialEntry == null)
+            return intialPose;
+
+        double shootingSpeed = initialEntry.getValue();
+        double lookAheadTime = (shootingSpeed == DEFAULT_SHOOTING_SPEED)
+                ? SLOW_TIME_OF_FLIGHT.get(currentDist)
+                : FAST_TIME_OF_FLIGHT.get(currentDist);
+
+        Translation2d adjustedHub = realHubLocation;
 
         for (int i = 0; i < 3; i++) {
-            double offsetX = realHubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * lookAheadTime);
-            double offsetY = realHubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * lookAheadTime);
-            Translation2d adjustedHub = new Translation2d(offsetX, offsetY);
+            double offsetX = realHubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * (lookAheadTime + latency));
+            double offsetY = realHubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime + latency));
+            adjustedHub = new Translation2d(offsetX, offsetY);
             currentDist = currentTranslation.getDistance(adjustedHub);
-            shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
-            double timeOfFlight;
-            if (shootingSpeed == DEFAULT_SHOOTING_SPEED) {
-                timeOfFlight = SLOW_TIME_OF_FLIGHT.get(currentDist);
-            } else {
-                timeOfFlight = FAST_TIME_OF_FLIGHT.get(currentDist);
-            }
-            lookAheadTime = timeOfFlight + latency;
+
+            var entry = SHOOTER_SPEED_ZONES.floorEntry(currentDist);
+            if (entry == null)
+                break;
+
+            shootingSpeed = entry.getValue();
+            lookAheadTime = (shootingSpeed == DEFAULT_SHOOTING_SPEED)
+                    ? SLOW_TIME_OF_FLIGHT.get(currentDist)
+                    : FAST_TIME_OF_FLIGHT.get(currentDist);
         }
 
-        Translation2d finalHubLocation = new Translation2d(
-                realHubLocation.getX() - (fieldSpeeds.vxMetersPerSecond * lookAheadTime),
-                realHubLocation.getY() - (fieldSpeeds.vyMetersPerSecond * lookAheadTime));
-
-        return new Pose2d(finalHubLocation, currentPose.getRotation());
+        return new Pose2d(adjustedHub, intialPose.getRotation());
     }
 
     public double getSpeedMetersPerSecond() {
