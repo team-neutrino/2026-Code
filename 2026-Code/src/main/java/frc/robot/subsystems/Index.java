@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -64,8 +65,20 @@ public class Index extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_spindexerMotor.setVoltage(m_spindexerMotorVoltage);
-        m_kickerMotor.setVoltage(m_kickerMotorVoltage);
+        setSpindexerVoltage();
+        setKickerVoltage();
+    }
+
+    public void setSpindexerVoltage() {
+        VoltageOut voltageControl = new VoltageOut(m_spindexerMotorVoltage);
+        voltageControl.EnableFOC = true;
+        m_spindexerMotor.setControl(voltageControl);
+    }
+
+    public void setKickerVoltage() {
+        VoltageOut voltageControl = new VoltageOut(m_kickerMotorVoltage);
+        voltageControl.EnableFOC = true;
+        m_kickerMotor.setControl(voltageControl);
     }
 
     public Command noKickAndSpin() {
