@@ -320,11 +320,12 @@ public class Swerve extends CommandSwerveDrivetrain {
             double magnitude = Math.hypot(forward, left) * MAX_SPEED;
             magnitude = m_slewLimit.calculate(magnitude);
 
-            if(abs(forward) > BRAKE_ALLOWED_ERROR || abs(left) > BRAKE_ALLOWED_ERROR || abs(rotation) > BRAKE_ALLOWED_ERROR){
+            if (Math.abs(forward) > BRAKE_ALLOWED_ERROR || Math.abs(left) > BRAKE_ALLOWED_ERROR
+                    || Math.abs(rotation) > BRAKE_ALLOWED_ERROR) {
                 setControl(SwerveRequestStash.drive
-                    .withVelocityY(left * MAX_SPEED)
-                    .withVelocityX(forward * MAX_SPEED)
-                    .withRotationalRate(rotation * MAX_ROTATION_SPEED));
+                        .withVelocityY(left * MAX_SPEED)
+                        .withVelocityX(forward * MAX_SPEED)
+                        .withRotationalRate(rotation * MAX_ROTATION_SPEED));
             } else {
                 setControl(SwerveRequestStash.brake);
             }
