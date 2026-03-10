@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.BooleanTopic;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringTopic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -58,22 +59,24 @@ public class DriverDashboard extends HubActiveStatus {
     }
 
     public void periodic() {
+        final long now = NetworkTablesJNI.now();
+
         update();
         if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
             wonAuton = whoWonFirstAuton() == getAlliance();
-            autonWonPub.set(wonAuton);
+            autonWonPub.set(wonAuton, now);
 
             matchState.setAutoWinner(wonAuton);
-            matchTimePub.set(Math.floor(matchState.getMatchTime()));
+            matchTimePub.set(Math.floor(matchState.getMatchTime()), now);
 
             double remaining = matchState.getRemainingShiftTime();
-            remainingShiftTimePub.set(remaining);
+            remainingShiftTimePub.set(remaining, now);
 
             shiftActivePub
                     .set((isRedHubActive() && getAlliance() == Alliance.RED)
-                            || (isBlueHubActive() && getAlliance() == Alliance.BLUE));
-            gameStatePub.set(matchState.getGameState());
-            shiftNumberPub.set(matchState.getCurrentShiftName());
+                            || (isBlueHubActive() && getAlliance() == Alliance.BLUE), now);
+            gameStatePub.set(matchState.getGameState(), now);
+            shiftNumberPub.set(matchState.getCurrentShiftName(), now);
             field.setRobotPose(swerve.getCurrentPose());
         }
     }
