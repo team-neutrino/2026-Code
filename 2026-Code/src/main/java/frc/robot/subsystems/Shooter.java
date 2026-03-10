@@ -241,7 +241,6 @@ public class Shooter extends SubsystemBase {
    */
   public void controlShooterMotor() {
     VelocityVoltage velocityControl = new VelocityVoltage(m_targetShooterRpm / 60);
-    velocityControl.EnableFOC = true;
     m_shooterMotor.setControl(velocityControl);
   }
 
