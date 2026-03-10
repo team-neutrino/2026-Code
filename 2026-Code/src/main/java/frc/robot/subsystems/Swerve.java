@@ -8,7 +8,6 @@ import static frc.robot.util.Constants.ShooterConstants.FAST_TIME_OF_FLIGHT;
 import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.SHOOTER_SPEED_ZONES;
-import static frc.robot.util.Constants.ShooterConstants.SLOW_INTERPOLATION_HOOD;
 import static frc.robot.util.Constants.ShooterConstants.SLOW_TIME_OF_FLIGHT;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_FRONT;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_SIDE;
@@ -156,7 +155,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             return 0;
         }
 
-        Pose2d hubPose = getHubPose2();
+        Pose2d hubPose = getHubPose3();
         return hubPose.getTranslation().getDistance(getTurretGlobal());
     }
 
@@ -175,7 +174,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         Translation2d turretGlobal = getTurretGlobal();
         double robotX = robotPose.getMeasureX().baseUnitMagnitude();
         double robotY = robotPose.getMeasureY().baseUnitMagnitude();
-        Pose2d hubPose = getHubPose2();
+        Pose2d hubPose = getHubPose3();
         Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
                 ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
                 : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
@@ -233,51 +232,52 @@ public class Swerve extends CommandSwerveDrivetrain {
         return intialPose2dHub;
     }
 
-    public Pose2d getHubPose2() {
-        double latencyFactor = 0.02;
-        Pose2d currentPose = getCurrentPose();
-        ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds();
-        double lookAheadTime = 0.0;
-        Translation2d currentTranslation = currentPose.getTranslation();
+    // public Pose2d getHubPose2() {
+    // double latencyFactor = 0.02;
+    // Pose2d currentPose = getCurrentPose();
+    // ChassisSpeeds currentSpeeds = getFieldRelativeChassisSpeeds();
+    // double lookAheadTime = 0.0;
+    // Translation2d currentTranslation = currentPose.getTranslation();
 
-        Pose2d intialPose2dHub = BLUE_HUB;
+    // Pose2d intialPose2dHub = BLUE_HUB;
 
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-            Pose2d intialPose2d = (alliance.get() == Alliance.Blue)
-                    ? BLUE_HUB
-                    : RED_HUB;
+    // Optional<Alliance> alliance = DriverStation.getAlliance();
+    // if (alliance.isPresent()) {
+    // Pose2d intialPose2d = (alliance.get() == Alliance.Blue)
+    // ? BLUE_HUB
+    // : RED_HUB;
 
-            Translation2d realHubLocation = intialPose2d.getTranslation();
-            double futureDistance = 0;
+    // Translation2d realHubLocation = intialPose2d.getTranslation();
+    // double futureDistance = 0;
 
-            for (int i = 0; i < 3; i++) {
-                Translation2d futureRobotTranslation = currentTranslation.plus(
-                        new Translation2d(
-                                currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                                currentSpeeds.vyMetersPerSecond * lookAheadTime));
+    // for (int i = 0; i < 3; i++) {
+    // Translation2d futureRobotTranslation = currentTranslation.plus(
+    // new Translation2d(
+    // currentSpeeds.vxMetersPerSecond * lookAheadTime,
+    // currentSpeeds.vyMetersPerSecond * lookAheadTime));
 
-                futureDistance = futureRobotTranslation.getDistance(realHubLocation);
+    // futureDistance = futureRobotTranslation.getDistance(realHubLocation);
 
-                double hoodAngleDegrees = SLOW_INTERPOLATION_HOOD.get(futureDistance);
-                double launchVelocity = Subsystems.shooter
-                        .calculateExitVelocity(SHOOTER_SPEED_ZONES.floorEntry(futureDistance).getValue());
-                double horizontalVelocity = launchVelocity * Math.cos(Math.toRadians(hoodAngleDegrees));
+    // double hoodAngleDegrees = SLOW_INTERPOLATION_HOOD.get(futureDistance);
+    // double launchVelocity = ((Object) Subsystems.shooter)
+    // .calculateExitVelocity(SHOOTER_SPEED_ZONES.floorEntry(futureDistance).getValue());
+    // double horizontalVelocity = launchVelocity *
+    // Math.cos(Math.toRadians(hoodAngleDegrees));
 
-                if (horizontalVelocity > 0) {
-                    lookAheadTime = (futureDistance / horizontalVelocity) + latencyFactor;
-                }
-            }
-            Translation2d virtualHubTranslation = realHubLocation.minus(
-                    new Translation2d(
-                            currentSpeeds.vxMetersPerSecond * lookAheadTime,
-                            currentSpeeds.vyMetersPerSecond * lookAheadTime));
+    // if (horizontalVelocity > 0) {
+    // lookAheadTime = (futureDistance / horizontalVelocity) + latencyFactor;
+    // }
+    // }
+    // Translation2d virtualHubTranslation = realHubLocation.minus(
+    // new Translation2d(
+    // currentSpeeds.vxMetersPerSecond * lookAheadTime,
+    // currentSpeeds.vyMetersPerSecond * lookAheadTime));
 
-            return new Pose2d(virtualHubTranslation, currentPose.getRotation());
-        }
+    // return new Pose2d(virtualHubTranslation, currentPose.getRotation());
+    // }
 
-        return intialPose2dHub;
-    }
+    // return intialPose2dHub;
+    // }
 
     public Pose2d getHubPose3() {
         double latency = 0.05;

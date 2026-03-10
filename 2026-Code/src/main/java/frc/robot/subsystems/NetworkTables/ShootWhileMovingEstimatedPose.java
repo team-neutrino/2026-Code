@@ -5,7 +5,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.networktables.StructTopic;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.Swerve;
 
 public class ShootWhileMovingEstimatedPose extends Swerve {
@@ -26,7 +25,7 @@ public class ShootWhileMovingEstimatedPose extends Swerve {
         super.periodic();
         final long now = NetworkTablesJNI.now();
 
-        m_estimatedPosePub.set(getHubPose2(), now);
+        m_estimatedPosePub.set(getHubPose3(), now);
 
     }
 }
