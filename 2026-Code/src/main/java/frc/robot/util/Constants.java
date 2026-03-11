@@ -169,6 +169,7 @@ public class Constants {
     public static class IndexConstants {
         public static final int SPINDEXER_MOTOR_ID = 14;
         public static final int KICKER_MOTOR_ID = 18;
+        public static final int CANANDCOLOR_ID = 28;
 
         public static final double INDEXING_VOLTAGE = -12;
         public static final double INDEX_CURRENT_LIMIT = 40;
