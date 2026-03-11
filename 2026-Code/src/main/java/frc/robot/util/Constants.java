@@ -110,19 +110,14 @@ public class Constants {
                 Map.entry(5.7, 21.0));
 
         public static final InterpolatingDoubleTreeMap SLOW_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 0.30),
-                Map.entry(1.64, 0.58),
-                Map.entry(2.33, 0.68),
-                Map.entry(2.68, 0.75),
-                Map.entry(3.36, 0.95),
-                Map.entry(4.0, 1.05));
+                Map.entry(1.5367, 1.30667),
+                Map.entry(2.0447, 1.26),
+                Map.entry(2.5527, 1.25),
+                Map.entry(3.0607, 1.105));
 
         public static final InterpolatingDoubleTreeMap FAST_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(4.0, 0.65),
-                Map.entry(4.28, 0.71),
-                Map.entry(4.92, 0.84),
-                Map.entry(5.7, 0.98),
-                Map.entry(7.0, 1.15));
+                Map.entry(3.5687, 1.73333),
+                Map.entry(4.0513, 1.7033));
 
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
@@ -164,7 +159,7 @@ public class Constants {
         public static final double ACCELERATION_FF = 0.0;
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
-        public static final double TARGET_TOLERANCE = 1;
+        public static final double TARGET_TOLERANCE = 5;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_KV = 0.5;
