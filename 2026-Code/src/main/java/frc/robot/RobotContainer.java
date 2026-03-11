@@ -82,6 +82,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("noShoot", index.noKickAndSpin());
     NamedCommands.registerCommand("shooterDefault", shooter.defaultCommand());
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
+    NamedCommands.registerCommand("Unbeach", swerve.unbeach());
   }
 
   public Command getAutonomousCommand() {
