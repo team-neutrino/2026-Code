@@ -12,6 +12,7 @@ import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterNT extends Shooter {
@@ -154,6 +155,8 @@ public class ShooterNT extends Shooter {
     @Override
     public void periodic() {
         super.periodic();
+        final long now = NetworkTablesJNI.now();
+
         if (m_shooterPIDTuner.isDifferentValues(m_previousShootingKP, m_previousShootingKI, m_previousShootingKD)) {
             m_previousShootingKP = m_shooterPIDTuner.getP();
             m_previousShootingKI = m_shooterPIDTuner.getI();
@@ -169,23 +172,23 @@ public class ShooterNT extends Shooter {
         }
 
         setTuningDistance(m_distanceSubscriber.get());
-        m_shooterSpeedPublisher.set(getShooterRPM());
-        m_shooterTargetPublisher.set(getTargetRPM());
-        m_hoodTargetPublisher.set(getTargetPosition());
-        m_hoodPositionPublisher.set(getHoodAngle());
-        m_hoodCurrentPublisher.set(getHoodCurrent());
-        m_realDistancePublisher.set(swerve.getFromHubToTurret());
+        m_shooterSpeedPublisher.set(getShooterRPM(), now);
+        m_shooterTargetPublisher.set(getTargetRPM(), now);
+        m_hoodTargetPublisher.set(getTargetPosition(), now);
+        m_hoodPositionPublisher.set(getHoodAngle(), now);
+        m_hoodCurrentPublisher.set(getHoodCurrent(), now);
+        m_realDistancePublisher.set(swerve.getFromHubToTurret(), now);
         m_tuningAngle = m_targetAngleSubscriber.get();
         m_tuningSpeed = m_targetShooterRpmSubscriber.get();
-        m_speedAtTargetPublisher.set(atTargetRPM());
-        m_hoodAtTargetPublisher.set(atTargetPosition());
-        m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone());
-        m_notDrivingPublisher.set(swerve.isNotMovingOrTurning());
+        m_speedAtTargetPublisher.set(atTargetRPM(), now);
+        m_hoodAtTargetPublisher.set(atTargetPosition(), now);
+        m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone(), now);
+        m_notDrivingPublisher.set(swerve.isNotMovingOrTurning(), now);
         if (hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
             if (GlobalConstants.RED_ALLIANCE.get()) {
-                m_hubActivePublisher.set(hubState.isRedHubActive());
+                m_hubActivePublisher.set(hubState.isRedHubActive(), now);
             } else {
-                m_hubActivePublisher.set(hubState.isBlueHubActive());
+                m_hubActivePublisher.set(hubState.isBlueHubActive(), now);
             }
         }
     }
