@@ -321,7 +321,8 @@ public class Swerve extends CommandSwerveDrivetrain {
             magnitude = m_slewLimit.calculate(magnitude);
 
             if (Math.abs(forward) > BRAKE_ALLOWED_ERROR || Math.abs(left) > BRAKE_ALLOWED_ERROR
-                    || Math.abs(rotation) > BRAKE_ALLOWED_ERROR) {
+                    || Math.abs(rotation) > BRAKE_ALLOWED_ERROR
+                    || getSpeedMetersPerSecond() > BRAKE_VELOCITY_ALLOWED_ERROR) {
                 setControl(SwerveRequestStash.drive
                         .withVelocityY(left * MAX_SPEED)
                         .withVelocityX(forward * MAX_SPEED)
