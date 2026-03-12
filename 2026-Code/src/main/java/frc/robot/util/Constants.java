@@ -338,12 +338,12 @@ public class Constants {
         public static final double MID_FIELD_X = 8.270494;
         public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034663, new Rotation2d(0));
         public static final Pose2d BLUE_HUB = new Pose2d(4.625594, 4.034663, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 6, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_TOP_RED = new Pose2d(16.5, 6.5, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_MID_RED = new Pose2d(16.5, 4, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 2, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 1.5, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 6.5, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_MID_BLUE = new Pose2d(0, 4, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 6, new Rotation2d(0));
-        public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 2, new Rotation2d(0));
+        public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 1.5, new Rotation2d(0));
         public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
         public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
         public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
