@@ -9,6 +9,8 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,6 +34,8 @@ public class Index extends SubsystemBase {
 
     private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
     private CanandcolorSettings m_settings = new CanandcolorSettings();
+    private boolean m_emptyHopper = true;
+    private Debouncer m_emptyDebouncer = new Debouncer(DEBOUNCED_TIME, DebounceType.kRising);
     private double m_ballsPerSecondCount;
     private boolean m_ballDetected = false;
     public Timer m_bpsTimer = new Timer();
@@ -76,8 +80,21 @@ public class Index extends SubsystemBase {
         return m_kickerMotorVoltage;
     }
 
+    public void checkEmptyHopper() {
+        if (canandColorDetect()) {
+            m_emptyHopper = false;
+        } else if (m_emptyDebouncer.calculate(!canandColorDetect())) {
+            m_emptyHopper = true;
+        }
+    }
+
+    public boolean isHopperEmpty() {
+        return m_emptyHopper;
+    }
+
     @Override
     public void periodic() {
+        checkEmptyHopper();
         calculateBallsPerSecond();
         setSpindexerVoltage();
         setKickerVoltage();
