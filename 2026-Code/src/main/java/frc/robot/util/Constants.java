@@ -256,7 +256,7 @@ public class Constants {
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double SLOW_MAX_ROTATION_SPEED = 2;
-        public static final double SLOW_MAX_SPEED = 1.25;
+        public static final double SLOW_MAX_SPEED = 1.5;
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
