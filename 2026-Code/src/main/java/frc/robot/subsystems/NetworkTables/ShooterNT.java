@@ -180,10 +180,10 @@ public class ShooterNT extends Shooter {
         m_realDistancePublisher.set(swerve.getFromHubToTurret(), now);
         m_tuningAngle = m_targetAngleSubscriber.get();
         m_tuningSpeed = m_targetShooterRpmSubscriber.get();
-        m_speedAtTargetPublisher.set(atTargetRPM(), now);
-        m_hoodAtTargetPublisher.set(atTargetPosition(), now);
-        m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone(), now);
-        m_notDrivingPublisher.set(swerve.isNotMovingOrTurning(), now);
+        m_speedAtTargetPublisher.set(atTargetRPM());
+        m_hoodAtTargetPublisher.set(atTargetPosition());
+        m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone());
+        m_notDrivingPublisher.set(swerve.isNotMovingTooFastOrTurning());
         if (hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
             if (GlobalConstants.RED_ALLIANCE.get()) {
                 m_hubActivePublisher.set(hubState.isRedHubActive(), now);
