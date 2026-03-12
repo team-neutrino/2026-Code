@@ -179,6 +179,7 @@ public class Constants {
         public static final double KICKER_CURRENT_LIMIT = 40;
 
         public static final double CANANDCOLOR_DETECT_DISTANCE = 0.05;
+        public static final double DEBOUNCED_TIME = 1;
     }
 
     public static class IntakeConstants {
