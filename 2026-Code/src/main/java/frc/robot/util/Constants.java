@@ -171,7 +171,7 @@ public class Constants {
         public static final int KICKER_MOTOR_ID = 18;
         public static final int CANANDCOLOR_ID = 28;
 
-        public static final double INDEXING_VOLTAGE = -12;
+        public static final double INDEXING_VOLTAGE = -6;
         public static final double INDEX_CURRENT_LIMIT = 40;
 
         public static final double KICKER_VOLTAGE = 12;

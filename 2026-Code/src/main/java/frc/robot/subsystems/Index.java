@@ -99,22 +99,21 @@ public class Index extends SubsystemBase {
     }
 
     public void calculateBallsPerSecond() {
-        final long now = NetworkTablesJNI.now();
         if (canandColorDetect()) {
             countBalls();
         } else {
             m_ballDetected = false;
         }
-        if (m_bpsTimer.hasElapsed(1)) {
-            m_bpsTimer.stop();
-            m_bpsTimer.reset();
-            m_ballsPerSecondPub.set(getballsPerSecond(), now);
-            m_ballsPerSecondCount = 0;
-        }
     }
 
     public double getballsPerSecond() {
         return m_ballsPerSecondCount;
+    }
+
+    public void resetTimerAndCount() {
+        m_bpsTimer.stop();
+        m_bpsTimer.reset();
+        m_ballsPerSecondCount = 0;
     }
 
     @Override
