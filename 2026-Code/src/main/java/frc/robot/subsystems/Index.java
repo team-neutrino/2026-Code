@@ -106,7 +106,7 @@ public class Index extends SubsystemBase {
         }
     }
 
-    public double getballsPerSecond() {
+    public double getBallsPerSecond() {
         return m_ballsPerSecondCount;
     }
 

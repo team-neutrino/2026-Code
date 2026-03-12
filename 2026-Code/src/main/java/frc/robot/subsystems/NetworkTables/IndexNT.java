@@ -52,7 +52,7 @@ public class IndexNT extends Index {
         kickerTargetVoltagePub.set(getKickerTargetVoltage(), now);
 
         if (m_bpsTimer.hasElapsed(1)) {
-            m_ballsPerSecondPub.set(getballsPerSecond(), now);
+            m_ballsPerSecondPub.set(getBallsPerSecond(), now);
             resetTimerAndCount();
         }
     }
