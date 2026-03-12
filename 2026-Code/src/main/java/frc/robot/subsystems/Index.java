@@ -62,10 +62,6 @@ public class Index extends SubsystemBase {
         m_canandColor.setSettings(m_settings);
     }
 
-    public boolean canandColorDetect() {
-        return m_canandColor.getProximity() < CANANDCOLOR_DETECT_DISTANCE;
-    }
-
     public double getSpindexerCurrentVoltage() {
         return m_spindexerMotor.getMotorVoltage().getValueAsDouble();
     }
@@ -80,34 +76,6 @@ public class Index extends SubsystemBase {
 
     public double getKickerTargetVoltage() {
         return m_kickerMotorVoltage;
-    }
-
-    public void countBalls() {
-        if (!m_bpsTimer.isRunning()) {
-            m_bpsTimer.start();
-        }
-        if (!m_ballDetected) {
-            m_ballDetected = true;
-            m_ballsPerSecondCount++;
-        }
-    }
-
-    public void calculateBallsPerSecond() {
-        if (canandColorDetect()) {
-            countBalls();
-        } else {
-            m_ballDetected = false;
-        }
-    }
-
-    public double getBallsPerSecond() {
-        return m_ballsPerSecondCount;
-    }
-
-    public void resetTimerAndCount() {
-        m_bpsTimer.stop();
-        m_bpsTimer.reset();
-        m_ballsPerSecondCount = 0;
     }
 
     @Override
