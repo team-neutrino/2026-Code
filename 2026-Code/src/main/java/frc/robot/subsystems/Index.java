@@ -9,10 +9,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTablesJNI;
 
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,8 +21,6 @@ import static frc.robot.util.Subsystems.shooterArbiter;
 public class Index extends SubsystemBase {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
-    DoubleTopic m_ballsPerSecond = nt.getDoubleTopic("/index/balls_per_second");
-    final DoublePublisher m_ballsPerSecondPub;
 
     private TalonFX m_spindexerMotor = new TalonFX(SPINDEXER_MOTOR_ID, m_CANbus);
     private double m_spindexerMotorVoltage;
@@ -63,9 +58,6 @@ public class Index extends SubsystemBase {
         m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
 
         m_canandColor.setSettings(m_settings);
-
-        m_ballsPerSecondPub = m_ballsPerSecond.publish();
-        m_ballsPerSecondPub.setDefault(0.0);
     }
 
     public boolean canandColorDetect() {
