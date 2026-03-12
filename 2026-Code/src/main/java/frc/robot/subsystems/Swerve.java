@@ -103,8 +103,8 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getState().Speeds;
     }
 
-    public boolean isNotUpright() {
-        return !(Math.abs(180 + getRoll()) < BEACHED_ANGLE || Math.abs(180 - getRoll()) < BEACHED_ANGLE || Math.abs(getPitch()) < BEACHED_ANGLE);
+    public boolean isUpright() {
+        return (Math.abs(getRoll()) > 180 - BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE);
     }
     /**
      * Resets the yaw to 0, so the direction you're currently facing is the new
@@ -384,7 +384,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             } else {
                 setControl(SwerveRequestStash.drive.withVelocityX(1.5).withVelocityY(0).withRotationalRate(0));
             }
-        }).until(() -> !isNotUpright());
+        }).until(() -> isUpright());
     }
 
     @Override
