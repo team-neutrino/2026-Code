@@ -75,7 +75,8 @@ public class Constants {
         public static final double FAST_SHOOTING_RPM = 4000;
         public static final double CURRENT_SPIKE = 29.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
-        public static final double NOT_MOVING_THRESHOLD = 0.45;
+        public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
+        public static final double SHOOT_WHILE_MOVING_VELOCITY_STARTING_THRESHOLD = 1.0;
         public static final double NOT_TURNING_THRESHOLD = 30;
         public static final double SHOOTER_RPM_NOISE = 0.5;
         public static final double SOFT_SHOT_ANGLE = 20;
@@ -136,7 +137,7 @@ public class Constants {
             TURRET_ANGLE_CORRECT,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
-            // NOT_DRIVING,
+            NOT_DRIVING,
         }
     }
 
@@ -162,7 +163,8 @@ public class Constants {
         public static final double TARGET_TOLERANCE = 5;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
-        public static final double TURRET_TRACKING_KV = 0.5;
+        public static final double TURRET_TRACKING_KV = 1.5;
+        public static final double TURRET_LATENCY = 0.05;
     }
 
     public static class IndexConstants {
@@ -252,14 +254,15 @@ public class Constants {
     public static class SwerveConstants {
         public static final double SLEW_LIMIT = 4.0;
         public static final double GYRO_SCALAR_Z = -3.9;
-        public static final double MAX_SPEED = 1;
+        public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double SLOW_MAX_ROTATION_SPEED = 2;
-        public static final double SLOW_MAX_SPEED = 0.4;
+        public static final double SLOW_MAX_SPEED = 1.25;
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
         public static final double NO_SHOOT_TILT = 10;
+        public static final double CONVERGENCE_ITERATIONS = 4;
     }
 
     public static class DriveToPointConstants {

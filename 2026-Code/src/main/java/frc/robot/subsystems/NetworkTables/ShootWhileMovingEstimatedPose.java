@@ -11,7 +11,7 @@ public class ShootWhileMovingEstimatedPose extends Swerve {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private Pose2d blank = new Pose2d();
 
-    private StructTopic<Pose2d> estimatedPose = nt.getStructTopic("/EstimatedPose", Pose2d.struct);
+    private StructTopic<Pose2d> estimatedPose = nt.getStructTopic("/HubPose", Pose2d.struct);
     private StructPublisher<Pose2d> m_estimatedPosePub;
 
     public ShootWhileMovingEstimatedPose() {
@@ -25,7 +25,7 @@ public class ShootWhileMovingEstimatedPose extends Swerve {
         super.periodic();
         final long now = NetworkTablesJNI.now();
 
-        m_estimatedPosePub.set(getHubPose3(), now);
+        m_estimatedPosePub.set(getHubPose(), now);
 
     }
 }
