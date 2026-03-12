@@ -176,6 +176,8 @@ public class Constants {
 
         public static final double KICKER_VOLTAGE = 12;
         public static final double KICKER_CURRENT_LIMIT = 40;
+
+        public static final double CANANDCOLOR_DETECT_DISTANCE = 0.05;
     }
 
     public static class IntakeConstants {

@@ -24,8 +24,8 @@ import static frc.robot.util.Subsystems.shooterArbiter;
 public class Index extends SubsystemBase {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
-    DoubleTopic ballsPerSecond = nt.getDoubleTopic("/index/balls_per_second");
-    final DoublePublisher ballsPerSecondPub;
+    DoubleTopic m_ballsPerSecond = nt.getDoubleTopic("/index/balls_per_second");
+    final DoublePublisher m_ballsPerSecondPub;
 
     private TalonFX m_spindexerMotor = new TalonFX(SPINDEXER_MOTOR_ID, m_CANbus);
     private double m_spindexerMotorVoltage;
@@ -64,12 +64,12 @@ public class Index extends SubsystemBase {
 
         m_canandColor.setSettings(m_settings);
 
-        ballsPerSecondPub = ballsPerSecond.publish();
-        ballsPerSecondPub.setDefault(0.0);
+        m_ballsPerSecondPub = m_ballsPerSecond.publish();
+        m_ballsPerSecondPub.setDefault(0.0);
     }
 
     public boolean canandColorDetect() {
-        return m_canandColor.getProximity() < 0.1;
+        return m_canandColor.getProximity() < CANANDCOLOR_DETECT_DISTANCE;
     }
 
     public double getSpindexerCurrentVoltage() {
@@ -88,28 +88,32 @@ public class Index extends SubsystemBase {
         return m_kickerMotorVoltage;
     }
 
+    public void countBalls() {
+        if (!m_bpsTimer.isRunning()) {
+            m_bpsTimer.start();
+        }
+        if (!m_ballDetected) {
+            m_ballDetected = true;
+            m_ballsPerSecondCount++;
+        }
+    }
+
     public void calculateBallsPerSecond() {
         final long now = NetworkTablesJNI.now();
         if (canandColorDetect()) {
-            if (!m_bpsTimer.isRunning()) {
-                m_bpsTimer.start();
-            }
-            if (!m_ballDetected) {
-                m_ballDetected = true;
-                m_ballsPerSecondCount++;
-            }
+            countBalls();
         } else {
             m_ballDetected = false;
         }
         if (m_bpsTimer.hasElapsed(1)) {
             m_bpsTimer.stop();
             m_bpsTimer.reset();
-            ballsPerSecondPub.set(getBallsPerSecond(), now);
+            m_ballsPerSecondPub.set(getballsPerSecond(), now);
             m_ballsPerSecondCount = 0;
         }
     }
 
-    public double getBallsPerSecond() {
+    public double getballsPerSecond() {
         return m_ballsPerSecondCount;
     }
 
