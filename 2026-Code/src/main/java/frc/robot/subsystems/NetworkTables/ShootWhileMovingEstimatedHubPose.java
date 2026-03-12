@@ -7,14 +7,14 @@ import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.networktables.StructTopic;
 import frc.robot.subsystems.Swerve;
 
-public class ShootWhileMovingEstimatedPose extends Swerve {
+public class ShootWhileMovingEstimatedHubPose extends Swerve {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private Pose2d blank = new Pose2d();
 
     private StructTopic<Pose2d> estimatedPose = nt.getStructTopic("/HubPose", Pose2d.struct);
     private StructPublisher<Pose2d> m_estimatedPosePub;
 
-    public ShootWhileMovingEstimatedPose() {
+    public ShootWhileMovingEstimatedHubPose() {
         m_estimatedPosePub = estimatedPose.publish();
         m_estimatedPosePub.setDefault(blank);
 
