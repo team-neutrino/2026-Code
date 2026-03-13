@@ -101,10 +101,13 @@ public class Constants {
                 Map.entry(4.48, 3400.0),
                 Map.entry(7.0, 4330.0));
 
-        public static final TreeMap<Double, InterpolatingDoubleTreeMap> ZONE_INTERPOLATION = new TreeMap<>(
-                Map.ofEntries(
-                        Map.entry(0.0, HOOD_INTERPOLATION),
-                        Map.entry(3.7, SPEED_INTERPOLATION)));
+        public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(1.5367, 1.30667),
+                Map.entry(2.0447, 1.26),
+                Map.entry(2.5527, 1.25),
+                Map.entry(3.0607, 1.105),
+                Map.entry(3.5687, 1.73333),
+                Map.entry(4.0513, 1.7033));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,

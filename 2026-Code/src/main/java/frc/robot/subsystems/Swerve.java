@@ -3,10 +3,15 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
+import static frc.robot.util.Constants.ShooterConstants.HOOD_INTERPOLATION;
 import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.DEFAULT_SHOOTING_SPEED;
 import static frc.robot.util.Constants.ShooterConstants.FAST_TIME_OF_FLIGHT;
 import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
+import static frc.robot.util.Constants.SwerveConstants.SHOOT_WHILE_MOVING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.SPEED_INTERPOLATION;
+import static frc.robot.util.Constants.ShooterConstants.TIME_OF_FLIGHT;
+import static frc.robot.util.Constants.TurretConstants.TURRET_LATENCY;
 import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
 import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
 import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
@@ -194,6 +199,56 @@ public class Swerve extends CommandSwerveDrivetrain {
         double targetDistanceY = targetPose.getY() - (turretGlobal.getY());
 
         return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
+    }
+
+    public ChassisSpeeds getFieldRelativeChassisSpeeds() {
+        Rotation2d angle = Rotation2d.fromDegrees(getYawDegrees());
+        return ChassisSpeeds.fromRobotRelativeSpeeds(
+                getChassisSpeeds().vxMetersPerSecond,
+                getChassisSpeeds().vyMetersPerSecond,
+                getChassisSpeeds().omegaRadiansPerSecond,
+                angle);
+    }
+
+    public Pose2d getHubPose() {
+        Pose2d intialPose = BLUE_HUB;
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            intialPose = (alliance.get() == Alliance.Blue)
+                    ? BLUE_HUB
+                    : RED_HUB;
+        }
+        Translation2d realHubLocation = intialPose.getTranslation();
+
+        Pose2d currentPose = getCurrentPose();
+        Translation2d currentTranslation = currentPose.getTranslation();
+        ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
+
+        double currentDist = currentTranslation.getDistance(realHubLocation);
+
+        if (SPEED_INTERPOLATION.get(currentDist) == null || HOOD_INTERPOLATION.get(currentDist) == null) {
+            return intialPose;
+        }
+
+        double lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
+
+        Translation2d adjustedHub = realHubLocation;
+        for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
+            double offsetX = realHubLocation.getX()
+                    - (fieldSpeeds.vxMetersPerSecond * (lookAheadTime));
+            double offsetY = realHubLocation.getY()
+                    - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime));
+            adjustedHub = new Translation2d(offsetX, offsetY);
+            currentDist = currentTranslation.getDistance(adjustedHub);
+
+            if (SPEED_INTERPOLATION.get(currentDist) == null || HOOD_INTERPOLATION.get(currentDist) == null) {
+                break;
+            }
+            lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
+            lookAheadTime += TURRET_LATENCY;
+        }
+
+        return new Pose2d(adjustedHub, intialPose.getRotation());
     }
 
     public double getSpeedMetersPerSecond() {
