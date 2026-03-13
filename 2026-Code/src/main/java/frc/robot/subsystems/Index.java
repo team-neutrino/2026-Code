@@ -6,7 +6,10 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.reduxrobotics.sensors.canandcolor.Canandcolor;
+import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
@@ -27,6 +30,12 @@ public class Index extends SubsystemBase {
     private TalonFXConfiguration m_kickerMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_kickerCurrentLimitConfig = new CurrentLimitsConfigs();
 
+    private Canandcolor m_canandColor = new Canandcolor(CANANDCOLOR_ID);
+    private CanandcolorSettings m_settings = new CanandcolorSettings();
+    private double m_ballsPerSecondCount;
+    private boolean m_ballDetected = false;
+    public Timer m_bpsTimer = new Timer();
+
     public Index() {
         m_indexCurrentLimitConfig.withSupplyCurrentLimit(INDEX_CURRENT_LIMIT)
                 .withSupplyCurrentLimitEnable(true)
@@ -45,6 +54,12 @@ public class Index extends SubsystemBase {
 
         m_spindexerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
+
+        m_canandColor.setSettings(m_settings);
+    }
+
+    public boolean canandColorDetect() {
+        return m_canandColor.getProximity() < CANANDCOLOR_DETECT_DISTANCE;
     }
 
     public double getSpindexerCurrentVoltage() {
@@ -63,8 +78,37 @@ public class Index extends SubsystemBase {
         return m_kickerMotorVoltage;
     }
 
+    public void countBalls() {
+        if (!m_bpsTimer.isRunning()) {
+            m_bpsTimer.start();
+        }
+        if (!m_ballDetected) {
+            m_ballDetected = true;
+            m_ballsPerSecondCount++;
+        }
+    }
+
+    public void calculateBallsPerSecond() {
+        if (canandColorDetect()) {
+            countBalls();
+        } else {
+            m_ballDetected = false;
+        }
+    }
+
+    public double getBallsPerSecond() {
+        return m_ballsPerSecondCount;
+    }
+
+    public void resetTimerAndCount() {
+        m_bpsTimer.stop();
+        m_bpsTimer.reset();
+        m_ballsPerSecondCount = 0;
+    }
+
     @Override
     public void periodic() {
+        calculateBallsPerSecond();
         setSpindexerVoltage();
         setKickerVoltage();
     }

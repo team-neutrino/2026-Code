@@ -13,12 +13,15 @@ public class IndexNT extends Index {
     DoubleTopic spindexerTargetVoltage = nt.getDoubleTopic("/index/spindexer_target_voltage");
     DoubleTopic kickerCurrentVoltage = nt.getDoubleTopic("/index/kicker_voltage");
     DoubleTopic kickerTargetVoltage = nt.getDoubleTopic("/index/kicker_target_voltage");
+    DoubleTopic m_ballsPerSecond = nt.getDoubleTopic("/index/balls_per_second");
 
     final DoublePublisher spindexerCurrentVoltagePub;
     final DoublePublisher spindexerTargetVoltagePub;
 
     final DoublePublisher kickerCurrentVoltagePub;
     final DoublePublisher kickerTargetVoltagePub;
+
+    final DoublePublisher m_ballsPerSecondPub;
 
     public IndexNT() {
         spindexerCurrentVoltagePub = spindexerCurrentVoltage.publish();
@@ -32,6 +35,9 @@ public class IndexNT extends Index {
 
         kickerTargetVoltagePub = kickerTargetVoltage.publish();
         kickerTargetVoltagePub.setDefault(0.0);
+
+        m_ballsPerSecondPub = m_ballsPerSecond.publish();
+        m_ballsPerSecondPub.setDefault(0.0);
     }
 
     @Override
@@ -44,5 +50,10 @@ public class IndexNT extends Index {
 
         kickerCurrentVoltagePub.set(getKickerCurrentVoltage(), now);
         kickerTargetVoltagePub.set(getKickerTargetVoltage(), now);
+
+        if (m_bpsTimer.hasElapsed(1)) {
+            m_ballsPerSecondPub.set(getBallsPerSecond(), now);
+            resetTimerAndCount();
+        }
     }
 }
