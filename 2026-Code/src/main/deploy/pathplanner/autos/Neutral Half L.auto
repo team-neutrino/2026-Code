@@ -13,6 +13,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Near - 1L"
+                      }
+                    },
+                    {
                       "type": "race",
                       "data": {
                         "commands": [
@@ -159,39 +165,32 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Small Loop - 1R"
+                              "pathName": "Small Loop - 1L"
                             }
                           },
                           {
-                            "type": "sequential",
+                            "type": "named",
                             "data": {
-                              "commands": [
-                                {
-                                  "type": "race",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "retractIntake"
-                                        }
-                                      },
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 1.2
-                                        }
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "deployAndRunIntake"
-                                  }
-                                }
-                              ]
+                              "name": "retractIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Small Loop - 2L"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -200,7 +199,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": null
+                        "pathName": "Small Loop - 3L"
                       }
                     }
                   ]
