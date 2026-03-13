@@ -222,12 +222,6 @@ public class Shooter extends SubsystemBase {
     m_targetAngle = target;
   }
 
-  public double calculateExitVelocity(double velocity) {
-    double rps = velocity / 60.0;
-    double surfaceSpeed = rps * FLYWHEEL_CIRCUMFRANCE;
-    return surfaceSpeed;
-  }
-
   /**
    * Control the hood motor to reach a certain amount of rotations as defined by
    * m_TargetAngle.
