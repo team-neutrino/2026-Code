@@ -264,6 +264,23 @@ public class Swerve extends CommandSwerveDrivetrain {
                 && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD;
     }
 
+    public boolean isOnBump() {
+        return !(Math.abs(getRoll()) > 180 - BUMP_MINIMUM_THRESHOLD || Math.abs(getPitch()) < BUMP_MINIMUM_THRESHOLD);
+    }
+
+    public void stopOdometryOnBump() {
+        if (isOnBump()) {
+            getOdometryThread().stop();
+        } else {
+            getOdometryThread().start();
+        }
+    }
+    public Command stopOdometry() {
+        return run(() -> {
+            getOdometryThread().stop();
+        });
+    }
+
     private void configurePathPlanner() {
         double pTranslation = 1;
         double iTranslation = 0;
