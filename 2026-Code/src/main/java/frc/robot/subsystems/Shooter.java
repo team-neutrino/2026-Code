@@ -293,8 +293,8 @@ public class Shooter extends SubsystemBase {
     if (RED_ALLIANCE.isPresent()) {
       shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
     }
-    shooterArbiter.setCondition(shooterConditions.NOT_DRIVING,
-        swerve.isNotMovingOrTurning());
+    shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
+        swerve.isNotMovingTooFastOrTurning());
 
     if (hubState.hasValidGameData() && RED_ALLIANCE.isPresent()) {
       if (RED_ALLIANCE.get()) {

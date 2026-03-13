@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.GlobalConstants;
@@ -34,9 +35,13 @@ public class Turret extends SubsystemBase {
   private double m_previousAngle = STARTUP_ANGLE;
   private double m_totalWrap = STARTUP_ANGLE;
   private double m_adjustedTargetAngle = STARTUP_ANGLE;
+  private double m_previousFieldRelativeTargetAngle = 0.0;
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
+
+  // Simulation
+  private TurretSim m_turretSim;
 
   public Turret() {
     m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -69,6 +74,12 @@ public class Turret extends SubsystemBase {
     m_motor.setNeutralMode(NeutralModeValue.Coast);
     m_motor.setPosition(STARTUP_ANGLE);
     m_encoder.setPosition(STARTUP_ANGLE);
+
+    // Initialize simulation
+    if (RobotBase.isSimulation()) {
+      m_turretSim = new TurretSim(m_motor, m_encoder);
+      m_turretSim.resetSimulation(STARTUP_ANGLE);
+    }
   }
 
   @Override
@@ -76,7 +87,13 @@ public class Turret extends SubsystemBase {
     if (GlobalConstants.RED_ALLIANCE.isPresent()) {
       updateWrap();
       m_adjustedTargetAngle = getAdjustedTargetAngle();
-      adjustTurret(m_adjustedTargetAngle);
+
+      final double fieldRelativeTargetAngle = Subsystems.swerve.calculateFieldRelativeTargetAngle();
+      final double translationRate = (fieldRelativeTargetAngle - m_previousFieldRelativeTargetAngle) / 0.020;
+      m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
+      final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
+
+      adjustTurret(m_adjustedTargetAngle, translationRate + rotationRate);
     }
     shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
   }
@@ -132,9 +149,9 @@ public class Turret extends SubsystemBase {
     return Math.abs(currentAngle - targetAngle) < ALLOWED_ERROR;
   }
 
-  private void adjustTurret(double targetAngle) {
-    m_motor
-        .setControl(new PositionVoltage(targetAngle / 360));
+  private void adjustTurret(double targetAngle, double hubVelocity) {
+    double trackingFeedforward = (hubVelocity / 360.0) * TURRET_TRACKING_KV;
+    m_motor.setControl(new PositionVoltage(targetAngle / 360).withFeedForward(trackingFeedforward));
   }
 
   private void updateWrap() {
@@ -167,5 +184,12 @@ public class Turret extends SubsystemBase {
     m_motorConfig.Slot0.kI = i;
     m_motorConfig.Slot0.kD = d;
     m_motor.getConfigurator().apply(m_motorConfig);
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    if (m_turretSim != null) {
+      m_turretSim.updateSimulation();
+    }
   }
 }

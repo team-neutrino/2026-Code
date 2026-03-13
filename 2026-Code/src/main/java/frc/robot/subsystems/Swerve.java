@@ -3,17 +3,18 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.DEFAULT_SHOOTING_SPEED;
+import static frc.robot.util.Constants.ShooterConstants.FAST_TIME_OF_FLIGHT;
 import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
-import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
-import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
-import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
-import static frc.robot.util.Constants.SwerveConstants.MAX_SPEED;
-import static frc.robot.util.Constants.SwerveConstants.ROTATIONAL_P;
+import static frc.robot.util.Constants.ShooterConstants.SHOOTER_SPEED_ZONES;
+import static frc.robot.util.Constants.SwerveConstants.SHOOT_WHILE_MOVING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.SLOW_TIME_OF_FLIGHT;
+import static frc.robot.util.Constants.TurretConstants.TURRET_LATENCY;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_FRONT;
 import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_SIDE;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.json.simple.parser.ParseException;
 
@@ -32,6 +33,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
@@ -153,7 +156,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             return 0;
         }
 
-        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+        Pose2d hubPose = getHubPose();
         return hubPose.getTranslation().getDistance(getTurretGlobal());
     }
 
@@ -172,7 +175,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         Translation2d turretGlobal = getTurretGlobal();
         double robotX = robotPose.getMeasureX().baseUnitMagnitude();
         double robotY = robotPose.getMeasureY().baseUnitMagnitude();
-        Pose2d hubPose = GlobalConstants.RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
+        Pose2d hubPose = getHubPose();
         Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
                 ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
                 : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
@@ -187,6 +190,62 @@ public class Swerve extends CommandSwerveDrivetrain {
         return Math.toDegrees(Math.atan2(targetDistanceY, targetDistanceX));
     }
 
+    public ChassisSpeeds getFieldRelativeChassisSpeeds() {
+        Rotation2d angle = Rotation2d.fromDegrees(getYawDegrees());
+        return ChassisSpeeds.fromRobotRelativeSpeeds(
+                getChassisSpeeds().vxMetersPerSecond,
+                getChassisSpeeds().vyMetersPerSecond,
+                getChassisSpeeds().omegaRadiansPerSecond,
+                angle);
+    }
+
+    public Pose2d getHubPose() {
+        Pose2d intialPose = BLUE_HUB;
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            intialPose = (alliance.get() == Alliance.Blue)
+                    ? BLUE_HUB
+                    : RED_HUB;
+        }
+        Translation2d realHubLocation = intialPose.getTranslation();
+
+        Pose2d currentPose = getCurrentPose();
+        Translation2d currentTranslation = currentPose.getTranslation();
+        ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
+
+        double currentDist = currentTranslation.getDistance(realHubLocation);
+
+        if (SHOOTER_SPEED_ZONES.floorEntry(currentDist) == null)
+            return intialPose;
+
+        double shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
+
+        double lookAheadTime = (shootingSpeed == DEFAULT_SHOOTING_SPEED)
+                ? SLOW_TIME_OF_FLIGHT.get(currentDist)
+                : FAST_TIME_OF_FLIGHT.get(currentDist);
+
+        Translation2d adjustedHub = realHubLocation;
+        for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
+            double offsetX = realHubLocation.getX()
+                    - (fieldSpeeds.vxMetersPerSecond * (lookAheadTime));
+            double offsetY = realHubLocation.getY()
+                    - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime));
+            adjustedHub = new Translation2d(offsetX, offsetY);
+            currentDist = currentTranslation.getDistance(adjustedHub);
+
+            if (SHOOTER_SPEED_ZONES.floorEntry(currentDist) == null)
+                break;
+            shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
+
+            lookAheadTime = (shootingSpeed == DEFAULT_SHOOTING_SPEED)
+                    ? SLOW_TIME_OF_FLIGHT.get(currentDist)
+                    : FAST_TIME_OF_FLIGHT.get(currentDist);
+            lookAheadTime += TURRET_LATENCY;
+        }
+
+        return new Pose2d(adjustedHub, intialPose.getRotation());
+    }
+
     public double getSpeedMetersPerSecond() {
         return Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2)
                 + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2));
@@ -196,8 +255,8 @@ public class Swerve extends CommandSwerveDrivetrain {
         return Math.abs(Math.toDegrees(getChassisSpeeds().omegaRadiansPerSecond));
     }
 
-    public boolean isNotMovingOrTurning() {
-        return getSpeedMetersPerSecond() < NOT_MOVING_THRESHOLD
+    public boolean isNotMovingTooFastOrTurning() {
+        return getSpeedMetersPerSecond() < SHOOT_WHILE_MOVING_THRESHOLD
                 && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD;
     }
 
@@ -242,13 +301,13 @@ public class Swerve extends CommandSwerveDrivetrain {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
-            double magnitude = Math.hypot(forward, left) * (MAX_SPEED / 2);
+            double magnitude = Math.hypot(forward, left) * (SLOW_MAX_SPEED);
             magnitude = m_slewLimit.calculate(magnitude);
 
             setControl(SwerveRequestStash.drive
                     .withVelocityX(forward * magnitude)
                     .withVelocityY(left * magnitude)
-                    .withRotationalRate(rotation * MAX_ROTATION_SPEED));
+                    .withRotationalRate(rotation * SLOW_MAX_ROTATION_SPEED));
         });
     }
 

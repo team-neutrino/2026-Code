@@ -75,8 +75,8 @@ public class Constants {
         public static final double FAST_SHOOTING_RPM = 4000;
         public static final double CURRENT_SPIKE = 29.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
-        public static final double NOT_MOVING_THRESHOLD = 0.2;
-        public static final double NOT_TURNING_THRESHOLD = 10;
+        public static final double SHOOT_WHILE_MOVING_VELOCITY_STARTING_THRESHOLD = 1.0;
+        public static final double NOT_TURNING_THRESHOLD = 30;
         public static final double SHOOTER_RPM_NOISE = 0.5;
         public static final double SOFT_SHOT_ANGLE = 20;
         public static final double SOFT_SHOT_SPEED = 1700;
@@ -109,6 +109,16 @@ public class Constants {
                 Map.entry(4.92, 17.0),
                 Map.entry(5.7, 21.0));
 
+        public static final InterpolatingDoubleTreeMap SLOW_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(1.5367, 1.30667),
+                Map.entry(2.0447, 1.26),
+                Map.entry(2.5527, 1.25),
+                Map.entry(3.0607, 1.105));
+
+        public static final InterpolatingDoubleTreeMap FAST_TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(3.5687, 1.73333),
+                Map.entry(4.0513, 1.7033));
+
         public static TreeMap<Double, Double> SHOOTER_SPEED_ZONES = new TreeMap<Double, Double>(Map.ofEntries(
                 Map.entry(0.0, DEFAULT_SHOOTING_SPEED),
                 Map.entry(3.5, FAST_SHOOTING_RPM),
@@ -126,7 +136,7 @@ public class Constants {
             TURRET_ANGLE_CORRECT,
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
-            NOT_DRIVING,
+            SWERVE_SPEED_CORRECT,
         }
     }
 
@@ -141,17 +151,19 @@ public class Constants {
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 2;
+        public static final double ALLOWED_ERROR = 5;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
-        public static final double STATIC_FF = 0;
-        public static final double VELOCITY_FF = 0;
-        public static final double ACCELERATION_FF = 0;
+        public static final double STATIC_FF = 0.1;
+        public static final double VELOCITY_FF = 0.0;
+        public static final double ACCELERATION_FF = 0.0;
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
-        public static final double TARGET_TOLERANCE = 1;
+        public static final double TARGET_TOLERANCE = 5;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
+        public static final double TURRET_TRACKING_KV = 1.5;
+        public static final double TURRET_LATENCY = 0.05;
     }
 
     public static class IndexConstants {
@@ -243,10 +255,14 @@ public class Constants {
         public static final double GYRO_SCALAR_Z = -3.9;
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
+        public static final double SLOW_MAX_ROTATION_SPEED = 2;
+        public static final double SLOW_MAX_SPEED = 1.5;
         public static final double ROTATIONAL_P = 6;
         public static final double AUTO_ALIGN_D = 0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
         public static final double NO_SHOOT_TILT = 10;
+        public static final double CONVERGENCE_ITERATIONS = 3;
+        public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
     }
 
     public static class DriveToPointConstants {
