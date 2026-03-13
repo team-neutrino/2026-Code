@@ -8,7 +8,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcolor.Canandcolor;
 import com.reduxrobotics.sensors.canandcolor.CanandcolorSettings;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,7 +18,6 @@ import static frc.robot.util.Constants.IndexConstants.*;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 public class Index extends SubsystemBase {
-    NetworkTableInstance nt = NetworkTableInstance.getDefault();
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
 
     private TalonFX m_spindexerMotor = new TalonFX(SPINDEXER_MOTOR_ID, m_CANbus);
