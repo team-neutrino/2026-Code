@@ -254,34 +254,6 @@ public class Shooter extends SubsystemBase {
     return Math.min(originalAngle, MAX_SAFE_HOOD_ANGLE);
   }
 
-  public double shooterCalculator() {
-    double flywheelVelocity = ((m_targetShooterRpm / 60) * FLYWHEEL_CIRCUMFRANCE);
-    double changeY = Y_DISPLACEMENT - 0.1016;
-    double changeX = swerve.getFromHubToTurret();
-
-    double x2 = Math.pow(changeX, 2);
-    double v02 = Math.pow(flywheelVelocity, 2);
-
-    double a = (GRAVITY * x2) / (2 * v02);
-    double b = -changeX;
-    double c = changeY + a;
-
-    double discriminant = (Math.pow(b, 2)) - (4 * a * c);
-
-    double plus = Math.atan((-b + Math.sqrt(discriminant)) / (2 * a));
-    double minus = Math.atan((-b - Math.sqrt(discriminant)) / (2 * a));
-
-    if ((Math.pow(b, 2)) - (4 * a * c) < 0) {
-      return 20928347908342.0;
-    }
-
-    if (plus * 57.295 > 90) {
-      return Math.abs(minus * 57.295);
-    }
-
-    return Math.abs(plus * 57.295);
-  }
-
   @Override
   public void periodic() {
     m_filteredSpeed = SHOOTER_RPM_NOISE * m_filteredSpeed
@@ -377,13 +349,15 @@ public class Shooter extends SubsystemBase {
       double hubDistance = swerve.getFromHubToTurret();
 
       if (!swerve.inNeutralOrOpposingZone()) {
-        double shooterSpeed = SHOOTER_SPEED_ZONES.floorEntry(hubDistance).getValue();
-        InterpolatingDoubleTreeMap hoodInterpolator = SPEED_HOOD_INTERPOLATION.floorEntry(shooterSpeed).getValue();
-
-        m_targetShooterRpm = shooterSpeed;
-        m_targetAngle = hoodInterpolator.get(hubDistance);
+        if (hubDistance <= 3.7) {
+          m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
+          m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+        } else {
+          m_targetAngle = MAX_SAFE_HOOD_ANGLE;
+          m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
+        }
       } else {
-        m_targetAngle = SHUTTLE_ANGLE;
+        m_targetAngle = MAX_SAFE_HOOD_ANGLE;
         m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
       }
 
