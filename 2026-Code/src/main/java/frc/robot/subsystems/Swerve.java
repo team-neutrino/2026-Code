@@ -3,9 +3,20 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
+import static frc.robot.util.Constants.ShooterConstants.HOOD_INTERPOLATION;
+import static frc.robot.util.Constants.ShooterConstants.NOT_MOVING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.DEFAULT_SHOOTING_SPEED;
 import static frc.robot.util.Constants.ShooterConstants.FAST_TIME_OF_FLIGHT;
 import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
+import static frc.robot.util.Constants.SwerveConstants.SHOOT_WHILE_MOVING_THRESHOLD;
+import static frc.robot.util.Constants.ShooterConstants.SPEED_INTERPOLATION;
+import static frc.robot.util.Constants.ShooterConstants.TIME_OF_FLIGHT;
+import static frc.robot.util.Constants.TurretConstants.TURRET_LATENCY;
+import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
+import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
+import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
+import static frc.robot.util.Constants.SwerveConstants.MAX_SPEED;
+import static frc.robot.util.Constants.SwerveConstants.ROTATIONAL_P;
 import static frc.robot.util.Constants.ShooterConstants.SHOOTER_SPEED_ZONES;
 import static frc.robot.util.Constants.SwerveConstants.SHOOT_WHILE_MOVING_THRESHOLD;
 import static frc.robot.util.Constants.ShooterConstants.SLOW_TIME_OF_FLIGHT;
@@ -215,14 +226,11 @@ public class Swerve extends CommandSwerveDrivetrain {
 
         double currentDist = currentTranslation.getDistance(realHubLocation);
 
-        if (SHOOTER_SPEED_ZONES.floorEntry(currentDist) == null)
+        if (SPEED_INTERPOLATION.get(currentDist) == null || HOOD_INTERPOLATION.get(currentDist) == null) {
             return intialPose;
+        }
 
-        double shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
-
-        double lookAheadTime = (shootingSpeed == DEFAULT_SHOOTING_SPEED)
-                ? SLOW_TIME_OF_FLIGHT.get(currentDist)
-                : FAST_TIME_OF_FLIGHT.get(currentDist);
+        double lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
 
         Translation2d adjustedHub = realHubLocation;
         for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
@@ -233,13 +241,10 @@ public class Swerve extends CommandSwerveDrivetrain {
             adjustedHub = new Translation2d(offsetX, offsetY);
             currentDist = currentTranslation.getDistance(adjustedHub);
 
-            if (SHOOTER_SPEED_ZONES.floorEntry(currentDist) == null)
+            if (SPEED_INTERPOLATION.get(currentDist) == null || HOOD_INTERPOLATION.get(currentDist) == null) {
                 break;
-            shootingSpeed = SHOOTER_SPEED_ZONES.floorEntry(currentDist).getValue();
-
-            lookAheadTime = (shootingSpeed == DEFAULT_SHOOTING_SPEED)
-                    ? SLOW_TIME_OF_FLIGHT.get(currentDist)
-                    : FAST_TIME_OF_FLIGHT.get(currentDist);
+            }
+            lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
             lookAheadTime += TURRET_LATENCY;
         }
 
