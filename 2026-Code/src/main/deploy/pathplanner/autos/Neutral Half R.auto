@@ -159,7 +159,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Back - 1L"
+                              "pathName": null
                             }
                           },
                           {
@@ -174,7 +174,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Loop Back - 2L"
+                        "pathName": "Small Loop - 2L"
                       }
                     }
                   ]
