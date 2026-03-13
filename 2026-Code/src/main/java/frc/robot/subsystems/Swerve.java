@@ -3,19 +3,9 @@ package frc.robot.subsystems;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
-import static frc.robot.util.Constants.ShooterConstants.HOOD_INTERPOLATION;
-import static frc.robot.util.Constants.ShooterConstants.NOT_TURNING_THRESHOLD;
-import static frc.robot.util.Constants.SwerveConstants.SHOOT_WHILE_MOVING_THRESHOLD;
-import static frc.robot.util.Constants.ShooterConstants.SPEED_INTERPOLATION;
-import static frc.robot.util.Constants.ShooterConstants.TIME_OF_FLIGHT;
-import static frc.robot.util.Constants.TurretConstants.TURRET_LATENCY;
-import static frc.robot.util.Constants.SwerveConstants.AUTO_ALIGN_D;
-import static frc.robot.util.Constants.SwerveConstants.GYRO_SCALAR_Z;
-import static frc.robot.util.Constants.SwerveConstants.MAX_ROTATION_SPEED;
-import static frc.robot.util.Constants.SwerveConstants.MAX_SPEED;
-import static frc.robot.util.Constants.SwerveConstants.ROTATIONAL_P;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_FRONT;
-import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_SIDE;
+import static frc.robot.util.Constants.ShooterConstants.*;
+import static frc.robot.util.Constants.SwerveConstants.*;
+import static frc.robot.util.Constants.TurretConstants.*;
 
 import java.io.IOException;
 import java.util.Optional;
