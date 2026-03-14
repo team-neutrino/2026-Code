@@ -265,20 +265,15 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public boolean isOnBump() {
-        return !(Math.abs(getRoll()) > 180 - BUMP_MINIMUM_THRESHOLD || Math.abs(getPitch()) < BUMP_MINIMUM_THRESHOLD);
+        return (Math.abs(getRoll()) < 180 - BUMP_MINIMUM_THRESHOLD || Math.abs(getPitch()) > BUMP_MINIMUM_THRESHOLD);
     }
 
-    public void stopOdometryOnBump() {
+    public void noPoseOnBump() {
         if (isOnBump()) {
-            getOdometryThread().stop();
+            resetPose(m_poseBeforeBump);
         } else {
-            getOdometryThread().start();
+            m_poseBeforeBump = getCurrentPose();
         }
-    }
-    public Command stopOdometry() {
-        return run(() -> {
-            getOdometryThread().stop();
-        });
     }
 
     private void configurePathPlanner() {
@@ -397,9 +392,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     public Command unbeach() {
         return run(() -> {
             if ((getCurrentPose().getX() < ALLIANCE_ZONE_RED && getCurrentPose().getX() > MID_FIELD_X) || (getCurrentPose().getX() < ALLIANCE_ZONE_BLUE)) {
-                setControl(SwerveRequestStash.drive.withVelocityX(-1.5).withVelocityY(0).withRotationalRate(0));
+                setControl(SwerveRequestStash.drive.withVelocityX(-3).withVelocityY(0).withRotationalRate(0));
             } else {
-                setControl(SwerveRequestStash.drive.withVelocityX(1.5).withVelocityY(0).withRotationalRate(0));
+                setControl(SwerveRequestStash.drive.withVelocityX(3).withVelocityY(0).withRotationalRate(0));
             }
         }).until(() -> isUpright());
     }
