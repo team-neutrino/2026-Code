@@ -13,32 +13,25 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Near - 1L"
+                      }
+                    },
+                    {
                       "type": "race",
                       "data": {
                         "commands": [
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Disperse - 1L"
+                              "pathName": "Disperse - 2L"
                             }
                           },
                           {
-                            "type": "sequential",
+                            "type": "named",
                             "data": {
-                              "commands": [
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 2.0
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "deployAndRunIntake"
-                                  }
-                                }
-                              ]
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -68,9 +61,35 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
+                            "type": "sequential",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "commands": [
+                                {
+                                  "type": "race",
+                                  "data": {
+                                    "commands": [
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.5
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "deployAndRunIntake"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "retractIntake"
+                                  }
+                                }
+                              ]
                             }
                           },
                           {
@@ -119,13 +138,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 5.0
+                  "waitTime": 7.0
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "DriveToPoint"
+                  "name": "noDrive"
                 }
               }
             ]
@@ -139,6 +158,18 @@
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Small Loop - 1L"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Unbeach"
+                      }
+                    },
                     {
                       "type": "race",
                       "data": {
@@ -189,7 +220,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "DriveToPoint"
+                  "name": "Unbeach"
                 }
               },
               {
@@ -199,9 +230,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "feedShooter"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "feedShooter"
+                      }
+                    }
+                  ]
                 }
               }
             ]
