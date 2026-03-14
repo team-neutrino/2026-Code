@@ -99,6 +99,18 @@ public class Intake extends SubsystemBase {
         });
     }
 
+    public Command moveIntakeCloser() {
+        return run(() -> {
+            m_targetAngle = INTERMEDIATE_POSITION_1;
+        });
+    }
+
+    public Command moveIntakeFarther() {
+        return run(() -> {
+            m_targetAngle = INTERMEDIATE_POSITION_2;
+        });
+    }
+
     public Command toggleIntake() {
         return runOnce(() -> {
             m_isDeployed = !m_isDeployed;

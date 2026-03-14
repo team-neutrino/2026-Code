@@ -168,8 +168,8 @@ public class Constants {
 
         public static final double STARTING_POSITION = -.50;
         public static final double DEPLOYED_POSITION = -8.5;
-        public static final double INTERMEDIATE_POSITION_1 = 60;
-        public static final double INTERMEDIATE_POSITION_2 = 30;
+        public static final double INTERMEDIATE_POSITION_1 = -3; // placeholder
+        public static final double INTERMEDIATE_POSITION_2 = -5; // placeholder
         public static final double ALLOWED_TARGET_ERROR = 4;
         public static final double ALLOWED_INTAKE_ERROR = 4;
 

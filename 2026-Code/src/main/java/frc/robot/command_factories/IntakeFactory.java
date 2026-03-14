@@ -18,6 +18,10 @@ public class IntakeFactory {
         return intake.toggleIntake();
     }
 
+    public static Command shakeHopper() {
+        return intake.moveIntakeCloser().andThen(intake.moveIntakeFarther());
+    }
+
     public static Command deployAndRunIntake() {
         return intake.deployAndRunIntake(INTAKE_VOLTAGE);
     }
