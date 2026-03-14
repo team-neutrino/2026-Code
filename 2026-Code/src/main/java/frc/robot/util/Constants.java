@@ -105,9 +105,7 @@ public class Constants {
                 Map.entry(1.5367, 1.30667),
                 Map.entry(2.0447, 1.26),
                 Map.entry(2.5527, 1.25),
-                Map.entry(3.0607, 1.105),
-                Map.entry(3.5687, 1.73333),
-                Map.entry(4.0513, 1.7033));
+                Map.entry(3.0607, 1.105));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
@@ -142,7 +140,7 @@ public class Constants {
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_KV = 1.5;
-        public static final double TURRET_LATENCY = 0.05;
+        public static final double TURRET_LATENCY = 0;
     }
 
     public static class IndexConstants {
@@ -225,7 +223,7 @@ public class Constants {
         public static final double ERROR_FACTOR_LL3 = 0.9;
         public static final double ERROR_FACTOR_LL3G = 0.7;
 
-        public static final double BUMP_MINIMUM_THRESHOLD = 7;
+        public static final double BUMP_MINIMUM_THRESHOLD = 4;
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
         public static final double MT1_WEIGHT_YAW = .7;
         public static final double PIGEON_SEED_PERIOD = 3;
