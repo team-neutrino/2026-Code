@@ -384,7 +384,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             } else {
                 setControl(SwerveRequestStash.drive.withVelocityX(3).withVelocityY(0).withRotationalRate(0));
             }
-        }).until(() -> isUpright());
+        }).until(() -> true);
     }
 
     @Override

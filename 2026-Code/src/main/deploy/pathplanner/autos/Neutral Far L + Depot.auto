@@ -31,7 +31,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Near - 2L"
+                              "pathName": "Far - 2L"
                             }
                           },
                           {
@@ -56,29 +56,16 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Half - 2L"
+                              "pathName": "Far - 3L"
                             }
                           }
                         ]
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          },
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Half - 3L"
-                            }
-                          }
-                        ]
+                        "name": "Unbeach"
                       }
                     }
                   ]
