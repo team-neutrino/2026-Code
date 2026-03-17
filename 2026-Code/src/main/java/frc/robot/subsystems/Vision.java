@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
 import static frc.robot.util.Constants.LimelightConstants.*;
+import static frc.robot.util.Constants.SwerveConstants.ROBOT_WHEEL_OFFSET;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Subsystems.swerve;
 import edu.wpi.first.networktables.StructPublisher;
@@ -450,12 +451,19 @@ public class Vision extends SubsystemBase {
 
     /** @return true if robot pitch exceeds bump threshold. */
     public boolean onBump() {
-      return Math.abs(swerve.getPitch()) > BUMP_MINIMUM_THRESHOLD;
+      double PoseX = swerve.getCurrentPose().getX();
+      double PoseY = swerve.getCurrentPose().getY();
+      boolean isXOnBump = (PoseX >= BLUE_DEPOT_BUMP_ALLIANCE_X - ROBOT_WHEEL_OFFSET)
+          && (PoseX <= BLUE_DEPOT_BUMP_NEUTRAL_X + ROBOT_WHEEL_OFFSET)
+          || ((PoseX <= RED_DEPOT_BUMP_ALLIANCE_X + ROBOT_WHEEL_OFFSET)
+              && (PoseX >= RED_DEPOT_BUMP_NEUTRAL_X - ROBOT_WHEEL_OFFSET));
+      boolean isYOnBump = (DEPOT_BUMP_Y <= PoseY) && (OUTPOST_BUMP_Y >= PoseY);
+      return (isXOnBump && isYOnBump);
     }
 
     /** Adjusts scaling factor when robot is on bump. */
     private void setBumpScaleFactor() {
-      bumpScaleFactor = onBump() ? 0.5 : 1;
+      bumpScaleFactor = onBump() ? 0.0000000001 : 1;
     }
 
     /** Adjusts IMU fusion mode dynamically based on enable state. */
