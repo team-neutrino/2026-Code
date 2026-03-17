@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleTopic;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -282,12 +283,10 @@ public class Vision extends SubsystemBase {
       Pose2d pose;
       estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
       estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
-      if (!verifyPoseValidity() && !verifyYawValidity()) {
+      if (!verifyPoseValidity()) {
         return;
-      } else if (!verifyPoseValidity() && verifyYawValidity()) {
-        timestamp = estimateMT1.timestampSeconds;
-        return;
-      } else if (verifyPoseValidity() && !verifyYawValidity()) {
+      }
+      if (!verifyYawValidity()) {
         timestamp = estimateMT2.timestampSeconds;
         pose = estimateMT2.pose;
       } else {
@@ -490,7 +489,7 @@ public class Vision extends SubsystemBase {
 
     /** Validates that a pose lies within official field boundaries. */
     public boolean poseInField(PoseEstimate poseEstimate) {
-      if (poseEstimate == null) {
+      if (poseEstimate == null || poseEstimate.pose.getTranslation() == Translation2d.kZero) {
         return false;
       }
       return poseEstimate.pose.getMeasureX().compareTo(ZERO) > 0
