@@ -171,7 +171,6 @@ public class Constants {
         public static final double INTERMEDIATE_POSITION_1 = -3; // placeholder
         public static final double INTERMEDIATE_POSITION_2 = -5; // placeholder
         public static final double ALLOWED_TARGET_ERROR = 4;
-        public static final double ALLOWED_INTAKE_ERROR = 4;
 
         public static final double INTAKE_kP = 2;
         public static final double INTAKE_kI = 0.0;

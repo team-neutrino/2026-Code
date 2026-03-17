@@ -25,6 +25,7 @@ public class Intake extends SubsystemBase {
     private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
     private double m_targetAngle;
     private boolean m_isDeployed = false;
+    private boolean m_isShaking = false;
 
     public Intake() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -84,10 +85,12 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (m_isDeployed) {
-            m_targetAngle = DEPLOYED_POSITION;
-        } else {
-            m_targetAngle = 0;
+        if (!m_isShaking) {
+            if (m_isDeployed) {
+                m_targetAngle = DEPLOYED_POSITION;
+            } else {
+                m_targetAngle = 0;
+            }
         }
         spinRoller(m_rollerMotorVoltage);
         moveToIntake(m_targetAngle);
@@ -99,15 +102,10 @@ public class Intake extends SubsystemBase {
         });
     }
 
-    public Command moveIntakeCloser() {
+    public Command moveIntakeIntermediate(double targetAngle) {
         return run(() -> {
-            m_targetAngle = INTERMEDIATE_POSITION_1;
-        });
-    }
-
-    public Command moveIntakeFarther() {
-        return run(() -> {
-            m_targetAngle = INTERMEDIATE_POSITION_2;
+            m_isShaking = true;
+            m_targetAngle = targetAngle;
         });
     }
 
@@ -133,6 +131,7 @@ public class Intake extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
+            m_isShaking = false;
             m_rollerMotorVoltage = 0;
         });
     }
