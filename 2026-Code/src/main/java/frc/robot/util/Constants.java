@@ -143,6 +143,7 @@ public class Constants {
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_KV = 1.5;
         public static final double TURRET_LATENCY = 0.05;
+        public static final double TURRET_SHUTTLE_OFFSET = 60;
     }
 
     public static class IndexConstants {

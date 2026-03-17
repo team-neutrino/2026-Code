@@ -170,19 +170,13 @@ public class Swerve extends CommandSwerveDrivetrain {
         double robotX = robotPose.getMeasureX().baseUnitMagnitude();
         double robotY = robotPose.getMeasureY().baseUnitMagnitude();
         Pose2d hubPose = getHubPose();
-        Pose2d shuttlePose;
+        Pose2d shuttlePose = hubPose;
         if (GlobalConstants.RED_ALLIANCE.get()) {
-            if (robotY > SIDE_ZONE_Y && robotY < MIDDLE_ZONE_Y) {
-                shuttlePose = robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED;
-            } else {
+            if (robotY > MID_FIELD_Y) {
                 shuttlePose = SHUTTLE_TARGET_MID_RED;
             }
         } else {
-            if (robotY > SIDE_ZONE_Y && robotY < MIDDLE_ZONE_Y) {
-                shuttlePose = robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE;
-            } else {
-                shuttlePose = SHUTTLE_TARGET_MID_BLUE;
-            }
+            shuttlePose = SHUTTLE_TARGET_MID_BLUE;
         }
 
         boolean isInAllianceZone = (GlobalConstants.RED_ALLIANCE.get() && robotX >= ALLIANCE_ZONE_RED)
