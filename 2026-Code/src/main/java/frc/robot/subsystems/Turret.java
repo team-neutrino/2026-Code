@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.util.Constants;
 import frc.robot.util.Constants.FieldMeasurementConstants;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Constants.ShooterConstants.shooterConditions;
@@ -174,9 +173,11 @@ public class Turret extends SubsystemBase {
       double angleOffset = 0.0;
       if (Subsystems.swerve.inNeutralOrOpposingZone()
           && (FieldMeasurementConstants.MID_FIELD_Y - Subsystems.swerve.getCurrentPose().getY()) != 0) {
-        angleOffset = (1 / (FieldMeasurementConstants.MID_FIELD_Y - Subsystems.swerve.getCurrentPose().getY()))
+        angleOffset = Math.abs(1 / (Subsystems.swerve.getCurrentPose().getY() - FieldMeasurementConstants.MID_FIELD_Y))
             * TURRET_SHUTTLE_OFFSET;
-        m_targetAngle = calculateRobotRelativeTargetAngle() + angleOffset;
+        m_targetAngle = Subsystems.swerve.getCurrentPose().getY() < FieldMeasurementConstants.MID_FIELD_Y
+            ? calculateRobotRelativeTargetAngle() + angleOffset
+            : calculateRobotRelativeTargetAngle() - angleOffset;
       } else {
         m_targetAngle = calculateRobotRelativeTargetAngle();
       }
