@@ -1,6 +1,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -10,12 +12,14 @@ import frc.robot.commands.DriveToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Subsystems;
-import frc.robot.util.Constants.AutonConstants;
 
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.util.Constants.DriveToPointConstants.SHOOT_POSES;
 import static frc.robot.util.Subsystems.*;
 
+import java.util.List;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -23,7 +27,7 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
-  private Command m_autonPath;
+  private SendableChooser<Command> m_chooser;
 
   private Subsystems m_subsystemContainer;
 
@@ -32,8 +36,16 @@ public class RobotContainer {
     configureDefaultCommands();
     configureBindings();
     configureNamedCommands();
-    m_autonPath = new PathPlannerAuto(AutonConstants.CURRENT_AUTON);
+
     swerve.registerTelemetry(logger::telemeterize);
+
+    List<String> autonNames = AutoBuilder.getAllAutoNames();
+    for (String auton : autonNames) {
+      AutoBuilder.buildAuto(auton);
+    }
+
+    m_chooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("AutoChooser", m_chooser);
   }
 
   private void configureDefaultCommands() {
@@ -79,7 +91,7 @@ public class RobotContainer {
       return new InstantCommand();
     }
     try {
-      auto = m_autonPath;
+      auto = m_chooser.getSelected();
     } catch (Exception e) {
       // DO NOT CHANGE THE CODE IN THIS CATCH BLOCK
       System.err.println("Caught exception when loading auto");
