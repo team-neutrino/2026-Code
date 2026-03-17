@@ -284,14 +284,12 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     private void checkEngageBrake(double forward, double left, double rotation) {
-        System.out.println(forward + " " + left + " " + rotation);
         if (!m_brakeEngaged && Math.abs(forward) < BRAKE_ALLOWED_ERROR && Math.abs(left) < BRAKE_ALLOWED_ERROR
                 && Math.abs(rotation) < BRAKE_ALLOWED_ERROR
                 && getSpeedMetersPerSecond() < START_BRAKING_VELOCITY) {
             m_brakeEngaged = true;
         } else if (Math.abs(forward) > BRAKE_ALLOWED_ERROR || Math.abs(left) > BRAKE_ALLOWED_ERROR
                 || Math.abs(rotation) > BRAKE_ALLOWED_ERROR) {
-            System.out.println("hererererererere");
             m_brakeEngaged = false;
         }
     }
@@ -334,7 +332,6 @@ public class Swerve extends CommandSwerveDrivetrain {
             double magnitude = Math.hypot(forward, left) * MAX_SPEED;
             magnitude = m_slewLimit.calculate(magnitude);
             checkEngageBrake(forward, left, rotation);
-            System.out.println(m_brakeEngaged);
 
             if (m_brakeEngaged) {
                 setControl(SwerveRequestStash.brake);
