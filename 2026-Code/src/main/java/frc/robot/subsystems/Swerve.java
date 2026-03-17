@@ -39,6 +39,7 @@ import frc.robot.util.Subsystems;
 public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
+    private boolean m_brakeEngaged = false;
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -282,6 +283,17 @@ public class Swerve extends CommandSwerveDrivetrain {
                 this);
     }
 
+    private void checkEngageBrake(double forward, double left, double rotation) {
+        if (!m_brakeEngaged && Math.abs(forward) < BRAKE_ALLOWED_ERROR && Math.abs(left) < BRAKE_ALLOWED_ERROR
+                && Math.abs(rotation) < BRAKE_ALLOWED_ERROR
+                && getSpeedMetersPerSecond() < START_BRAKING_VELOCITY) {
+            m_brakeEngaged = true;
+        } else if (Math.abs(forward) > BRAKE_ALLOWED_ERROR || Math.abs(left) < BRAKE_ALLOWED_ERROR
+                || Math.abs(rotation) > BRAKE_ALLOWED_ERROR) {
+            m_brakeEngaged = false;
+        }
+    }
+
     public Command slowSwerveDrive(CommandXboxController joystick) {
         return run(() -> {
             double forward = -joystick.getLeftY();
@@ -319,17 +331,15 @@ public class Swerve extends CommandSwerveDrivetrain {
             double rotation = -joystick.getRightX();
             double magnitude = Math.hypot(forward, left) * MAX_SPEED;
             magnitude = m_slewLimit.calculate(magnitude);
+            checkEngageBrake(forward, left, rotation);
 
-            System.out.println(getSpeedMetersPerSecond());
-            if (Math.abs(forward) > BRAKE_ALLOWED_ERROR || Math.abs(left) > BRAKE_ALLOWED_ERROR
-                    || Math.abs(rotation) > BRAKE_ALLOWED_ERROR
-                    || getSpeedMetersPerSecond() > START_BRAKING_VELOCITY) {
+            if (m_brakeEngaged) {
+                setControl(SwerveRequestStash.brake);
+            } else {
                 setControl(SwerveRequestStash.drive
                         .withVelocityY(left * MAX_SPEED)
                         .withVelocityX(forward * MAX_SPEED)
                         .withRotationalRate(rotation * MAX_ROTATION_SPEED));
-            } else {
-                setControl(SwerveRequestStash.brake);
             }
         });
     }
