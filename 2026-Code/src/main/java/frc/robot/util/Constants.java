@@ -341,9 +341,9 @@ public class Constants {
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 2, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 7, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 1, new Rotation2d(0));
-        public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
-        public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
-        public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
+        public static final double ZERO = 0;
+        public static final double FIELD_DIMENSION_X = 16.540988;
+        public static final double FIELD_DIMENSION_Y = 8.069326;
         public static final double BLUE_DEPOT_BUMP_NEUTRAL_X = 5.222494;
         public static final double BLUE_DEPOT_BUMP_ALLIANCE_X = 4.061714;
         public static final double RED_DEPOT_BUMP_NEUTRAL_X = 11.318494;

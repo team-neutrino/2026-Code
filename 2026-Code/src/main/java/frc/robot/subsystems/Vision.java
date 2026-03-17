@@ -453,12 +453,12 @@ public class Vision extends SubsystemBase {
     public boolean onBump() {
       double PoseX = swerve.getCurrentPose().getX();
       double PoseY = swerve.getCurrentPose().getY();
-      boolean isXOnBump = (PoseX >= BLUE_DEPOT_BUMP_ALLIANCE_X - ROBOT_WHEEL_OFFSET)
-          && (PoseX <= BLUE_DEPOT_BUMP_NEUTRAL_X + ROBOT_WHEEL_OFFSET)
+      boolean isXOnBump = ((PoseX >= BLUE_DEPOT_BUMP_ALLIANCE_X - ROBOT_WHEEL_OFFSET)
+          && (PoseX <= BLUE_DEPOT_BUMP_NEUTRAL_X + ROBOT_WHEEL_OFFSET))
           || ((PoseX <= RED_DEPOT_BUMP_ALLIANCE_X + ROBOT_WHEEL_OFFSET)
               && (PoseX >= RED_DEPOT_BUMP_NEUTRAL_X - ROBOT_WHEEL_OFFSET));
-      boolean isYOnBump = (DEPOT_BUMP_Y <= PoseY) && (OUTPOST_BUMP_Y >= PoseY);
-      return (isXOnBump && isYOnBump);
+      boolean isYOnBump = (DEPOT_BUMP_Y >= PoseY) && (OUTPOST_BUMP_Y <= PoseY);
+      return isYOnBump && isXOnBump;
     }
 
     /** Adjusts scaling factor when robot is on bump. */
@@ -500,10 +500,10 @@ public class Vision extends SubsystemBase {
       if (poseEstimate == null || poseEstimate.pose.getTranslation() == Translation2d.kZero) {
         return false;
       }
-      return poseEstimate.pose.getMeasureX().compareTo(ZERO) > 0
-          && poseEstimate.pose.getMeasureX().compareTo(FIELD_DIMENSION_X) < 0
-          && poseEstimate.pose.getMeasureY().compareTo(ZERO) > 0
-          && poseEstimate.pose.getMeasureY().compareTo(FIELD_DIMENSION_Y) < 0;
+      return poseEstimate.pose.getX() > ZERO
+          && poseEstimate.pose.getX() < FIELD_DIMENSION_X
+          && poseEstimate.pose.getY() > ZERO
+          && poseEstimate.pose.getY() < FIELD_DIMENSION_Y;
     }
   }
 }
