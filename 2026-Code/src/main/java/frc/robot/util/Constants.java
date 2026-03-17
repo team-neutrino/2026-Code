@@ -243,7 +243,7 @@ public class Constants {
         public static final double NO_SHOOT_TILT = 10.0;
         public static final double CONVERGENCE_ITERATIONS = 3.0;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
-
+        public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
     }
@@ -344,6 +344,13 @@ public class Constants {
         public static final Distance ZERO = Distance.ofBaseUnits(0, Meter);
         public static final Distance FIELD_DIMENSION_X = Distance.ofBaseUnits(Units.inchesToMeters(650.12), Meter);
         public static final Distance FIELD_DIMENSION_Y = Distance.ofBaseUnits(Units.inchesToMeters(316.64), Meter);
+        public static final double BLUE_DEPOT_BUMP_NEUTRAL_X = 5.222494;
+        public static final double BLUE_DEPOT_BUMP_ALLIANCE_X = 4.061714;
+        public static final double RED_DEPOT_BUMP_NEUTRAL_X = 11.318494;
+        public static final double RED_DEPOT_BUMP_ALLIANCE_X = 12.479274;
+        public static final double DEPOT_BUMP_Y = 6.477508;
+        public static final double OUTPOST_BUMP_Y = 1.53289;
+
     }
 
     public static class AutonConstants {
