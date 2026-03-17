@@ -213,15 +213,15 @@ public class Constants {
         public static final double RIGHT_PITCH_OFFSET = 27; // Pitch (degrees)
         public static final double RIGHT_YAW_OFFSET = 273; // Yaw (degrees)
 
-        public static final double MINIMUM_XY_STD_DEV_LL4 = 1.1;
-        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0.2;
-        public static final double MINIMUM_XY_STD_DEV_LL3G = 1.5;
-        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.4;
-        public static final double MINIMUM_XY_STD_DEV_LL3 = 1.8;
-        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.6;
-        public static final double ERROR_FACTOR_LL4 = 0.5;
-        public static final double ERROR_FACTOR_LL3 = 0.9;
-        public static final double ERROR_FACTOR_LL3G = 0.7;
+        public static final double MINIMUM_XY_STD_DEV_LL4 = 0.011;
+        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0.002;
+        public static final double MINIMUM_XY_STD_DEV_LL3G = 0.015;
+        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.004;
+        public static final double MINIMUM_XY_STD_DEV_LL3 = 0.018;
+        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.06;
+        public static final double ERROR_FACTOR_LL4 = 0.005;
+        public static final double ERROR_FACTOR_LL3 = 0.009;
+        public static final double ERROR_FACTOR_LL3G = 0.007;
 
         public static final double BUMP_MINIMUM_THRESHOLD = 4;
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
