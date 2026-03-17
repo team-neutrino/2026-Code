@@ -320,6 +320,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             double magnitude = Math.hypot(forward, left) * MAX_SPEED;
             magnitude = m_slewLimit.calculate(magnitude);
 
+            System.out.println(getSpeedMetersPerSecond());
             if (Math.abs(forward) > BRAKE_ALLOWED_ERROR || Math.abs(left) > BRAKE_ALLOWED_ERROR
                     || Math.abs(rotation) > BRAKE_ALLOWED_ERROR
                     || getSpeedMetersPerSecond() > START_BRAKING_VELOCITY) {
