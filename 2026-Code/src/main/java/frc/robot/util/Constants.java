@@ -245,7 +245,7 @@ public class Constants {
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
 
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
-        public static final double START_BRAKING_VELOCITY = 0.15;
+        public static final double START_BRAKING_VELOCITY = 0.1;
     }
 
     public static class DriveToPointConstants {
