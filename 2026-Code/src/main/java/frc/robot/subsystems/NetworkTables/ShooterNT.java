@@ -16,6 +16,9 @@ import edu.wpi.first.networktables.NetworkTablesJNI;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterNT extends Shooter {
+
+    private NetworkTableInstance m_globalNT = NetworkTableInstance.getDefault();
+
     private PIDTuner m_shooterPIDTuner;
     private PIDTuner m_hoodPIDTuner;
 
@@ -26,8 +29,6 @@ public class ShooterNT extends Shooter {
     private double m_previousHoodKP;
     private double m_previousHoodKI;
     private double m_previousHoodKD;
-
-    private NetworkTableInstance m_globalNT = NetworkTableInstance.getDefault();
 
     private DoubleTopic m_distanceTopic;
     private DoublePublisher m_distancePublisher;
@@ -157,19 +158,23 @@ public class ShooterNT extends Shooter {
         super.periodic();
         final long now = NetworkTablesJNI.now();
 
-        if (m_shooterPIDTuner.isDifferentValues(m_previousShootingKP, m_previousShootingKI, m_previousShootingKD)) {
-            m_previousShootingKP = m_shooterPIDTuner.getP();
-            m_previousShootingKI = m_shooterPIDTuner.getI();
-            m_previousShootingKD = m_shooterPIDTuner.getD();
-            setShooterPID(m_shooterPIDTuner.getP(), m_shooterPIDTuner.getI(), m_shooterPIDTuner.getD());
-        }
+        // if (m_shooterPIDTuner.isDifferentValues(m_previousShootingKP,
+        // m_previousShootingKI, m_previousShootingKD)) {
+        // m_previousShootingKP = m_shooterPIDTuner.getP();
+        // m_previousShootingKI = m_shooterPIDTuner.getI();
+        // m_previousShootingKD = m_shooterPIDTuner.getD();
+        // setShooterPID(m_shooterPIDTuner.getP(), m_shooterPIDTuner.getI(),
+        // m_shooterPIDTuner.getD());
+        // }
 
-        if (m_hoodPIDTuner.isDifferentValues(m_previousHoodKP, m_previousHoodKI, m_previousHoodKD)) {
-            m_previousHoodKP = m_hoodPIDTuner.getP();
-            m_previousHoodKI = m_hoodPIDTuner.getI();
-            m_previousHoodKD = m_hoodPIDTuner.getD();
-            setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(), m_hoodPIDTuner.getD());
-        }
+        // if (m_hoodPIDTuner.isDifferentValues(m_previousHoodKP, m_previousHoodKI,
+        // m_previousHoodKD)) {
+        // m_previousHoodKP = m_hoodPIDTuner.getP();
+        // m_previousHoodKI = m_hoodPIDTuner.getI();
+        // m_previousHoodKD = m_hoodPIDTuner.getD();
+        // setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(),
+        // m_hoodPIDTuner.getD());
+        // }
 
         setTuningDistance(m_distanceSubscriber.get());
         m_shooterSpeedPublisher.set(getShooterRPM(), now);

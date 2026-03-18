@@ -5,7 +5,6 @@ import static edu.wpi.first.units.Units.Meter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.TreeMap;
 
 import com.ctre.phoenix6.CANBus;
 
