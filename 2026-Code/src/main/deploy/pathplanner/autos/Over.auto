@@ -9,12 +9,6 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Over"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "noShoot"
@@ -24,6 +18,25 @@
                 "type": "named",
                 "data": {
                   "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Over"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Copy of Over"
+                      }
+                    }
+                  ]
                 }
               }
             ]

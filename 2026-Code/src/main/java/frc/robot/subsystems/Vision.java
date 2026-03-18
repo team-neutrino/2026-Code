@@ -170,7 +170,7 @@ public class Vision extends SubsystemBase {
    */
   private void manageLimelightTemperature() {
     m_slow_count++;
-    if (m_enabled && (m_slow_count % 50) != 0) {
+    if (m_enabled && (m_slow_count % 5) != 0) {
       return;
     }
     m_enabled = DriverStation.isEnabled();
@@ -248,7 +248,6 @@ public class Vision extends SubsystemBase {
     private final String name;
     private final double model;
     private double lastFrame = -2;
-    private double frame = -2;
     private double bumpScaleFactor = 1;
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
@@ -280,10 +279,17 @@ public class Vision extends SubsystemBase {
      * and fuses into the drivetrain estimator.
      */
     public void updateFusionMegatag() {
-      double timestamp;
-      Pose2d pose;
+      final double frame = getFrame();
+      if (frame <= lastFrame || frame < 0.0) {
+        return;
+      }
+      lastFrame = frame;
+
       estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
       estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+      double timestamp;
+      Pose2d pose;
+
       if (!verifyPoseValidity()) {
         return;
       }
@@ -321,7 +327,6 @@ public class Vision extends SubsystemBase {
       return estimateMT2 != null
           && estimateMT2.tagCount != 0
           && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI
-          // && frame > lastFrame
           && !Double.isNaN(estimateMT2.avgTagDist)
           && poseInField(estimateMT2);
     }
@@ -353,14 +358,11 @@ public class Vision extends SubsystemBase {
 
     /** Calculates XY measurement standard deviation dynamically. */
     private double getCalcXYStdev() {
-      frame = getFrame();
       if (!verifyPoseValidity()) {
-        updateFrame();
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       double numberOfTags = estimateMT2.tagCount;
       double distance = estimateMT2.avgTagDist;
-      updateFrame();
       return setXYstdev(distance, numberOfTags);
     }
 
@@ -371,11 +373,6 @@ public class Vision extends SubsystemBase {
       }
       double distance = estimateMT1.avgTagDist;
       return setThetastdev(distance);
-    }
-
-    /** Updates stored frame value to prevent duplicate measurements. */
-    private void updateFrame() {
-      lastFrame = frame;
     }
 
     /** Returns error factor constant based on Limelight model. */
