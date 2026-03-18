@@ -80,6 +80,11 @@ public class Index extends SubsystemBase {
         return m_kickerMotorVoltage;
     }
 
+    public boolean canandColorDetect() {
+        return m_canandColor.getProximity() < CANANDCOLOR_DETECT_DISTANCE;
+    }
+
+
     public void checkEmptyHopper() {
         if (canandColorDetect()) {
             m_emptyHopper = false;
@@ -87,6 +92,35 @@ public class Index extends SubsystemBase {
             m_emptyHopper = true;
         }
     }
+
+    public void countBalls() {
+        if (!m_bpsTimer.isRunning()) {
+            m_bpsTimer.start();
+        }
+        if (!m_ballDetected) {
+            m_ballDetected = true;
+            m_ballsPerSecondCount++;
+        }
+    }
+
+    public void calculateBallsPerSecond() {
+        if (canandColorDetect()) {
+            countBalls();
+        } else {
+            m_ballDetected = false;
+        }
+    }
+
+    public double getBallsPerSecond() {
+        return m_ballsPerSecondCount;
+    }
+
+    public void resetTimerAndCount() {
+        m_bpsTimer.stop();
+        m_bpsTimer.reset();
+        m_ballsPerSecondCount = 0;
+    }
+
 
     public boolean isHopperEmpty() {
         return m_emptyHopper;
