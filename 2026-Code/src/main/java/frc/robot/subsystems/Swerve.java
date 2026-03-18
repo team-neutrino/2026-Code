@@ -301,11 +301,16 @@ public class Swerve extends CommandSwerveDrivetrain {
             double rotation = -joystick.getRightX();
             double magnitude = Math.hypot(forward, left) * (SLOW_MAX_SPEED);
             magnitude = m_slewLimit.calculate(magnitude);
+            checkEngageBrake(forward, left, rotation);
 
-            setControl(SwerveRequestStash.drive
-                    .withVelocityX(forward * magnitude)
-                    .withVelocityY(left * magnitude)
-                    .withRotationalRate(rotation * SLOW_MAX_ROTATION_SPEED));
+            if (m_brakeEngaged) {
+                setControl(SwerveRequestStash.brake);
+            } else {
+                setControl(SwerveRequestStash.drive
+                        .withVelocityY(left * magnitude)
+                        .withVelocityX(forward * magnitude)
+                        .withRotationalRate(rotation * SLOW_MAX_ROTATION_SPEED));
+            }
         });
     }
 
@@ -316,11 +321,16 @@ public class Swerve extends CommandSwerveDrivetrain {
             double rotation = -joystick.getRightX();
             double magnitude = Math.hypot(forward, left) * (SLOWEST_MAX_SPEED);
             magnitude = m_slewLimit.calculate(magnitude);
+            checkEngageBrake(forward, left, rotation);
 
-            setControl(SwerveRequestStash.drive
-                    .withVelocityX(forward * magnitude)
-                    .withVelocityY(left * magnitude)
-                    .withRotationalRate(rotation * SLOWEST_MAX_ROTATION_SPEED));
+            if (m_brakeEngaged) {
+                setControl(SwerveRequestStash.brake);
+            } else {
+                setControl(SwerveRequestStash.drive
+                        .withVelocityY(left * magnitude)
+                        .withVelocityX(forward * magnitude)
+                        .withRotationalRate(rotation * SLOWEST_MAX_ROTATION_SPEED));
+            }
         });
     }
 
@@ -337,8 +347,8 @@ public class Swerve extends CommandSwerveDrivetrain {
                 setControl(SwerveRequestStash.brake);
             } else {
                 setControl(SwerveRequestStash.drive
-                        .withVelocityY(left * MAX_SPEED)
-                        .withVelocityX(forward * MAX_SPEED)
+                        .withVelocityY(left * magnitude)
+                        .withVelocityX(forward * magnitude)
                         .withRotationalRate(rotation * MAX_ROTATION_SPEED));
             }
         });
