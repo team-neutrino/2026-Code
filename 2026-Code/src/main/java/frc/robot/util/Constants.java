@@ -354,6 +354,6 @@ public class Constants {
     }
 
     public static class AutonConstants {
-        public static final String CURRENT_AUTON = "Neutral Half L + Loop";
+        public static final String CURRENT_AUTON = "Over";
     }
 }
