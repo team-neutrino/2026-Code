@@ -86,13 +86,16 @@ public class Index extends SubsystemBase {
         return m_canandColor.getProximity() < CANANDCOLOR_DETECT_DISTANCE;
     }
 
-
     public void checkEmptyHopper() {
         if (canandColorDetect()) {
             m_emptyHopper = false;
         } else if (m_emptyDebouncer.calculate(!canandColorDetect())) {
             m_emptyHopper = true;
         }
+    }
+
+    public boolean isHopperEmpty() {
+        return m_emptyHopper;
     }
 
     public void countBalls() {
@@ -121,11 +124,6 @@ public class Index extends SubsystemBase {
         m_bpsTimer.stop();
         m_bpsTimer.reset();
         m_ballsPerSecondCount = 0;
-    }
-
-
-    public boolean isHopperEmpty() {
-        return m_emptyHopper;
     }
 
     @Override
