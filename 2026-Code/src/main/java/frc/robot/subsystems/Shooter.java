@@ -261,11 +261,6 @@ public class Shooter extends SubsystemBase {
 
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
-    if (RED_ALLIANCE.isPresent()) {
-      shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !swerve.inNeutralOrOpposingZone());
-    }
-    shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
-        swerve.isNotMovingTooFastOrTurning());
 
     if (m_recentering) {
       m_hoodMotor.setVoltage(-1);

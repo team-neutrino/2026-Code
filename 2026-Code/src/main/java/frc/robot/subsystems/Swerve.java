@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import static frc.robot.util.Subsystems.shooterArbiter;
+
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
@@ -34,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.Constants.GlobalConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 import frc.robot.util.Subsystems;
 
 public class Swerve extends CommandSwerveDrivetrain {
@@ -363,6 +366,11 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
+        if (RED_ALLIANCE.isPresent()) {
+            shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
+        }
+        shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
+                isNotMovingTooFastOrTurning());
     }
 
     public void configureRequestPID() {
