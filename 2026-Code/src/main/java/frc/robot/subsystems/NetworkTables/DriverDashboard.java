@@ -63,7 +63,7 @@ public class DriverDashboard {
         m_hubState = Subsystems.hubState;
     }
 
-    public void periodic() {
+    public void update() {
         final long now = NetworkTablesJNI.now();
 
         if (m_hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {

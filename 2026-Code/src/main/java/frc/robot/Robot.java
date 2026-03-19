@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Subsystems.hubState.update();
+        Subsystems.driverDashboard.update();
     }
 
     @Override
