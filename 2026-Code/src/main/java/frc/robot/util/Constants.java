@@ -230,7 +230,6 @@ public class Constants {
         public static final double ERROR_FACTOR_LL3 = 0.09;
         public static final double ERROR_FACTOR_LL3G = 0.07;
 
-        public static final double BUMP_MINIMUM_THRESHOLD = 4.0;
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
         public static final double MT1_WEIGHT_YAW = .7;
         public static final double PIGEON_SEED_PERIOD = 3.0;
@@ -242,7 +241,6 @@ public class Constants {
         public static final double SLEW_LIMIT = 4.0;
         public static final double GYRO_SCALAR_Z = -2.4;
         public static final double MAX_SPEED = 5.7;
-        public static final double INTAKE_SPEED = 1.0;
         public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
         public static final double SLOW_MAX_ROTATION_SPEED = 2.0;
         public static final double SLOW_MAX_SPEED = 1.5;
