@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase {
 
   private double m_tuningDistance = 5;
 
-  private boolean m_recentering = false;
+  private boolean m_resetting_hood = false;
 
   private double m_filteredSpeed;
 
@@ -226,6 +226,11 @@ public class Shooter extends SubsystemBase {
    * m_TargetAngle.
    */
   public void controlHoodMotor() {
+    if (m_resetting_hood) {
+      m_hoodMotor.setVoltage(-1.0);
+      return;
+    }
+
     PositionVoltage positionControl = new PositionVoltage(getSafeAngle(m_targetAngle) / 360);
     m_hoodMotor.setControl(positionControl);
   }
@@ -262,13 +267,8 @@ public class Shooter extends SubsystemBase {
     shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
     shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
 
-    if (m_recentering) {
-      m_hoodMotor.setVoltage(-1);
-      controlShooterMotor();
-    } else {
-      controlHoodMotor();
-      controlShooterMotor();
-    }
+    controlHoodMotor();
+    controlShooterMotor();
   }
 
   /**
@@ -305,7 +305,7 @@ public class Shooter extends SubsystemBase {
   public Command resetHood() {
     return new FunctionalCommand(
         () -> {
-          m_recentering = true;
+          m_resetting_hood = true;
         }, // set motor to go backwards on command start. please do make sure this is
            // spinning the correct direction on the real robot or bad things will happen
         () -> {
@@ -313,7 +313,7 @@ public class Shooter extends SubsystemBase {
         },
         interrupt -> {
           m_hoodMotor.setPosition(0);
-          m_recentering = false;
+          m_resetting_hood = false;
         },
         // set motor position to 0 when command ends
         () -> (Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble()) > CURRENT_SPIKE), // end command when current
