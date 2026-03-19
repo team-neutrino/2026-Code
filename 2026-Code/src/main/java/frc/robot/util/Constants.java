@@ -93,9 +93,11 @@ public class Constants {
                 Map.entry(2.33, 13.5),
                 Map.entry(2.68, 15.0),
                 Map.entry(3.36, 25.0),
-                Map.entry(4.0, 25.0));
+                Map.entry(4.0, 25.0),
+                Map.entry(20.0, 25.0));
 
         public static final InterpolatingDoubleTreeMap SPEED_INTERPOLATION = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.0, 3150.0),
                 Map.entry(3.7, 3150.0),
                 Map.entry(4.48, 3400.0),
                 Map.entry(7.0, 4330.0));

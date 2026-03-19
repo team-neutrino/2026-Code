@@ -332,18 +332,14 @@ public class Shooter extends SubsystemBase {
     return run(() -> {
       double hubDistance = swerve.getFromHubToTurret();
 
-      if (!swerve.inNeutralOrOpposingZone()) {
-        if (hubDistance <= 3.7) {
-          m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
-          m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
-        } else {
-          m_targetAngle = MAX_SAFE_HOOD_ANGLE;
-          m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
-        }
-      } else {
+      if (swerve.inNeutralOrOpposingZone()) {
         m_targetAngle = MAX_SAFE_HOOD_ANGLE;
         m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+        return;
       }
+
+      m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
+      m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
 
       // Manually tuning hood and speed
       // if (!swerve.inNeutralOrOpposingZone()) {
