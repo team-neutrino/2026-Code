@@ -36,7 +36,7 @@
     "maxVelocity": 0.1,
     "maxAcceleration": 0.1,
     "maxAngularVelocity": 40.0,
-    "maxAngularAcceleration": 5.0,
+    "maxAngularAcceleration": 1.0,
     "nominalVoltage": 6.0,
     "unlimited": false
   },
