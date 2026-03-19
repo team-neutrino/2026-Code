@@ -267,16 +267,6 @@ public class Shooter extends SubsystemBase {
     shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
         swerve.isNotMovingTooFastOrTurning());
 
-    if (hubState.hasValidGameData() && RED_ALLIANCE.isPresent()) {
-      if (RED_ALLIANCE.get()) {
-        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-            hubState.isRedHubActive());
-      } else {
-        shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-            hubState.isBlueHubActive());
-      }
-    }
-
     if (m_recentering) {
       m_hoodMotor.setVoltage(-1);
       controlShooterMotor();

@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.util.Constants.GlobalConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 public class HubActiveStatus {
     public enum Alliance {
@@ -27,6 +29,16 @@ public class HubActiveStatus {
                 default:
                     System.out.println("Warning: no alliance selected to go inactive first");
                     break;
+            }
+
+            if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+                if (GlobalConstants.RED_ALLIANCE.get()) {
+                    Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+                            isRedHubActive());
+                } else {
+                    Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+                            isBlueHubActive());
+                }
             }
         }
     }
