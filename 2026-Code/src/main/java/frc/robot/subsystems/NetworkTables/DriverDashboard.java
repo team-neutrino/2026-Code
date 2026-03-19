@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.util.Subsystems.swerve;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.HubActiveStatus;
+import frc.robot.util.HubActiveStatus.Alliance;
 import frc.robot.util.MatchState;
+import frc.robot.util.Subsystems;
 
-public class DriverDashboard extends HubActiveStatus {
+public class DriverDashboard {
     NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
     DoubleTopic matchTime = nt.getDoubleTopic("/DriverDashboard/Match Time");
@@ -35,6 +37,7 @@ public class DriverDashboard extends HubActiveStatus {
     private boolean wonAuton;
     private final Field2d field = new Field2d();
     MatchState matchState = new MatchState();
+    private HubActiveStatus m_hubState;
 
     public DriverDashboard() {
         matchTimePub = matchTime.publish();
@@ -56,14 +59,15 @@ public class DriverDashboard extends HubActiveStatus {
         autonWonPub.setDefault(false);
 
         SmartDashboard.putData("Field", field);
+
+        m_hubState = Subsystems.hubState;
     }
 
     public void periodic() {
         final long now = NetworkTablesJNI.now();
 
-        update();
-        if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
-            wonAuton = whoWonFirstAuton() == getAlliance();
+        if (m_hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+            wonAuton = m_hubState.whoWonFirstAuton() == m_hubState.getAlliance();
             autonWonPub.set(wonAuton, now);
 
             matchState.setAutoWinner(wonAuton);
@@ -73,8 +77,8 @@ public class DriverDashboard extends HubActiveStatus {
             remainingShiftTimePub.set(remaining, now);
 
             shiftActivePub
-                    .set((isRedHubActive() && getAlliance() == Alliance.RED)
-                            || (isBlueHubActive() && getAlliance() == Alliance.BLUE), now);
+                    .set((m_hubState.isRedHubActive() && m_hubState.getAlliance() == Alliance.RED)
+                            || (m_hubState.isBlueHubActive() && m_hubState.getAlliance() == Alliance.BLUE), now);
             gameStatePub.set(matchState.getGameState(), now);
             shiftNumberPub.set(matchState.getCurrentShiftName(), now);
             field.setRobotPose(swerve.getCurrentPose());

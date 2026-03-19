@@ -2,7 +2,7 @@ package frc.robot.util;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
-public class MatchState extends HubActiveStatus {
+public class MatchState {
     private boolean allianceWonAuto = false;
 
     public void setAutoWinner(boolean weWon) {
