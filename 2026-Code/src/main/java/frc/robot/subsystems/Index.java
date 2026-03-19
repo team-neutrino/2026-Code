@@ -16,7 +16,6 @@ import frc.robot.util.Constants.RioConstants;
 
 import static frc.robot.util.Constants.IndexConstants.*;
 import static frc.robot.util.Subsystems.shooterArbiter;
-import static frc.robot.util.Subsystems.*;
 
 public class Index extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
@@ -135,10 +134,8 @@ public class Index extends SubsystemBase {
 
     public Command feedShooter() {
         return run(() -> {
-            if (swerve.isUpright()) {
-                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-                m_kickerMotorVoltage = KICKER_VOLTAGE;
-            }
+            m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+            m_kickerMotorVoltage = KICKER_VOLTAGE;
         });
     }
 
