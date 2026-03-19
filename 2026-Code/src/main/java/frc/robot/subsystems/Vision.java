@@ -494,7 +494,7 @@ public class Vision extends SubsystemBase {
 
     /** Validates that a pose lies within official field boundaries. */
     public boolean poseInField(PoseEstimate poseEstimate) {
-      if (poseEstimate == null || poseEstimate.pose.getTranslation() == Translation2d.kZero) {
+      if (poseEstimate == null || poseEstimate.pose.getTranslation().equals(Translation2d.kZero)) {
         return false;
       }
       return poseEstimate.pose.getX() > ZERO
