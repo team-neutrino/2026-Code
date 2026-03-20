@@ -325,6 +325,7 @@ public class Shooter extends SubsystemBase {
   public Command shuttle() {
     return run(() -> {
       m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
+      m_targetAngle = MAX_SAFE_HOOD_ANGLE;
     });
   }
 
