@@ -78,6 +78,8 @@ public class Vision extends SubsystemBase {
 
   private Limelight[] limelights;
 
+  private double m_last_vision_update_timestamp = 0;
+
   /**
    * Constructs the Vision subsystem and initializes all Limelights,
    * publishers, and configuration parameters.
@@ -300,10 +302,15 @@ public class Vision extends SubsystemBase {
         pose = new Pose2d(
             estimateMT2.pose.getTranslation(),
             estimateMT1.pose.getRotation());
-        timestamp = Math.max(estimateMT1.timestampSeconds, estimateMT2.timestampSeconds);
+        timestamp = estimateMT2.timestampSeconds;
       }
-      swerve.addVisionMeasurement(pose, timestamp,
-          VecBuilder.fill(getCalcXYStdev(), getCalcXYStdev(), getCalcYawStdev()));
+
+      if (m_last_vision_update_timestamp < timestamp)
+      {
+        m_last_vision_update_timestamp = timestamp;
+        swerve.addVisionMeasurement(pose, timestamp,
+            VecBuilder.fill(getCalcXYStdev(), getCalcXYStdev(), getCalcYawStdev()));
+      }
     }
 
     /** @return Latest MT2 pose or blank pose if unavailable. */
