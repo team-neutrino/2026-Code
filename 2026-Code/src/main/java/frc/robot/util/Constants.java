@@ -167,8 +167,8 @@ public class Constants {
         public static final double INTAKE_VOLTAGE = -12;
         public static final double OUTTAKE_VOLTAGE = 12;
 
-        public static final double STARTING_POSITION = -.50;
-        public static final double DEPLOYED_POSITION = -8.5;
+        public static final double STARTING_POSITION = 0;
+        public static final double DEPLOYED_POSITION = -14.6;
         public static final double INTERMEDIATE_POSITION_1 = -5; // placeholder
         public static final double INTERMEDIATE_POSITION_2 = -8; // placeholder
         public static final double ALLOWED_TARGET_ERROR = 0.25;
