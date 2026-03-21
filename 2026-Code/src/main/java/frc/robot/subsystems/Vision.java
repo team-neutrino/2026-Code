@@ -489,7 +489,7 @@ public class Vision extends SubsystemBase {
 
     public void adjustIMUMode() {
       if (model == 4) {
-        LimelightHelpers.SetIMUMode(name, m_enabled ? 2 : 1); // potential issue with setting to 4 over and over again
+        LimelightHelpers.SetIMUMode(name, m_enabled ? 4 : 1); // potential issue with setting to 4 over and over again
       }
     }
 
