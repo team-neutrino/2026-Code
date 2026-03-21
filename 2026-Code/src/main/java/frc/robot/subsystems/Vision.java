@@ -487,7 +487,7 @@ public class Vision extends SubsystemBase {
 
     /** Triggers capture rewind for LL4 cameras at match start. */
     public void triggerCaptureRewind() {
-      if (model == 4 && DriverStation.getMatchTime() == 0.0) {
+      if (model == 4 && DriverStation.getMatchTime() == 1.0) {
         LimelightHelpers.triggerRewindCapture(name, 165);
       }
     }
