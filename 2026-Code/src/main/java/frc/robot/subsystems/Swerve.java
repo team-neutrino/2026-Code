@@ -43,6 +43,7 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
     private boolean m_brakeEngaged = false;
+    private Pose2d hubPose;
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -152,8 +153,6 @@ public class Swerve extends CommandSwerveDrivetrain {
         if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
             return 0;
         }
-
-        Pose2d hubPose = getHubPose();
         return hubPose.getTranslation().getDistance(getTurretGlobal());
     }
 
@@ -172,7 +171,6 @@ public class Swerve extends CommandSwerveDrivetrain {
         Translation2d turretGlobal = getTurretGlobal();
         double robotX = robotPose.getMeasureX().baseUnitMagnitude();
         double robotY = robotPose.getMeasureY().baseUnitMagnitude();
-        Pose2d hubPose = getHubPose();
         Pose2d shuttlePose = GlobalConstants.RED_ALLIANCE.get()
                 ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
                 : (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_BLUE : SHUTTLE_TARGET_BOTTOM_BLUE);
@@ -206,8 +204,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
         Translation2d realHubLocation = intialPose.getTranslation();
 
-        Pose2d currentPose = getCurrentPose();
-        Translation2d currentTranslation = currentPose.getTranslation();
+        Translation2d currentTranslation = getTurretGlobal();
         ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
 
         double currentDist = currentTranslation.getDistance(realHubLocation);
@@ -380,6 +377,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
         shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
                 isNotMovingTooFastOrTurning());
+        hubPose = getHubPose();
     }
 
     public void configureRequestPID() {
