@@ -251,6 +251,7 @@ public class Vision extends SubsystemBase {
     private double bumpScaleFactor = 1;
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
+    private boolean m_rewindTriggered = false;
 
     /**
      * Constructs a Limelight wrapper.
@@ -487,8 +488,9 @@ public class Vision extends SubsystemBase {
 
     /** Triggers capture rewind for LL4 cameras at match start. */
     public void triggerCaptureRewind() {
-      if (model == 4 && DriverStation.getMatchTime() > 162) {
+      if (model == 4 && DriverStation.getMatchTime() <= 1.0 && !m_rewindTriggered) {
         LimelightHelpers.triggerRewindCapture(name, 165);
+        m_rewindTriggered = true;
       }
     }
 
