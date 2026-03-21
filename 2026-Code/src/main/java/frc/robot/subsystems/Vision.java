@@ -306,8 +306,7 @@ public class Vision extends SubsystemBase {
         timestamp = estimateMT2.timestampSeconds;
       }
 
-      if (m_last_vision_update_timestamp < timestamp)
-      {
+      if (m_last_vision_update_timestamp < timestamp) {
         m_last_vision_update_timestamp = timestamp;
         swerve.addVisionMeasurement(pose, timestamp,
             VecBuilder.fill(getCalcXYStdev(), getCalcXYStdev(), getCalcYawStdev()));
