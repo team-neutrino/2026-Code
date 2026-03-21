@@ -164,8 +164,8 @@ public class Constants {
 
         public static final double CURRENT_LIMIT = 60;
 
-        public static final double INTAKE_VOLTAGE = -12;
-        public static final double OUTTAKE_VOLTAGE = 12;
+        public static final double INTAKE_VOLTAGE = -10;
+        public static final double OUTTAKE_VOLTAGE = 10;
 
         public static final double STARTING_POSITION = 0;
         public static final double DEPLOYED_POSITION = -14.6;
