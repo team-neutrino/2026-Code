@@ -147,24 +147,44 @@
                             "data": {
                               "commands": [
                                 {
-                                  "type": "path",
+                                  "type": "race",
                                   "data": {
-                                    "pathName": "Depot Side after Neutral"
+                                    "commands": [
+                                      {
+                                        "type": "path",
+                                        "data": {
+                                          "pathName": "Depot Side after Neutral"
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "deployAndRunIntake"
+                                        }
+                                      }
+                                    ]
                                   }
                                 },
                                 {
-                                  "type": "path",
+                                  "type": "race",
                                   "data": {
-                                    "pathName": "Depot 3 after neutral"
+                                    "commands": [
+                                      {
+                                        "type": "path",
+                                        "data": {
+                                          "pathName": "Depot 3 after neutral"
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "retractIntake"
+                                        }
+                                      }
+                                    ]
                                   }
                                 }
                               ]
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
