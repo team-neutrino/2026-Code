@@ -9,6 +9,7 @@ import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -343,10 +344,9 @@ public class Shooter extends SubsystemBase {
       m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
 
       // Manually tuning hood and speed
-      // if (!swerve.inNeutralOrOpposingZone()) {
       // m_targetShooterRpm = m_tuningSpeed;
       // m_targetAngle = m_tuningAngle;
-      // m_hubstatus = false;
+      // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, false);
       // }
     });
   }
