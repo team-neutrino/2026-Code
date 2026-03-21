@@ -246,7 +246,7 @@ public class Constants {
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
         public static final double NO_SHOOT_TILT = 10.0;
-        public static final double CONVERGENCE_ITERATIONS = 6.0;
+        public static final double CONVERGENCE_ITERATIONS = 3.0;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
