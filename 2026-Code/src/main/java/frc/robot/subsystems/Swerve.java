@@ -106,6 +106,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     public boolean isUpright() {
         return (Math.abs(getRoll()) > 180 - BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE);
     }
+
     /**
      * Resets the yaw to 0, so the direction you're currently facing is the new
      * forwards.
@@ -379,7 +380,8 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public Command unbeach() {
         return run(() -> {
-            if ((getCurrentPose().getX() < ALLIANCE_ZONE_RED && getCurrentPose().getX() > MID_FIELD_X) || (getCurrentPose().getX() < ALLIANCE_ZONE_BLUE)) {
+            if ((getCurrentPose().getX() < ALLIANCE_ZONE_RED && getCurrentPose().getX() > MID_FIELD_X)
+                    || (getCurrentPose().getX() < ALLIANCE_ZONE_BLUE)) {
                 setControl(SwerveRequestStash.drive.withVelocityX(-3).withVelocityY(0).withRotationalRate(0));
             } else {
                 setControl(SwerveRequestStash.drive.withVelocityX(3).withVelocityY(0).withRotationalRate(0));
