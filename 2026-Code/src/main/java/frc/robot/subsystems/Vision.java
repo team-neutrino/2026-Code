@@ -203,7 +203,7 @@ public class Vision extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    manageLimelightTemperature();
+    // manageLimelightTemperature();
 
     if (swerve == null) {
       return;

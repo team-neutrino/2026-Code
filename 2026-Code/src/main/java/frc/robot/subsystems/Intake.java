@@ -43,7 +43,6 @@ public class Intake extends SubsystemBase {
         m_deployMotor.getConfigurator().apply(m_deployMotorConfig);
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
-        m_rollerMotorConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         m_deployMotor.setPosition(0);
     }
 

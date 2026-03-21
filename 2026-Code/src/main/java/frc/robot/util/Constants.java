@@ -91,15 +91,15 @@ public class Constants {
                 Map.entry(0.0, 6.5),
                 Map.entry(1.64, 10.0),
                 Map.entry(2.33, 13.5),
-                Map.entry(2.68, 15.0),
+                Map.entry(2.8, 15.0),
                 Map.entry(3.36, 25.0),
                 Map.entry(4.0, 25.0),
                 Map.entry(20.0, 25.0));
 
         public static final InterpolatingDoubleTreeMap SPEED_INTERPOLATION = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 3150.0),
-                Map.entry(3.7, 3150.0),
-                Map.entry(4.48, 3400.0),
+                Map.entry(0.0, 3000.0),
+                Map.entry(3.7, 3000.0),
+                Map.entry(5.22, 3500.0),
                 Map.entry(7.0, 4330.0));
 
         public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
@@ -164,8 +164,8 @@ public class Constants {
 
         public static final double CURRENT_LIMIT = 60;
 
-        public static final double INTAKE_VOLTAGE = -10;
-        public static final double OUTTAKE_VOLTAGE = 10;
+        public static final double INTAKE_VOLTAGE = 10;
+        public static final double OUTTAKE_VOLTAGE = -10;
 
         public static final double STARTING_POSITION = 0;
         public static final double DEPLOYED_POSITION = -14.6;
@@ -185,8 +185,8 @@ public class Constants {
         public static final String LL_RIGHT = "limelight-right";
 
         // Camera pose offsets in meters
-        public static final double FRONT_FORWARD_OFFSET = 0.032546;
-        public static final double FRONT_SIDE_OFFSET = -0.047625;
+        public static final double FRONT_FORWARD_OFFSET = 0.070646;
+        public static final double FRONT_SIDE_OFFSET = -0.000635;
         public static final double FRONT_HEIGHT_OFFSET = 0.745832;
         public static final double FRONT_ROLL_OFFSET = 0.0;
         public static final double FRONT_PITCH_OFFSET = 27.5;
