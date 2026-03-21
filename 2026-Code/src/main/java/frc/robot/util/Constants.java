@@ -140,11 +140,11 @@ public class Constants {
         public static final double ACCELERATION_FF = 0.0;
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
-        public static final double TARGET_TOLERANCE = 5;
+        public static final double TARGET_TOLERANCE = 3;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_KV = 1.5;
-        public static final double TURRET_LATENCY = 0;
+        public static final double TURRET_LATENCY = 0.07;
     }
 
     public static class IndexConstants {
@@ -246,7 +246,7 @@ public class Constants {
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
         public static final double NO_SHOOT_TILT = 10.0;
-        public static final double CONVERGENCE_ITERATIONS = 4.0;
+        public static final double CONVERGENCE_ITERATIONS = 6.0;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
