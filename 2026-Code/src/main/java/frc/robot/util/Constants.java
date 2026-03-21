@@ -102,11 +102,14 @@ public class Constants {
                 Map.entry(5.22, 3500.0),
                 Map.entry(7.0, 4330.0));
 
-        public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(1.5367, 1.30667),
-                Map.entry(2.0447, 1.26),
-                Map.entry(2.5527, 1.25),
-                Map.entry(3.0607, 1.105));
+        public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT_SLOW_SPEED = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(0.6, 1.33),
+                Map.entry(2.0, 1.3),
+                Map.entry(2.8, 1.34));
+
+        public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT_FAST_SPEED = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(3.7, 1.07),
+                Map.entry(5.67, 1.43));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
@@ -129,7 +132,7 @@ public class Constants {
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 5;
+        public static final double ALLOWED_ERROR = 4;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
         public static final double STATIC_FF = 0.1;
@@ -213,15 +216,15 @@ public class Constants {
         public static final double RIGHT_PITCH_OFFSET = 27; // Pitch (degrees)
         public static final double RIGHT_YAW_OFFSET = 273; // Yaw (degrees)
 
-        public static final double MINIMUM_XY_STD_DEV_LL4 = 0.011;
-        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0.002;
-        public static final double MINIMUM_XY_STD_DEV_LL3G = 0.015;
-        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.004;
-        public static final double MINIMUM_XY_STD_DEV_LL3 = 0.018;
-        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.06;
-        public static final double ERROR_FACTOR_LL4 = 0.005;
-        public static final double ERROR_FACTOR_LL3 = 0.009;
-        public static final double ERROR_FACTOR_LL3G = 0.007;
+        public static final double MINIMUM_XY_STD_DEV_LL4 = 0.11;
+        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0.02;
+        public static final double MINIMUM_XY_STD_DEV_LL3G = 0.15;
+        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.04;
+        public static final double MINIMUM_XY_STD_DEV_LL3 = 0.18;
+        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.6;
+        public static final double ERROR_FACTOR_LL4 = 0.05;
+        public static final double ERROR_FACTOR_LL3 = 0.09;
+        public static final double ERROR_FACTOR_LL3G = 0.07;
 
         public static final double BUMP_MINIMUM_THRESHOLD = 4;
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
@@ -243,7 +246,7 @@ public class Constants {
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
         public static final double NO_SHOOT_TILT = 10.0;
-        public static final double CONVERGENCE_ITERATIONS = 3.0;
+        public static final double CONVERGENCE_ITERATIONS = 4.0;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
