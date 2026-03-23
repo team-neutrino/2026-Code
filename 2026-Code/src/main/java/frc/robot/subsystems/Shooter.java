@@ -50,6 +50,9 @@ public class Shooter extends SubsystemBase {
 
   private double m_filteredSpeed;
 
+  private final PositionVoltage m_hoodPositionControl = new PositionVoltage(0);
+  private final VelocityVoltage m_shooterVelocityControl = new VelocityVoltage(0);
+
   public double m_tuningAngle;
 
   public double m_tuningSpeed;
@@ -232,8 +235,7 @@ public class Shooter extends SubsystemBase {
       return;
     }
 
-    PositionVoltage positionControl = new PositionVoltage(getSafeAngle(m_targetAngle) / 360);
-    m_hoodMotor.setControl(positionControl);
+    m_hoodMotor.setControl(m_hoodPositionControl.withPosition(getSafeAngle(m_targetAngle) / 360));
   }
 
   public double getHoodCurrent() {
@@ -245,8 +247,7 @@ public class Shooter extends SubsystemBase {
    * m_targetShooterRpm.
    */
   public void controlShooterMotor() {
-    VelocityVoltage velocityControl = new VelocityVoltage(m_targetShooterRpm / 60);
-    m_shooterMotor.setControl(velocityControl);
+    m_shooterMotor.setControl(m_shooterVelocityControl.withVelocity(m_targetShooterRpm / 60));
   }
 
   /**

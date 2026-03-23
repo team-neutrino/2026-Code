@@ -35,6 +35,8 @@ public class Index extends SubsystemBase {
     private double m_ballsPerSecondCount;
     private boolean m_ballDetected = false;
     public Timer m_bpsTimer = new Timer();
+    private final VoltageOut m_spindexerVoltageControl = new VoltageOut(0);
+    private final VoltageOut m_kickerVoltageControl = new VoltageOut(0);
 
     public Index() {
         m_indexCurrentLimitConfig.withSupplyCurrentLimit(INDEX_CURRENT_LIMIT)
@@ -114,15 +116,13 @@ public class Index extends SubsystemBase {
     }
 
     public void setSpindexerVoltage() {
-        VoltageOut voltageControl = new VoltageOut(m_spindexerMotorVoltage);
-        voltageControl.EnableFOC = true;
-        m_spindexerMotor.setControl(voltageControl);
+        m_spindexerVoltageControl.EnableFOC = true;
+        m_spindexerMotor.setControl(m_spindexerVoltageControl.withOutput(m_spindexerMotorVoltage));
     }
 
     public void setKickerVoltage() {
-        VoltageOut voltageControl = new VoltageOut(m_kickerMotorVoltage);
-        voltageControl.EnableFOC = true;
-        m_kickerMotor.setControl(voltageControl);
+        m_kickerVoltageControl.EnableFOC = true;
+        m_kickerMotor.setControl(m_kickerVoltageControl.withOutput(m_kickerMotorVoltage));
     }
 
     public Command noKickAndSpin() {
