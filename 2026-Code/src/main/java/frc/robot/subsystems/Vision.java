@@ -205,15 +205,33 @@ public class Vision extends SubsystemBase {
       limelight.triggerCaptureRewind();
     }
 
-    m_frontPosePub.set(m_front.getEstimatePose());
-    m_backPosePub.set(m_back.getEstimatePose());
-    m_leftPosePub.set(m_left.getEstimatePose());
-    m_rightPosePub.set(m_right.getEstimatePose());
+    publishPoses();
+  }
 
-    m_frontYawPub.set(m_front.getEstimateYawMT1());
-    m_backYawPub.set(m_back.getEstimateYawMT1());
-    m_leftYawPub.set(m_left.getEstimateYawMT1());
-    m_rightYawPub.set(m_right.getEstimateYawMT1());
+  private void publishPoses() {
+    if (!(m_front.getEstimatePose() == Pose2d.kZero)) {
+      m_frontPosePub.set(m_front.getEstimatePose());
+    } else if (!(m_front.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
+      m_frontYawPub.set(m_front.getEstimateYawMT1());
+    }
+
+    if (!(m_back.getEstimatePose() == Pose2d.kZero)) {
+      m_backPosePub.set(m_back.getEstimatePose());
+    } else if (!(m_back.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
+      m_backYawPub.set(m_back.getEstimateYawMT1());
+    }
+
+    if (!(m_left.getEstimatePose() == Pose2d.kZero)) {
+      m_leftPosePub.set(m_left.getEstimatePose());
+    } else if (!(m_left.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
+      m_leftYawPub.set(m_left.getEstimateYawMT1());
+    }
+
+    if (!(m_right.getEstimatePose() == Pose2d.kZero)) {
+      m_rightPosePub.set(m_right.getEstimatePose());
+    } else if (!(m_right.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
+      m_rightYawPub.set(m_right.getEstimateYawMT1());
+    }
   }
 
   @Override
