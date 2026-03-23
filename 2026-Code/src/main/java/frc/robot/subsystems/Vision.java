@@ -235,6 +235,7 @@ public class Vision extends SubsystemBase {
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
     private boolean m_rewindTriggered = false;
+    private boolean m_updatedImuModeSinceEnabled = false;
 
     /**
      * Constructs a Limelight wrapper.
@@ -469,8 +470,12 @@ public class Vision extends SubsystemBase {
     // frame-by-frame motion while the robot's IMU corrects for any drift over time.
 
     public void adjustIMUMode() {
-      if (model == 4) {
-        LimelightHelpers.SetIMUMode(name, m_enabled ? 4 : 1); // potential issue with setting to 4 over and over again
+      if (!m_enabled) {
+        m_updatedImuModeSinceEnabled = false;
+        LimelightHelpers.SetIMUMode(1);
+      } else if (model == 4 && !m_updatedImuModeSinceEnabled) {
+        LimelightHelpers.SetIMUMode(4);
+        m_updatedImuModeSinceEnabled = true;
       }
     }
 
