@@ -213,12 +213,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             return intialPose;
         }
 
-        double lookAheadTime;
-        if (currentDist < 3.7) {
-            lookAheadTime = TIME_OF_FLIGHT_SLOW_SPEED.get(currentDist);
-        } else {
-            lookAheadTime = TIME_OF_FLIGHT_FAST_SPEED.get(currentDist);
-        }
+        double lookAheadTime = getTOFLookaheadTime(currentDist);
 
         Translation2d adjustedHub = realHubLocation;
         for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
@@ -232,14 +227,15 @@ public class Swerve extends CommandSwerveDrivetrain {
             if (SPEED_INTERPOLATION.get(currentDist) == null || HOOD_INTERPOLATION.get(currentDist) == null) {
                 break;
             }
-            if (currentDist < 3.7) {
-                lookAheadTime = TIME_OF_FLIGHT_SLOW_SPEED.get(currentDist);
-            } else {
-                lookAheadTime = TIME_OF_FLIGHT_FAST_SPEED.get(currentDist);
-            }
+            lookAheadTime = getTOFLookaheadTime(currentDist);
         }
 
         return new Pose2d(adjustedHub, intialPose.getRotation());
+    }
+
+    public double getTOFLookaheadTime(double current_distance) {
+        return current_distance < 3.7 ? TIME_OF_FLIGHT_SLOW_SPEED.get(current_distance)
+                : TIME_OF_FLIGHT_FAST_SPEED.get(current_distance);
     }
 
     public double getSpeedMetersPerSecond() {
