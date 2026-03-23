@@ -222,7 +222,7 @@ public class Constants {
         public static final double MINIMUM_XY_STD_DEV_LL3G = 0.15;
         public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.04;
         public static final double MINIMUM_XY_STD_DEV_LL3 = 0.18;
-        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.6;
+        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.06;
         public static final double ERROR_FACTOR_LL4 = 0.05;
         public static final double ERROR_FACTOR_LL3 = 0.09;
         public static final double ERROR_FACTOR_LL3G = 0.07;
