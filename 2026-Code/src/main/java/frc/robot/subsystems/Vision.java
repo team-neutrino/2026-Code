@@ -333,8 +333,7 @@ public class Vision extends SubsystemBase {
           && estimateMT1.tagCount > 1
           && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI / 4
           && poseInField(estimateMT1)
-          && Math.sqrt(Math.pow(swerve.getState().Speeds.vxMetersPerSecond, 2)
-              + Math.pow(swerve.getState().Speeds.vyMetersPerSecond, 2)) < PIGEON_SEED_ROTATION_THRESHOLD
+          && swerve.getSpeedMetersPerSecond() < PIGEON_SEED_XY_THRESHOLD
           && m_timer.hasElapsed(PIGEON_SEED_PERIOD);
     }
 
