@@ -51,30 +51,6 @@ public class Vision extends SubsystemBase {
   private boolean m_enabled = false;
   private Timer m_timer = new Timer();
 
-  private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
-
-  private StructTopic<Pose2d> m_frontPose = m_nt.getStructTopic("/limelight_poses/front", Pose2d.struct);
-  private StructTopic<Pose2d> m_backPose = m_nt.getStructTopic("/limelight_poses/back", Pose2d.struct);
-  private StructTopic<Pose2d> m_leftPose = m_nt.getStructTopic("/limelight_poses/left", Pose2d.struct);
-  private StructTopic<Pose2d> m_rightPose = m_nt.getStructTopic("/limelight_poses/right", Pose2d.struct);
-
-  private StructPublisher<Pose2d> m_frontPosePub;
-  private StructPublisher<Pose2d> m_backPosePub;
-  private StructPublisher<Pose2d> m_leftPosePub;
-  private StructPublisher<Pose2d> m_rightPosePub;
-
-  private Pose2d blank = new Pose2d();
-
-  private DoubleTopic m_frontYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/frontYaw");
-  private DoubleTopic m_backYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/backYaw");
-  private DoubleTopic m_leftYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/leftYaw");
-  private DoubleTopic m_rightYaw = m_nt.getDoubleTopic("/limelight_poses/yaw/rightYaw");
-
-  private DoublePublisher m_frontYawPub;
-  private DoublePublisher m_backYawPub;
-  private DoublePublisher m_leftYawPub;
-  private DoublePublisher m_rightYawPub;
-
   private Limelight[] limelights;
 
   private double m_last_vision_update_timestamp = 0;
@@ -89,20 +65,6 @@ public class Vision extends SubsystemBase {
     m_left = new Limelight(LL_LEFT, 3);
     m_right = new Limelight(LL_RIGHT, 3.5);
     limelights = new Limelight[] { m_front, m_back, m_left, m_right };
-
-    m_frontPosePub = m_frontPose.publish();
-    m_frontPosePub.setDefault(blank);
-    m_backPosePub = m_backPose.publish();
-    m_backPosePub.setDefault(blank);
-    m_leftPosePub = m_leftPose.publish();
-    m_leftPosePub.setDefault(blank);
-    m_rightPosePub = m_rightPose.publish();
-    m_rightPosePub.setDefault(blank);
-
-    m_frontYawPub = m_frontYaw.publish(PubSubOption.keepDuplicates(false));
-    m_backYawPub = m_backYaw.publish(PubSubOption.keepDuplicates(false));
-    m_leftYawPub = m_leftYaw.publish(PubSubOption.keepDuplicates(false));
-    m_rightYawPub = m_rightYaw.publish(PubSubOption.keepDuplicates(false));
 
     m_timer.start();
 
@@ -203,34 +165,8 @@ public class Vision extends SubsystemBase {
       limelight.updatePigeonSeed();
       limelight.adjustIMUMode();
       limelight.triggerCaptureRewind();
-    }
-
-    publishPoses();
-  }
-
-  private void publishPoses() {
-    if (!(m_front.getEstimatePose() == Pose2d.kZero)) {
-      m_frontPosePub.set(m_front.getEstimatePose());
-    } else if (!(m_front.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
-      m_frontYawPub.set(m_front.getEstimateYawMT1());
-    }
-
-    if (!(m_back.getEstimatePose() == Pose2d.kZero)) {
-      m_backPosePub.set(m_back.getEstimatePose());
-    } else if (!(m_back.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
-      m_backYawPub.set(m_back.getEstimateYawMT1());
-    }
-
-    if (!(m_left.getEstimatePose() == Pose2d.kZero)) {
-      m_leftPosePub.set(m_left.getEstimatePose());
-    } else if (!(m_left.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
-      m_leftYawPub.set(m_left.getEstimateYawMT1());
-    }
-
-    if (!(m_right.getEstimatePose() == Pose2d.kZero)) {
-      m_rightPosePub.set(m_right.getEstimatePose());
-    } else if (!(m_right.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV)) {
-      m_rightYawPub.set(m_right.getEstimateYawMT1());
+      limelight.publishPose();
+      limelight.publishYaw();
     }
   }
 
@@ -255,6 +191,15 @@ public class Vision extends SubsystemBase {
     private boolean m_rewindTriggered = false;
     private boolean m_updatedImuModeSinceEnabled = false;
 
+    private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
+    private StructTopic<Pose2d> m_pose;
+    private StructPublisher<Pose2d> m_posePub;
+    private Pose2d blank = new Pose2d();
+    private DoubleTopic m_yaw;
+    private DoublePublisher m_yawPub;
+    private boolean m_poseZeroWasPublished = false;
+    private boolean m_yawZeroWasPublished = false;
+
     /**
      * Constructs a Limelight wrapper.
      *
@@ -266,6 +211,33 @@ public class Vision extends SubsystemBase {
       model = p_model;
       if (model == 4) {
         LimelightHelpers.SetIMUMode(name, 1);
+      }
+      m_pose = m_nt.getStructTopic("/limelight_poses/" + name, Pose2d.struct);
+      m_yaw = m_nt.getDoubleTopic("/limelight_poses/yaw/" + name + "Yaw");
+
+      m_posePub = m_pose.publish();
+      m_posePub.setDefault(blank);
+
+      m_yawPub = m_yaw.publish(PubSubOption.keepDuplicates(false));
+    }
+
+    public void publishPose() {
+      if (!m_poseZeroWasPublished && this.getEstimatePose().equals(Pose2d.kZero)) {
+        m_posePub.set(this.getEstimatePose());
+        m_poseZeroWasPublished = true;
+      } else if (!this.getEstimatePose().equals(Pose2d.kZero)) {
+        m_posePub.set(this.getEstimatePose());
+        m_poseZeroWasPublished = false;
+      }
+    }
+
+    public void publishYaw() {
+      if (!m_yawZeroWasPublished && this.getEstimateYawMT1() == IGNORE_MEASUREMENT_STD_DEV) {
+        m_yawPub.set(this.getEstimateYawMT1());
+        m_yawZeroWasPublished = true;
+      } else if (this.getEstimateYawMT1() != IGNORE_MEASUREMENT_STD_DEV) {
+        m_yawPub.set(this.getEstimateYawMT1());
+        m_yawZeroWasPublished = false;
       }
     }
 
