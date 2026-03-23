@@ -223,12 +223,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
 
         double currentDist = currentTranslation.getDistance(realHubLocation);
-
-        if (SPEED_INTERPOLATION.get(currentDist) == null || HOOD_INTERPOLATION.get(currentDist) == null) {
-            return intialPose;
-        }
-
-        double lookAheadTime = getTOFLookaheadTime(currentDist);
+        double lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
 
         Translation2d adjustedHub = realHubLocation;
         for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
@@ -238,19 +233,10 @@ public class Swerve extends CommandSwerveDrivetrain {
                     - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime) + TURRET_LATENCY);
             adjustedHub = new Translation2d(offsetX, offsetY);
             currentDist = currentTranslation.getDistance(adjustedHub);
-
-            if (SPEED_INTERPOLATION.get(currentDist) == null || HOOD_INTERPOLATION.get(currentDist) == null) {
-                break;
-            }
-            lookAheadTime = getTOFLookaheadTime(currentDist);
+            lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
         }
 
         return new Pose2d(adjustedHub, intialPose.getRotation());
-    }
-
-    public double getTOFLookaheadTime(double current_distance) {
-        return current_distance < 3.7 ? TIME_OF_FLIGHT_SLOW_SPEED.get(current_distance)
-                : TIME_OF_FLIGHT_FAST_SPEED.get(current_distance);
     }
 
     public double getSpeedMetersPerSecond() {

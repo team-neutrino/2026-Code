@@ -104,14 +104,13 @@ public class Constants {
                 Map.entry(5.22, 3500.0),
                 Map.entry(7.26, 4320.0));
 
-        public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT_SLOW_SPEED = InterpolatingDoubleTreeMap.ofEntries(
+        // may want to redo the current points in case an error was made
+        public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.6, 1.33),
                 Map.entry(2.0, 1.3),
-                Map.entry(2.8, 1.34));
-
-        public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT_FAST_SPEED = InterpolatingDoubleTreeMap.ofEntries(
+                Map.entry(2.8, 1.34),
                 Map.entry(3.7, 1.07),
-                Map.entry(5.67, 1.43));
+                Map.entry(5.67, 1.43));;
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
