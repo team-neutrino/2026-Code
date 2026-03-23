@@ -49,7 +49,6 @@ public class Vision extends SubsystemBase {
   private final Limelight m_right;
 
   private boolean m_enabled = false;
-  private long m_slow_count = 0;
   private Timer m_timer = new Timer();
 
   private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
@@ -167,23 +166,6 @@ public class Vision extends SubsystemBase {
   }
 
   /**
-   * Adjusts Limelight throttle settings to reduce processing load
-   * and thermal buildup while the robot is disabled.
-   */
-  private void manageLimelightTemperature() {
-    m_slow_count++;
-    if (m_enabled && (m_slow_count % 5) != 0) {
-      return;
-    }
-    m_enabled = DriverStation.isEnabled();
-    final int throttle = m_enabled ? 0 : 169;
-    m_front.setThrottle(throttle);
-    m_back.setThrottle(throttle);
-    m_left.setThrottle(throttle);
-    m_right.setThrottle(throttle);
-  }
-
-  /**
    * Returns the default command for this subsystem.
    *
    * @return empty run command
@@ -203,7 +185,6 @@ public class Vision extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    // manageLimelightTemperature();
 
     if (swerve == null) {
       return;
