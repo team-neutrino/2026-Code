@@ -44,6 +44,7 @@ public class Intake extends SubsystemBase {
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setPosition(0);
+        m_rollerMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
     }
 
     public double getMotorAngle() {
