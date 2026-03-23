@@ -195,7 +195,6 @@ public class Vision extends SubsystemBase {
     private final String name;
     private final double model;
     private double lastFrame = -2;
-    private double bumpScaleFactor = 1;
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
     private boolean m_rewindTriggered = false;
@@ -359,7 +358,7 @@ public class Vision extends SubsystemBase {
       }
       double numberOfTags = estimateMT2.tagCount;
       double distance = estimateMT2.avgTagDist;
-      return setXYstdev(distance, numberOfTags);
+      return setXYstdev(distance, numberOfTags, m_hubTagCount);
     }
 
     /** Calculates rotational (theta) measurement standard deviation dynamically. */
@@ -368,7 +367,7 @@ public class Vision extends SubsystemBase {
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       double distance = estimateMT1.avgTagDist;
-      return setThetastdev(distance);
+      return setThetastdev(distance, m_hubTagCount);
     }
 
     /** Returns error factor constant based on Limelight model. */
@@ -408,22 +407,35 @@ public class Vision extends SubsystemBase {
     }
 
     /** Computes XY standard deviation using tag distance and count. */
-    private double setXYstdev(double distance, double numberOfTags) {
-      setBumpScaleFactor();
+    private double setXYstdev(double distance, double numberOfTags, int numberOfHubTags) {
       double errorFactor = getErrorFactor();
       double minimumXyStdDev = getMinimumStdDev();
+      if (numberOfHubTags <= 2) {
+        errorFactor *= 10.0;
+        minimumXyStdDev *= 10.0;
+      }
+
+      if (onBump()) {
+        return minimumXyStdDev;
+      }
+
       return Math.max(
           minimumXyStdDev,
-          (Math.pow(distance, 2) * errorFactor) * bumpScaleFactor / Math.pow(numberOfTags, 2));
+          (Math.pow(distance, 2) * errorFactor) / Math.pow(numberOfTags, 2));
     }
 
     /** Computes rotational standard deviation using tag distance. */
-    private double setThetastdev(double distance) {
+    private double setThetastdev(double distance, int numberOfHubTags) {
       if (!verifyYawValidity()) {
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       double errorFactor = getErrorFactor();
       double minimumThetaStDev = getMinimumStdDevTheta();
+      if (numberOfHubTags <= 2) {
+        errorFactor *= 10.0;
+        minimumThetaStDev *= 10.0;
+      }
+
       return Math.max(minimumThetaStDev, (Math.pow(distance, 2) * errorFactor));
     }
 
@@ -452,11 +464,6 @@ public class Vision extends SubsystemBase {
               && (PoseX >= RED_DEPOT_BUMP_NEUTRAL_X - ROBOT_WHEEL_OFFSET));
       boolean isYOnBump = (DEPOT_BUMP_Y >= PoseY) && (OUTPOST_BUMP_Y <= PoseY);
       return isYOnBump && isXOnBump;
-    }
-
-    /** Adjusts scaling factor when robot is on bump. */
-    private void setBumpScaleFactor() {
-      bumpScaleFactor = onBump() ? 0.0000000001 : 1;
     }
 
     /** Adjusts IMU fusion mode dynamically based on enable state. */
