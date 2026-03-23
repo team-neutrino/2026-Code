@@ -161,14 +161,22 @@ public class Vision extends SubsystemBase {
     final double pitch_rate = swerve.getPitchRate();
     final double roll_rate = swerve.getRollRate();
 
+    boolean better_limelight_found_two_hub_tags = false;
     for (Limelight limelight : limelights) {
       limelight.setRobotOrientation(yaw_degrees, yaw_rate, pitch_degrees, pitch_rate, roll_degrees, roll_rate);
+      limelight.adjustIMUMode();
+      limelight.triggerCaptureRewind();
+
+      if (better_limelight_found_two_hub_tags) {
+        break;
+      }
       limelight.updateFusionMegatag();
       limelight.updatePigeonSeed();
       limelight.adjustIMUMode();
       limelight.triggerCaptureRewind();
       limelight.publishPose();
       limelight.publishYaw();
+      better_limelight_found_two_hub_tags = limelight.hasTwoHubTags();
     }
   }
 
