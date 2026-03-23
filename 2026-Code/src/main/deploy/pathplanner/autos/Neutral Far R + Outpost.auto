@@ -91,9 +91,15 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Outpost After Neutral"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
-                  "name": "noDrive"
+                  "name": "deployAndRunIntake"
                 }
               },
               {
@@ -119,43 +125,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 7.0
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Outpost After Neutral"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
                 }
               }
             ]
