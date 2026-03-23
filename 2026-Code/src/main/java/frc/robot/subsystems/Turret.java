@@ -39,6 +39,7 @@ public class Turret extends SubsystemBase {
   private TalonFXConfiguration m_motorConfig = new TalonFXConfiguration();
   private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
   private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
+  private final PositionVoltage m_turretPositionControl = new PositionVoltage(0);
 
   // Simulation
   private TurretSim m_turretSim;
@@ -151,7 +152,7 @@ public class Turret extends SubsystemBase {
 
   private void adjustTurret(double targetAngle, double hubVelocity) {
     double trackingFeedforward = (hubVelocity / 360.0) * TURRET_TRACKING_KV;
-    m_motor.setControl(new PositionVoltage(targetAngle / 360).withFeedForward(trackingFeedforward));
+    m_motor.setControl(m_turretPositionControl.withPosition(targetAngle / 360).withFeedForward(trackingFeedforward));
   }
 
   private void updateWrap() {

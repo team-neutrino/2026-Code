@@ -26,6 +26,8 @@ public class Intake extends SubsystemBase {
     private double m_targetAngle;
     private boolean m_isDeployed = false;
     private boolean m_isShaking = false;
+    private final PositionVoltage m_deployPositionControl = new PositionVoltage(0);
+    private final VoltageOut m_rollerVoltageControl = new VoltageOut(0);
 
     public Intake() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -65,14 +67,12 @@ public class Intake extends SubsystemBase {
     }
 
     private void moveToIntake(double targetPosition) {
-        PositionVoltage positionControl = new PositionVoltage(targetPosition);
-        m_deployMotor.setControl(positionControl);
+        m_deployMotor.setControl(m_deployPositionControl.withPosition(targetPosition));
     }
 
     private void spinRoller(double voltage) {
-        VoltageOut voltageControl = new VoltageOut(voltage);
-        voltageControl.EnableFOC = true;
-        m_rollerMotor.setControl(voltageControl);
+        m_rollerVoltageControl.EnableFOC = true;
+        m_rollerMotor.setControl(m_rollerVoltageControl.withOutput(voltage));
     }
 
     public void setIntakePID(double new_P, double new_I, double new_D) {

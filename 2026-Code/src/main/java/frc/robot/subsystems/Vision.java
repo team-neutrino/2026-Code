@@ -297,7 +297,7 @@ public class Vision extends SubsystemBase {
     /** @return Latest MT2 pose or blank pose if unavailable. */
     public Pose2d getEstimatePose() {
       if (estimateMT2 == null) {
-        return new Pose2d();
+        return Pose2d.kZero;
       }
       return estimateMT2.pose;
     }
