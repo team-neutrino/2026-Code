@@ -168,12 +168,12 @@ public class Vision extends SubsystemBase {
       limelight.triggerCaptureRewind();
 
       if (better_limelight_found_two_hub_tags) {
+        limelight.publishDefaultPose();
+        limelight.publishDefaultYaw();
         break;
       }
       limelight.updateFusionMegatag();
       limelight.updatePigeonSeed();
-      limelight.adjustIMUMode();
-      limelight.triggerCaptureRewind();
       limelight.publishPose();
       limelight.publishYaw();
       better_limelight_found_two_hub_tags = limelight.hasTwoHubTags();
@@ -248,6 +248,20 @@ public class Vision extends SubsystemBase {
       } else if (this.getEstimateYawMT1() != IGNORE_MEASUREMENT_STD_DEV) {
         m_yawPub.set(this.getEstimateYawMT1());
         m_yawZeroWasPublished = false;
+      }
+    }
+
+    public void publishDefaultPose() {
+      if (!m_poseZeroWasPublished) {
+        m_posePub.set(Pose2d.kZero);
+        m_poseZeroWasPublished = true;
+      }
+    }
+
+    public void publishDefaultYaw() {
+      if (!m_yawZeroWasPublished) {
+        m_yawPub.set(IGNORE_MEASUREMENT_STD_DEV);
+        m_yawZeroWasPublished = true;
       }
     }
 
