@@ -47,6 +47,7 @@ public class RobotContainer {
 
     m_chooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("AutoChooser", m_chooser);
+    swerve.setDriverController(m_driverController);
   }
 
   private void configureDefaultCommands() {
