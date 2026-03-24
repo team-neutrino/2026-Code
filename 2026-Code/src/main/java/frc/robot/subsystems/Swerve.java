@@ -205,9 +205,9 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public ChassisSpeeds getFieldRelativeChassisSpeeds() {
         Rotation2d angle = Rotation2d.fromDegrees(getYawDegrees());
-        double vx = Math.abs(m_driverController.getLeftY()) <= JOYSTICK_REST_ALLOWED_ERROR ? 0
+        double vx = Math.abs(joystickVx) <= 0.342 ? 0
                 : getChassisSpeeds().vxMetersPerSecond;
-        double vy = Math.abs(m_driverController.getLeftX()) <= JOYSTICK_REST_ALLOWED_ERROR ? 0
+        double vy = Math.abs(joystickVy) <= 0.342 ? 0
                 : getChassisSpeeds().vyMetersPerSecond;
 
         return ChassisSpeeds.fromRobotRelativeSpeeds(
