@@ -146,7 +146,7 @@ public class Constants {
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_TRANSLATION_KV = 0.0;
-        public static final double TURRET_TRACKING_ROTATION_KV = 0.0;
+        public static final double TURRET_TRACKING_ROTATION_KV = 22.0;
         public static final double TURRET_LATENCY = 0.0;
     }
 
