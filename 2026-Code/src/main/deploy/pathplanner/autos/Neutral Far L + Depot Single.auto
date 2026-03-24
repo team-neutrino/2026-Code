@@ -63,9 +63,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "Unbeach"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Unbeach"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -189,6 +202,12 @@
                 "type": "named",
                 "data": {
                   "name": "feedShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
                 }
               }
             ]

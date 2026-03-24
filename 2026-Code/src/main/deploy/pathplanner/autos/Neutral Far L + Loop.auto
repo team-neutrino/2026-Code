@@ -63,9 +63,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "Unbeach"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Unbeach"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -100,6 +113,12 @@
                 "type": "named",
                 "data": {
                   "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
                 }
               },
               {
@@ -171,9 +190,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "Unbeach"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Unbeach"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
@@ -196,15 +228,41 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "race",
                       "data": {
-                        "pathName": "Loop Out In - 3L"
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Loop Out In - 3L"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "Unbeach"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Unbeach"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -245,6 +303,12 @@
                 "type": "named",
                 "data": {
                   "name": "retractIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
                 }
               },
               {
