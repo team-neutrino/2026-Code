@@ -47,6 +47,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose = Pose2d.kZero;
     private double m_turretTargetAngle = 0.0;
+    private CommandXboxController m_driverController;
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -202,9 +203,14 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public ChassisSpeeds getFieldRelativeChassisSpeeds() {
         Rotation2d angle = Rotation2d.fromDegrees(getYawDegrees());
+        double vx = Math.abs(m_driverController.getLeftY()) <= JOYSTICK_REST_ALLOWED_ERROR ? 0
+                : getChassisSpeeds().vxMetersPerSecond;
+        double vy = Math.abs(m_driverController.getLeftX()) <= JOYSTICK_REST_ALLOWED_ERROR ? 0
+                : getChassisSpeeds().vyMetersPerSecond;
+
         return ChassisSpeeds.fromRobotRelativeSpeeds(
-                getChassisSpeeds().vxMetersPerSecond,
-                getChassisSpeeds().vyMetersPerSecond,
+                vx,
+                vy,
                 getChassisSpeeds().omegaRadiansPerSecond,
                 angle);
     }
@@ -341,6 +347,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public Command swerveDefaultCommand(CommandXboxController joystick) {
+
         return run(() -> {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
