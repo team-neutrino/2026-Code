@@ -469,7 +469,7 @@ public class Vision extends SubsystemBase {
                     .setNumber(throttle);
         }
 
-        /** @return true if robot pitch exceeds bump threshold. */
+        /** @return true if the robot's current field pose (X/Y) lies within the defined bump region. */
         public boolean onBump() {
             double PoseX = swerve.getCurrentPose().getX();
             double PoseY = swerve.getCurrentPose().getY();
