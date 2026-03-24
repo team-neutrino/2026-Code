@@ -31,7 +31,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Far - 2L"
+                              "pathName": "Near - 2L"
                             }
                           },
                           {
@@ -48,15 +48,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
+                            "type": "path",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "pathName": "Near - 3L"
                             }
                           },
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": "Far - 3L"
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -94,69 +94,6 @@
                 "type": "named",
                 "data": {
                   "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 7.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shakeHopper"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "feedShooter"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Copy of Rotate"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Rotate"
-                      }
-                    }
-                  ]
                 }
               }
             ]
@@ -177,26 +114,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 1L"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Unbeach"
+                              "pathName": "Depot Side 1"
                             }
                           },
                           {
@@ -215,7 +133,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 2L"
+                              "pathName": "Depot Front 2"
                             }
                           },
                           {
@@ -234,32 +152,26 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 3L"
+                              "pathName": "Depot Front 3"
                             }
                           },
                           {
-                            "type": "named",
+                            "type": "sequential",
                             "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Unbeach"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 0.25
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "shakeHopper"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
@@ -275,9 +187,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "noShoot"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "feedShooter"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -302,26 +227,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shakeHopper"
+                  "name": "feedShooter"
                 }
               },
               {
-                "type": "race",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.25
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "feedShooter"
-                      }
-                    }
-                  ]
+                  "name": "shakeHopper"
                 }
               }
             ]

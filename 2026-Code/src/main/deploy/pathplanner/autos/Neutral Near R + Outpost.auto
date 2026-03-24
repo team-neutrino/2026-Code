@@ -15,7 +15,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Near - 1L"
+                        "pathName": "Near - 1R"
                       }
                     },
                     {
@@ -31,7 +31,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Far - 2L"
+                              "pathName": "Near - 2R"
                             }
                           },
                           {
@@ -48,15 +48,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
+                            "type": "path",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "pathName": "Near - 3R"
                             }
                           },
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": "Far - 3L"
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -100,65 +100,19 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Depot Side after Neutral"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Depot 3 after neutral"
-                            }
-                          },
-                          {
-                            "type": "sequential",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 0.25
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "shakeHopper"
-                                  }
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "pathName": "Outpost After Neutral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "deployAndRunIntake"
                 }
               },
               {
@@ -196,7 +150,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noDrive"
+                  "name": "feedShooter"
                 }
               },
               {
@@ -208,7 +162,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "feedShooter"
+                  "name": "noDrive"
                 }
               },
               {
