@@ -471,13 +471,13 @@ public class Vision extends SubsystemBase {
 
         /** @return true if the robot's current field pose (X/Y) lies within the defined bump region. */
         public boolean onBump() {
-            double PoseX = swerve.getCurrentPose().getX();
-            double PoseY = swerve.getCurrentPose().getY();
-            boolean isXOnBump = ((PoseX >= BLUE_DEPOT_BUMP_ALLIANCE_X - ROBOT_WHEEL_OFFSET)
-                    && (PoseX <= BLUE_DEPOT_BUMP_NEUTRAL_X + ROBOT_WHEEL_OFFSET))
-                    || ((PoseX <= RED_DEPOT_BUMP_ALLIANCE_X + ROBOT_WHEEL_OFFSET)
-                            && (PoseX >= RED_DEPOT_BUMP_NEUTRAL_X - ROBOT_WHEEL_OFFSET));
-            boolean isYOnBump = (DEPOT_BUMP_Y >= PoseY) && (OUTPOST_BUMP_Y <= PoseY);
+            double poseX = swerve.getCurrentPose().getX();
+            double poseY = swerve.getCurrentPose().getY();
+            boolean isXOnBump = ((poseX >= BLUE_DEPOT_BUMP_ALLIANCE_X - ROBOT_WHEEL_OFFSET)
+                    && (poseX <= BLUE_DEPOT_BUMP_NEUTRAL_X + ROBOT_WHEEL_OFFSET))
+                    || ((poseX <= RED_DEPOT_BUMP_ALLIANCE_X + ROBOT_WHEEL_OFFSET)
+                            && (poseX >= RED_DEPOT_BUMP_NEUTRAL_X - ROBOT_WHEEL_OFFSET));
+            boolean isYOnBump = (DEPOT_BUMP_Y >= poseY) && (OUTPOST_BUMP_Y <= poseY);
             return isYOnBump && isXOnBump;
         }
 
