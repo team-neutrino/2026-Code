@@ -228,9 +228,9 @@ public class Swerve extends CommandSwerveDrivetrain {
         Translation2d adjustedHub = realHubLocation;
         for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
             double offsetX = realHubLocation.getX()
-                    - (fieldSpeeds.vxMetersPerSecond * (lookAheadTime) + TURRET_LATENCY);
+                    - (fieldSpeeds.vxMetersPerSecond * (lookAheadTime + TURRET_LATENCY));
             double offsetY = realHubLocation.getY()
-                    - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime) + TURRET_LATENCY);
+                    - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime + TURRET_LATENCY));
             adjustedHub = new Translation2d(offsetX, offsetY);
             currentDist = currentTranslation.getDistance(adjustedHub);
             lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
