@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
+import frc.robot.util.LimelightHelpers.RawFiducial;
 import static frc.robot.util.Constants.LimelightConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.ROBOT_WHEEL_OFFSET;
+import static frc.robot.util.Constants.AprilTagConstants.*;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Subsystems.swerve;
 import edu.wpi.first.networktables.StructPublisher;
@@ -190,6 +192,7 @@ public class Vision extends SubsystemBase {
     private PoseEstimate estimateMT2;
     private boolean m_rewindTriggered = false;
     private boolean m_updatedImuModeSinceEnabled = false;
+    private int m_hubTagCount = 0;
 
     private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
     private StructTopic<Pose2d> m_pose;
@@ -241,6 +244,10 @@ public class Vision extends SubsystemBase {
       }
     }
 
+    public boolean hasTwoHubTags() {
+      return m_hubTagCount >= 2;
+    }
+
     /** Supplies robot orientation to the Limelight for IMU fusion. */
     public void setRobotOrientation(double yawDeg, double yawRate, double pitchDeg,
         double pitchRate, double rollDeg, double rollRate) {
@@ -262,9 +269,10 @@ public class Vision extends SubsystemBase {
 
       estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
       estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+      updateHubTagCount(estimateMT2);
+
       double timestamp;
       Pose2d pose;
-
       if (!verifyPoseValidity()) {
         return;
       }
@@ -486,6 +494,21 @@ public class Vision extends SubsystemBase {
           && poseEstimate.pose.getX() < FIELD_DIMENSION_X
           && poseEstimate.pose.getY() > ZERO
           && poseEstimate.pose.getY() < FIELD_DIMENSION_Y;
+    }
+
+    private void updateHubTagCount(PoseEstimate estimate) {
+      if (estimate == null) {
+        m_hubTagCount = 0;
+        return;
+      }
+
+      int hubTagCount = 0;
+      for (RawFiducial fiducial : estimate.rawFiducials) {
+        if (ALL_HUB_TAGS.contains(fiducial.id)) {
+          hubTagCount++;
+        }
+      }
+      m_hubTagCount = hubTagCount;
     }
   }
 }

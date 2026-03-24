@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import static edu.wpi.first.units.Units.Meter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -333,7 +334,6 @@ public class Constants {
 
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
-
     }
 
     public static class FieldMeasurementConstants {
@@ -356,7 +356,12 @@ public class Constants {
         public static final double RED_DEPOT_BUMP_ALLIANCE_X = 12.479274;
         public static final double DEPOT_BUMP_Y = 6.477508;
         public static final double OUTPOST_BUMP_Y = 1.53289;
+    }
 
+    public static class AprilTagConstants {
+        public static final ArrayList<Integer> ALL_HUB_TAGS = new ArrayList<>(
+                List.of(2, 3, 4, 5, 8, 9, 10, 11, 18, 19, 20, 21, 24, 25, 26,
+                        27));
     }
 
     public static class AutonConstants {
