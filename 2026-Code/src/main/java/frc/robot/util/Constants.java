@@ -359,11 +359,9 @@ public class Constants {
     }
 
     public static class AprilTagConstants {
-        public static final ArrayList<Integer> ALL_HUB_TAGS = new ArrayList<>(
-                List.of(2, 3, 4, 5, 8, 9, 10, 11, 18, 19, 20, 21, 24, 25, 26,
-                        27));
+        public static final List<Integer> ALL_HUB_TAGS = List.of(
+                2, 3, 4, 5, 8, 9, 10, 11, 18, 19, 20, 21, 24, 25, 26, 27);
     }
-
     public static class AutonConstants {
         public static final String CURRENT_AUTON = "Over";
     }
