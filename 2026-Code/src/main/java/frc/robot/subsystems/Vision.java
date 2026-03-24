@@ -425,7 +425,7 @@ public class Vision extends SubsystemBase {
     private double setXYstdev(double distance, double numberOfTags, int numberOfHubTags) {
       double errorFactor = getErrorFactor();
       double minimumXyStdDev = getMinimumStdDev();
-      if (numberOfHubTags <= 2) {
+      if (numberOfHubTags < 2) {
         errorFactor *= 10.0;
         minimumXyStdDev *= 10.0;
       }
@@ -446,7 +446,7 @@ public class Vision extends SubsystemBase {
       }
       double errorFactor = getErrorFactor();
       double minimumThetaStDev = getMinimumStdDevTheta();
-      if (numberOfHubTags <= 2) {
+      if (numberOfHubTags < 2) {
         errorFactor *= 10.0;
         minimumThetaStDev *= 10.0;
       }
