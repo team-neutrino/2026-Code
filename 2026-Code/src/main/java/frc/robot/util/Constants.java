@@ -107,8 +107,12 @@ public class Constants {
         // may want to redo the current points in case an error was made
         public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.6, 1.33),
+                Map.entry(1.52, 1.35),
                 Map.entry(2.0, 1.3),
+                Map.entry(2.4, 1.28),
                 Map.entry(2.8, 1.34),
+                Map.entry(3.22, 1.11),
+                Map.entry(3.58, 1.1),
                 Map.entry(3.7, 1.07),
                 Map.entry(5.67, 1.43));;
 
