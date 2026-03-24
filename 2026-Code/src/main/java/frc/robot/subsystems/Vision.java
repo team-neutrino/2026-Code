@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.LimelightHelpers;
 import frc.robot.util.LimelightHelpers.PoseEstimate;
+import frc.robot.util.LimelightHelpers.RawFiducial;
 import static frc.robot.util.Constants.LimelightConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.ROBOT_WHEEL_OFFSET;
+import static frc.robot.util.Constants.AprilTagConstants.*;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 import static frc.robot.util.Subsystems.swerve;
 import edu.wpi.first.networktables.StructPublisher;
@@ -159,14 +161,22 @@ public class Vision extends SubsystemBase {
     final double pitch_rate = swerve.getPitchRate();
     final double roll_rate = swerve.getRollRate();
 
+    boolean better_limelight_found_two_hub_tags = false;
     for (Limelight limelight : limelights) {
       limelight.setRobotOrientation(yaw_degrees, yaw_rate, pitch_degrees, pitch_rate, roll_degrees, roll_rate);
-      limelight.updateFusionMegatag();
-      limelight.updatePigeonSeed();
       limelight.adjustIMUMode();
       limelight.triggerCaptureRewind();
+
+      if (better_limelight_found_two_hub_tags) {
+        limelight.publishDefaultPose();
+        limelight.publishDefaultYaw();
+        break;
+      }
+      limelight.updateFusionMegatag();
+      limelight.updatePigeonSeed();
       limelight.publishPose();
       limelight.publishYaw();
+      better_limelight_found_two_hub_tags = limelight.hasTwoHubTags();
     }
   }
 
@@ -185,11 +195,11 @@ public class Vision extends SubsystemBase {
     private final String name;
     private final double model;
     private double lastFrame = -2;
-    private double bumpScaleFactor = 1;
     private PoseEstimate estimateMT1;
     private PoseEstimate estimateMT2;
     private boolean m_rewindTriggered = false;
     private boolean m_updatedImuModeSinceEnabled = false;
+    private int m_hubTagCount = 0;
 
     private NetworkTableInstance m_nt = NetworkTableInstance.getDefault();
     private StructTopic<Pose2d> m_pose;
@@ -241,6 +251,24 @@ public class Vision extends SubsystemBase {
       }
     }
 
+    public void publishDefaultPose() {
+      if (!m_poseZeroWasPublished) {
+        m_posePub.set(Pose2d.kZero);
+        m_poseZeroWasPublished = true;
+      }
+    }
+
+    public void publishDefaultYaw() {
+      if (!m_yawZeroWasPublished) {
+        m_yawPub.set(IGNORE_MEASUREMENT_STD_DEV);
+        m_yawZeroWasPublished = true;
+      }
+    }
+
+    public boolean hasTwoHubTags() {
+      return m_hubTagCount >= 2;
+    }
+
     /** Supplies robot orientation to the Limelight for IMU fusion. */
     public void setRobotOrientation(double yawDeg, double yawRate, double pitchDeg,
         double pitchRate, double rollDeg, double rollRate) {
@@ -256,15 +284,17 @@ public class Vision extends SubsystemBase {
     public void updateFusionMegatag() {
       final double frame = getFrame();
       if (frame <= lastFrame || frame < 0.0) {
+        m_hubTagCount = 0;
         return;
       }
       lastFrame = frame;
 
       estimateMT1 = LimelightHelpers.getBotPoseEstimate_wpiBlue(name);
       estimateMT2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(name);
+      updateHubTagCount(estimateMT2);
+
       double timestamp;
       Pose2d pose;
-
       if (!verifyPoseValidity()) {
         return;
       }
@@ -343,7 +373,7 @@ public class Vision extends SubsystemBase {
       }
       double numberOfTags = estimateMT2.tagCount;
       double distance = estimateMT2.avgTagDist;
-      return setXYstdev(distance, numberOfTags);
+      return setXYstdev(distance, numberOfTags, m_hubTagCount);
     }
 
     /** Calculates rotational (theta) measurement standard deviation dynamically. */
@@ -352,7 +382,7 @@ public class Vision extends SubsystemBase {
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       double distance = estimateMT1.avgTagDist;
-      return setThetastdev(distance);
+      return setThetastdev(distance, m_hubTagCount);
     }
 
     /** Returns error factor constant based on Limelight model. */
@@ -392,22 +422,35 @@ public class Vision extends SubsystemBase {
     }
 
     /** Computes XY standard deviation using tag distance and count. */
-    private double setXYstdev(double distance, double numberOfTags) {
-      setBumpScaleFactor();
+    private double setXYstdev(double distance, double numberOfTags, int numberOfHubTags) {
       double errorFactor = getErrorFactor();
       double minimumXyStdDev = getMinimumStdDev();
+      if (numberOfHubTags < 2) {
+        errorFactor *= 10.0;
+        minimumXyStdDev *= 10.0;
+      }
+
+      if (onBump()) {
+        return minimumXyStdDev;
+      }
+
       return Math.max(
           minimumXyStdDev,
-          (Math.pow(distance, 2) * errorFactor) * bumpScaleFactor / Math.pow(numberOfTags, 2));
+          (Math.pow(distance, 2) * errorFactor) / Math.pow(numberOfTags, 2));
     }
 
     /** Computes rotational standard deviation using tag distance. */
-    private double setThetastdev(double distance) {
+    private double setThetastdev(double distance, int numberOfHubTags) {
       if (!verifyYawValidity()) {
         return IGNORE_MEASUREMENT_STD_DEV;
       }
       double errorFactor = getErrorFactor();
       double minimumThetaStDev = getMinimumStdDevTheta();
+      if (numberOfHubTags < 2) {
+        errorFactor *= 10.0;
+        minimumThetaStDev *= 10.0;
+      }
+
       return Math.max(minimumThetaStDev, (Math.pow(distance, 2) * errorFactor));
     }
 
@@ -436,11 +479,6 @@ public class Vision extends SubsystemBase {
               && (PoseX >= RED_DEPOT_BUMP_NEUTRAL_X - ROBOT_WHEEL_OFFSET));
       boolean isYOnBump = (DEPOT_BUMP_Y >= PoseY) && (OUTPOST_BUMP_Y <= PoseY);
       return isYOnBump && isXOnBump;
-    }
-
-    /** Adjusts scaling factor when robot is on bump. */
-    private void setBumpScaleFactor() {
-      bumpScaleFactor = onBump() ? 0.0000000001 : 1;
     }
 
     /** Adjusts IMU fusion mode dynamically based on enable state. */
@@ -486,6 +524,21 @@ public class Vision extends SubsystemBase {
           && poseEstimate.pose.getX() < FIELD_DIMENSION_X
           && poseEstimate.pose.getY() > ZERO
           && poseEstimate.pose.getY() < FIELD_DIMENSION_Y;
+    }
+
+    private void updateHubTagCount(PoseEstimate estimate) {
+      if (estimate == null) {
+        m_hubTagCount = 0;
+        return;
+      }
+
+      int hubTagCount = 0;
+      for (RawFiducial fiducial : estimate.rawFiducials) {
+        if (ALL_HUB_TAGS.contains(fiducial.id)) {
+          hubTagCount++;
+        }
+      }
+      m_hubTagCount = hubTagCount;
     }
   }
 }

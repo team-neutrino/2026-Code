@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import static edu.wpi.first.units.Units.Meter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -221,7 +222,7 @@ public class Constants {
         public static final double MINIMUM_XY_STD_DEV_LL3G = 0.15;
         public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.04;
         public static final double MINIMUM_XY_STD_DEV_LL3 = 0.18;
-        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.6;
+        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.06;
         public static final double ERROR_FACTOR_LL4 = 0.05;
         public static final double ERROR_FACTOR_LL3 = 0.09;
         public static final double ERROR_FACTOR_LL3G = 0.07;
@@ -333,7 +334,6 @@ public class Constants {
 
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
-
     }
 
     public static class FieldMeasurementConstants {
@@ -356,9 +356,12 @@ public class Constants {
         public static final double RED_DEPOT_BUMP_ALLIANCE_X = 12.479274;
         public static final double DEPOT_BUMP_Y = 6.477508;
         public static final double OUTPOST_BUMP_Y = 1.53289;
-
     }
 
+    public static class AprilTagConstants {
+        public static final List<Integer> ALL_HUB_TAGS = List.of(
+                2, 3, 4, 5, 8, 9, 10, 11, 18, 19, 20, 21, 24, 25, 26, 27);
+    }
     public static class AutonConstants {
         public static final String CURRENT_AUTON = "Over";
     }
