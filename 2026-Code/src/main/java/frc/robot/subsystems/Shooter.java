@@ -59,8 +59,6 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Creates a new Shooter.
-     * 
-     * @return A new shooter. What else would it give you
      */
     public Shooter() {
         m_shooterCurrentLimitConfig.withSupplyCurrentLimit(SHOOTER_CURRENT_LIMIT)
