@@ -423,15 +423,15 @@ public class Vision extends SubsystemBase {
 
         /** Computes XY standard deviation using tag distance and count. */
         private double setXYstdev(double distance, double numberOfTags, int numberOfHubTags) {
-            double errorFactor = getErrorFactor();
             double minimumXyStdDev = getMinimumStdDev();
+            if (onBump()) {
+                return minimumXyStdDev;
+            }
+
+            double errorFactor = getErrorFactor();
             if (numberOfHubTags < 2) {
                 errorFactor *= 10.0;
                 minimumXyStdDev *= 10.0;
-            }
-
-            if (onBump()) {
-                return minimumXyStdDev;
             }
 
             return Math.max(
@@ -469,7 +469,10 @@ public class Vision extends SubsystemBase {
                     .setNumber(throttle);
         }
 
-        /** @return true if the robot's current field pose (X/Y) lies within the defined bump region. */
+        /**
+         * @return true if the robot's current field pose (X/Y) lies within the defined
+         *         bump region.
+         */
         public boolean onBump() {
             double poseX = swerve.getCurrentPose().getX();
             double poseY = swerve.getCurrentPose().getY();
