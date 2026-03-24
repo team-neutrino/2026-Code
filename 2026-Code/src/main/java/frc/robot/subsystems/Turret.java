@@ -89,12 +89,12 @@ public class Turret extends SubsystemBase {
             updateWrap();
             m_adjustedTargetAngle = getAdjustedTargetAngle();
 
-            final double fieldRelativeTargetAngle = Subsystems.swerve.calculateFieldRelativeTargetAngle();
+            final double fieldRelativeTargetAngle = Subsystems.swerve.getFieldRelativeTargetAngle();
             final double translationRate = (fieldRelativeTargetAngle - m_previousFieldRelativeTargetAngle) / 0.020;
             m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
             final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
 
-            adjustTurret(m_adjustedTargetAngle, translationRate + rotationRate);
+            adjustTurret(m_adjustedTargetAngle, translationRate, rotationRate);
         }
         shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
     }
@@ -123,7 +123,7 @@ public class Turret extends SubsystemBase {
                 turrent_angle_global.getDegrees(),
                 -180.0,
                 180.0);
-        double angleDiff = turrent_angle_global_degrees - Subsystems.swerve.calculateFieldRelativeTargetAngle();
+        double angleDiff = turrent_angle_global_degrees - Subsystems.swerve.getFieldRelativeTargetAngle();
         double closeTarget;
         if (Math.abs(angleDiff) < Math
                 .abs(GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
@@ -150,10 +150,19 @@ public class Turret extends SubsystemBase {
         return Math.abs(currentAngle - targetAngle) < ALLOWED_ERROR;
     }
 
-    private void adjustTurret(double targetAngle, double hubVelocity) {
-        double trackingFeedforward = (hubVelocity / 360.0) * TURRET_TRACKING_KV;
+    private double voltageFeedForward(double translationRate, double rotationRate) {
+        double feedforward = 0.0;
+        if (Math.abs(getCurrentAngle() - m_targetAngle) < TRACKING_THRESHOLD) {
+            feedforward += translationRate / 360.0 * TURRET_TRACKING_TRANSLATION_KV;
+            feedforward += rotationRate / 360.0 * TURRET_TRACKING_ROTATION_KV;
+        }
+        return feedforward;
+    }
+
+    private void adjustTurret(double targetAngle, double translationRate, double rotationRate) {
         m_motor.setControl(
-                m_turretPositionControl.withPosition(targetAngle / 360).withFeedForward(trackingFeedforward));
+                m_turretPositionControl.withPosition(targetAngle / 360)
+                        .withFeedForward(voltageFeedForward(translationRate, rotationRate)));
     }
 
     private void updateWrap() {
@@ -165,7 +174,7 @@ public class Turret extends SubsystemBase {
     }
 
     private double calculateRobotRelativeTargetAngle() {
-        return Subsystems.swerve.calculateFieldRelativeTargetAngle()
+        return Subsystems.swerve.getFieldRelativeTargetAngle()
                 - Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
     }
 

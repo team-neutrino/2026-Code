@@ -134,6 +134,7 @@ public class Constants {
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
         public static final double ALLOWED_ERROR = 4;
+        public static final double TRACKING_THRESHOLD = 67.0;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
         public static final double STATIC_FF = 0.1;
@@ -144,7 +145,8 @@ public class Constants {
         public static final double TARGET_TOLERANCE = 3;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
-        public static final double TURRET_TRACKING_KV = 1.5;
+        public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
+        public static final double TURRET_TRACKING_ROTATION_KV = 22.0;
         public static final double TURRET_LATENCY = 0.0;
     }
 
