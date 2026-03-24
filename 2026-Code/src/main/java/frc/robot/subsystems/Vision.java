@@ -284,6 +284,7 @@ public class Vision extends SubsystemBase {
     public void updateFusionMegatag() {
       final double frame = getFrame();
       if (frame <= lastFrame || frame < 0.0) {
+        m_hubTagCount = 0;
         return;
       }
       lastFrame = frame;
