@@ -156,6 +156,10 @@ public class ShooterNT extends Shooter {
     @Override
     public void periodic() {
         super.periodic();
+
+        if (swerve == null) {
+            return;
+        }
         final long now = NetworkTablesJNI.now();
 
         // if (m_shooterPIDTuner.isDifferentValues(m_previousShootingKP,

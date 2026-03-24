@@ -43,7 +43,7 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
     private boolean m_brakeEngaged = false;
-    private Pose2d hubPose;
+    private Pose2d hubPose = Pose2d.kZero;
     private double m_turretTargetAngle = 0.0;
 
     public Swerve() {
@@ -172,6 +172,10 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     private double calculateFieldRelativeTargetAngle() {
+        if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
+            return 0.0;
+        }
+
         Pose2d robotPose = getCurrentPose();
         Translation2d turretGlobal = getTurretGlobal();
         double robotX = robotPose.getMeasureX().baseUnitMagnitude();
@@ -375,11 +379,11 @@ public class Swerve extends CommandSwerveDrivetrain {
         super.periodic();
         if (RED_ALLIANCE.isPresent()) {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
+            shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
+                    isNotMovingTooFastOrTurning());
+            hubPose = getHubPose();
+            m_turretTargetAngle = calculateFieldRelativeTargetAngle();
         }
-        shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
-                isNotMovingTooFastOrTurning());
-        hubPose = getHubPose();
-        m_turretTargetAngle = calculateFieldRelativeTargetAngle();
     }
 
     public void configureRequestPID() {
