@@ -44,6 +44,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose;
+    private double m_turretTargetAngle = 0.0;
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -166,8 +167,12 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
     }
 
-    public double calculateFieldRelativeTargetAngle() {
-        Pose2d robotPose = Subsystems.swerve.getCurrentPose();
+    public double getFieldRelativeTargetAngle() {
+        return m_turretTargetAngle;
+    }
+
+    private double calculateFieldRelativeTargetAngle() {
+        Pose2d robotPose = getCurrentPose();
         Translation2d turretGlobal = getTurretGlobal();
         double robotX = robotPose.getMeasureX().baseUnitMagnitude();
         double robotY = robotPose.getMeasureY().baseUnitMagnitude();
@@ -374,6 +379,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
                 isNotMovingTooFastOrTurning());
         hubPose = getHubPose();
+        m_turretTargetAngle = calculateFieldRelativeTargetAngle();
     }
 
     public void configureRequestPID() {

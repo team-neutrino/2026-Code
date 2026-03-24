@@ -89,7 +89,7 @@ public class Turret extends SubsystemBase {
             updateWrap();
             m_adjustedTargetAngle = getAdjustedTargetAngle();
 
-            final double fieldRelativeTargetAngle = Subsystems.swerve.calculateFieldRelativeTargetAngle();
+            final double fieldRelativeTargetAngle = Subsystems.swerve.getFieldRelativeTargetAngle();
             final double translationRate = (fieldRelativeTargetAngle - m_previousFieldRelativeTargetAngle) / 0.020;
             m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
             final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
@@ -123,7 +123,7 @@ public class Turret extends SubsystemBase {
                 turrent_angle_global.getDegrees(),
                 -180.0,
                 180.0);
-        double angleDiff = turrent_angle_global_degrees - Subsystems.swerve.calculateFieldRelativeTargetAngle();
+        double angleDiff = turrent_angle_global_degrees - Subsystems.swerve.getFieldRelativeTargetAngle();
         double closeTarget;
         if (Math.abs(angleDiff) < Math
                 .abs(GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
@@ -165,7 +165,7 @@ public class Turret extends SubsystemBase {
     }
 
     private double calculateRobotRelativeTargetAngle() {
-        return Subsystems.swerve.calculateFieldRelativeTargetAngle()
+        return Subsystems.swerve.getFieldRelativeTargetAngle()
                 - Subsystems.swerve.getCurrentPose().getRotation().getDegrees();
     }
 
