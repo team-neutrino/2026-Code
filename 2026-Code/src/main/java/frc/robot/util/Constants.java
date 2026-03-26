@@ -336,6 +336,11 @@ public class Constants {
 
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
+
+        public static final Pose2d NEUTRAL_INTAKE_TOP = new Pose2d(8.275, 7.2, new Rotation2d(-100));
+        public static final Pose2d NEUTRAL_INTAKE_BOTTOM = new Pose2d(8.275, 0.869326, new Rotation2d(100));
+
+        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(NEUTRAL_INTAKE_BOTTOM, NEUTRAL_INTAKE_TOP);
     }
 
     public static class FieldMeasurementConstants {
