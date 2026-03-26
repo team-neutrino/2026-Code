@@ -13,35 +13,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "race",
+                      "type": "path",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Far - 1R"
-                            }
-                          },
-                          {
-                            "type": "sequential",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 2.0
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "deployAndRunIntake"
-                                  }
-                                }
-                              ]
-                            }
-                          }
-                        ]
+                        "pathName": "Near - 1R"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Unbeach"
                       }
                     },
                     {
@@ -49,15 +29,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          },
-                          {
                             "type": "path",
                             "data": {
                               "pathName": "Far - 2R"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -81,64 +61,7 @@
                           }
                         ]
                       }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 5.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "DriveToPoint"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
+                    },
                     {
                       "type": "race",
                       "data": {
@@ -146,22 +69,16 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "name": "Unbeach"
                             }
                           },
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": null
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Loop Back - 2L"
                       }
                     }
                   ]
@@ -187,9 +104,53 @@
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Outpost After Neutral"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
-                  "name": "DriveToPoint"
+                  "name": "deployAndRunIntake"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "feedShooter"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
                 }
               },
               {
@@ -201,7 +162,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "feedShooter"
+                  "name": "noDrive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
                 }
               }
             ]
@@ -211,6 +178,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Neutral Zone Test",
+  "folder": "Neutral Zone",
   "choreoAuto": false
 }

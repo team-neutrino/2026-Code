@@ -230,7 +230,6 @@ public class Constants {
         public static final double ERROR_FACTOR_LL3 = 0.09;
         public static final double ERROR_FACTOR_LL3G = 0.07;
 
-        public static final double BUMP_MINIMUM_THRESHOLD = 4.0;
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
         public static final double MT1_WEIGHT_YAW = .7;
         public static final double PIGEON_SEED_PERIOD = 3.0;
@@ -250,12 +249,12 @@ public class Constants {
         public static final double ROTATIONAL_P = 6.0;
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
-        public static final double NO_SHOOT_TILT = 10.0;
         public static final double CONVERGENCE_ITERATIONS = 3.0;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
+        public static final double BEACHED_ANGLE = 5;
     }
 
     public static class DriveToPointConstants {
@@ -329,11 +328,11 @@ public class Constants {
                 BLUE_CLIMB_RIGHT);
         public static final List<Pose2d> RED_CLIMB_POSES = List.of(RED_CLIMB_LEFT, RED_CLIMB_CENTER, RED_CLIMB_RIGHT);
 
-        public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(3.1, 5, new Rotation2d(-135));
-        public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(3.1, 3, new Rotation2d(-135));
+        public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(2.75, 5.3, new Rotation2d(-135));
+        public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(2.75, 2.769326, new Rotation2d(-135));
 
-        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.1, 5, new Rotation2d(-135));
-        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.1, 3.0, new Rotation2d(-135));
+        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.790988, 5.3, new Rotation2d(-135));
+        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.790988, 2.769326, new Rotation2d(-135));
 
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
@@ -367,6 +366,7 @@ public class Constants {
     }
 
     public static class AutonConstants {
-        public static final String CURRENT_AUTON = "Over";
+        public static final double LOOP_DEGREES_ROTATED = 180;
+        public static final double SHOOTING_TIME = 7;
     }
 }

@@ -8,6 +8,7 @@ import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Constants.ShooterConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
+import static frc.robot.util.Constants.AutonConstants.*;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
+import frc.robot.util.Constants.AutonConstants;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 import frc.robot.util.Subsystems;
@@ -101,6 +103,10 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public ChassisSpeeds getChassisSpeeds() {
         return getState().Speeds;
+    }
+
+    public boolean isUpright() {
+        return (Math.abs(getRoll()) > 180 - BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE);
     }
 
     /**
@@ -372,6 +378,24 @@ public class Swerve extends CommandSwerveDrivetrain {
         return run(() -> {
             setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(0));
         });
+    }
+
+    public Command slowLoopRotate() {
+            double initial_yaw = getYaw360();
+            return run(() -> {
+                setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate((Math.PI / 180) * (5 * AutonConstants.LOOP_DEGREES_ROTATED/AutonConstants.SHOOTING_TIME))); // 1.5 * Rotation/Time : for loop path
+            }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getYaw360(), 5) || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getYaw360(), 5))).andThen(noDrive());
+        }
+
+    public Command unbeach() {
+        return run(() -> {
+            if ((getCurrentPose().getX() < ALLIANCE_ZONE_RED && getCurrentPose().getX() > MID_FIELD_X)
+                    || (getCurrentPose().getX() < ALLIANCE_ZONE_BLUE)) {
+                setControl(SwerveRequestStash.drive.withVelocityX(-3).withVelocityY(0).withRotationalRate(0));
+            } else {
+                setControl(SwerveRequestStash.drive.withVelocityX(3).withVelocityY(0).withRotationalRate(0));
+            }
+        }).until(() -> isUpright());
     }
 
     @Override
