@@ -205,21 +205,12 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public ChassisSpeeds getFieldRelativeChassisSpeeds() {
         Rotation2d angle = Rotation2d.fromDegrees(getYawDegrees());
-        ChassisSpeeds fieldSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(
-                getChassisSpeeds(), angle);
-
-        return new ChassisSpeeds(
-                Math.abs(joystickVx) <= MAX_SPEED * 0.06 ? 0 : fieldSpeeds.vxMetersPerSecond,
-                Math.abs(joystickVy) <= MAX_SPEED * 0.06 ? 0 : fieldSpeeds.vyMetersPerSecond,
-                fieldSpeeds.omegaRadiansPerSecond);
+        return ChassisSpeeds.fromRobotRelativeSpeeds(
+                getChassisSpeeds().vxMetersPerSecond,
+                getChassisSpeeds().vyMetersPerSecond,
+                getChassisSpeeds().omegaRadiansPerSecond,
+                angle);
     }
-
-    // return ChassisSpeeds.fromRobotRelativeSpeeds(
-    // getChassisSpeeds().vxMetersPerSecond,
-    // getChassisSpeeds().vyMetersPerSecond,
-    // getChassisSpeeds().omegaRadiansPerSecond,
-    // angle);
-    // }
 
     public Pose2d getHubPose() {
         Pose2d intialPose = BLUE_HUB;
@@ -380,11 +371,19 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public Command slowLoopRotate() {
-            double initial_yaw = getYaw360();
-            return run(() -> {
-                setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate((Math.PI / 180) * (5 * AutonConstants.LOOP_DEGREES_ROTATED/AutonConstants.SHOOTING_TIME))); // 1.5 * Rotation/Time : for loop path
-            }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getYaw360(), 5) || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getYaw360(), 5))).andThen(noDrive());
-        }
+        double initial_yaw = getYaw360();
+        return run(() -> {
+            setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(
+                    (Math.PI / 180) * (5 * AutonConstants.LOOP_DEGREES_ROTATED / AutonConstants.SHOOTING_TIME))); // 1.5
+                                                                                                                  // *
+                                                                                                                  // Rotation/Time
+                                                                                                                  // :
+                                                                                                                  // for
+                                                                                                                  // loop
+                                                                                                                  // path
+        }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getYaw360(), 5)
+                || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getYaw360(), 5))).andThen(noDrive());
+    }
 
     public Command unbeach() {
         return run(() -> {

@@ -78,7 +78,7 @@ public class Constants {
         public static final double CURRENT_SPIKE = 29.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double SHOOT_WHILE_MOVING_VELOCITY_STARTING_THRESHOLD = 1.0;
-        public static final double NOT_TURNING_THRESHOLD = 30;
+        public static final double NOT_TURNING_THRESHOLD = 90;
         public static final double SHOOTER_RPM_NOISE = 0.5;
 
         public static final double SOFT_SHOT_ANGLE = 20;
@@ -150,7 +150,7 @@ public class Constants {
         public static final double ACCELERATION_FF = 0.0;
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
-        public static final double TARGET_TOLERANCE = 3;
+        public static final double TARGET_TOLERANCE = 5;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
@@ -248,16 +248,16 @@ public class Constants {
         public static final double SLEW_LIMIT = 4.0;
         public static final double GYRO_SCALAR_Z = -2.4;
         public static final double MAX_SPEED = 5.7;
-        public static final double MAX_ROTATION_SPEED = 1.5 * Math.PI;
-        public static final double SLOW_MAX_ROTATION_SPEED = 2.0;
+        public static final double MAX_ROTATION_SPEED = 6.0; // 1.5 * Math.PI
+        public static final double SLOW_MAX_ROTATION_SPEED = 4.0;
         public static final double SLOW_MAX_SPEED = 1.5;
-        public static final double SLOWEST_MAX_ROTATION_SPEED = 1.0;
+        public static final double SLOWEST_MAX_ROTATION_SPEED = 2.0;
         public static final double SLOWEST_MAX_SPEED = 0.75;
         public static final double ROTATIONAL_P = 6.0;
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
         public static final double CONVERGENCE_ITERATIONS = 3.0;
-        public static final double SHOOT_WHILE_MOVING_THRESHOLD = 1.6;
+        public static final double SHOOT_WHILE_MOVING_THRESHOLD = 2;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
