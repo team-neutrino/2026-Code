@@ -351,11 +351,12 @@ public class Vision extends SubsystemBase {
         /** Determines whether conditions are safe for yaw reseeding. */
         private boolean verifyPigeonSeedUpdate() {
             return estimateMT1 != null
-                    && estimateMT1.tagCount > 1
+                    && ((estimateMT1.tagCount > 1) || (estimateMT1.tagCount == 1 && !m_enabled))
                     && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI / 4
                     && poseInField(estimateMT1)
                     && swerve.getSpeedMetersPerSecond() < PIGEON_SEED_XY_THRESHOLD
-                    && m_timer.hasElapsed(PIGEON_SEED_PERIOD);
+                    && m_timer.hasElapsed(PIGEON_SEED_PERIOD)
+                    && estimateMT1.avgTagDist < PIGEON_SEED_DISTANCE_THRESHOLD;
         }
 
         /** Seeds drivetrain yaw using MT1 measurement if conditions allow. */
