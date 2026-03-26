@@ -205,17 +205,21 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public ChassisSpeeds getFieldRelativeChassisSpeeds() {
         Rotation2d angle = Rotation2d.fromDegrees(getYawDegrees());
-        double vx = Math.abs(joystickVx) <= 0.342 ? 0
-                : getChassisSpeeds().vxMetersPerSecond;
-        double vy = Math.abs(joystickVy) <= 0.342 ? 0
-                : getChassisSpeeds().vyMetersPerSecond;
+        ChassisSpeeds fieldSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(
+                getChassisSpeeds(), angle);
 
-        return ChassisSpeeds.fromRobotRelativeSpeeds(
-                vx,
-                vy,
-                getChassisSpeeds().omegaRadiansPerSecond,
-                angle);
+        return new ChassisSpeeds(
+                Math.abs(joystickVx) <= MAX_SPEED * 0.06 ? 0 : fieldSpeeds.vxMetersPerSecond,
+                Math.abs(joystickVy) <= MAX_SPEED * 0.06 ? 0 : fieldSpeeds.vyMetersPerSecond,
+                fieldSpeeds.omegaRadiansPerSecond);
     }
+
+    // return ChassisSpeeds.fromRobotRelativeSpeeds(
+    // getChassisSpeeds().vxMetersPerSecond,
+    // getChassisSpeeds().vyMetersPerSecond,
+    // getChassisSpeeds().omegaRadiansPerSecond,
+    // angle);
+    // }
 
     public Pose2d getHubPose() {
         Pose2d intialPose = BLUE_HUB;
