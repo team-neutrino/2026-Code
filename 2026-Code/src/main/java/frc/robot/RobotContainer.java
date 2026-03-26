@@ -14,6 +14,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.util.Subsystems;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.util.Constants.DriveToPointConstants.NEUTRAL_ZONE_POSES;
 import static frc.robot.util.Constants.DriveToPointConstants.SHOOT_POSES;
 import static frc.robot.util.Subsystems.*;
 
@@ -74,7 +75,7 @@ public class RobotContainer {
   }
 
   private void configureNamedCommands() {
-    NamedCommands.registerCommand("DriveToPointFinite", SuperstructureFactory.DriveToPointFinite(SHOOT_POSES));
+    NamedCommands.registerCommand("DriveToPointFinite", SuperstructureFactory.DriveToPointFinite(NEUTRAL_ZONE_POSES));
     NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES, false));
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("retractIntake", intake.retractIntake());

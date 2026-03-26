@@ -50,6 +50,25 @@
                           {
                             "type": "named",
                             "data": {
+                              "name": "DriveToPointFinite"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
                               "name": "deployAndRunIntake"
                             }
                           },
