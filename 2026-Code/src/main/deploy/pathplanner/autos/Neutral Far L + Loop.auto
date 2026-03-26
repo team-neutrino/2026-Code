@@ -141,22 +141,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Copy of Rotate"
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Rotate"
-                      }
-                    }
-                  ]
+                  "name": "slowLoopRotate"
                 }
               }
             ]
@@ -290,7 +277,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noDrive"
+                  "name": "DriveToPoint"
                 }
               },
               {

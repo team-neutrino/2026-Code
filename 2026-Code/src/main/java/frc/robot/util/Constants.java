@@ -328,11 +328,11 @@ public class Constants {
                 BLUE_CLIMB_RIGHT);
         public static final List<Pose2d> RED_CLIMB_POSES = List.of(RED_CLIMB_LEFT, RED_CLIMB_CENTER, RED_CLIMB_RIGHT);
 
-        public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(3.1, 5.5, new Rotation2d(-135));
-        public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(3.1, 2.569326, new Rotation2d(-135));
+        public static final Pose2d BLUE_SHOOT_TOP = new Pose2d(2.75, 5.3, new Rotation2d(-135));
+        public static final Pose2d BLUE_SHOOT_BOTTOM = new Pose2d(2.75, 2.769326, new Rotation2d(-135));
 
-        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.440988, 5.5, new Rotation2d(-135));
-        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.440988, 2.569326, new Rotation2d(-135));
+        public static final Pose2d RED_SHOOT_TOP = new Pose2d(13.790988, 5.3, new Rotation2d(-135));
+        public static final Pose2d RED_SHOOT_BOTTOM = new Pose2d(13.790988, 2.769326, new Rotation2d(-135));
 
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
@@ -363,5 +363,10 @@ public class Constants {
     public static class AprilTagConstants {
         public static final List<Integer> ALL_HUB_TAGS = List.of(
                 2, 3, 4, 5, 8, 9, 10, 11, 18, 19, 20, 21, 24, 25, 26, 27);
+    }
+
+    public static class AutonConstants {
+        public static final double LOOP_DEGREES_ROTATED = 180;
+        public static final double SHOOTING_TIME = 7;
     }
 }

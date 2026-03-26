@@ -15,7 +15,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Near - 1L"
+                        "pathName": "Near - 1R"
                       }
                     },
                     {
@@ -31,7 +31,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Near - 2L"
+                              "pathName": "Near - 2R"
                             }
                           },
                           {
@@ -56,7 +56,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Near - 3L"
+                              "pathName": "Near - 3R"
                             }
                           }
                         ]
@@ -164,7 +164,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 1L"
+                              "pathName": "Loop Out In - 1R"
                             }
                           },
                           {
@@ -202,7 +202,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 2L"
+                              "pathName": "Loop Out In - 2R"
                             }
                           },
                           {
@@ -221,7 +221,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 3L"
+                              "pathName": "Loop Out In - 3R"
                             }
                           },
                           {
