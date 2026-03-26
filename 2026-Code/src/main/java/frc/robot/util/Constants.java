@@ -228,11 +228,11 @@ public class Constants {
         public static final double RIGHT_YAW_OFFSET = 273; // Yaw (degrees)
 
         public static final double MINIMUM_XY_STD_DEV_LL4 = 0.11;
-        public static final double MINIMUM_THETA_STD_DEV_LL4 = 0.02;
+        public static final double MINIMUM_THETA_STD_DEV_LL4 = 2;
         public static final double MINIMUM_XY_STD_DEV_LL3G = 0.15;
-        public static final double MINIMUM_THETA_STD_DEV_LL3G = 0.04;
+        public static final double MINIMUM_THETA_STD_DEV_LL3G = 4;
         public static final double MINIMUM_XY_STD_DEV_LL3 = 0.18;
-        public static final double MINIMUM_THETA_STD_DEV_LL3 = 0.06;
+        public static final double MINIMUM_THETA_STD_DEV_LL3 = 6;
         public static final double ERROR_FACTOR_LL4 = 0.05;
         public static final double ERROR_FACTOR_LL3 = 0.09;
         public static final double ERROR_FACTOR_LL3G = 0.07;
@@ -242,6 +242,7 @@ public class Constants {
         public static final double PIGEON_SEED_PERIOD = 3.0;
         public static final double PIGEON_SEED_XY_THRESHOLD = 0.2;
         public static final double EXTERNAL_WEIGHT = 0.01; // larger number (0-1) = lower trust in internal IMU
+        public static final double PIGEON_SEED_DISTANCE_THRESHOLD = 3.7;
     }
 
     public static class SwerveConstants {
