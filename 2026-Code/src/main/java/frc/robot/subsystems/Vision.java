@@ -64,8 +64,8 @@ public class Vision extends SubsystemBase {
     public Vision() {
         m_front = new Limelight(LL_FRONT, 4);
         m_back = new Limelight(LL_BACK, 4);
-        m_left = new Limelight(LL_LEFT, 3);
-        m_right = new Limelight(LL_RIGHT, 3.5);
+        m_left = new Limelight(LL_LEFT, 3.5);
+        m_right = new Limelight(LL_RIGHT, 3);
         limelights = new Limelight[] { m_front, m_back, m_left, m_right };
 
         m_timer.start();
