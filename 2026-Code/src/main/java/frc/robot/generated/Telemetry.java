@@ -110,8 +110,8 @@ public class Telemetry {
                 // driveModuleStates.set(state.ModuleStates);
                 // driveModuleTargets.set(state.ModuleTargets);
                 // driveModulePositions.set(state.ModulePositions);
-                driveTimestamp.set(state.Timestamp);
-                driveOdometryFrequency.set(1.0 / state.OdometryPeriod);
+                // driveTimestamp.set(state.Timestamp);
+                // driveOdometryFrequency.set(1.0 / state.OdometryPeriod);
 
                 /* Also write to log file */
                 // SignalLogger.writeStruct("DriveState/Pose", Pose2d.struct, state.Pose);

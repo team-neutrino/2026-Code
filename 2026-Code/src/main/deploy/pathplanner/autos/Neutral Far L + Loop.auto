@@ -29,15 +29,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": "Far - 2L"
+                              "name": "deployAndRunIntake"
                             }
                           },
                           {
                             "type": "named",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "name": "DriveToPointFinite"
                             }
                           }
                         ]

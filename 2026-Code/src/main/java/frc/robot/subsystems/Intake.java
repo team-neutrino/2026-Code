@@ -22,7 +22,8 @@ public class Intake extends SubsystemBase {
     private double m_rollerMotorVoltage;
     private TalonFXConfiguration m_rollerMotorConfig = new TalonFXConfiguration();
     private TalonFXConfiguration m_deployMotorConfig = new TalonFXConfiguration();
-    private final CurrentLimitsConfigs m_currentLimitConfig = new CurrentLimitsConfigs();
+    private final CurrentLimitsConfigs m_rollerCurrentLimitConfig = new CurrentLimitsConfigs();
+    private final CurrentLimitsConfigs m_deployCurrentLimitConfig = new CurrentLimitsConfigs();
     private double m_targetAngle;
     private boolean m_isDeployed = false;
     private boolean m_isShaking = false;
@@ -30,12 +31,16 @@ public class Intake extends SubsystemBase {
     private final VoltageOut m_rollerVoltageControl = new VoltageOut(0);
 
     public Intake() {
-        m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
+        m_deployCurrentLimitConfig.withSupplyCurrentLimit(DEPLOY_CURRENT_LIMIT)
                 .withSupplyCurrentLimitEnable(true)
-                .withStatorCurrentLimit(CURRENT_LIMIT)
+                .withStatorCurrentLimit(DEPLOY_CURRENT_LIMIT)
                 .withStatorCurrentLimitEnable(true);
-        m_rollerMotorConfig.CurrentLimits = m_currentLimitConfig;
-        m_deployMotorConfig.CurrentLimits = m_currentLimitConfig;
+        m_rollerCurrentLimitConfig.withSupplyCurrentLimit(ROLLER_CURRENT_LIMIT)
+                .withSupplyCurrentLimitEnable(true)
+                .withStatorCurrentLimit(ROLLER_CURRENT_LIMIT)
+                .withStatorCurrentLimitEnable(true);
+        m_deployMotorConfig.CurrentLimits = m_deployCurrentLimitConfig;
+        m_rollerMotorConfig.CurrentLimits = m_rollerCurrentLimitConfig;
 
         m_deployMotorConfig.Slot0.kP = INTAKE_kP;
         m_deployMotorConfig.Slot0.kI = INTAKE_kI;

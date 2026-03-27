@@ -29,9 +29,9 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": "Far - 2L"
+                              "name": "DriveToPointFinite"
                             }
                           },
                           {
@@ -137,22 +137,9 @@
                             }
                           },
                           {
-                            "type": "sequential",
+                            "type": "named",
                             "data": {
-                              "commands": [
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 0.25
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "shakeHopper"
-                                  }
-                                }
-                              ]
+                              "name": "shakeHopper"
                             }
                           }
                         ]
@@ -174,7 +161,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 0.1
                       }
                     },
                     {

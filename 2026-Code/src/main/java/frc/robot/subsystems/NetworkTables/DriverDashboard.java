@@ -38,6 +38,7 @@ public class DriverDashboard {
     private final Field2d field = new Field2d();
     MatchState matchState = new MatchState();
     private HubActiveStatus m_hubState;
+    private int m_count = 0;
 
     public DriverDashboard() {
         matchTimePub = matchTime.publish();
@@ -66,7 +67,7 @@ public class DriverDashboard {
     public void update() {
         final long now = NetworkTablesJNI.now();
 
-        if (m_hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+        if (m_hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent() && m_count % 10 == 0) {
             wonAuton = m_hubState.whoWonFirstAuton() == m_hubState.getAlliance();
             autonWonPub.set(wonAuton, now);
 
@@ -81,7 +82,8 @@ public class DriverDashboard {
                             || (m_hubState.isBlueHubActive() && m_hubState.getAlliance() == Alliance.BLUE), now);
             gameStatePub.set(matchState.getGameState(), now);
             shiftNumberPub.set(matchState.getCurrentShiftName(), now);
-            field.setRobotPose(swerve.getCurrentPose());
+            // field.setRobotPose(swerve.getCurrentPose());
         }
+        m_count++;
     }
 }

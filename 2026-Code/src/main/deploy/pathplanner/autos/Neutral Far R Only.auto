@@ -104,68 +104,6 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Outpost Align"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Outpost"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "shooterDefault"
@@ -178,32 +116,25 @@
                 }
               },
               {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
+                }
+              },
+              {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "race",
+                      "type": "wait",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.0
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
+                        "waitTime": 0.5
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "shakeHopper"
+                        "name": "feedShooter"
                       }
                     }
                   ]

@@ -34,8 +34,8 @@ public class SuperstructureFactory {
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {
-        DriveToPoint drive = new DriveToPoint(poses, true);
-        return drive.until(() -> swerve.getCurrentPose().getX() - drive.getTarget().getX() <= .1
-                && swerve.getCurrentPose().getY() - drive.getTarget().getY() <= .1);
+        DriveToPoint drive = new DriveToPoint(poses, false);
+        return drive.until(() -> Math.abs(swerve.getCurrentPose().getX() - drive.getTarget().getX()) <= .4
+                && Math.abs(swerve.getCurrentPose().getY() - drive.getTarget().getY()) <= .4);
     }
 }

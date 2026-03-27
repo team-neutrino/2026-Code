@@ -52,6 +52,8 @@ public class Vision extends SubsystemBase {
 
     private boolean m_enabled = false;
     private Timer m_timer = new Timer();
+    private Pose2d m_lastPose = new Pose2d();
+    private Pose2d m_currentPose = new Pose2d();
 
     private Limelight[] limelights;
 
@@ -160,6 +162,7 @@ public class Vision extends SubsystemBase {
         final double yaw_rate = swerve.getYawRate();
         final double pitch_rate = swerve.getPitchRate();
         final double roll_rate = swerve.getRollRate();
+        m_enabled = DriverStation.isEnabled();
 
         boolean better_limelight_found_two_hub_tags = false;
         for (Limelight limelight : limelights) {
@@ -175,8 +178,9 @@ public class Vision extends SubsystemBase {
             limelight.updateFusionMegatag();
             limelight.updatePigeonSeed();
             limelight.publishPose();
-            limelight.publishYaw();
+            // limelight.publishYaw();
             better_limelight_found_two_hub_tags = limelight.hasTwoHubTags();
+            m_lastPose = m_currentPose;
         }
     }
 
@@ -308,6 +312,12 @@ public class Vision extends SubsystemBase {
                 timestamp = estimateMT2.timestampSeconds;
             }
 
+            m_currentPose = pose;
+
+            if (m_currentPose.equals(m_lastPose)) {
+                return;
+            }
+
             if (m_last_vision_update_timestamp < timestamp) {
                 m_last_vision_update_timestamp = timestamp;
                 swerve.addVisionMeasurement(pose, timestamp,
@@ -361,7 +371,7 @@ public class Vision extends SubsystemBase {
 
         /** Seeds drivetrain yaw using MT1 measurement if conditions allow. */
         public void updatePigeonSeed() {
-            if (verifyPigeonSeedUpdate()) {
+            if (verifyPigeonSeedUpdate() && !m_currentPose.equals(m_lastPose)) {
                 swerve.seedYawMT1(estimateMT1.pose.getRotation().getDegrees(), MT1_WEIGHT_YAW);
                 m_timer.restart();
             }
@@ -506,7 +516,7 @@ public class Vision extends SubsystemBase {
                 m_updatedImuModeSinceEnabled = false;
                 LimelightHelpers.SetIMUMode(name, 1);
             } else if (model == 4 && !m_updatedImuModeSinceEnabled) {
-                LimelightHelpers.SetIMUMode(name, 4);
+                LimelightHelpers.SetIMUMode(name, 3);
                 m_updatedImuModeSinceEnabled = true;
             }
         }
