@@ -176,7 +176,8 @@ public class Constants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
 
-        public static final double CURRENT_LIMIT = 60;
+        public static final double ROLLER_CURRENT_LIMIT = 60;
+        public static final double DEPLOY_CURRENT_LIMIT = 35;
 
         public static final double INTAKE_VOLTAGE = 10;
         public static final double OUTTAKE_VOLTAGE = -10;
@@ -239,7 +240,7 @@ public class Constants {
 
         public static final double IGNORE_MEASUREMENT_STD_DEV = 999999999;
         public static final double MT1_WEIGHT_YAW = .7;
-        public static final double PIGEON_SEED_PERIOD = 3.0;
+        public static final double PIGEON_SEED_PERIOD = 1.0;
         public static final double PIGEON_SEED_XY_THRESHOLD = 0.2;
         public static final double EXTERNAL_WEIGHT = 0.01; // larger number (0-1) = lower trust in internal IMU
         public static final double PIGEON_SEED_DISTANCE_THRESHOLD = 3.7;
@@ -273,9 +274,9 @@ public class Constants {
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 
-        public static final double DRIVE_TO_POINT_P = 4;
+        public static final double DRIVE_TO_POINT_P = 6; // tuned up for dtpfinite
         public static final double DRIVE_TO_POINT_I = 0;
-        public static final double DRIVE_TO_POINT_D = 0.5;
+        public static final double DRIVE_TO_POINT_D = 0;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;
 
         public static final double SPLINE_MAX_SPEED = 3.0;
@@ -345,8 +346,8 @@ public class Constants {
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
 
-        public static final Pose2d NEUTRAL_INTAKE_TOP = new Pose2d(8.275, 7.2, new Rotation2d(-100));
-        public static final Pose2d NEUTRAL_INTAKE_BOTTOM = new Pose2d(8.275, 0.869326, new Rotation2d(100));
+        public static final Pose2d NEUTRAL_INTAKE_TOP = new Pose2d(8.27, 7.2, new Rotation2d(-100));
+        public static final Pose2d NEUTRAL_INTAKE_BOTTOM = new Pose2d(8.27, 0.869326, new Rotation2d(100));
 
         public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(NEUTRAL_INTAKE_BOTTOM, NEUTRAL_INTAKE_TOP);
     }
