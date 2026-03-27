@@ -65,7 +65,7 @@ public class RobotContainer {
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.b().whileTrue(SuperstructureFactory.shuttle());
     m_buttonController.x().whileTrue(index.feedShooter());
-    m_buttonController.y().whileTrue(SuperstructureFactory.spitFuel());
+    m_buttonController.y().whileTrue(index.noKickAndSpin());
     m_buttonController.povUp().toggleOnTrue(IntakeFactory.shakeHopper().repeatedly());
     m_buttonController.leftTrigger().onTrue(IntakeFactory.toggleIntake());
     m_buttonController.rightTrigger().whileTrue(SuperstructureFactory.shootOnly());
