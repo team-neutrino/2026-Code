@@ -43,17 +43,17 @@ public class IndexNT extends Index {
     @Override
     public void periodic() {
         super.periodic();
-        // final long now = NetworkTablesJNI.now();
+        final long now = NetworkTablesJNI.now();
 
-        // spindexerVoltagePub.set(getSpindexerCurrentVoltage(), now);
-        // spindexerTargetVoltagePub.set(getSpindexerTargetVoltage(), now);
+        spindexerVoltagePub.set(getSpindexerCurrentVoltage(), now);
+        spindexerTargetVoltagePub.set(getSpindexerTargetVoltage(), now);
 
-        // kickerVoltagePub.set(getKickerCurrentVoltage(), now);
-        // kickerTargetVoltagePub.set(getKickerTargetVoltage(), now);
+        kickerVoltagePub.set(getKickerCurrentVoltage(), now);
+        kickerTargetVoltagePub.set(getKickerTargetVoltage(), now);
 
-        // if (m_bpsTimer.hasElapsed(1)) {
-        // m_ballsPerSecondPub.set(getBallsPerSecond(), now);
-        // resetTimerAndCount();
-        // }
+        if (m_bpsTimer.hasElapsed(1)) {
+            m_ballsPerSecondPub.set(getBallsPerSecond(), now);
+            resetTimerAndCount();
+        }
     }
 }
