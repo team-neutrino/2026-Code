@@ -25,7 +25,7 @@ public class ShootWhileMovingEstimatedHubPose extends Swerve {
         super.periodic();
         final long now = NetworkTablesJNI.now();
 
-        m_estimatedPosePub.set(getHubPose(), now);
+        m_estimatedPosePub.set(getYakitTargetPose(), now);
 
     }
 }
