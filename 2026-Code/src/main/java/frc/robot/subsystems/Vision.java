@@ -172,7 +172,7 @@ public class Vision extends SubsystemBase {
 
             if (better_limelight_found_two_hub_tags) {
                 limelight.publishDefaultPose();
-                limelight.publishDefaultYaw();
+                // limelight.publishDefaultYaw();
                 break;
             }
             limelight.updateFusionMegatag();

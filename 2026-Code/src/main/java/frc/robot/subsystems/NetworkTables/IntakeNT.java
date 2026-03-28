@@ -46,19 +46,19 @@ public class IntakeNT extends Intake {
     @Override
     public void periodic() {
         super.periodic();
-        // final long now = NetworkTablesJNI.now();
+        final long now = NetworkTablesJNI.now();
 
-        // deployPositionPub.set(getMotorAngle(), now);
-        // targetDeployPositionPub.set(getTargetAngle(), now);
-        // rollerRPMPub.set(getRollerRPM(), now);
+        deployPositionPub.set(getMotorAngle(), now);
+        targetDeployPositionPub.set(getTargetAngle(), now);
+        rollerRPMPub.set(getRollerRPM(), now);
 
-        // if (m_deployPIDTuner.isDifferentValues(m_previousDeployKP,
-        // m_previousDeployKI, m_previousDeployKD)) {
-        // m_previousDeployKP = m_deployPIDTuner.getP();
-        // m_previousDeployKI = m_deployPIDTuner.getI();
-        // m_previousDeployKD = m_deployPIDTuner.getD();
-        // setIntakePID(m_deployPIDTuner.getP(), m_deployPIDTuner.getI(),
-        // m_deployPIDTuner.getD());
-        // }
+        if (m_deployPIDTuner.isDifferentValues(m_previousDeployKP,
+                m_previousDeployKI, m_previousDeployKD)) {
+            m_previousDeployKP = m_deployPIDTuner.getP();
+            m_previousDeployKI = m_deployPIDTuner.getI();
+            m_previousDeployKD = m_deployPIDTuner.getD();
+            setIntakePID(m_deployPIDTuner.getP(), m_deployPIDTuner.getI(),
+                    m_deployPIDTuner.getD());
+        }
     }
 }

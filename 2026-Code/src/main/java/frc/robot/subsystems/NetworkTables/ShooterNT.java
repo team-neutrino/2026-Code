@@ -162,45 +162,44 @@ public class ShooterNT extends Shooter {
         }
         final long now = NetworkTablesJNI.now();
 
-        // if (m_shooterPIDTuner.isDifferentValues(m_previousShootingKP,
-        // m_previousShootingKI, m_previousShootingKD)) {
-        // m_previousShootingKP = m_shooterPIDTuner.getP();
-        // m_previousShootingKI = m_shooterPIDTuner.getI();
-        // m_previousShootingKD = m_shooterPIDTuner.getD();
-        // setShooterPID(m_shooterPIDTuner.getP(), m_shooterPIDTuner.getI(),
-        // m_shooterPIDTuner.getD());
-        // }
+        if (m_shooterPIDTuner.isDifferentValues(m_previousShootingKP,
+                m_previousShootingKI, m_previousShootingKD)) {
+            m_previousShootingKP = m_shooterPIDTuner.getP();
+            m_previousShootingKI = m_shooterPIDTuner.getI();
+            m_previousShootingKD = m_shooterPIDTuner.getD();
+            setShooterPID(m_shooterPIDTuner.getP(), m_shooterPIDTuner.getI(),
+                    m_shooterPIDTuner.getD());
+        }
 
-        // if (m_hoodPIDTuner.isDifferentValues(m_previousHoodKP, m_previousHoodKI,
-        // m_previousHoodKD)) {
-        // m_previousHoodKP = m_hoodPIDTuner.getP();
-        // m_previousHoodKI = m_hoodPIDTuner.getI();
-        // m_previousHoodKD = m_hoodPIDTuner.getD();
-        // setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(),
-        // m_hoodPIDTuner.getD());
-        // }
+        if (m_hoodPIDTuner.isDifferentValues(m_previousHoodKP, m_previousHoodKI,
+                m_previousHoodKD)) {
+            m_previousHoodKP = m_hoodPIDTuner.getP();
+            m_previousHoodKI = m_hoodPIDTuner.getI();
+            m_previousHoodKD = m_hoodPIDTuner.getD();
+            setHoodPID(m_hoodPIDTuner.getP(), m_hoodPIDTuner.getI(),
+                    m_hoodPIDTuner.getD());
+        }
 
         setTuningDistance(m_distanceSubscriber.get());
         m_shooterSpeedPublisher.set(getShooterRPM(), now);
         m_shooterTargetPublisher.set(getTargetRPM(), now);
         m_hoodTargetPublisher.set(getTargetPosition(), now);
         m_hoodPositionPublisher.set(getHoodAngle(), now);
-        // m_hoodCurrentPublisher.set(getHoodCurrent(), now);
+        m_hoodCurrentPublisher.set(getHoodCurrent(), now);
         m_realDistancePublisher.set(swerve.getFromHubToTurret(), now);
-        // m_tuningAngle = m_targetAngleSubscriber.get();
-        // m_tuningSpeed = m_targetShooterRpmSubscriber.get();
+        m_tuningAngle = m_targetAngleSubscriber.get();
+        m_tuningSpeed = m_targetShooterRpmSubscriber.get();
         m_speedAtTargetPublisher.set(atTargetRPM());
         m_hoodAtTargetPublisher.set(atTargetPosition());
-        // m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone());
+        m_inAllianceZonePublisher.set(!swerve.inNeutralOrOpposingZone());
         m_notDrivingPublisher.set(swerve.isNotMovingTooFastOrTurning());
-        // if (hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent())
-        // {
-        // if (GlobalConstants.RED_ALLIANCE.get()) {
-        // m_hubActivePublisher.set(hubState.isRedHubActive(), now);
-        // } else {
-        // m_hubActivePublisher.set(hubState.isBlueHubActive(), now);
-        // }
-        // }
+        if (hubState.hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+            if (GlobalConstants.RED_ALLIANCE.get()) {
+                m_hubActivePublisher.set(hubState.isRedHubActive(), now);
+            } else {
+                m_hubActivePublisher.set(hubState.isBlueHubActive(), now);
+            }
+        }
     }
 
 }

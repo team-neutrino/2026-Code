@@ -10,7 +10,6 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringTopic;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import static frc.robot.util.Subsystems.swerve;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.HubActiveStatus;
 import frc.robot.util.HubActiveStatus.Alliance;
@@ -82,7 +81,6 @@ public class DriverDashboard {
                             || (m_hubState.isBlueHubActive() && m_hubState.getAlliance() == Alliance.BLUE), now);
             gameStatePub.set(matchState.getGameState(), now);
             shiftNumberPub.set(matchState.getCurrentShiftName(), now);
-            // field.setRobotPose(swerve.getCurrentPose());
         }
         m_count++;
     }
