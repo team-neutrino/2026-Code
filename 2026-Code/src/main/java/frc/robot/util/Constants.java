@@ -120,6 +120,21 @@ public class Constants {
                 Map.entry(5.67, 1.43),
                 Map.entry(7.26, 1.69));
 
+        public static final InterpolatingDoubleTreeMap SHUTTLE_HOOD_INTERPOLATION = InterpolatingDoubleTreeMap
+                .ofEntries(
+                        Map.entry(0.0, 6.5),
+                        Map.entry(1.64, 10.0),
+                        Map.entry(2.33, 13.5),
+                        Map.entry(2.68, 15.0),
+                        Map.entry(3.36, 25.0),
+                        Map.entry(4.0, 25.0));
+
+        public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap
+                .ofEntries(
+                        Map.entry(3.7, 3150.0),
+                        Map.entry(4.48, 3400.0),
+                        Map.entry(7.0, 4330.0));
+
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
             HOOD_ANGLE_CORRECT,
@@ -363,6 +378,8 @@ public class Constants {
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_RED = new Pose2d(16.5, 2, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_TOP_BLUE = new Pose2d(0, 7, new Rotation2d(0));
         public static final Pose2d SHUTTLE_TARGET_BOTTOM_BLUE = new Pose2d(0, 1, new Rotation2d(0));
+        public static final Pose2d ALLIANCE_WALL_TARGET_RED = new Pose2d(16.5, 4.034663, new Rotation2d(0));
+        public static final Pose2d ALLIANCE_WALL_TARGET_BLUE = new Pose2d(0.0, 4.034663, new Rotation2d(0));
         public static final double ZERO = 0;
         public static final double FIELD_DIMENSION_X = 16.540988;
         public static final double FIELD_DIMENSION_Y = 8.069326;
