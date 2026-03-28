@@ -107,10 +107,11 @@ public class Intake extends SubsystemBase {
         });
     }
 
-    public Command moveIntakeIntermediate(double targetAngle) {
+    public Command moveIntakeIntermediate(double targetAngle, double speed) {
         return run(() -> {
             m_isShaking = true;
             m_targetAngle = targetAngle;
+            m_rollerMotorVoltage = speed;
         });
     }
 
