@@ -124,8 +124,9 @@ public class Constants {
                 .ofEntries(
                         Map.entry(2.0, 2900.0),
                         Map.entry(7.0, 3500.0),
-                        Map.entry(16.0, 5800.0),
-                        Map.entry(25.0, 6500.0));
+                        Map.entry(11.5, 4650.0),
+                        Map.entry(13.0, 8000.0),
+                        Map.entry(25.0, 8000.0));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,
