@@ -120,15 +120,6 @@ public class Constants {
                 Map.entry(5.67, 1.43),
                 Map.entry(7.26, 1.69));
 
-        public static final InterpolatingDoubleTreeMap SHUTTLE_HOOD_INTERPOLATION = InterpolatingDoubleTreeMap
-                .ofEntries(
-                        Map.entry(0.0, 6.5),
-                        Map.entry(1.64, 10.0),
-                        Map.entry(2.33, 13.5),
-                        Map.entry(2.68, 15.0),
-                        Map.entry(3.36, 25.0),
-                        Map.entry(4.0, 25.0));
-
         public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap
                 .ofEntries(
                         Map.entry(3.7, 3150.0),
