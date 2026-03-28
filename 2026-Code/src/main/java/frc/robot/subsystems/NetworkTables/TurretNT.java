@@ -67,10 +67,12 @@ public class TurretNT extends Turret {
             targetPositionPub.set(getAdjustedTargetAngle(), now);
         }
         scoreReadyPub.set(isAtTarget(), now);
-        turretPosePub.set(
-                new Pose2d(Subsystems.swerve.getCurrentPose().getX(), Subsystems.swerve.getCurrentPose().getY(),
-                        new Rotation2d(Subsystems.swerve.calculateFieldRelativeTargetAngle() * Math.PI / 180.0)),
-                now);
+        // turretPosePub.set(
+        // new Pose2d(Subsystems.swerve.getCurrentPose().getX(),
+        // Subsystems.swerve.getCurrentPose().getY(),
+        // new Rotation2d(Subsystems.swerve.calculateFieldRelativeTargetAngle() *
+        // Math.PI / 180.0)),
+        // now);
 
         // if (m_PIDTuner.isDifferentValues(m_previousP, m_previousI, m_previousD)) {
         // changePID(m_PIDTuner.getP(), m_PIDTuner.getI(), m_PIDTuner.getD());
