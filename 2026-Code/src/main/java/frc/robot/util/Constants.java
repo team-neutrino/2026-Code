@@ -122,9 +122,10 @@ public class Constants {
 
         public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap
                 .ofEntries(
-                        Map.entry(3.7, 3150.0),
-                        Map.entry(4.48, 3400.0),
-                        Map.entry(7.0, 4330.0));
+                        Map.entry(2.0, 2900.0),
+                        Map.entry(7.0, 3500.0),
+                        Map.entry(16.0, 5800.0),
+                        Map.entry(25.0, 6500.0));
 
         public static enum shooterConditions {
             SHOOTER_SPEED_CORRECT,

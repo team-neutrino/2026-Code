@@ -283,8 +283,8 @@ public class Shooter extends SubsystemBase {
 
     public Command shuttle() {
         return run(() -> {
-            m_targetAngle = HOOD_INTERPOLATION.get(swerve.getFromHubToTurret());
-            m_targetShooterRpm = SPEED_INTERPOLATION.get(swerve.getFromHubToTurret());
+            m_targetAngle = MAX_SAFE_HOOD_ANGLE;
+            m_targetShooterRpm = SHUTTLE_SPEED_INTERPOLATION.get(swerve.getFromHubToTurret());
         });
     }
 
