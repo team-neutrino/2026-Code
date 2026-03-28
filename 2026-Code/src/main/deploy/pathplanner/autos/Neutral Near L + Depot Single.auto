@@ -19,12 +19,6 @@
                       }
                     },
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "Unbeach"
-                      }
-                    },
-                    {
                       "type": "race",
                       "data": {
                         "commands": [
@@ -224,6 +218,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Neutral Zone",
+  "folder": "Neutral Zone Test",
   "choreoAuto": false
 }

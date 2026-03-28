@@ -378,11 +378,11 @@ public class Swerve extends CommandSwerveDrivetrain {
         return run(() -> {
             if ((getCurrentPose().getX() < ALLIANCE_ZONE_RED && getCurrentPose().getX() > MID_FIELD_X)
                     || (getCurrentPose().getX() < ALLIANCE_ZONE_BLUE)) {
-                setControl(SwerveRequestStash.drive.withVelocityX(-3).withVelocityY(0).withRotationalRate(0));
-            } else {
                 setControl(SwerveRequestStash.drive.withVelocityX(3).withVelocityY(0).withRotationalRate(0));
+            } else {
+                setControl(SwerveRequestStash.drive.withVelocityX(-3).withVelocityY(0).withRotationalRate(0));
             }
-        }).until(() -> true);
+        }).until(() -> isUpright());
     }
 
     @Override

@@ -20,12 +20,28 @@
         "y": 4.6
       },
       "prevControl": {
-        "x": 8.322836035884071,
-        "y": 4.8453807524458625
+        "x": 8.322835019709975,
+        "y": 4.845380950542918
       },
       "nextControl": {
-        "x": 7.959282163165132,
-        "y": 2.980487033857304
+        "x": 7.959288869914166,
+        "y": 2.9804857264167364
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.5,
+        "y": 5.5
+      },
+      "prevControl": {
+        "x": 6.4763414530188905,
+        "y": 5.5
+      },
+      "nextControl": {
+        "x": 4.5236585469811095,
+        "y": 5.5
       },
       "isLocked": false,
       "linkedName": null
@@ -33,11 +49,11 @@
     {
       "anchor": {
         "x": 3.1,
-        "y": 5.75
+        "y": 5.5
       },
       "prevControl": {
-        "x": 6.432743589743589,
-        "y": 5.744346153846155
+        "x": 4.1,
+        "y": 5.5
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,16 +62,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0053285968028391,
+      "waypointRelativePos": 1.0,
       "rotationDegrees": -119.99999999999999
     },
     {
-      "waypointRelativePos": 1.3074534161490643,
-      "rotationDegrees": 180.0
+      "waypointRelativePos": 1.3785425101214621,
+      "rotationDegrees": 150.0
     },
     {
-      "waypointRelativePos": 1.712309820193636,
-      "rotationDegrees": 150.0
+      "waypointRelativePos": 1.949392712550618,
+      "rotationDegrees": 135.0
     }
   ],
   "constraintZones": [
@@ -74,10 +90,10 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 1.7567849686847592,
-      "maxWaypointRelativePos": 1.8351373855120672,
+      "minWaypointRelativePos": 2.1,
+      "maxWaypointRelativePos": 2.65,
       "constraints": {
-        "maxVelocity": 2.5,
+        "maxVelocity": 2.25,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,

@@ -19,12 +19,6 @@
                       }
                     },
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "Unbeach"
-                      }
-                    },
-                    {
                       "type": "race",
                       "data": {
                         "commands": [
@@ -57,25 +51,6 @@
                             "type": "path",
                             "data": {
                               "pathName": "Far - 3R"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Unbeach"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
