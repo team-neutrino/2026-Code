@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.ShooterConstants.*;
-import static frc.robot.util.Subsystems.hubState;
 import static frc.robot.util.Subsystems.shooterArbiter;
 
 import frc.robot.util.Constants.RioConstants;
@@ -21,7 +20,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Subsystems.swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -283,6 +281,13 @@ public class Shooter extends SubsystemBase {
         });
     }
 
+    public Command shuttle() {
+        return run(() -> {
+            m_targetAngle = HOOD_INTERPOLATION.get(swerve.getFromHubToTurret());
+            m_targetShooterRpm = SPEED_INTERPOLATION.get(swerve.getFromHubToTurret());
+        });
+    }
+
     /**
      * A command to set the target shooting speed to a certain target.
      * 
@@ -323,22 +328,14 @@ public class Shooter extends SubsystemBase {
         );
     }
 
-    public Command shuttle() {
-        return run(() -> {
-            m_targetShooterRpm = SHUTTLE_SPEED_INTERPOLATION.get(swerve.getFromAllianceWallCenterToTurret());
-        });
-    }
-
     public Command defaultCommand() {
         return run(() -> {
             double hubDistance = swerve.getFromHubToTurret();
-
             if (swerve.inNeutralOrOpposingZone()) {
-                m_targetAngle = MAX_SAFE_HOOD_ANGLE;
+                m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
                 m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
                 return;
             }
-
             m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
             m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
 

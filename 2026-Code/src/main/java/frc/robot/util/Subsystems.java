@@ -11,7 +11,7 @@ public class Subsystems {
     public static final Intake intake = new Intake();
     public static final Index index = new Index();
     public static final Vision Vision = new Vision();
-    public static final Swerve swerve = new Swerve();
+    public static final Swerve swerve = new ShootWhileMovingEstimatedHubPose();
     public static final Shooter shooter = new Shooter();
     public static final Turret turret = new Turret();
 

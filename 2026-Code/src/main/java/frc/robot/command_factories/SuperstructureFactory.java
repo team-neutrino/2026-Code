@@ -16,12 +16,13 @@ import frc.robot.commands.DriveToPoint;
 
 /** Add your docs here. */
 public class SuperstructureFactory {
-    public static Command shuttle() {
-        return index.feedShooter().alongWith(shooter.shuttle());
-    }
 
     public static Command shootOnly() {
         return index.noKickAndSpin().alongWith(shooter.shootingSpeed(6000));
+    }
+
+    public static Command shuttle() {
+        return index.feedShooter().alongWith(shooter.shuttle());
     }
 
     public static Command spitFuel() {
