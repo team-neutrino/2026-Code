@@ -188,7 +188,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         return m_turretTargetAngle;
     }
 
-    private double calculateFieldRelativeTargetAngle() {
+    public double calculateFieldRelativeTargetAngle() {
         if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
             return 0.0;
         }
