@@ -325,17 +325,17 @@ public class Shooter extends SubsystemBase {
 
     public Command shuttle() {
         return run(() -> {
-            m_targetShooterRpm = SHUTTLE_SHOOTING_SPEED;
-            m_targetAngle = MAX_SAFE_HOOD_ANGLE;
+            m_targetShooterRpm = SHUTTLE_SPEED_INTERPOLATION.get(swerve.getFromAllianceWallCenterToTurret());
         });
     }
 
     public Command defaultCommand() {
         return run(() -> {
             double hubDistance = swerve.getFromHubToTurret();
+            double allianceWallDistance = swerve.getFromAllianceWallCenterToTurret();
 
             if (swerve.inNeutralOrOpposingZone()) {
-                m_targetAngle = MAX_SAFE_HOOD_ANGLE;
+                m_targetAngle = SHUTTLE_HOOD_INTERPOLATION.get(allianceWallDistance);
                 m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
                 return;
             }

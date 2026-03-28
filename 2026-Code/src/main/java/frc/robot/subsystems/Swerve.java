@@ -46,6 +46,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose = Pose2d.kZero;
+    private Pose2d m_allianceWallTarget = Pose2d.kZero;
     private double m_turretTargetAngle = 0.0;
     private CommandXboxController m_driverController;
     private double joystickVx;
@@ -164,6 +165,13 @@ public class Swerve extends CommandSwerveDrivetrain {
             return 0;
         }
         return hubPose.getTranslation().getDistance(getTurretGlobal());
+    }
+
+    public double getFromAllianceWallCenterToTurret() {
+        if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
+            return 0;
+        }
+        return m_allianceWallTarget.getTranslation().getDistance(getTurretGlobal());
     }
 
     public boolean inNeutralOrOpposingZone() {
@@ -404,6 +412,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
                     isNotMovingTooFastOrTurning());
             hubPose = getHubPose();
+            m_allianceWallTarget = RED_ALLIANCE.get() ? ALLIANCE_WALL_TARGET_RED : ALLIANCE_WALL_TARGET_BLUE;
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
         }
     }
