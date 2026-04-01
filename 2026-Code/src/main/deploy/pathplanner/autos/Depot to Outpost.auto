@@ -171,6 +171,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Depot",
+  "folder": "Competition",
   "choreoAuto": false
 }

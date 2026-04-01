@@ -186,6 +186,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Neutral Zone",
+  "folder": "Competition",
   "choreoAuto": false
 }

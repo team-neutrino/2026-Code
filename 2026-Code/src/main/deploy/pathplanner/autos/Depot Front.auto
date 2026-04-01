@@ -134,6 +134,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Depot",
+  "folder": "Test",
   "choreoAuto": false
 }
