@@ -8,8 +8,8 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import static frc.robot.util.Constants.ShooterConstants.SOFT_SHOT_ANGLE;
-import static frc.robot.util.Constants.ShooterConstants.SOFT_SHOT_SPEED;
+import static frc.robot.util.Constants.ShooterConstants.*;
+import static frc.robot.util.Constants.TurretConstants.*;
 import static frc.robot.util.Subsystems.*;
 
 import frc.robot.commands.DriveToPoint;
@@ -32,6 +32,10 @@ public class SuperstructureFactory {
 
     public static Command noShooting() {
         return index.noKickAndSpin();
+    }
+
+    public static Command programmedShot() {
+        return turret.setTargetAngleCommand(PROGRAMMED_SHOT_POSE).alongWith(shooter.programmedShot());
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {

@@ -164,6 +164,7 @@ public class Constants {
         public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
         public static final double TURRET_TRACKING_ROTATION_KV = 22.0;
         public static final double TURRET_LATENCY = 0.0;
+        public static final double PROGRAMMED_SHOT_POSE = 0.0;
     }
 
     public static class IndexConstants {
