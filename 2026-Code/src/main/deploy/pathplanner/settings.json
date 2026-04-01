@@ -9,11 +9,9 @@
     "Other"
   ],
   "autoFolders": [
-    "Depot",
-    "Neutral Zone",
-    "Neutral Zone Test",
-    "Nothing",
-    "Outpost"
+    "Competition",
+    "Test",
+    "Nothing"
   ],
   "defaultMaxVel": 5.45,
   "defaultMaxAccel": 3.0,
