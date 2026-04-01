@@ -382,6 +382,8 @@ public class Constants {
         public static final double BLUE_DEPOT_BUMP_ALLIANCE_X = 4.061714;
         public static final double RED_DEPOT_BUMP_NEUTRAL_X = 11.318494;
         public static final double RED_DEPOT_BUMP_ALLIANCE_X = 12.479274;
+        public static final double BLUE_BUMP_CENTER_X = 4.625594;
+        public static final double RED_BUMP_CENTER_X = 11.915394;
         public static final double DEPOT_BUMP_Y = 6.477508;
         public static final double OUTPOST_BUMP_Y = 1.53289;
     }

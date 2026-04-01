@@ -15,6 +15,7 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.configs.GyroTrimConfigs;
+import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
@@ -54,6 +55,7 @@ public class Swerve extends CommandSwerveDrivetrain {
                 TunerConstants.BackRight);
 
         getPigeon2().getConfigurator().apply(new GyroTrimConfigs().withGyroScalarZ(GYRO_SCALAR_Z));
+        getPigeon2().getConfigurator().apply(new MountPoseConfigs().withMountPoseRoll(180));
 
         configureRequestPID();
         // if the robot power was never killed but code was redeployed/rebooted then the
@@ -104,7 +106,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public boolean isUpright() {
-        return (Math.abs(getRoll()) > 180 - BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE);
+        return (Math.abs(getRoll()) < BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE);
     }
 
     /**
@@ -372,22 +374,17 @@ public class Swerve extends CommandSwerveDrivetrain {
     public Command slowLoopRotate() {
         double initial_yaw = getYaw360();
         return run(() -> {
-            setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(
-                    (Math.PI / 180) * (5 * AutonConstants.LOOP_DEGREES_ROTATED / AutonConstants.SHOOTING_TIME))); // 1.5
-                                                                                                                  // *
-                                                                                                                  // Rotation/Time
-                                                                                                                  // :
-                                                                                                                  // for
-                                                                                                                  // loop
-                                                                                                                  // path
+            // setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(
+            // (Math.PI / 180) * (1.5 * AutonConstants.LOOP_DEGREES_ROTATED /
+            // AutonConstants.SHOOTING_TIME)));
+            setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(0));
         }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getYaw360(), 5)
                 || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getYaw360(), 5))).andThen(noDrive());
     }
 
     public Command unbeach() {
         return run(() -> {
-            if ((getCurrentPose().getX() < ALLIANCE_ZONE_RED && getCurrentPose().getX() > MID_FIELD_X)
-                    || (getCurrentPose().getX() < ALLIANCE_ZONE_BLUE)) {
+            if ((getCurrentPose().getX() > BLUE_BUMP_CENTER_X && getCurrentPose().getX() < RED_BUMP_CENTER_X)) {
                 setControl(SwerveRequestStash.drive.withVelocityX(3).withVelocityY(0).withRotationalRate(0));
             } else {
                 setControl(SwerveRequestStash.drive.withVelocityX(-3).withVelocityY(0).withRotationalRate(0));
