@@ -121,8 +121,7 @@ public class Constants {
                 Map.entry(5.67, 1.43),
                 Map.entry(7.26, 1.69));
 
-        public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap
-                .ofEntries(
+        public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap.ofEntries(
                         Map.entry(2.0, 2900.0),
                         Map.entry(7.0, 3500.0),
                         Map.entry(11.5, 4650.0),

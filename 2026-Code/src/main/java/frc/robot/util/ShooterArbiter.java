@@ -44,6 +44,7 @@ public class ShooterArbiter {
         // }
         // }
         // uncomment for debugging
+
         return !(m_conditions.containsValue(false));
     }
 
@@ -57,5 +58,14 @@ public class ShooterArbiter {
      */
     public void setCondition(shooterConditions condition, boolean newValue) {
         m_conditions.put(condition, newValue);
+    }
+
+    /**
+     * Gets a singular value from the shooter arbiter.
+     * @param condition A value from the shooterConditions enum.
+     * @return A boolean value from the shooter arbiter.
+     */
+    public boolean getCondition(shooterConditions condition) {
+        return m_conditions.get(condition);
     }
 }

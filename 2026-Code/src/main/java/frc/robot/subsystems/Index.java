@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants.RioConstants;
+import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
 import static frc.robot.util.Constants.IndexConstants.*;
 import static frc.robot.util.Subsystems.shooterArbiter;
@@ -136,6 +137,18 @@ public class Index extends SubsystemBase {
         return run(() -> {
             m_spindexerMotorVoltage = INDEXING_VOLTAGE;
             m_kickerMotorVoltage = KICKER_VOLTAGE;
+        });
+    }
+
+    public Command shuttle() {
+        return run(() -> {
+            if (shooterArbiter.getCondition(shooterConditions.TURRET_ANGLE_CORRECT)) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+                m_kickerMotorVoltage = KICKER_VOLTAGE;
+            } else {
+                m_spindexerMotorVoltage = 0.0;
+                m_kickerMotorVoltage = 0.0;
+            }
         });
     }
 
