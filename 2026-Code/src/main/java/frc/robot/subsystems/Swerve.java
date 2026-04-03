@@ -374,10 +374,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     public Command slowLoopRotate() {
         double initial_yaw = getYaw360();
         return run(() -> {
-            // setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(
-            // (Math.PI / 180) * (1.5 * AutonConstants.LOOP_DEGREES_ROTATED /
-            // AutonConstants.SHOOTING_TIME)));
-            setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(0));
+            setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(
+                    (Math.PI / 180) * (1.5 * AutonConstants.LOOP_DEGREES_ROTATED /
+                            AutonConstants.SHOOTING_TIME)));
         }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getYaw360(), 5)
                 || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getYaw360(), 5))).andThen(noDrive());
     }
@@ -395,6 +394,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
+        System.out.println(getRoll());
         if (RED_ALLIANCE.isPresent()) {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,

@@ -1,0 +1,114 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Near - 1L"
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Far - 3L"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Unbeach"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "noDrive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Competition",
+  "choreoAuto": false
+}
