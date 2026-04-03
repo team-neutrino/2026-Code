@@ -123,7 +123,8 @@ public class Turret extends SubsystemBase {
                 turrent_angle_global.getDegrees(),
                 -180.0,
                 180.0);
-        double angleDiff = turrent_angle_global_degrees - Subsystems.swerve.getFieldRelativeTargetAngle();
+        double angleDiff = turrent_angle_global_degrees
+                - (m_targetAngle + Subsystems.swerve.getCurrentPose().getRotation().getDegrees());
         double closeTarget;
         if (Math.abs(angleDiff) < Math
                 .abs(GlobalConstants.RED_ALLIANCE.get() ? (angleDiff <= 0 ? angleDiff + 360 : angleDiff - 360)
