@@ -171,6 +171,16 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
     }
 
+    public boolean inOpposingZone() {
+        double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude();
+
+        if (GlobalConstants.RED_ALLIANCE.isPresent() && GlobalConstants.RED_ALLIANCE.get()) {
+            return robotX < ALLIANCE_ZONE_BLUE;
+        } else {
+            return robotX > ALLIANCE_ZONE_RED;
+        }
+    }
+
     public double getFieldRelativeTargetAngle() {
         return m_turretTargetAngle;
     }
