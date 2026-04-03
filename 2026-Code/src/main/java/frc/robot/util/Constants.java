@@ -283,7 +283,7 @@ public class Constants {
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 
-        public static final double DRIVE_TO_POINT_P = 6; // tuned up for dtpfinite
+        public static final double DRIVE_TO_POINT_P = 10; // tuned up for dtpfinite
         public static final double DRIVE_TO_POINT_I = 0;
         public static final double DRIVE_TO_POINT_D = 0;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;
@@ -355,8 +355,8 @@ public class Constants {
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
 
-        public static final Pose2d NEUTRAL_INTAKE_TOP = new Pose2d(8.27, 7.2, new Rotation2d(-100));
-        public static final Pose2d NEUTRAL_INTAKE_BOTTOM = new Pose2d(8.27, 0.869326, new Rotation2d(100));
+        public static final Pose2d NEUTRAL_INTAKE_TOP = new Pose2d(8.27, 7.0, new Rotation2d(-100));
+        public static final Pose2d NEUTRAL_INTAKE_BOTTOM = new Pose2d(8.27, 1.069326, new Rotation2d(100));
 
         public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(NEUTRAL_INTAKE_BOTTOM, NEUTRAL_INTAKE_TOP);
     }

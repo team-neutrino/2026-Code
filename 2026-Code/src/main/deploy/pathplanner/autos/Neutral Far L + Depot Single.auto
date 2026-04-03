@@ -25,13 +25,13 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "DriveToPointFinite"
+                              "name": "deployAndRunIntake"
                             }
                           },
                           {
-                            "type": "named",
+                            "type": "path",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "pathName": "Far - 3L"
                             }
                           }
                         ]
@@ -44,13 +44,13 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "name": "Unbeach"
                             }
                           },
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": "Far - 3L"
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -87,9 +87,47 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 1.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noDrive"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
                             "type": "path",
                             "data": {
                               "pathName": "Depot Side after Neutral"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Depot Single"
                             }
                           },
                           {
@@ -136,7 +174,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 0.25
                       }
                     },
                     {

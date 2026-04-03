@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.275,
-        "y": 7.2
+        "x": 6.0,
+        "y": 5.9
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.275,
-        "y": 6.199999999999999
+        "x": 7.95947218259629,
+        "y": 6.241041369472183
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.275,
-        "y": 4.6
+        "x": 8.179429386590584,
+        "y": 4.688402282453637
       },
       "prevControl": {
-        "x": 8.322835019709975,
-        "y": 4.845380950542918
+        "x": 8.645221112696147,
+        "y": 5.7364336661911555
       },
       "nextControl": {
-        "x": 7.959288869914166,
-        "y": 2.9804857264167364
+        "x": 7.257901207115314,
+        "y": 2.614963878634274
       },
       "isLocked": false,
       "linkedName": null
@@ -62,11 +62,15 @@
   ],
   "rotationTargets": [
     {
+      "waypointRelativePos": 0.17005625270445723,
+      "rotationDegrees": 0.0
+    },
+    {
       "waypointRelativePos": 1.0,
       "rotationDegrees": -119.99999999999999
     },
     {
-      "waypointRelativePos": 1.3785425101214621,
+      "waypointRelativePos": 1.4538653366583523,
       "rotationDegrees": 150.0
     },
     {
@@ -77,10 +81,10 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.9403824521934765,
+      "minWaypointRelativePos": 0.37698833510073504,
+      "maxWaypointRelativePos": 1.2486744432661658,
       "constraints": {
-        "maxVelocity": 1.25,
+        "maxVelocity": 1.75,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -90,10 +94,10 @@
     },
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 2.1,
-      "maxWaypointRelativePos": 2.65,
+      "minWaypointRelativePos": 1.6439582297364448,
+      "maxWaypointRelativePos": 2.3408141962421674,
       "constraints": {
-        "maxVelocity": 2.25,
+        "maxVelocity": 1.75,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -120,7 +124,7 @@
   "folder": "Neutral",
   "idealStartingState": {
     "velocity": 5.0,
-    "rotation": -100.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

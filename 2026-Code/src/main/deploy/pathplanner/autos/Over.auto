@@ -41,6 +41,12 @@
               }
             ]
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "slowLoopRotate"
+          }
         }
       ]
     }
