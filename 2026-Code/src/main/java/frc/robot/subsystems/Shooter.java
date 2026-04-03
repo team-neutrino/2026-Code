@@ -350,7 +350,7 @@ public class Shooter extends SubsystemBase {
     public Command programmedShot() {
         return run(() -> {
             m_targetAngle = MAX_SAFE_HOOD_ANGLE;
-            m_targetShooterRpm = 3862;
+            m_targetShooterRpm = 3730;
         });
     }
 }
