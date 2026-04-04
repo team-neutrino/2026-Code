@@ -339,11 +339,10 @@ public class Shooter extends SubsystemBase {
             m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
             m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
 
-            // Manually tuning hood and speed
+            // // Manually tuning hood and speed
             // m_targetShooterRpm = m_tuningSpeed;
             // m_targetAngle = m_tuningAngle;
             // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, false);
-            // }
         });
     }
 
