@@ -35,7 +35,7 @@ public class SuperstructureFactory {
     }
 
     public static Command programmedShot() {
-        return turret.setTargetAngleCommand(PROGRAMMED_SHOT_POSE).alongWith(shooter.programmedShot());
+        return turret.setTargetAngleCommand(PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {

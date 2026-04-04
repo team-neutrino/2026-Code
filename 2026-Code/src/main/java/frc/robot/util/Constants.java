@@ -84,6 +84,7 @@ public class Constants {
         public static final double SOFT_SHOT_ANGLE = 20;
         public static final double SOFT_SHOT_SPEED = 1700;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
+        public static final double PROGRAMMED_SHOT_SPEED = 3730.0;
 
         public static final double SHUTTLE_SHOOTING_SPEED = 4000;
         public static final double MAX_SAFE_HOOD_ANGLE = 25;
@@ -164,7 +165,7 @@ public class Constants {
         public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
         public static final double TURRET_TRACKING_ROTATION_KV = 22.0;
         public static final double TURRET_LATENCY = 0.0;
-        public static final double PROGRAMMED_SHOT_POSE = 40;
+        public static final double PROGRAMMED_SHOT_ANGLE = 40.0;
     }
 
     public static class IndexConstants {
