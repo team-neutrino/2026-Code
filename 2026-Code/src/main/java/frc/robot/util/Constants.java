@@ -363,6 +363,8 @@ public class Constants {
     public static class FieldMeasurementConstants {
         public static final double ALLIANCE_ZONE_BLUE = 3.978;
         public static final double ALLIANCE_ZONE_RED = 12.563;
+        public static final double RED_TRENCH_X = 12.0;
+        public static final double BLUE_TRENCH_X = 4.5;
         public static final double MID_FIELD_Y = 4.034663;
         public static final double MID_FIELD_X = 8.270494;
         public static final Pose2d RED_HUB = new Pose2d(11.915394, 4.034663, new Rotation2d(0));
@@ -382,6 +384,8 @@ public class Constants {
         public static final double RED_DEPOT_BUMP_ALLIANCE_X = 12.479274;
         public static final double DEPOT_BUMP_Y = 6.477508;
         public static final double OUTPOST_BUMP_Y = 1.53289;
+        public static final double TRENCH_Y_LEFT = 7.0;
+        public static final double TRENCH_Y_RIGHT = 1.0;
     }
 
     public static class AprilTagConstants {
