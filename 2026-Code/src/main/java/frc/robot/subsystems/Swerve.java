@@ -25,6 +25,8 @@ import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,6 +43,7 @@ import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
+    private Debouncer m_beachDebouncer = new Debouncer(BEACH_DEBOUNCE_TIME, DebounceType.kBoth);
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose = Pose2d.kZero;
     private double m_turretTargetAngle = 0.0;
@@ -109,8 +112,9 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getState().Speeds;
     }
 
-    public boolean isUpright() {
-        return (Math.abs(getRoll()) < BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE);
+    public boolean notBeached() {
+        boolean notBeached = Math.abs(getRoll()) < BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE;
+        return m_beachDebouncer.calculate(notBeached);
     }
 
     /**
@@ -378,17 +382,17 @@ public class Swerve extends CommandSwerveDrivetrain {
     public Command unbeach() {
         return run(() -> {
             if ((getCurrentPose().getX() > BLUE_BUMP_CENTER_X && getCurrentPose().getX() < RED_BUMP_CENTER_X)) {
-                setControl(SwerveRequestStash.drive.withVelocityX(3).withVelocityY(0).withRotationalRate(0));
+                setControl(SwerveRequestStash.drive.withVelocityX(1).withVelocityY(0).withRotationalRate(0));
             } else {
-                setControl(SwerveRequestStash.drive.withVelocityX(-3).withVelocityY(0).withRotationalRate(0));
+                setControl(SwerveRequestStash.drive.withVelocityX(-1).withVelocityY(0).withRotationalRate(0));
             }
-        }).until(() -> isUpright());
+        }).until(() -> notBeached());
     }
 
     @Override
     public void periodic() {
         super.periodic();
-        System.out.println(getRoll());
+        System.out.println(notBeached());
         if (RED_ALLIANCE.isPresent()) {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
