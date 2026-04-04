@@ -39,4 +39,8 @@ public class SuperstructureFactory {
         return drive.until(() -> Math.abs(swerve.getCurrentPose().getX() - drive.getTarget().getX()) <= .5
                 && Math.abs(swerve.getCurrentPose().getY() - drive.getTarget().getY()) <= .5);
     }
+
+    public static Command feedUntilEmpty() {
+        return index.feedShooter().until(() -> index.isHopperEmpty());
+    }
 }
