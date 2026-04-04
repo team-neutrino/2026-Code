@@ -162,10 +162,13 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public boolean inNeutralOrOpposingZone() {
+        if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
+            return false;
+        }
         double robotX = getCurrentPose().getMeasureX().baseUnitMagnitude();
         double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude();
 
-        if (GlobalConstants.RED_ALLIANCE.isPresent() && GlobalConstants.RED_ALLIANCE.get()) {
+        if (GlobalConstants.RED_ALLIANCE.get()) {
             return robotX < ALLIANCE_ZONE_RED
                     && !((robotY > TRENCH_Y_LEFT || robotY < TRENCH_Y_RIGHT) && robotX > RED_TRENCH_X);
         } else {
