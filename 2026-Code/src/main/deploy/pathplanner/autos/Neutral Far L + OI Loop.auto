@@ -103,7 +103,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.1
+                        "waitTime": 0.25
                       }
                     },
                     {
@@ -116,9 +116,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "slowLoopRotate"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Adjust OI"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "noDrive"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -196,7 +209,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 3L"
+                              "pathName": "Loop OI - 3L"
                             }
                           },
                           {

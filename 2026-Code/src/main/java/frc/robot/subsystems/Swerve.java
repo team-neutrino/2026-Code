@@ -69,6 +69,10 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getPigeon2().getYaw().getValueAsDouble() % 360;
     }
 
+    public double getPoseYaw360() {
+        return getCurrentPose().getRotation().getDegrees() % 360;
+    }
+
     public double getPitch() {
         return getPigeon2().getPitch().getValueAsDouble();
     }
@@ -362,13 +366,13 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public Command slowLoopRotate() {
-        double initial_yaw = getYaw360();
+        double initial_yaw = getPoseYaw360();
         return run(() -> {
             setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(
                     (Math.PI / 180) * (1.5 * AutonConstants.LOOP_DEGREES_ROTATED /
                             AutonConstants.SHOOTING_TIME)));
-        }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getYaw360(), 5)
-                || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getYaw360(), 5))).andThen(noDrive());
+        }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getPoseYaw360(), 5)
+                || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getPoseYaw360(), 5))).andThen(noDrive());
     }
 
     public Command unbeach() {
