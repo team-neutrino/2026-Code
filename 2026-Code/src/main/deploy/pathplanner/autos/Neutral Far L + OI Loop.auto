@@ -79,24 +79,6 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 7.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shakeHopper"
-                }
-              },
-              {
                 "type": "sequential",
                 "data": {
                   "commands": [
@@ -109,10 +91,22 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "feedShooter"
+                        "name": "feedUntilEmpty"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
                 }
               },
               {

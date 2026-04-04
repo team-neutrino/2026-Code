@@ -129,6 +129,7 @@ public class Index extends SubsystemBase {
     @Override
     public void periodic() {
         checkEmptyHopper();
+        System.out.println(isHopperEmpty());
         calculateBallsPerSecond();
         setSpindexerVoltage();
         setKickerVoltage();
