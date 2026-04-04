@@ -84,25 +84,26 @@ public class Constants {
         public static final double SOFT_SHOT_ANGLE = 20;
         public static final double SOFT_SHOT_SPEED = 1700;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
+        public static final double PROGRAMMED_SHOT_SPEED = 3730.0;
 
         public static final double SHUTTLE_SHOOTING_SPEED = 4000;
         public static final double MAX_SAFE_HOOD_ANGLE = 25;
 
         public static final InterpolatingDoubleTreeMap HOOD_INTERPOLATION = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 6.5),
-                Map.entry(1.64, 10.0),
-                Map.entry(2.33, 13.5),
-                Map.entry(2.8, 15.0),
-                Map.entry(3.36, 25.0),
+                Map.entry(1.3, 6.0),
+                Map.entry(2.13, 10.5),
+                Map.entry(3.1, 18.0),
+                Map.entry(3.6, 25.0),
                 Map.entry(4.0, 25.0),
                 Map.entry(20.0, 25.0));
 
         public static final InterpolatingDoubleTreeMap SPEED_INTERPOLATION = InterpolatingDoubleTreeMap.ofEntries(
                 Map.entry(0.0, 3000.0),
-                Map.entry(3.7, 3000.0),
-                Map.entry(3.9, 3170.0),
-                Map.entry(5.22, 3500.0),
-                Map.entry(7.26, 4320.0));
+                Map.entry(3.1, 3000.0),
+                Map.entry(3.6, 3000.0),
+                Map.entry(4.54, 3400.0),
+                Map.entry(5.43, 3700.0));
 
         // may want to redo the current points in case an error was made
         public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
@@ -164,6 +165,7 @@ public class Constants {
         public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
         public static final double TURRET_TRACKING_ROTATION_KV = 22.0;
         public static final double TURRET_LATENCY = 0.0;
+        public static final double PROGRAMMED_SHOT_ANGLE = 40.0;
     }
 
     public static class IndexConstants {

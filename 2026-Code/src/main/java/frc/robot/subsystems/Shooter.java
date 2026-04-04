@@ -343,7 +343,13 @@ public class Shooter extends SubsystemBase {
             // m_targetShooterRpm = m_tuningSpeed;
             // m_targetAngle = m_tuningAngle;
             // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, false);
-            // }
+        });
+    }
+
+    public Command programmedShot() {
+        return run(() -> {
+            m_targetAngle = MAX_SAFE_HOOD_ANGLE;
+            m_targetShooterRpm = PROGRAMMED_SHOT_SPEED;
         });
     }
 }

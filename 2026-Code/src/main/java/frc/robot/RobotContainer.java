@@ -71,7 +71,7 @@ public class RobotContainer {
     m_buttonController.rightTrigger().whileTrue(SuperstructureFactory.shootOnly());
     m_buttonController.leftBumper().whileTrue(IntakeFactory.runIntake());
     m_buttonController.rightBumper().whileTrue(IntakeFactory.runOuttake());
-
+    m_buttonController.povRight().whileTrue(SuperstructureFactory.programmedShot());
   }
 
   private void configureNamedCommands() {
