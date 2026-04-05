@@ -85,7 +85,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
     NamedCommands.registerCommand("Unbeach", swerve.unbeach());
     NamedCommands.registerCommand("shakeHopper", IntakeFactory.shakeHopper().repeatedly());
-    NamedCommands.registerCommand("slowLoopRotate", swerve.slowLoopRotate());
     NamedCommands.registerCommand("feedUntilEmpty", SuperstructureFactory.feedUntilEmpty());
   }
 
