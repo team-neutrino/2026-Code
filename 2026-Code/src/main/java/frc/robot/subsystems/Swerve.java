@@ -8,7 +8,6 @@ import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Constants.ShooterConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
-import static frc.robot.util.Constants.AutonConstants.*;
 
 import java.io.IOException;
 
@@ -36,7 +35,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
 import frc.robot.generated.TunerConstants;
-import frc.robot.util.Constants.AutonConstants;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
