@@ -273,7 +273,7 @@ public class Constants {
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
-        public static final double BEACHED_ANGLE = 5;
+        public static final double BEACHED_ANGLE = 3.0;
     }
 
     public static class DriveToPointConstants {
@@ -284,7 +284,7 @@ public class Constants {
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 
-        public static final double DRIVE_TO_POINT_P = 10; // tuned up for dtpfinite
+        public static final double DRIVE_TO_POINT_P = 6; // tuned up for dtpfinite
         public static final double DRIVE_TO_POINT_I = 0;
         public static final double DRIVE_TO_POINT_D = 0;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;
@@ -391,10 +391,5 @@ public class Constants {
     public static class AprilTagConstants {
         public static final List<Integer> ALL_HUB_TAGS = List.of(
                 2, 3, 4, 5, 8, 9, 10, 11, 18, 19, 20, 21, 24, 25, 26, 27);
-    }
-
-    public static class AutonConstants {
-        public static final double LOOP_DEGREES_ROTATED = 180;
-        public static final double SHOOTING_TIME = 7;
     }
 }

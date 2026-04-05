@@ -43,7 +43,7 @@ import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
-    private Debouncer m_beachDebouncer = new Debouncer(BEACH_DEBOUNCE_TIME, DebounceType.kBoth);
+    private Debouncer m_beachDebouncer = new Debouncer(BEACH_DEBOUNCE_TIME, DebounceType.kFalling);
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose = Pose2d.kZero;
     private double m_turretTargetAngle = 0.0;
@@ -70,10 +70,6 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public double getYaw360() {
         return getPigeon2().getYaw().getValueAsDouble() % 360;
-    }
-
-    public double getPoseYaw360() {
-        return getCurrentPose().getRotation().getDegrees() % 360;
     }
 
     public double getPitch() {
@@ -369,16 +365,6 @@ public class Swerve extends CommandSwerveDrivetrain {
         });
     }
 
-    public Command slowLoopRotate() {
-        double initial_yaw = getPoseYaw360();
-        return run(() -> {
-            setControl(SwerveRequestStash.drive.withVelocityX(0).withVelocityY(0).withRotationalRate(
-                    (Math.PI / 180) * (1.5 * AutonConstants.LOOP_DEGREES_ROTATED /
-                            AutonConstants.SHOOTING_TIME)));
-        }).until(() -> (MathUtil.isNear(initial_yaw - LOOP_DEGREES_ROTATED, getPoseYaw360(), 5)
-                || MathUtil.isNear(initial_yaw + LOOP_DEGREES_ROTATED, getPoseYaw360(), 5))).andThen(noDrive());
-    }
-
     public Command unbeach() {
         return run(() -> {
             if ((getCurrentPose().getX() > BLUE_BUMP_CENTER_X && getCurrentPose().getX() < RED_BUMP_CENTER_X)) {
@@ -392,7 +378,6 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
-        System.out.println(notBeached());
         if (RED_ALLIANCE.isPresent()) {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
