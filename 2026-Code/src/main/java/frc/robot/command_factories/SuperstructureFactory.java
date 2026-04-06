@@ -22,7 +22,7 @@ public class SuperstructureFactory {
     }
 
     public static Command shuttle() {
-        return index.feedShooter().alongWith(shooter.shuttle());
+        return index.shuttle().alongWith(shooter.shuttle());
     }
 
     public static Command spitFuel() {

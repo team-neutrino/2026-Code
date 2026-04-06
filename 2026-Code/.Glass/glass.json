@@ -4,6 +4,9 @@
       "open": false
     },
     "transitory": {
+      "DriverDashboard": {
+        "open": true
+      },
       "shooter": {
         "open": true,
         "{tuning}hoodMotor": {
@@ -16,6 +19,8 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/AutoChooser": "String Chooser",
+      "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
@@ -29,7 +34,8 @@
     },
     "Server": {
       "open": true
-    }
+    },
+    "visible": true
   },
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
