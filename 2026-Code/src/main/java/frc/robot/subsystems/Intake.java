@@ -5,10 +5,12 @@ import static frc.robot.util.Constants.IntakeConstants.*;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,6 +20,7 @@ import frc.robot.util.Constants.RioConstants;
 public class Intake extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
     private TalonFX m_rollerMotor = new TalonFX(ROLLER_MOTOR_ID, m_CANbus);
+    private TalonFX m_rollerFollowerMotor = new TalonFX(FOLLOWER_MOTOR_ID, m_CANbus);
     private TalonFX m_deployMotor = new TalonFX(DEPLOY_MOTOR_ID, m_CANbus);
     private double m_rollerMotorVoltage;
     private TalonFXConfiguration m_rollerMotorConfig = new TalonFXConfiguration();
@@ -47,11 +50,16 @@ public class Intake extends SubsystemBase {
         m_deployMotorConfig.Slot0.kD = INTAKE_kD;
 
         m_rollerMotor.getConfigurator().apply(m_rollerMotorConfig);
+        m_rollerFollowerMotor.getConfigurator().apply(m_rollerMotorConfig);
         m_deployMotor.getConfigurator().apply(m_deployMotorConfig);
         m_rollerMotor.setNeutralMode(NeutralModeValue.Coast);
+        m_rollerFollowerMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setNeutralMode(NeutralModeValue.Coast);
         m_deployMotor.setPosition(0);
         m_rollerMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+        Follower followRequest = new Follower(ROLLER_MOTOR_ID, MotorAlignmentValue.Opposed);
+        m_rollerFollowerMotor.setControl(followRequest);
     }
 
     public double getMotorAngle() {

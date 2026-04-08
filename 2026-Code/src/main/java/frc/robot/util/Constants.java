@@ -121,7 +121,8 @@ public class Constants {
                 Map.entry(5.67, 1.43),
                 Map.entry(7.26, 1.69));
 
-        public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap.ofEntries(
+        public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap
+                .ofEntries(
                         Map.entry(2.0, 2900.0),
                         Map.entry(7.0, 3500.0),
                         Map.entry(11.5, 4650.0),
@@ -185,6 +186,7 @@ public class Constants {
     public static class IntakeConstants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
+        public static final int FOLLOWER_MOTOR_ID = 30;
 
         public static final double ROLLER_CURRENT_LIMIT = 60;
         public static final double DEPLOY_CURRENT_LIMIT = 35;
