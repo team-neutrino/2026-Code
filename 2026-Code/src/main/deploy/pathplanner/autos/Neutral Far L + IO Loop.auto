@@ -79,9 +79,35 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "sequential",
                 "data": {
-                  "waitTime": 5.0
+                  "commands": [
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "feedShooter"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 1.0
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "feedUntilEmpty"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -114,38 +140,6 @@
                     }
                   ]
                 }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "feedShooter"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.0
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "feedUntilEmpty"
-                      }
-                    }
-                  ]
-                }
               }
             ]
           }
@@ -165,7 +159,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop In Out - 1L"
+                              "pathName": "Loop - 1L"
                             }
                           },
                           {
@@ -222,7 +216,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop IO - 3L"
+                              "pathName": "Loop - 3L"
                             }
                           },
                           {
@@ -300,7 +294,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.25
+                        "waitTime": 0.1
                       }
                     },
                     {
