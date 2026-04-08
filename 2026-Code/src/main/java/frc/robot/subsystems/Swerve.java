@@ -245,6 +245,12 @@ public class Swerve extends CommandSwerveDrivetrain {
         return new Pose2d(adjustedHub, initialPose.getRotation());
     }
 
+    public boolean willShootInHub() {
+        Pose2d robotPose = getCurrentPose();
+
+        return robotPose.getY() > NET_TOP && robotPose.getY() < NET_BOTTOM;
+    }
+
     public double getSpeedMetersPerSecond() {
         return Math.sqrt(Math.pow(getChassisSpeeds().vxMetersPerSecond, 2)
                 + Math.pow(getChassisSpeeds().vyMetersPerSecond, 2));
