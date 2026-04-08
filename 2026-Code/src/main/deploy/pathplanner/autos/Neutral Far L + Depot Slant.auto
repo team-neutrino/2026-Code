@@ -13,13 +13,19 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Near - 1L"
+                      }
+                    },
+                    {
                       "type": "race",
                       "data": {
                         "commands": [
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Side 1"
+                              "pathName": "Far - 3L"
                             }
                           },
                           {
@@ -36,9 +42,9 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": "Depot Front 2"
+                              "name": "Unbeach"
                             }
                           },
                           {
@@ -49,7 +55,33 @@
                           }
                         ]
                       }
-                    },
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
                     {
                       "type": "race",
                       "data": {
@@ -57,26 +89,77 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Front 3"
+                              "pathName": "Depot Slant Entrance"
                             }
                           },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
                           {
                             "type": "sequential",
                             "data": {
                               "commands": [
                                 {
-                                  "type": "wait",
+                                  "type": "path",
                                   "data": {
-                                    "waitTime": 0.25
+                                    "pathName": "Depot Slant Intake"
                                   }
                                 },
                                 {
-                                  "type": "named",
+                                  "type": "race",
                                   "data": {
-                                    "name": "shakeHopper"
+                                    "commands": [
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.25
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "noDrive"
+                                        }
+                                      }
+                                    ]
                                   }
                                 }
                               ]
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Depot Side Return"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
                             }
                           }
                         ]
