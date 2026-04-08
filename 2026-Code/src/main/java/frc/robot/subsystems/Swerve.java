@@ -47,6 +47,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     private double m_turretTargetAngle = 0.0;
     private double joystickVx;
     private double joystickVy;
+    private double m_newPosePitch;
+    private double m_newPoseRoll;
+    private double m_beachedPose;
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -80,6 +83,14 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public double getRoll() {
         return getPigeon2().getRoll().getValueAsDouble();
+    }
+
+    public double getBeachedPitch() {
+        return Math.abs(REGULAR_PITCH - getPigeon2().getPitch().getValueAsDouble());
+    }
+
+    public double getBeachedRoll() {
+        return (REGULAR_ROLL - getPigeon2().getRoll().getValueAsDouble());
     }
 
     public double getYawRate() {
@@ -161,6 +172,14 @@ public class Swerve extends CommandSwerveDrivetrain {
     public double getFromHubToTurret() {
         if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
             return 0;
+        }
+        else if (!isUpright()) {
+            m_newPosePitch = Math.cos(getBeachedPitch())*DRIVEBASE;
+            m_newPoseRoll = Math.cos(getBeachedRoll())*DRIVEBASE;
+
+            m_beachedPose = hubPose.getTranslation().getDistance(getTurretGlobal()) + m_newPosePitch + m_newPoseRoll;
+
+            return m_beachedPose;
         }
         return hubPose.getTranslation().getDistance(getTurretGlobal());
     }
