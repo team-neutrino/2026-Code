@@ -158,7 +158,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 1L"
+                              "pathName": null
                             }
                           },
                           {
@@ -215,7 +215,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop OI - 3L"
+                              "pathName": "Loop - 3L"
                             }
                           },
                           {

@@ -159,7 +159,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 1L"
+                              "pathName": "Loop - 1L"
                             }
                           },
                           {
@@ -216,7 +216,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop OI - 3L"
+                              "pathName": "Loop - 3L"
                             }
                           },
                           {
@@ -294,7 +294,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.25
+                        "waitTime": 0.1
                       }
                     },
                     {

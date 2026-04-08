@@ -45,6 +45,6 @@ public class SuperstructureFactory {
     }
 
     public static Command feedUntilEmpty() {
-        return index.feedShooter().until(() -> index.isHopperEmpty());
+        return index.feedShooter().until(() -> true);
     }
 }
