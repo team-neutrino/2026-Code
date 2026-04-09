@@ -75,7 +75,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getPigeon2().getYaw().getValueAsDouble() % 360;
     }
 
-    public double getPitch() {
+    public double getRoll() {
         StatusSignal<Angle> PitchSignal = getPigeon2().getPitch();
         PitchSignal.refresh();
         return PitchSignal.getValueAsDouble();
@@ -85,18 +85,18 @@ public class Swerve extends CommandSwerveDrivetrain {
         return Math.toDegrees(getYawRadians());
     }
 
-    public double getRoll() {
+    public double getPitch() {
         StatusSignal<Angle> RollSignal = getPigeon2().getRoll();
         RollSignal.refresh();
         return RollSignal.getValueAsDouble();
     }
 
-    public double getNewPitchAngle() {
-        return (REGULAR_PITCH - getPitch());
+    public double getNewRollAngle() {
+        return ((Math.PI/2) - getPitch());
     }
 
-    public double getNewRollAngle() {
-        return (REGULAR_ROLL - getRoll());
+    public double getNewPitchAngle() {
+        return ((Math.PI/2) - getRoll());
     }
 
     public double getYawRate() {
@@ -169,7 +169,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public Translation2d getTurretGlobal() {
-        Translation2d turretTranslation = new Translation2d(TURRET_OFFSET_FRONT, TURRET_OFFSET_SIDE);
+        m_newPosePitch = (Math.cos(getNewPitchAngle())*TURRET_HEIGHT) + TURRET_OFFSET_FRONT;
+        m_newPoseRoll = (Math.cos(getNewRollAngle())*TURRET_HEIGHT) + TURRET_OFFSET_SIDE;
+        Translation2d turretTranslation = new Translation2d(m_newPoseRoll, m_newPosePitch);
         return getCurrentPose()
                 .getTranslation()
                 .plus(turretTranslation.rotateBy(new Rotation2d(getYawRadians())));
@@ -178,13 +180,6 @@ public class Swerve extends CommandSwerveDrivetrain {
     public double getFromHubToTurret() {
         if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
             return 0;
-        } else if (!notBeached()) {
-            m_newPosePitch = Math.cos(getNewPitchAngle()) * TURRET_HEIGHT;
-            m_newPoseRoll = Math.cos(getNewRollAngle()) * TURRET_HEIGHT;
-
-            m_beachedPose = hubPose.getTranslation().getDistance(getTurretGlobal()) + m_newPosePitch + m_newPoseRoll;
-
-            return m_beachedPose;
         }
         return hubPose.getTranslation().getDistance(getTurretGlobal());
     }

@@ -1,6 +1,7 @@
 package frc.robot.util;
 
 import static edu.wpi.first.units.Units.Meter;
+import static frc.robot.util.Constants.TurretConstants.TURRET_OFFSET_FRONT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -278,7 +279,8 @@ public class Constants {
         public static final double BEACHED_ANGLE = 5;
         public static final double REGULAR_ROLL = 90;
         public static final double REGULAR_PITCH = 90;
-        public static final double TURRET_HEIGHT = 0.6857999;
+        public static final double TURRET_HEIGHT = 20;
+
     }
 
     public static class DriveToPointConstants {
