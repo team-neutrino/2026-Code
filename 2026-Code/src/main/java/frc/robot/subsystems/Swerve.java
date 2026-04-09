@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.GyroTrimConfigs;
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
@@ -75,7 +76,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public double getPitch() {
-        return getPigeon2().getPitch().getValueAsDouble();
+        StatusSignal<Angle> PitchSignal = getPigeon2().getPitch();
+        PitchSignal.refresh();
+        return PitchSignal.getValueAsDouble();
     }
 
     public double getYawDegrees() {
@@ -83,7 +86,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public double getRoll() {
-        return getPigeon2().getRoll().refresh().getValueAsDouble();
+        StatusSignal<Angle> RollSignal = getPigeon2().getRoll();
+        RollSignal.refresh();
+        return RollSignal.getValueAsDouble();
     }
 
     public double getNewPitchAngle() {
