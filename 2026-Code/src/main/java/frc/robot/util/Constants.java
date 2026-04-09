@@ -276,9 +276,9 @@ public class Constants {
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
         public static final double BEACHED_ANGLE = 5;
-        public static final double REGULAR_ROLL = 0;
-        public static final double REGULAR_PITCH = 0;
-        public static final double DRIVEBASE = 0.673;
+        public static final double REGULAR_ROLL = 90;
+        public static final double REGULAR_PITCH = 90;
+        public static final double TURRET_HEIGHT = 0.6857999;
     }
 
     public static class DriveToPointConstants {

@@ -31,6 +31,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
@@ -82,15 +83,15 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public double getRoll() {
-        return getPigeon2().getRoll().getValueAsDouble();
+        return getPigeon2().getRoll().refresh().getValueAsDouble();
     }
 
-    public double getBeachedPitch() {
-        return Math.abs(REGULAR_PITCH - getPigeon2().getPitch().getValueAsDouble());
+    public double getNewPitchAngle() {
+        return (REGULAR_PITCH - getPitch());
     }
 
-    public double getBeachedRoll() {
-        return (REGULAR_ROLL - getPigeon2().getRoll().getValueAsDouble());
+    public double getNewRollAngle() {
+        return (REGULAR_ROLL - getRoll());
     }
 
     public double getYawRate() {
@@ -172,10 +173,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     public double getFromHubToTurret() {
         if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
             return 0;
-        }
-        else if (!isUpright()) {
-            m_newPosePitch = Math.cos(getBeachedPitch())*DRIVEBASE;
-            m_newPoseRoll = Math.cos(getBeachedRoll())*DRIVEBASE;
+        } else if (!notBeached()) {
+            m_newPosePitch = Math.cos(getNewPitchAngle()) * TURRET_HEIGHT;
+            m_newPoseRoll = Math.cos(getNewRollAngle()) * TURRET_HEIGHT;
 
             m_beachedPose = hubPose.getTranslation().getDistance(getTurretGlobal()) + m_newPosePitch + m_newPoseRoll;
 
@@ -411,6 +411,11 @@ public class Swerve extends CommandSwerveDrivetrain {
                     isNotMovingTooFastOrTurning());
             hubPose = getYakitTargetPose();
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
+
+            System.out.println("Get Beached Roll:" + getNewRollAngle());
+            System.out.println("Get Beached Pitch:" + getNewPitchAngle());
+            System.out.println("Get Roll:" + getRoll());
+            System.out.println("Get Pitch:" + getPitch());
         }
     }
 
