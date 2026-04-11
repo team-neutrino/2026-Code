@@ -13,76 +13,6 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Near - 1L"
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Far - 3L"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Unbeach"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
                       "type": "race",
                       "data": {
                         "commands": [
@@ -95,7 +25,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "shakeHopper"
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -138,35 +68,9 @@
                             }
                           },
                           {
-                            "type": "sequential",
+                            "type": "named",
                             "data": {
-                              "commands": [
-                                {
-                                  "type": "race",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "deployAfterShake"
-                                        }
-                                      },
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 0.5
-                                        }
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "deployAndRunIntake"
-                                  }
-                                }
-                              ]
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -199,12 +103,6 @@
                 "data": {
                   "name": "shooterDefault"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "indexDefault"
-                }
               }
             ]
           }
@@ -229,12 +127,6 @@
                 "type": "named",
                 "data": {
                   "name": "shakeHopper"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "indexDefault"
                 }
               }
             ]

@@ -78,6 +78,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("DriveToPointFinite", SuperstructureFactory.DriveToPointFinite(NEUTRAL_ZONE_POSES));
     NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES, false));
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
+    NamedCommands.registerCommand("deployAfterShake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("retractIntake", intake.retractIntake());
     NamedCommands.registerCommand("feedShooter", index.autonDefaultCommand());
     NamedCommands.registerCommand("noShoot", index.noKickAndSpin());
@@ -86,6 +87,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Unbeach", swerve.unbeach());
     NamedCommands.registerCommand("shakeHopper", IntakeFactory.shakeHopper().repeatedly());
     NamedCommands.registerCommand("feedUntilEmpty", SuperstructureFactory.feedUntilEmpty());
+    NamedCommands.registerCommand("indexDefault", index.defaultCommand());
   }
 
   public Command getAutonomousCommand() {
