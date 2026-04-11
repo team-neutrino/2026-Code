@@ -389,7 +389,6 @@ public class Constants {
         public static final double RED_BUMP_CENTER_X = 11.915394;
         public static final double DEPOT_BUMP_Y = 6.477508;
         public static final double OUTPOST_BUMP_Y = 1.53289;
-        public static final double FIELD_MIDLINE = 4.021328;
         public static final double NET_TOP = 4.763135;
         public static final double NET_BOTTOM = 3.279521;
     }
