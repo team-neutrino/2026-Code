@@ -162,7 +162,7 @@ public class Index extends SubsystemBase {
         return run(() -> {
             boolean inOpposingAlliance = swerve.inOpposingZone();
 
-            if (shooterArbiter.getCondition(shooterConditions.TURRET_ANGLE_CORRECT) && !swerve.willShootInHub()) {
+            if (shooterArbiter.getCondition(shooterConditions.TURRET_ANGLE_CORRECT) && !swerve.willShuttleIntoNet()) {
                 if (inOpposingAlliance) {
                     if (shooterArbiter.getCondition(shooterConditions.SHOOTER_SPEED_CORRECT)) {
                         m_spindexerMotorVoltage = INDEXING_VOLTAGE;

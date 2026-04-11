@@ -245,10 +245,21 @@ public class Swerve extends CommandSwerveDrivetrain {
         return new Pose2d(adjustedHub, initialPose.getRotation());
     }
 
-    public boolean willShootInHub() {
-        Pose2d robotPose = getCurrentPose();
+    public boolean willShuttleIntoNet() {
+        Translation2d robotPose = getTurretGlobal();
+        double midField = MID_FIELD_X;
 
-        return robotPose.getY() > NET_TOP && robotPose.getY() < NET_BOTTOM;
+        if (RED_ALLIANCE.isPresent() && RED_ALLIANCE.get()) {
+            if (robotPose.getX() < midField) {
+                return false;
+            }
+        } else {
+            if (robotPose.getX() > midField) {
+                return false;
+            }
+        }
+
+        return robotPose.getY() < NET_TOP && robotPose.getY() > NET_BOTTOM;
     }
 
     public double getSpeedMetersPerSecond() {
