@@ -393,6 +393,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
                     isNotMovingTooFastOrTurning());
+            shooterArbiter.setCondition(shooterConditions.IS_UPRIGHT, isUpright());
             hubPose = getYakitTargetPose();
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
         }
