@@ -106,9 +106,12 @@ public class Swerve extends CommandSwerveDrivetrain {
         return getState().Speeds;
     }
 
+    public boolean isUpright() {
+        return Math.abs(getRoll()) < BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE;
+    }
+
     public boolean notBeached() {
-        boolean notBeached = Math.abs(getRoll()) < BEACHED_ANGLE && Math.abs(getPitch()) < BEACHED_ANGLE;
-        return m_beachDebouncer.calculate(notBeached);
+        return m_beachDebouncer.calculate(isUpright());
     }
 
     /**
