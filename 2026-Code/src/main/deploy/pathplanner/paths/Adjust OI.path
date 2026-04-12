@@ -35,7 +35,7 @@
   "globalConstraints": {
     "maxVelocity": 2.0,
     "maxAcceleration": 1.5,
-    "maxAngularVelocity": 35.0,
+    "maxAngularVelocity": 45.0,
     "maxAngularAcceleration": 20.0,
     "nominalVoltage": 12.0,
     "unlimited": false

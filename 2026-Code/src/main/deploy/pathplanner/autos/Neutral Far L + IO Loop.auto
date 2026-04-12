@@ -89,7 +89,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "feedShooter"
+                              "name": "indexDefault"
                             }
                           },
                           {
@@ -102,9 +102,22 @@
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "race",
                       "data": {
-                        "name": "feedUntilEmpty"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "feedUntilEmpty"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 4.0
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -159,7 +172,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop - 1L"
+                              "pathName": "Loop In Out - 1L"
                             }
                           },
                           {
