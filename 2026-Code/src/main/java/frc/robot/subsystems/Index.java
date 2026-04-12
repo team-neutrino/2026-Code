@@ -165,6 +165,18 @@ public class Index extends SubsystemBase {
         });
     }
 
+    public Command feedUntilEmpty() {
+        return run(() -> {
+            if (shooterArbiter.readyToFire()) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+                m_kickerMotorVoltage = KICKER_VOLTAGE;
+            } else {
+                m_spindexerMotorVoltage = 0.0;
+                m_kickerMotorVoltage = 0.0;
+            }
+        }).until(() -> isHopperEmpty());
+    }
+
     public Command shuttle() {
         return run(() -> {
             boolean inOpposingAlliance = swerve.inOpposingZone();

@@ -13,13 +13,13 @@
     "Test",
     "Nothing"
   ],
-  "defaultMaxVel": 4.1,
+  "defaultMaxVel": 4.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
-  "robotMass": 61.235,
-  "robotMOI": 5.92943539,
+  "robotMass": 61.253114960218,
+  "robotMOI": 8.30526952,
   "robotTrackwidth": 0.55245,
   "driveWheelRadius": 0.0508,
   "driveGearing": 7.03125,
@@ -38,6 +38,6 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.524333661,\"y\":0.0},\"size\":{\"width\":0.663575,\"length\":0.181386226},\"borderRadius\":0.0,\"strokeWidth\":0.02,\"filled\":false}}"
+    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.5381625,\"y\":0.0},\"size\":{\"width\":0.6985,\"length\":0.21193125},\"borderRadius\":0.0,\"strokeWidth\":0.02,\"filled\":false}}"
   ]
 }
