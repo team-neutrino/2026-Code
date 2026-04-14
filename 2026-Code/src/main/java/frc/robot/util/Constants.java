@@ -186,7 +186,7 @@ public class Constants {
     public static class IntakeConstants {
         public static final int ROLLER_MOTOR_ID = 12;
         public static final int DEPLOY_MOTOR_ID = 13;
-        public static final int FOLLOWER_MOTOR_ID = 30;
+        public static final int FOLLOWER_MOTOR_ID = 31;
 
         public static final double ROLLER_CURRENT_LIMIT = 60;
         public static final double DEPLOY_CURRENT_LIMIT = 45;
