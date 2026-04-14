@@ -280,10 +280,10 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     private void configurePathPlanner() {
-        double pTranslation = 1;
+        double pTranslation = 6;
         double iTranslation = 0;
         double dTranslation = 0;
-        double pRotation = 1;
+        double pRotation = 3;
         double iRotation = 0;
         double dRotation = 0;
         PIDConstants translationConstants = new PIDConstants(pTranslation, iTranslation, dTranslation);
