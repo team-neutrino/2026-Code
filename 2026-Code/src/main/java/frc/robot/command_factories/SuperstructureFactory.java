@@ -21,6 +21,10 @@ public class SuperstructureFactory {
         return index.noKickAndSpin().alongWith(shooter.shootingSpeed(6000));
     }
 
+    public static Command shootAndReverseKicker() {
+        return index.reverseKicker().alongWith(shooter.shootingSpeed(6000));
+    }
+
     public static Command shuttle() {
         return index.shuttle().alongWith(shooter.shuttle());
     }
