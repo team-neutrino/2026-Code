@@ -68,7 +68,7 @@ public class RobotContainer {
     m_buttonController.y().whileTrue(index.noKickAndSpin());
     m_buttonController.povUp().toggleOnTrue(IntakeFactory.shakeHopper().repeatedly());
     m_buttonController.leftTrigger().onTrue(IntakeFactory.toggleIntake());
-    m_buttonController.rightTrigger().whileTrue(SuperstructureFactory.shootOnly());
+    m_buttonController.rightTrigger().whileTrue(SuperstructureFactory.shootAndReverseKicker());
     m_buttonController.leftBumper().whileTrue(IntakeFactory.runIntake());
     m_buttonController.rightBumper().whileTrue(IntakeFactory.runOuttake());
     m_buttonController.povRight().whileTrue(SuperstructureFactory.programmedShot());
@@ -79,7 +79,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES, false));
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("retractIntake", intake.retractIntake());
-    NamedCommands.registerCommand("feedShooter", index.feedShooter());
+    NamedCommands.registerCommand("feedShooter", index.autonDefaultCommand());
     NamedCommands.registerCommand("noShoot", index.noKickAndSpin());
     NamedCommands.registerCommand("shooterDefault", shooter.defaultCommand());
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
