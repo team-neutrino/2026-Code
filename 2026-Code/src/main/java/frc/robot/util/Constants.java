@@ -111,6 +111,7 @@ public class Constants {
                 Map.entry(1.52, 1.35),
                 Map.entry(2.0, 1.3),
                 Map.entry(2.4, 1.28),
+                Map.entry(2.58, 1.28),
                 Map.entry(2.8, 1.34),
                 Map.entry(3.22, 1.11),
                 Map.entry(3.58, 1.1),
@@ -150,7 +151,7 @@ public class Constants {
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 4;
+        public static final double ALLOWED_ERROR = 8;
         public static final double TRACKING_THRESHOLD = 67.0;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
@@ -159,11 +160,10 @@ public class Constants {
         public static final double ACCELERATION_FF = 0.0;
         public static final double MAX_WINDUP = 360;
         public static final double MIN_WINDUP = -180;
-        public static final double TARGET_TOLERANCE = 5;
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
-        public static final double TURRET_TRACKING_ROTATION_KV = 22.0;
+        public static final double TURRET_TRACKING_ROTATION_KV = 30.0;
         public static final double TURRET_LATENCY = 0.0;
         public static final double PROGRAMMED_SHOT_ANGLE = 40.0;
     }
