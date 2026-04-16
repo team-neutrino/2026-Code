@@ -13,6 +13,17 @@ public class HubActiveStatus {
     private Alliance inactiveFirst = null;
 
     public void update() {
+
+        if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+            if (GlobalConstants.RED_ALLIANCE.get()) {
+                Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+                        isRedHubActive());
+            } else {
+                Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+                        isBlueHubActive());
+            }
+        }
+
         if (inactiveFirst != null) {
             return;
         }
@@ -29,16 +40,6 @@ public class HubActiveStatus {
                 default:
                     System.out.println("Warning: no alliance selected to go inactive first");
                     break;
-            }
-
-            if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
-                if (GlobalConstants.RED_ALLIANCE.get()) {
-                    Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-                            isRedHubActive());
-                } else {
-                    Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-                            isBlueHubActive());
-                }
             }
         }
     }
