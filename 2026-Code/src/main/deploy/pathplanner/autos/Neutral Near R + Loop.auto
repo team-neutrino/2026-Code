@@ -226,25 +226,6 @@
                           }
                         ]
                       }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Unbeach"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
                     }
                   ]
                 }
@@ -265,7 +246,7 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
