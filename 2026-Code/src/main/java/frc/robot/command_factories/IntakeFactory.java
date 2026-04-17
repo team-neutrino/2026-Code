@@ -19,9 +19,7 @@ public class IntakeFactory {
     }
 
     public static Command shakeHopper() {
-        return intake.moveIntakeIntermediate(INTERMEDIATE_POSITION_1, INTAKE_VOLTAGE).until(() -> intake.isAtTarget())
-                .andThen(intake.moveIntakeIntermediate(INTERMEDIATE_POSITION_2, INTAKE_VOLTAGE)
-                        .until(() -> intake.isAtTarget()));
+        return intake.moveIntakeIntermediate(INTERMEDIATE_POSITION_1, INTAKE_VOLTAGE);
     }
 
     public static Command deployAndRunIntake() {
