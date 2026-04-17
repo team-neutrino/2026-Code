@@ -14,13 +14,10 @@ import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.util.AlphaSubsystem;
 import frc.robot.util.Constants;
-import frc.robot.util.Subsystems2026;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-    private RobotContainer m_robotContainer;
     private AlphaRobotContainer m_alphaRobotContainer;
 
     private final boolean isAlpha() {
@@ -33,11 +30,7 @@ public class Robot extends TimedRobot {
             .withJoystickReplay();
 
     public Robot() {
-        if (isAlpha()) {
-            m_alphaRobotContainer = new AlphaRobotContainer();
-        } else {
-            m_robotContainer = new RobotContainer();
-        }
+        m_alphaRobotContainer = new AlphaRobotContainer();
     }
 
     @Override
@@ -92,11 +85,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        if (isAlpha()) {
-            AlphaSubsystem.hubState.update();
-        } else {
-            Subsystems2026.hubState.update();
-        }
     }
 
     @Override

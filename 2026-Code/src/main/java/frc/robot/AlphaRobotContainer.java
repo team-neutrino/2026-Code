@@ -14,16 +14,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import frc.robot.commands.SplineToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.AlphaSubsystem;
-import frc.robot.util.Constants.DriveToPointConstants.TargetMode;
 
 import static frc.robot.util.AlphaSubsystem.*;
 
 public class AlphaRobotContainer {
-  private CommandXboxController m_buttonController = new CommandXboxController(1);
   private AlphaSubsystem m_subsystemContainer;
 
   private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -46,10 +43,6 @@ public class AlphaRobotContainer {
   }
 
   private void configureDefaultCommands() {
-    alphaShooter.setDefaultCommand(alphaShooter.defaultCommand());
-    alphaIntake.setDefaultCommand(alphaIntake.defaultCommand());
-    alphaKicker.setDefaultCommand(alphaKicker.defaultCommand());
-    alphabotVision.setDefaultCommand(alphabotVision.AlphabotVisionDefaultCommand());
     swerve.setDefaultCommand(
         // Drivetrain will execute this command periodically
         swerve.applyRequest(() -> drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with
@@ -67,17 +60,7 @@ public class AlphaRobotContainer {
   }
 
   private void configureBindings() {
-    m_buttonController.y().whileTrue(alphaShooter.runShooter());
-    m_buttonController.a().whileTrue(alphaKicker.runKicker());
-    m_buttonController.x().whileTrue(alphaIntake.runIntake());
-    m_buttonController.b().whileTrue(alphaIntake.runOuttake());
-
     m_driverController.start().whileTrue(swerve.resetYaw());
-    m_driverController.x().whileTrue(new SplineToPoint(m_driverController, TargetMode.SHOOTING));
-    m_driverController.y().whileTrue(new SplineToPoint(m_driverController, TargetMode.SHUTTLING));
-    // uncomment on real robot
-    // m_driverController.leftBumper()
-    // .whileTrue(new SplineToPoint(m_driverController, TargetMode.CLIMBING));
   }
 
   public Command getAutonomousCommand() {
