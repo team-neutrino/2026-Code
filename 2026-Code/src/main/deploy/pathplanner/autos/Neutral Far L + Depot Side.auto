@@ -138,9 +138,35 @@
                             }
                           },
                           {
-                            "type": "named",
+                            "type": "sequential",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "commands": [
+                                {
+                                  "type": "race",
+                                  "data": {
+                                    "commands": [
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "deployAfterShake"
+                                        }
+                                      },
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.5
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "deployAndRunIntake"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
