@@ -102,22 +102,9 @@
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "feedUntilEmpty"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 4.0
-                            }
-                          }
-                        ]
+                        "name": "feedUntilEmpty"
                       }
                     }
                   ]
