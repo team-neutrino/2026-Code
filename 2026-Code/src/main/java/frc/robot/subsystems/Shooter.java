@@ -346,6 +346,14 @@ public class Shooter extends SubsystemBase {
         });
     }
 
+    public Command autonDefaultCommand() {
+        return run(() -> {
+            double hubDistance = swerve.getFromHubToTurret();
+            m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
+            m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
+        });
+    }
+
     public Command programmedShot() {
         return run(() -> {
             m_targetAngle = MAX_SAFE_HOOD_ANGLE;

@@ -166,6 +166,7 @@ public class Index extends SubsystemBase {
     }
 
     public Command feedUntilEmpty() {
+        m_emptyHopper = false;
         return run(() -> {
             if (shooterArbiter.readyToFire()) {
                 m_spindexerMotorVoltage = INDEXING_VOLTAGE;
