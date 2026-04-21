@@ -9,80 +9,6 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": null
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": null
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "deployAndRunIntake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
                 "type": "sequential",
                 "data": {
                   "commands": [
@@ -93,38 +19,114 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": null
+                              "pathName": "Start Depot Side Entrance"
                             }
                           },
                           {
                             "type": "named",
                             "data": {
-                              "name": "noShoot"
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
                       }
                     },
                     {
-                      "type": "parallel",
+                      "type": "race",
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
+                            "type": "sequential",
                             "data": {
-                              "name": "feedShooter"
+                              "commands": [
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "Depot Side Intake"
+                                  }
+                                },
+                                {
+                                  "type": "race",
+                                  "data": {
+                                    "commands": [
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.25
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "noDrive"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
                             }
                           },
                           {
                             "type": "named",
                             "data": {
-                              "name": "noDrive"
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Depot Side Return"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
                             }
                           }
                         ]
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "noDrive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
                 }
               }
             ]
@@ -134,6 +136,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Test",
+  "folder": "Competition",
   "choreoAuto": false
 }

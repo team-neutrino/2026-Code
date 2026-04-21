@@ -23,34 +23,28 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
-                            "data": {
-                              "name": "DriveToPointFinite"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          },
-                          {
                             "type": "path",
                             "data": {
-                              "pathName": "Far - 3L"
+                              "pathName": "Steal - 2L"
+                            }
+                          },
+                          {
+                            "type": "sequential",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 1.0
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "deployAndRunIntake"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
@@ -108,7 +102,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Side after Neutral"
+                              "pathName": "Depot Side Entrance"
                             }
                           },
                           {
@@ -125,15 +119,67 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
+                            "type": "sequential",
                             "data": {
-                              "pathName": "Depot Single"
+                              "commands": [
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "Depot Side Intake"
+                                  }
+                                },
+                                {
+                                  "type": "race",
+                                  "data": {
+                                    "commands": [
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.25
+                                        }
+                                      },
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "noDrive"
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
                             }
                           },
                           {
-                            "type": "named",
+                            "type": "sequential",
                             "data": {
-                              "name": "deployAndRunIntake"
+                              "commands": [
+                                {
+                                  "type": "race",
+                                  "data": {
+                                    "commands": [
+                                      {
+                                        "type": "named",
+                                        "data": {
+                                          "name": "deployAfterShake"
+                                        }
+                                      },
+                                      {
+                                        "type": "wait",
+                                        "data": {
+                                          "waitTime": 0.5
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "deployAndRunIntake"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
@@ -146,7 +192,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot to Outpost"
+                              "pathName": "Depot Side Return"
                             }
                           },
                           {
@@ -174,7 +220,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.25
+                        "waitTime": 0.1
                       }
                     },
                     {
