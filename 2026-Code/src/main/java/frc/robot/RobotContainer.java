@@ -76,7 +76,7 @@ public class RobotContainer {
 
   private void configureNamedCommands() {
     NamedCommands.registerCommand("DriveToPointFinite", SuperstructureFactory.DriveToPointFinite(NEUTRAL_ZONE_POSES));
-    NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(SHOOT_POSES, false));
+    NamedCommands.registerCommand("DriveToPoint", new DriveToPoint(NEUTRAL_ZONE_POSES, true));
     NamedCommands.registerCommand("deployAndRunIntake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("deployAfterShake", IntakeFactory.deployAndRunIntake());
     NamedCommands.registerCommand("retractIntake", intake.retractIntake());
