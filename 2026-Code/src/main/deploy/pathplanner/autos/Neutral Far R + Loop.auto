@@ -50,7 +50,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Far - 3R"
+                              "pathName": null
                             }
                           }
                         ]
@@ -196,7 +196,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 2R"
+                              "pathName": null
                             }
                           },
                           {

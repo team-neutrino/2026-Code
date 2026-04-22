@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.swerve.SwerveRequest.NativeSwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -360,10 +361,12 @@ public class Constants {
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
 
-        public static final Pose2d NEUTRAL_INTAKE_TOP = new Pose2d(8.27, 7.0, new Rotation2d(-100));
-        public static final Pose2d NEUTRAL_INTAKE_BOTTOM = new Pose2d(8.27, 1.069326, new Rotation2d(100));
+        public static final Pose2d PAST_RED_DEPOT_BUMP = new Pose2d(5.75, 5.8, new Rotation2d(45));
+        public static final Pose2d PAST_RED_OUTPOST_BUMP = new Pose2d(5.75, 2.269326, new Rotation2d(-45));
+        public static final Pose2d PAST_BLUE_DEPOT_BUMP = new Pose2d(10.790988, 5.8, new Rotation2d(-135));
+        public static final Pose2d PAST_BLUE_OUTPOST_BUMP = new Pose2d(10.790988, 2.269326, new Rotation2d(135));
 
-        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(NEUTRAL_INTAKE_BOTTOM, NEUTRAL_INTAKE_TOP);
+        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BLUE_DEPOT_BUMP, PAST_BLUE_OUTPOST_BUMP, PAST_RED_DEPOT_BUMP, PAST_RED_OUTPOST_BUMP);
     }
 
     public static class FieldMeasurementConstants {

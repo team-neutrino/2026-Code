@@ -42,7 +42,7 @@ import frc.robot.util.MatchState;
 public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
-    private Debouncer m_beachDebouncer = new Debouncer(BEACH_DEBOUNCE_TIME, DebounceType.kFalling);
+    private Debouncer m_beachDebouncer = new Debouncer(BEACH_DEBOUNCE_TIME, DebounceType.kRising);
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose = Pose2d.kZero;
     private double m_turretTargetAngle = 0.0;
