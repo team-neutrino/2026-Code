@@ -60,10 +60,12 @@ public class Constants {
         public static final double SHOOTER_CURRENT_LIMIT = 40;
         public static final double HOOD_CURRENT_LIMIT = 30;
 
+        public static final double SHOOTER_GEAR_RATIO = 21.0 / 27.0;
+
         public static final double SHOOTING_KP = 0.63;
         public static final double SHOOTING_KI = 0.0;
         public static final double SHOOTING_KD = 0.0;
-        public static final double SHOOTING_KV = 0.118;
+        public static final double SHOOTING_KV = 0.118 * SHOOTER_GEAR_RATIO;
         public static final double HOOD_KP = 300;
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;

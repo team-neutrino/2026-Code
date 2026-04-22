@@ -81,6 +81,8 @@ public class Shooter extends SubsystemBase {
         m_hoodMotorConfig.Slot0.kD = HOOD_KD;
 
         m_shooterMotorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        m_shooterMotorConfig.Feedback.SensorToMechanismRatio = SHOOTER_GEAR_RATIO;
+
         m_hoodMotorConfig.Feedback.SensorToMechanismRatio = HOOD_GEAR_RATIO;
 
         m_shooterMotor.getConfigurator().apply(m_shooterMotorConfig);
