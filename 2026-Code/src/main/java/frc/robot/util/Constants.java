@@ -138,7 +138,6 @@ public class Constants {
             HUB_ACTIVE,
             IN_ALLIANCE_ZONE,
             SWERVE_SPEED_CORRECT,
-            IS_UPRIGHT,
         }
     }
 
