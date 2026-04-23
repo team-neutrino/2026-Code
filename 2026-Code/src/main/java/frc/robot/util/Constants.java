@@ -60,6 +60,8 @@ public class Constants {
         public static final double SHOOTER_CURRENT_LIMIT = 40;
         public static final double HOOD_CURRENT_LIMIT = 30;
 
+        public static final double SHOOTER_GEAR_RATIO = 21.0 / 27.0;
+
         public static final double SHOOTING_KP = 0.63;
         public static final double SHOOTING_KI = 0.0;
         public static final double SHOOTING_KD = 0.0;
@@ -365,7 +367,8 @@ public class Constants {
         public static final Pose2d PAST_BLUE_DEPOT_BUMP = new Pose2d(10.790988, 5.8, new Rotation2d(-135));
         public static final Pose2d PAST_BLUE_OUTPOST_BUMP = new Pose2d(10.790988, 2.269326, new Rotation2d(135));
 
-        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BLUE_DEPOT_BUMP, PAST_BLUE_OUTPOST_BUMP, PAST_RED_DEPOT_BUMP, PAST_RED_OUTPOST_BUMP);
+        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BLUE_DEPOT_BUMP, PAST_BLUE_OUTPOST_BUMP,
+                PAST_RED_DEPOT_BUMP, PAST_RED_OUTPOST_BUMP);
     }
 
     public static class FieldMeasurementConstants {
