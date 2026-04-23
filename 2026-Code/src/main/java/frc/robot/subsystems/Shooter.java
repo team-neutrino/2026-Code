@@ -344,6 +344,7 @@ public class Shooter extends SubsystemBase {
             // Manually tuning hood and speed
             // m_targetShooterRpm = m_tuningSpeed;
             // m_targetAngle = m_tuningAngle;
+
             // shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE, false);
         });
     }
