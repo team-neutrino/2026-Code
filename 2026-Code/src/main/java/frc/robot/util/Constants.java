@@ -156,7 +156,7 @@ public class Constants {
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
-        public static final double ALLOWED_ERROR = 8;
+        public static final double ALLOWED_ERROR = 6;
         public static final double TRACKING_THRESHOLD = 67.0;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
@@ -168,7 +168,7 @@ public class Constants {
         public static final double TURRET_OFFSET_FRONT = -0.154375;
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
-        public static final double TURRET_TRACKING_ROTATION_KV = 30.0;
+        public static final double TURRET_TRACKING_ROTATION_KV = 35;
         public static final double TURRET_LATENCY = 0.0;
         public static final double PROGRAMMED_SHOT_ANGLE = 40.0;
     }
@@ -276,7 +276,7 @@ public class Constants {
         public static final double ROTATIONAL_P = 6.0;
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
-        public static final double CONVERGENCE_ITERATIONS = 3.0;
+        public static final double CONVERGENCE_ITERATIONS = 9;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 2.5;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
@@ -369,7 +369,8 @@ public class Constants {
         public static final Pose2d PAST_BLUE_DEPOT_BUMP = new Pose2d(10.790988, 5.8, new Rotation2d(-135));
         public static final Pose2d PAST_BLUE_OUTPOST_BUMP = new Pose2d(10.790988, 2.269326, new Rotation2d(135));
 
-        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BLUE_DEPOT_BUMP, PAST_BLUE_OUTPOST_BUMP, PAST_RED_DEPOT_BUMP, PAST_RED_OUTPOST_BUMP);
+        public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BLUE_DEPOT_BUMP, PAST_BLUE_OUTPOST_BUMP,
+                PAST_RED_DEPOT_BUMP, PAST_RED_OUTPOST_BUMP);
     }
 
     public static class FieldMeasurementConstants {
