@@ -225,7 +225,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     public Pose2d getYakitTargetPose() {
         Pose2d initialPose = BLUE_HUB;
         if (RED_ALLIANCE.isPresent()) {
-            if (inNeutralOrOpposingZone() && matchState.getGameState() != "AUTO") {
+            if (inNeutralOrOpposingZone()) {
                 double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude();
                 initialPose = GlobalConstants.RED_ALLIANCE.get()
                         ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
@@ -234,27 +234,39 @@ public class Swerve extends CommandSwerveDrivetrain {
                 initialPose = RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
             }
         }
+
         Translation2d realHubLocation = initialPose.getTranslation();
 
-        Translation2d currentTranslation = getTurretGlobal();
-        ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
+        Translation2d turretGlobal = getTurretGlobal();
 
-        double currentDist = currentTranslation.getDistance(realHubLocation);
+        ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
+        Translation2d rotationVelocity = new Translation2d(
+                -getChassisSpeeds().omegaRadiansPerSecond * TURRET_OFFSET_FRONT,
+                getChassisSpeeds().omegaRadiansPerSecond * TURRET_OFFSET_SIDE);
+
+        Translation2d totalVelocity = new Translation2d(
+                fieldSpeeds.vxMetersPerSecond,
+                fieldSpeeds.vyMetersPerSecond).plus(rotationVelocity);
+
+        double currentDist = turretGlobal.getDistance(realHubLocation);
         double lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
 
         Translation2d adjustedHub = realHubLocation;
+
         for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
-            double offsetX = realHubLocation.getX()
-                    - (fieldSpeeds.vxMetersPerSecond * (lookAheadTime + TURRET_LATENCY));
-            double offsetY = realHubLocation.getY()
-                    - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime + TURRET_LATENCY));
-            adjustedHub = new Translation2d(offsetX, offsetY);
-            currentDist = currentTranslation.getDistance(adjustedHub);
+
+            double totalTime = lookAheadTime + TURRET_LATENCY;
+
+            adjustedHub = new Translation2d(
+                    realHubLocation.getX() - totalVelocity.getX() * totalTime,
+                    realHubLocation.getY() - totalVelocity.getY() * totalTime);
+
+            currentDist = turretGlobal.getDistance(adjustedHub);
             lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
         }
 
         return new Pose2d(adjustedHub, initialPose.getRotation());
-    } 
+    }
 
     public boolean willShuttleIntoNet() {
         Translation2d robotPose = getTurretGlobal();
