@@ -219,7 +219,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     public Pose2d getYakitTargetPose() {
         Pose2d initialPose = BLUE_HUB;
         if (RED_ALLIANCE.isPresent()) {
-            if (inNeutralOrOpposingZone()) {
+            if (inNeutralOrOpposingZone() && matchState.getGameState() != "AUTO") {
                 double robotY = getCurrentPose().getMeasureY().baseUnitMagnitude();
                 initialPose = GlobalConstants.RED_ALLIANCE.get()
                         ? (robotY > MID_FIELD_Y ? SHUTTLE_TARGET_TOP_RED : SHUTTLE_TARGET_BOTTOM_RED)
@@ -249,33 +249,6 @@ public class Swerve extends CommandSwerveDrivetrain {
 
         return new Pose2d(adjustedHub, initialPose.getRotation());
     } 
-    
-    public Pose2d getAutonYakitTargetPose() {
-        Pose2d initialPose = BLUE_HUB;
-        if (RED_ALLIANCE.isPresent()) { 
-            initialPose = RED_ALLIANCE.get() ? RED_HUB : BLUE_HUB;
-        }
-        Translation2d realHubLocation = initialPose.getTranslation();
-
-        Translation2d currentTranslation = getTurretGlobal();
-        ChassisSpeeds fieldSpeeds = getFieldRelativeChassisSpeeds();
-
-        double currentDist = currentTranslation.getDistance(realHubLocation);
-        double lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
-
-        Translation2d adjustedHub = realHubLocation;
-        for (int i = 0; i < CONVERGENCE_ITERATIONS; i++) {
-            double offsetX = realHubLocation.getX()
-                    - (fieldSpeeds.vxMetersPerSecond * (lookAheadTime + TURRET_LATENCY));
-            double offsetY = realHubLocation.getY()
-                    - (fieldSpeeds.vyMetersPerSecond * (lookAheadTime + TURRET_LATENCY));
-            adjustedHub = new Translation2d(offsetX, offsetY);
-            currentDist = currentTranslation.getDistance(adjustedHub);
-            lookAheadTime = TIME_OF_FLIGHT.get(currentDist);
-        }
-
-        return new Pose2d(adjustedHub, initialPose.getRotation());
-    }
 
     public boolean willShuttleIntoNet() {
         Translation2d robotPose = getTurretGlobal();
@@ -439,14 +412,8 @@ public class Swerve extends CommandSwerveDrivetrain {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
                     isNotMovingTooFastOrTurning());
-            shooterArbiter.setCondition(shooterConditions.IS_UPRIGHT, isUpright());
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
-            if (matchState.getGameState() == "AUTO") {
-                hubPose = getAutonYakitTargetPose();
-            } else {
-                hubPose = getYakitTargetPose();  
-            }
-            
+            getYakitTargetPose();
         }
     }
 
