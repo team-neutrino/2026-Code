@@ -87,15 +87,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
-                            "data": {
-                              "name": "indexDefault"
-                            }
-                          },
-                          {
                             "type": "wait",
                             "data": {
                               "waitTime": 1.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "feedShooter"
                             }
                           }
                         ]
@@ -129,7 +129,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Adjust IO"
+                        "pathName": "Adjust OI"
                       }
                     },
                     {
@@ -159,7 +159,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop In Out - 1L"
+                              "pathName": "Loop Out In - 1L"
                             }
                           },
                           {
@@ -197,7 +197,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop In Out - 2L"
+                              "pathName": "Loop Out In - 2L"
                             }
                           },
                           {
@@ -260,6 +260,64 @@
                 "type": "named",
                 "data": {
                   "name": "noShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Depot Side Entrance"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Depot Side Intake"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
                 }
               }
             ]

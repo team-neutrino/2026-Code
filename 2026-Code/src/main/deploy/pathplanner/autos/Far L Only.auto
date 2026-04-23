@@ -109,6 +109,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Competition",
+  "folder": "Test",
   "choreoAuto": false
 }

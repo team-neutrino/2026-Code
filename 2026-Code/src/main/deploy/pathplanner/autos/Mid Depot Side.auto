@@ -27,6 +27,12 @@
                             "data": {
                               "name": "deployAndRunIntake"
                             }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noShoot"
+                            }
                           }
                         ]
                       }
@@ -72,6 +78,12 @@
                             "data": {
                               "name": "deployAndRunIntake"
                             }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noShoot"
+                            }
                           }
                         ]
                       }
@@ -83,13 +95,19 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Side Return"
+                              "pathName": "Depot Side Avoid Return"
                             }
                           },
                           {
                             "type": "named",
                             "data": {
                               "name": "shakeHopper"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "feedShooter"
                             }
                           }
                         ]
@@ -127,6 +145,12 @@
                 "type": "named",
                 "data": {
                   "name": "shakeHopper"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
                 }
               }
             ]
