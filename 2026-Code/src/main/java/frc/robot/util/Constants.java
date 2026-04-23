@@ -169,7 +169,7 @@ public class Constants {
         public static final double TURRET_OFFSET_SIDE = -0.098425;
         public static final double TURRET_TRACKING_TRANSLATION_KV = 16.0;
         public static final double TURRET_TRACKING_ROTATION_KV = 30.0;
-        public static final double TURRET_LATENCY = 0.0;
+        public static final double TURRET_LATENCY = 0.05;
         public static final double PROGRAMMED_SHOT_ANGLE = 40.0;
     }
 
@@ -276,7 +276,7 @@ public class Constants {
         public static final double ROTATIONAL_P = 6.0;
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
-        public static final double CONVERGENCE_ITERATIONS = 3.0;
+        public static final double CONVERGENCE_ITERATIONS = 9.0;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 2.5;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
