@@ -363,4 +363,10 @@ public class Shooter extends SubsystemBase {
             m_targetShooterRpm = PROGRAMMED_SHOT_SPEED;
         });
     }
+
+    public Command unstickYakit() {
+        return run(() -> {
+            m_targetShooterRpm = UNSTICK;
+        });
+    }
 }
