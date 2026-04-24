@@ -167,15 +167,7 @@ public class Index extends SubsystemBase {
 
     public Command feedUntilEmpty() {
         m_emptyHopper = false;
-        return run(() -> {
-            if (shooterArbiter.readyToFire()) {
-                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-                m_kickerMotorVoltage = KICKER_VOLTAGE;
-            } else {
-                m_spindexerMotorVoltage = 0.0;
-                m_kickerMotorVoltage = 0.0;
-            }
-        }).until(() -> isHopperEmpty());
+        return autonDefaultCommand().until(() -> isHopperEmpty());
     }
 
     public Command shuttle() {
