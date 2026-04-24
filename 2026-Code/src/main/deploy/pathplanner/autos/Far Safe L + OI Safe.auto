@@ -23,25 +23,6 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
-                            "data": {
-                              "pathName": null
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
                             "type": "named",
                             "data": {
                               "name": "deployAndRunIntake"
@@ -50,7 +31,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": null
+                              "pathName": "Safe Far - 3L"
                             }
                           }
                         ]
@@ -98,9 +79,35 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "sequential",
                 "data": {
-                  "waitTime": 7.0
+                  "commands": [
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 1.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "feedShooter"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "feedUntilEmpty"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -120,24 +127,18 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 0.5
+                        "pathName": "Adjust OI"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "feedShooter"
+                        "name": "noDrive"
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "slowLoopRotate"
                 }
               }
             ]
@@ -158,7 +159,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": null
+                              "pathName": "Loop Out In - 1L"
                             }
                           },
                           {
@@ -196,7 +197,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 2L"
+                              "pathName": "Safe Loop Out In - 2L"
                             }
                           },
                           {
@@ -287,22 +288,9 @@
                 }
               },
               {
-                "type": "race",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.25
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "feedShooter"
-                      }
-                    }
-                  ]
+                  "name": "feedShooter"
                 }
               }
             ]
@@ -312,6 +300,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Test",
+  "folder": "Competition",
   "choreoAuto": false
 }

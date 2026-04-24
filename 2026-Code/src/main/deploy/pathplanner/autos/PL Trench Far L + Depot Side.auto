@@ -108,6 +108,12 @@
                             "data": {
                               "name": "noDrive"
                             }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
                           }
                         ]
                       }
@@ -283,22 +289,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.1
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "feedShooter"
-                      }
-                    }
-                  ]
+                  "name": "feedShooter"
                 }
               }
             ]

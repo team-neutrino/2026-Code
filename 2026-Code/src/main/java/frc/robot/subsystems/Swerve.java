@@ -248,7 +248,7 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
 
         return new Pose2d(adjustedHub, initialPose.getRotation());
-    } 
+    }
 
     public boolean willShuttleIntoNet() {
         Translation2d robotPose = getTurretGlobal();
@@ -408,6 +408,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
+        System.out.println(getChassisSpeeds());
         if (RED_ALLIANCE.isPresent()) {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
