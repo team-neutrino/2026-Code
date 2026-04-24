@@ -83,6 +83,18 @@ public class Turret extends SubsystemBase {
         }
     }
 
+    public double calculateTurretAngleDifference(double currentAngle, double previousAngle) {
+        if (Math.abs(previousAngle - currentAngle) > 180){
+            if(previousAngle < 0){
+                return currentAngle - (previousAngle+360);
+            } else {
+                return (currentAngle+360) - previousAngle;
+            }
+        } else {
+            return currentAngle - previousAngle;
+        }
+    }
+
     @Override
     public void periodic() {
         if (GlobalConstants.RED_ALLIANCE.isPresent()) {
@@ -90,7 +102,7 @@ public class Turret extends SubsystemBase {
             m_adjustedTargetAngle = getAdjustedTargetAngle();
 
             final double fieldRelativeTargetAngle = Subsystems.swerve.getFieldRelativeTargetAngle();
-            final double translationRate = (fieldRelativeTargetAngle - m_previousFieldRelativeTargetAngle) / 0.020;
+            final double translationRate = calculateTurretAngleDifference(fieldRelativeTargetAngle, m_previousFieldRelativeTargetAngle) * 50;
             m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
             final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
 
