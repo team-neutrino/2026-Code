@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import static frc.robot.util.Constants.IntakeConstants.*;
+import static frc.robot.util.Constants.LimelightConstants.MINIMUM_XY_STD_DEV_LL3;
 
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -133,6 +134,7 @@ public class Intake extends SubsystemBase {
         return run(() -> {
             m_isDeployed = true;
             m_rollerMotorVoltage = speed;
+            m_isShaking = false;
         });
     }
 
