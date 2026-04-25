@@ -123,8 +123,9 @@ public class Constants {
                 Map.entry(4.14, 1.16),
                 Map.entry(4.53, 1.24),
                 Map.entry(5.08, 1.31),
-                Map.entry(5.67, 1.43),
-                Map.entry(7.26, 1.69));
+                Map.entry(5.74, 1.24),
+                Map.entry(7.3, 1.7),
+                Map.entry(9.9, 1.7));
 
         public static final InterpolatingDoubleTreeMap SHUTTLE_SPEED_INTERPOLATION = InterpolatingDoubleTreeMap
                 .ofEntries(
@@ -149,7 +150,7 @@ public class Constants {
         public static final int ENCODER_ID = 30;
         public static final double STARTUP_ANGLE = 0;
         public static final double CURRENT_LIMIT = 40;
-        public static final double TURRET_P = 180;
+        public static final double TURRET_P = 185;
         public static final double TURRET_I = 0;
         public static final double TURRET_D = 7;
         public static final double SENSOR_TO_MECHANISM_RATIO = 8.4;
@@ -159,7 +160,7 @@ public class Constants {
         public static final double TRACKING_THRESHOLD = 67.0;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
-        public static final double STATIC_FF = 0.1;
+        public static final double STATIC_FF = 0.15;
         public static final double VELOCITY_FF = 0.0;
         public static final double ACCELERATION_FF = 0.0;
         public static final double MAX_WINDUP = 360;
