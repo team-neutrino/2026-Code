@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import org.json.simple.parser.ParseException;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.GyroTrimConfigs;
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
@@ -31,6 +32,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
@@ -73,7 +75,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public double getPitch() {
-        return getPigeon2().getPitch().getValueAsDouble();
+        StatusSignal<Angle> PitchSignal = getPigeon2().getPitch();
+        PitchSignal.refresh();
+        return PitchSignal.getValueAsDouble();
     }
 
     public double getYawDegrees() {
@@ -81,7 +85,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public double getRoll() {
-        return getPigeon2().getRoll().getValueAsDouble();
+        StatusSignal<Angle> RollSignal = getPigeon2().getRoll();
+        RollSignal.refresh();
+        return RollSignal.getValueAsDouble();
     }
 
     public double getYawRate() {
@@ -408,7 +414,8 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
-        System.out.println(getChassisSpeeds());
+        System.out.println(getPitch());
+        System.out.println(getRoll());
         if (RED_ALLIANCE.isPresent()) {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,

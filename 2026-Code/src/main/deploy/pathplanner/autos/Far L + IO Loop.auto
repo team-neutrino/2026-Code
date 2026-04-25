@@ -79,35 +79,9 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "wait",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "feedShooter"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.0
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "feedUntilEmpty"
-                      }
-                    }
-                  ]
+                  "waitTime": 7.0
                 }
               },
               {
@@ -139,6 +113,12 @@
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
                 }
               }
             ]

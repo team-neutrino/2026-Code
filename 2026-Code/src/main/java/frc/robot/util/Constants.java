@@ -185,7 +185,7 @@ public class Constants {
         public static final double KICKER_CURRENT_LIMIT = 40;
 
         public static final double CANANDCOLOR_DETECT_DISTANCE = 0.05;
-        public static final double DEBOUNCED_TIME = 1;
+        public static final double DEBOUNCED_TIME = 2.0;
     }
 
     public static class IntakeConstants {
@@ -194,7 +194,7 @@ public class Constants {
         public static final int FOLLOWER_MOTOR_ID = 31;
 
         public static final double ROLLER_CURRENT_LIMIT = 45;
-        public static final double DEPLOY_CURRENT_LIMIT = 45;
+        public static final double DEPLOY_CURRENT_LIMIT = 60;
 
         public static final double INTAKE_VOLTAGE = 10;
         public static final double OUTTAKE_VOLTAGE = -10;
