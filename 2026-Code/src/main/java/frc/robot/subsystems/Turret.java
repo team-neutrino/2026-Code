@@ -175,7 +175,7 @@ public class Turret extends SubsystemBase {
 
     private double voltageFeedForward(double translationRate, double rotationRate) {
         double feedforward = staticFeedforward();
-        if (Math.abs(getCurrentAngle() - m_targetAngle) < TRACKING_THRESHOLD) {
+        if (calculateTurretAngleDifference(getCurrentAngle(), m_targetAngle) < TRACKING_THRESHOLD) {
             feedforward += translationRate / 360.0 * TURRET_TRACKING_TRANSLATION_KV;
             feedforward += rotationRate / 360.0 * TURRET_TRACKING_ROTATION_KV;
         }
