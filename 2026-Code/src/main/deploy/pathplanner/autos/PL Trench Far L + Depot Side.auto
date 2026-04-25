@@ -25,22 +25,9 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "race",
+                      "type": "path",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          },
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Near - 1L"
-                            }
-                          }
-                        ]
+                        "pathName": "Near - 1L"
                       }
                     },
                     {
@@ -95,12 +82,6 @@
                             "type": "named",
                             "data": {
                               "name": "noDrive"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
