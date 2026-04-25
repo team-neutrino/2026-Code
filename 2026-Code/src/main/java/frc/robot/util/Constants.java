@@ -195,7 +195,7 @@ public class Constants {
         public static final int FOLLOWER_MOTOR_ID = 31;
 
         public static final double ROLLER_CURRENT_LIMIT = 45;
-        public static final double DEPLOY_CURRENT_LIMIT = 60;
+        public static final double DEPLOY_CURRENT_LIMIT = 45;
 
         public static final double INTAKE_VOLTAGE = 10;
         public static final double OUTTAKE_VOLTAGE = -10;
