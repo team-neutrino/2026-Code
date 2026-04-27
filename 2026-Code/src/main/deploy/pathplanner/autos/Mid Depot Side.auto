@@ -160,6 +160,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Competition",
+  "folder": "Competition Left",
   "choreoAuto": false
 }

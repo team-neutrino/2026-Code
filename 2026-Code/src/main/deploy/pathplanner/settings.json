@@ -3,15 +3,16 @@
   "robotLength": 0.8651875,
   "holonomicMode": true,
   "pathFolders": [
-    "Climb",
-    "Neutral",
+    "Neutral Left",
+    "Neutral Right",
     "Neutral Test",
     "Other"
   ],
   "autoFolders": [
-    "Competition",
-    "Test",
-    "Nothing"
+    "Competition Left",
+    "Competition Right",
+    "Nothing",
+    "Test"
   ],
   "defaultMaxVel": 4.2,
   "defaultMaxAccel": 3.0,

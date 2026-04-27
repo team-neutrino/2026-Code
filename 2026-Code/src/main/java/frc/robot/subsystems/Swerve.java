@@ -288,10 +288,10 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     private void configurePathPlanner() {
-        double pTranslation = 6;
+        double pTranslation = 3;
         double iTranslation = 0;
         double dTranslation = 0;
-        double pRotation = 3;
+        double pRotation = 1;
         double iRotation = 0;
         double dRotation = 0;
         PIDConstants translationConstants = new PIDConstants(pTranslation, iTranslation, dTranslation);
@@ -414,8 +414,6 @@ public class Swerve extends CommandSwerveDrivetrain {
     @Override
     public void periodic() {
         super.periodic();
-        System.out.println(getPitch());
-        System.out.println(getRoll());
         if (RED_ALLIANCE.isPresent()) {
             shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
             shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
