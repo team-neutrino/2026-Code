@@ -1,0 +1,126 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.0,
+        "y": 0.669326
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.466535736289424,
+        "y": 1.248843755182071
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.745,
+        "y": 3.999326
+      },
+      "prevControl": {
+        "x": 7.716252351946395,
+        "y": 2.2819484321125048
+      },
+      "nextControl": {
+        "x": 7.774289620541531,
+        "y": 5.749080873726178
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.875,
+        "y": 3.999326
+      },
+      "prevControl": {
+        "x": 5.291691176831248,
+        "y": 5.489208819826272
+      },
+      "nextControl": {
+        "x": 5.966142003620117,
+        "y": 3.766531809402145
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.0,
+        "y": 2.419326
+      },
+      "prevControl": {
+        "x": 6.744639889431223,
+        "y": 2.6920170982556186
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.8954959747852789,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 1.4643863179074483,
+      "rotationDegrees": 180.0
+    },
+    {
+      "waypointRelativePos": 1.8654918757901615,
+      "rotationDegrees": -110.7045671327
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.6199242493402135,
+      "maxWaypointRelativePos": 2.280861244019136,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    },
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6681664791901014,
+      "maxWaypointRelativePos": 1.3565804274465667,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.2,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 5.5,
+    "rotation": -135.0
+  },
+  "reversed": false,
+  "folder": "Neutral Right",
+  "idealStartingState": {
+    "velocity": 0.0,
+    "rotation": 45.0
+  },
+  "useDefaultConstraints": true
+}
