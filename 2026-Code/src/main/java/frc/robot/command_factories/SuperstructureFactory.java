@@ -38,8 +38,12 @@ public class SuperstructureFactory {
         return index.noKickAndSpin();
     }
 
-    public static Command programmedShot() {
-        return turret.setTargetAngleCommand(PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
+    public static Command outpostProgrammedShot() {
+        return turret.setTargetAngleCommand(OUTPOST_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
+    }
+
+    public static Command depotProgrammedShot() {
+        return turret.setTargetAngleCommand(DEPOT_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {
