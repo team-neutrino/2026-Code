@@ -64,6 +64,7 @@ public class Turret extends SubsystemBase {
         m_motorConfig.Feedback.RotorToSensorRatio = ROTOR_TO_SENSOR_RATIO;
 
         var slot0Configs = m_motorConfig.Slot0;
+        slot0Configs.kS = 0.0;
         slot0Configs.kV = VELOCITY_FF;
         slot0Configs.kA = ACCELERATION_FF;
         slot0Configs.kP = TURRET_P;
