@@ -43,6 +43,7 @@ public class Turret extends SubsystemBase {
 
     // Simulation
     private TurretSim m_turretSim;
+    private double m_staticFF;
 
     public Turret() {
         m_currentLimitConfig.withSupplyCurrentLimit(CURRENT_LIMIT)
@@ -63,7 +64,6 @@ public class Turret extends SubsystemBase {
         m_motorConfig.Feedback.RotorToSensorRatio = ROTOR_TO_SENSOR_RATIO;
 
         var slot0Configs = m_motorConfig.Slot0;
-        slot0Configs.kS = STATIC_FF;
         slot0Configs.kV = VELOCITY_FF;
         slot0Configs.kA = ACCELERATION_FF;
         slot0Configs.kP = TURRET_P;
@@ -92,6 +92,14 @@ public class Turret extends SubsystemBase {
             }
         } else {
             return currentAngle - previousAngle;
+        }
+    }
+
+    public double staticFeedforward() {
+        if (getCurrentAngle() > 90) {
+            return m_staticFF = STATIC_FF;
+        } else {
+            return m_staticFF = -STATIC_FF;
         }
     }
 
@@ -165,7 +173,7 @@ public class Turret extends SubsystemBase {
     }
 
     private double voltageFeedForward(double translationRate, double rotationRate) {
-        double feedforward = 0.0;
+        double feedforward = staticFeedforward();
         if (Math.abs(getCurrentAngle() - m_targetAngle) < TRACKING_THRESHOLD) {
             feedforward += translationRate / 360.0 * TURRET_TRACKING_TRANSLATION_KV;
             feedforward += rotationRate / 360.0 * TURRET_TRACKING_ROTATION_KV;
