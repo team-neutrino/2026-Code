@@ -81,7 +81,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -94,6 +94,12 @@
                 "type": "named",
                 "data": {
                   "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
                 }
               },
               {
@@ -116,19 +122,13 @@
                 }
               },
               {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
-                }
-              },
-              {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.0
+                        "waitTime": 1.75
                       }
                     },
                     {

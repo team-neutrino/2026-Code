@@ -292,7 +292,7 @@ public class Constants {
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 
-        public static final double DRIVE_TO_POINT_P = 4; // tuned up for dtpfinite
+        public static final double DRIVE_TO_POINT_P = 3; // tuned up for dtpfinite
         public static final double DRIVE_TO_POINT_I = 0;
         public static final double DRIVE_TO_POINT_D = 0;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;

@@ -54,6 +54,25 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noDrive"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
                             "type": "path",
                             "data": {
                               "pathName": "Delay Full Far - 2L"
@@ -75,7 +94,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.5
+                              "waitTime": 0.0
                             }
                           },
                           {
@@ -150,9 +169,22 @@
                             }
                           },
                           {
-                            "type": "named",
+                            "type": "sequential",
                             "data": {
-                              "name": "shakeHopper"
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 1.75
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "shakeHopper"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
@@ -195,35 +227,9 @@
                             }
                           },
                           {
-                            "type": "sequential",
+                            "type": "named",
                             "data": {
-                              "commands": [
-                                {
-                                  "type": "race",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "deployAfterShake"
-                                        }
-                                      },
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 0.5
-                                        }
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "deployAndRunIntake"
-                                  }
-                                }
-                              ]
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]

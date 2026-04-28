@@ -81,7 +81,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -99,7 +99,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shakeHopper"
+                  "name": "feedShooter"
                 }
               },
               {
@@ -122,9 +122,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "feedShooter"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shakeHopper"
+                      }
+                    }
+                  ]
                 }
               }
             ]

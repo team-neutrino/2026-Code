@@ -31,7 +31,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": null
+                              "pathName": "Safe Far - 3R"
                             }
                           }
                         ]
@@ -75,13 +75,13 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 7.0
+                  "waitTime": 10.0
                 }
               },
               {
@@ -93,7 +93,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shakeHopper"
+                  "name": "feedShooter"
                 }
               },
               {
@@ -103,7 +103,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": null
+                        "pathName": "Adjust OI R"
                       }
                     },
                     {
@@ -116,9 +116,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "feedShooter"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shakeHopper"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -139,7 +152,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": null
+                              "pathName": "Loop Out In - 1R"
                             }
                           },
                           {
@@ -177,7 +190,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": null
+                              "pathName": "Loop Out In End - 2R"
                             }
                           },
                           {
@@ -221,37 +234,6 @@
                 "type": "named",
                 "data": {
                   "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "noDrive"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shakeHopper"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
                 }
               }
             ]
