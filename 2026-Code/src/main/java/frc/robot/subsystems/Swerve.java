@@ -288,7 +288,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     private void configurePathPlanner() {
-        double pTranslation = 3;
+        double pTranslation = 2;
         double iTranslation = 0;
         double dTranslation = 0;
         double pRotation = 1;
