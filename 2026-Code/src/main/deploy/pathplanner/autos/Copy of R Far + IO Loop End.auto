@@ -9,6 +9,57 @@
           "data": {
             "commands": [
               {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Near - 1R"
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": null
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Unbeach"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
                 "type": "named",
                 "data": {
                   "name": "shooterDefault"
@@ -17,13 +68,32 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noDrive"
+                  "name": "noShoot"
                 }
-              },
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 2.0
+                  "waitTime": 7.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
                 }
               },
               {
@@ -31,31 +101,24 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "race",
+                      "type": "path",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.75
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "noShoot"
-                            }
-                          }
-                        ]
+                        "pathName": null
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "feedShooter"
+                        "name": "noDrive"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
                 }
               }
             ]
@@ -70,31 +133,19 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Near - 1R"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Unbeach"
-                      }
-                    },
-                    {
                       "type": "race",
                       "data": {
                         "commands": [
                           {
-                            "type": "named",
+                            "type": "path",
                             "data": {
-                              "name": "DriveToPoint"
+                              "pathName": null
                             }
                           },
                           {
-                            "type": "wait",
+                            "type": "named",
                             "data": {
-                              "waitTime": 3.0
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -105,9 +156,9 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "path",
+                            "type": "named",
                             "data": {
-                              "pathName": "Delay Loop Out In - 2R"
+                              "name": "Unbeach"
                             }
                           },
                           {
@@ -126,7 +177,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Delay Loop - 3R"
+                              "pathName": null
                             }
                           },
                           {
@@ -182,13 +233,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "noDrive"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "feedShooter"
+                  "name": "shooterDefault"
                 }
               },
               {
@@ -198,22 +249,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Adjust Avoid R"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "noDrive"
-                      }
-                    }
-                  ]
+                  "name": "feedShooter"
                 }
               }
             ]

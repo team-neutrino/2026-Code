@@ -9,6 +9,18 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
+                }
+              },
+              {
                 "type": "sequential",
                 "data": {
                   "commands": [
@@ -23,15 +35,72 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Trench Intake R"
+                            }
+                          },
+                          {
                             "type": "named",
                             "data": {
                               "name": "deployAndRunIntake"
                             }
-                          },
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Safe Far - 3R"
+                              "pathName": null
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noDrive"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "Delay Loop - 3R"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "deployAndRunIntake"
                             }
                           }
                         ]
@@ -58,36 +127,24 @@
                     }
                   ]
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
               }
             ]
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 7.0
+                  "name": "shooterDefault"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "shooterDefault"
+                  "name": "feedShooter"
                 }
               },
               {
@@ -103,7 +160,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Adjust IO R"
+                        "pathName": "Adjust Avoid R"
                       }
                     },
                     {
@@ -113,145 +170,6 @@
                       }
                     }
                   ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Loop In Out - 1R"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Unbeach"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Loop In Out - 2R"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Unbeach"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "noShoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "noDrive"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shakeHopper"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feedShooter"
                 }
               }
             ]

@@ -31,7 +31,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Safe Far - 3R"
+                              "pathName": null
                             }
                           }
                         ]
@@ -103,7 +103,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Adjust OI R"
+                        "pathName": null
                       }
                     },
                     {
@@ -139,7 +139,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In - 1R"
+                              "pathName": null
                             }
                           },
                           {
@@ -177,7 +177,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Loop Out In End - 2R"
+                              "pathName": null
                             }
                           },
                           {
@@ -221,6 +221,37 @@
                 "type": "named",
                 "data": {
                   "name": "noShoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "noDrive"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shakeHopper"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feedShooter"
                 }
               }
             ]

@@ -17,9 +17,54 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "noShoot"
+                  "name": "noDrive"
                 }
               },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.75
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noShoot"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "feedShooter"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
               {
                 "type": "sequential",
                 "data": {
@@ -31,22 +76,9 @@
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Trench Intake R"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
+                        "name": "Unbeach"
                       }
                     },
                     {
@@ -54,15 +86,15 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "wait",
+                            "type": "named",
                             "data": {
-                              "waitTime": 1.0
+                              "name": "DriveToPoint"
                             }
                           },
                           {
-                            "type": "named",
+                            "type": "wait",
                             "data": {
-                              "name": "noDrive"
+                              "waitTime": 3.0
                             }
                           }
                         ]
@@ -75,32 +107,13 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Delay Far - 2R"
+                              "pathName": null
                             }
                           },
                           {
                             "type": "named",
                             "data": {
                               "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.0
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "noDrive"
                             }
                           }
                         ]
@@ -145,6 +158,18 @@
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shooterDefault"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "noShoot"
                 }
               }
             ]

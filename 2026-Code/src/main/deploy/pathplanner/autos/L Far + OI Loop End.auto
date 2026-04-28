@@ -19,6 +19,12 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "DriveToPointFinite"
+                      }
+                    },
+                    {
                       "type": "race",
                       "data": {
                         "commands": [
@@ -81,19 +87,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 7.0
+                  "waitTime": 10.0
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "shooterDefault"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shakeHopper"
                 }
               },
               {
@@ -119,6 +119,25 @@
                 "type": "named",
                 "data": {
                   "name": "feedShooter"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 5.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shakeHopper"
+                      }
+                    }
+                  ]
                 }
               }
             ]
