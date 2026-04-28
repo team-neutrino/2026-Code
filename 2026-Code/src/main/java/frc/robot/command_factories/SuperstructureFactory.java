@@ -43,7 +43,7 @@ public class SuperstructureFactory {
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {
-        DriveToPoint drive = new DriveToPoint(poses, true);
+        DriveToPoint drive = new DriveToPoint(poses, false);
         return drive.until(() -> Math.abs(swerve.getCurrentPose().getX() - drive.getTarget().getX()) <= .3
                 && Math.abs(swerve.getCurrentPose().getY() - drive.getTarget().getY()) <= .3);
     }

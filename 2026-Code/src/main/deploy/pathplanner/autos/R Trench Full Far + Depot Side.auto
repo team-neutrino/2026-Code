@@ -54,9 +54,28 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noDrive"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
                             "type": "path",
                             "data": {
-                              "pathName": null
+                              "pathName": "Delay Full Far - 2R"
                             }
                           },
                           {
@@ -75,7 +94,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.5
+                              "waitTime": 0.0
                             }
                           },
                           {
@@ -148,12 +167,6 @@
                 }
               },
               {
-                "type": "named",
-                "data": {
-                  "name": "shakeHopper"
-                }
-              },
-              {
                 "type": "sequential",
                 "data": {
                   "commands": [
@@ -167,6 +180,25 @@
                       "type": "named",
                       "data": {
                         "name": "noDrive"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "shakeHopper"
                       }
                     }
                   ]
