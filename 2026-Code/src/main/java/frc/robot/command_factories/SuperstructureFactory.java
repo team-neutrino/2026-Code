@@ -31,7 +31,7 @@ public class SuperstructureFactory {
 
     public static Command spitFuel() {
         return index.feedShooter()
-                .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE));
+                .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE)).alongWith(turret.setTargetAngleCommand(UNSTUCK_ANGLE));
     }
 
     public static Command noShooting() {
