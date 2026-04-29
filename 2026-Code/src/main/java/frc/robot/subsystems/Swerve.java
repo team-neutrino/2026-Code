@@ -50,6 +50,11 @@ public class Swerve extends CommandSwerveDrivetrain {
     private double m_turretTargetAngle = 0.0;
     private double joystickVx;
     private double joystickVy;
+    private Translation2d m_turretPositionToHub;
+    private double m_turretFrontOffset;
+    private double m_turretSideOffset;
+    private double m_mathForFrontOffset;
+    private double m_mathForSideOffset;
     MatchState matchState = new MatchState();
 
     public Swerve() {
@@ -88,6 +93,14 @@ public class Swerve extends CommandSwerveDrivetrain {
         StatusSignal<Angle> RollSignal = getPigeon2().getRoll();
         RollSignal.refresh();
         return RollSignal.getValueAsDouble();
+    }
+
+    public double complementaryRollAngle() {
+        return (90 - Math.abs(getPitch()) * (Math.PI / 180));
+    }
+
+    public double complementaryPitchAngle() {
+        return (90 - Math.abs(getPitch()) * (Math.PI / 180));
     }
 
     public double getYawRate() {
@@ -162,6 +175,27 @@ public class Swerve extends CommandSwerveDrivetrain {
                         .withRotationalRate(speeds.omegaRadiansPerSecond));
     }
 
+    public Translation2d shootWhileBeached() {
+        m_mathForFrontOffset = Math.cos(complementaryRollAngle()) * TURRET_HEIGHT;
+        if (getRoll() < 0) {
+            m_turretFrontOffset = TURRET_OFFSET_FRONT - m_mathForFrontOffset;
+        } else {
+            m_turretFrontOffset = TURRET_OFFSET_FRONT + m_mathForFrontOffset;
+        }
+
+        m_mathForSideOffset = Math.cos(complementaryPitchAngle()) * TURRET_HEIGHT;
+        if (getRoll() < 0) {
+            m_turretSideOffset = TURRET_OFFSET_SIDE - m_mathForSideOffset;
+        } else {
+            m_turretSideOffset = TURRET_OFFSET_SIDE + m_mathForFrontOffset;
+        }
+
+        Translation2d turretTranslation = new Translation2d(m_turretFrontOffset, m_turretSideOffset);
+        return getCurrentPose()
+                .getTranslation()
+                .plus(turretTranslation.rotateBy(new Rotation2d(getYawRadians())));
+    }
+
     public Translation2d getTurretGlobal() {
         Translation2d turretTranslation = new Translation2d(TURRET_OFFSET_FRONT, TURRET_OFFSET_SIDE);
         return getCurrentPose()
@@ -172,8 +206,14 @@ public class Swerve extends CommandSwerveDrivetrain {
     public double getFromHubToTurret() {
         if (!GlobalConstants.RED_ALLIANCE.isPresent()) {
             return 0;
+        } else {
+            if (notBeached()) {
+                m_turretPositionToHub = getTurretGlobal();
+            } else {
+                m_turretPositionToHub = shootWhileBeached();
+            }
         }
-        return hubPose.getTranslation().getDistance(getTurretGlobal());
+        return hubPose.getTranslation().getDistance(m_turretPositionToHub);
     }
 
     public boolean inNeutralOrOpposingZone() {
