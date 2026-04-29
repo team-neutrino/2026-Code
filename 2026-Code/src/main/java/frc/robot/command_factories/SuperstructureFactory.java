@@ -29,7 +29,7 @@ public class SuperstructureFactory {
         return index.shuttle().alongWith(shooter.shuttle());
     }
 
-    public static Command spitFuel() {
+    public static Command unstickYakit() {
         return index.feedShooter()
                 .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE)).alongWith(turret.setTargetAngleCommand(UNSTUCK_ANGLE));
     }

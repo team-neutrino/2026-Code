@@ -172,7 +172,7 @@ public class Constants {
         public static final double TURRET_LATENCY = 0.0;
         public static final double OUTPOST_PROGRAMMED_SHOT_ANGLE = 40.0;
         public static final double DEPOT_PROGRAMMED_SHOT_ANGLE = -40.0;
-        public static final double UNSTUCK_ANGLE = 90.0;
+        public static final double UNSTUCK_ANGLE = -90.0;
     }
 
     public static class IndexConstants {
