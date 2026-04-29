@@ -112,7 +112,7 @@ public class Turret extends SubsystemBase {
 
             final double fieldRelativeTargetAngle = Subsystems.swerve.getFieldRelativeTargetAngle();
             final double translationRate = calculateTurretAngleDifference(fieldRelativeTargetAngle,
-                    m_previousFieldRelativeTargetAngle) * 50;
+                    m_previousFieldRelativeTargetAngle) / UPDATE_RATE;
             m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
             final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
 
