@@ -39,11 +39,11 @@ public class SuperstructureFactory {
     }
 
     public static Command outpostProgrammedShot() {
-        return turret.setTargetAngleCommand(OUTPOST_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
+        return turret.setTargetAngleCommand(OUTPOST_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot()).alongWith(index.feedShooter());
     }
 
     public static Command depotProgrammedShot() {
-        return turret.setTargetAngleCommand(DEPOT_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
+        return turret.setTargetAngleCommand(DEPOT_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot()).alongWith(index.feedShooter());
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {
