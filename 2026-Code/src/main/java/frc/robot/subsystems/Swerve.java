@@ -96,11 +96,11 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public double complementaryRollAngle() {
-        return (90 - Math.abs(getPitch()) * (Math.PI / 180));
+        return ((90 - Math.abs(getRoll())) * (Math.PI / 180));
     }
 
     public double complementaryPitchAngle() {
-        return (90 - Math.abs(getPitch()) * (Math.PI / 180));
+        return ((90 - Math.abs(getPitch())) * (Math.PI / 180));
     }
 
     public double getYawRate() {
@@ -184,10 +184,10 @@ public class Swerve extends CommandSwerveDrivetrain {
         }
 
         m_mathForSideOffset = Math.cos(complementaryPitchAngle()) * TURRET_HEIGHT;
-        if (getRoll() < 0) {
+        if (getPitch() < 0) {
             m_turretSideOffset = TURRET_OFFSET_SIDE - m_mathForSideOffset;
         } else {
-            m_turretSideOffset = TURRET_OFFSET_SIDE + m_mathForFrontOffset;
+            m_turretSideOffset = TURRET_OFFSET_SIDE + m_mathForSideOffset;
         }
 
         Translation2d turretTranslation = new Translation2d(m_turretFrontOffset, m_turretSideOffset);
