@@ -13,7 +13,7 @@ public class Subsystems {
     public static final Vision Vision = new Vision();
     public static final Swerve swerve = new Swerve();
     public static final Shooter shooter = new Shooter();
-    public static final Turret turret = new TurretNT();
+    public static final Turret turret = new Turret();
 
     public static final ShooterArbiter shooterArbiter = new ShooterArbiter();
 }
