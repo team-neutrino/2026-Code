@@ -86,7 +86,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("shooterDefault", shooter.autonDefaultCommand());
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
     NamedCommands.registerCommand("Unbeach", swerve.unbeach());
-    NamedCommands.registerCommand("shakeHopper", IntakeFactory.shakeHopper().repeatedly());
+    NamedCommands.registerCommand("shakeHopper", IntakeFactory.autonShakeHopper().repeatedly());
   }
 
   public Command getAutonomousCommand() {
@@ -104,5 +104,9 @@ public class RobotContainer {
     }
 
     return auto;
+  }
+
+  public void teleopInit() {
+    intake.setTeleopCurrentLimit();
   }
 }

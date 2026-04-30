@@ -190,7 +190,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Up Side Entrance"
+                              "pathName": "Depot Up Slant Entrance"
                             }
                           },
                           {
@@ -200,7 +200,7 @@
                                 {
                                   "type": "wait",
                                   "data": {
-                                    "waitTime": 1.75
+                                    "waitTime": 1.0
                                   }
                                 },
                                 {
@@ -226,7 +226,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "Depot Side Intake"
+                                    "pathName": "Depot Slant Intake"
                                   }
                                 },
                                 {
