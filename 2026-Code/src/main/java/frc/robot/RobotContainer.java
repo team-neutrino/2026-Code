@@ -50,11 +50,11 @@ public class RobotContainer {
   }
 
   private void configureDefaultCommands() {
-    shooter.setDefaultCommand(shooter.defaultCommand());
+    // shooter.setDefaultCommand(shooter.defaultCommand());
     intake.setDefaultCommand(intake.defaultCommand());
     index.setDefaultCommand(index.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
-    turret.setDefaultCommand(turret.defaultCommand());
+    // turret.setDefaultCommand(turret.defaultCommand());
   }
 
   private void configureBindings() {
@@ -62,17 +62,17 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(swerve.slowSwerveDrive(m_driverController));
     m_driverController.rightTrigger().whileTrue(swerve.slowestSwerveDrive(m_driverController));
 
-    m_buttonController.a().onTrue(shooter.resetHood());
-    m_buttonController.b().whileTrue(SuperstructureFactory.shuttle());
+    // m_buttonController.a().onTrue(shooter.resetHood());
+    // m_buttonController.b().whileTrue(SuperstructureFactory.shuttle());
     m_buttonController.x().whileTrue(index.feedShooter());
     m_buttonController.y().whileTrue(index.noKickAndSpin());
     m_buttonController.povUp().toggleOnTrue(IntakeFactory.shakeHopper());
     m_buttonController.leftTrigger().onTrue(IntakeFactory.toggleIntake());
-    m_buttonController.rightTrigger().whileTrue(SuperstructureFactory.shootAndReverseKicker());
+    // m_buttonController.rightTrigger().whileTrue(SuperstructureFactory.shootAndReverseKicker());
     m_buttonController.leftBumper().whileTrue(IntakeFactory.runIntake());
     m_buttonController.rightBumper().whileTrue(IntakeFactory.runOuttake());
-    m_buttonController.povRight().whileTrue(SuperstructureFactory.programmedShot());
-    m_buttonController.back().whileTrue(shooter.unstickYakit());
+    // m_buttonController.povRight().whileTrue(SuperstructureFactory.programmedShot());
+    // m_buttonController.back().whileTrue(shooter.unstickYakit());
   }
 
   private void configureNamedCommands() {
@@ -82,7 +82,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("retractIntake", intake.retractIntake());
     NamedCommands.registerCommand("feedShooter", index.autonDefaultCommand());
     NamedCommands.registerCommand("noShoot", index.noKickAndSpin());
-    NamedCommands.registerCommand("shooterDefault", shooter.autonDefaultCommand());
+    // NamedCommands.registerCommand("shooterDefault",
+    // shooter.autonDefaultCommand());
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
     NamedCommands.registerCommand("Unbeach", swerve.unbeach());
     NamedCommands.registerCommand("shakeHopper", IntakeFactory.shakeHopper().repeatedly());
