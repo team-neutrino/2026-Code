@@ -171,14 +171,14 @@ public class Vision extends SubsystemBase {
             limelight.triggerCaptureRewind();
 
             if (better_limelight_found_two_hub_tags) {
-                limelight.publishDefaultPose();
-                limelight.publishDefaultYaw();
+                // limelight.publishDefaultPose();
+                // limelight.publishDefaultYaw();
                 break;
             }
             limelight.updateFusionMegatag();
             limelight.updatePigeonSeed();
-            limelight.publishPose();
-            limelight.publishYaw();
+            // limelight.publishPose();
+            // limelight.publishYaw();
             better_limelight_found_two_hub_tags = limelight.hasTwoHubTags();
             m_lastPose = m_currentPose;
         }
@@ -226,13 +226,13 @@ public class Vision extends SubsystemBase {
             if (model == 4) {
                 LimelightHelpers.SetIMUMode(name, 1);
             }
-            m_pose = m_nt.getStructTopic("/limelight_poses/" + name, Pose2d.struct);
-            m_yaw = m_nt.getDoubleTopic("/limelight_poses/yaw/" + name + "Yaw");
+            // m_pose = m_nt.getStructTopic("/limelight_poses/" + name, Pose2d.struct);
+            // m_yaw = m_nt.getDoubleTopic("/limelight_poses/yaw/" + name + "Yaw");
 
-            m_posePub = m_pose.publish();
-            m_posePub.setDefault(blank);
+            // m_posePub = m_pose.publish();
+            // m_posePub.setDefault(blank);
 
-            m_yawPub = m_yaw.publish(PubSubOption.keepDuplicates(false));
+            // m_yawPub = m_yaw.publish(PubSubOption.keepDuplicates(false));
         }
 
         public void publishPose() {
