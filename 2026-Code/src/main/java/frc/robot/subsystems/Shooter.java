@@ -335,7 +335,7 @@ public class Shooter extends SubsystemBase {
             double hubDistance = swerve.getFromHubToTurret();
             if (swerve.inNeutralOrOpposingZone()) {
                 m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
-                m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+                m_targetShooterRpm = LOW_BATTERY_SPEED;
                 return;
             }
             m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);

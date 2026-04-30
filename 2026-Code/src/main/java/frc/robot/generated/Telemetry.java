@@ -129,12 +129,12 @@ public class Telemetry {
                 // "seconds");
 
                 /* Telemeterize the pose to a Field2d */
-                // fieldTypePub.set("Field2d");
+                fieldTypePub.set("Field2d");
 
-                // m_poseArray[0] = state.Pose.getX();
-                // m_poseArray[1] = state.Pose.getY();
-                // m_poseArray[2] = state.Pose.getRotation().getDegrees();
-                // fieldPub.set(m_poseArray);
+                m_poseArray[0] = state.Pose.getX();
+                m_poseArray[1] = state.Pose.getY();
+                m_poseArray[2] = state.Pose.getRotation().getDegrees();
+                fieldPub.set(m_poseArray);
 
                 /* Telemeterize each module state to a Mechanism2d */
                 // for (int i = 0; i < 4; ++i) {
