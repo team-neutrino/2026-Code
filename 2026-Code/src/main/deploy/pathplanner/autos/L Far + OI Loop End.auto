@@ -37,7 +37,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Far - 3L"
+                              "pathName": "No Beach Far - 3L"
                             }
                           }
                         ]
@@ -109,7 +109,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Adjust OI L"
+                        "pathName": "Up Adjust OI L"
                       }
                     },
                     {
@@ -128,7 +128,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.0
                       }
                     },
                     {
