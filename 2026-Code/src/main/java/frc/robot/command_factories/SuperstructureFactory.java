@@ -17,30 +17,31 @@ import frc.robot.commands.DriveToPoint;
 /** Add your docs here. */
 public class SuperstructureFactory {
 
-    public static Command shootOnly() {
-        return index.noKickAndSpin().alongWith(shooter.shootingSpeed(6000));
-    }
+    // public static Command shootOnly() {
+    // return index.noKickAndSpin().alongWith(shooter.shootingSpeed(6000));
+    // }
 
-    public static Command shootAndReverseKicker() {
-        return index.reverseKicker().alongWith(shooter.shootingSpeed(6000));
-    }
+    // public static Command shootAndReverseKicker() {
+    // return index.reverseKicker().alongWith(shooter.shootingSpeed(6000));
+    // }
 
-    public static Command shuttle() {
-        return index.shuttle().alongWith(shooter.shuttle());
-    }
+    // public static Command shuttle() {
+    // return index.shuttle().alongWith(shooter.shuttle());
+    // }
 
-    public static Command spitFuel() {
-        return index.feedShooter()
-                .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE));
-    }
+    // public static Command spitFuel() {
+    // return index.feedShooter()
+    // .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE));
+    // }
 
-    public static Command noShooting() {
-        return index.noKickAndSpin();
-    }
+    // public static Command noShooting() {
+    // return index.noKickAndSpin();
+    // }
 
-    public static Command programmedShot() {
-        return turret.setTargetAngleCommand(PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
-    }
+    // public static Command programmedShot() {
+    // return
+    // turret.setTargetAngleCommand(PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot());
+    // }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {
         DriveToPoint drive = new DriveToPoint(poses, false);
