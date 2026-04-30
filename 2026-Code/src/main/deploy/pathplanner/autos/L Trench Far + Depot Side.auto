@@ -165,7 +165,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Up Side Entrance"
+                              "pathName": "Depot Up Slant Entrance"
                             }
                           },
                           {
@@ -201,7 +201,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "Depot Side Intake"
+                                    "pathName": "Depot Slant Intake"
                                   }
                                 },
                                 {
