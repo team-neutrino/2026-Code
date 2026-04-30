@@ -88,7 +88,7 @@ public class Constants {
         public static final double SOFT_SHOT_SPEED = 1700;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double PROGRAMMED_SHOT_SPEED = 3730.0;
-        public static final double LOW_BATTERY_SPEED = 2000;
+        public static final double LOW_BATTERY_SPEED = 1000;
         public static final double UNSTICK = -4000;
 
         public static final double SHUTTLE_SHOOTING_SPEED = 4000;
