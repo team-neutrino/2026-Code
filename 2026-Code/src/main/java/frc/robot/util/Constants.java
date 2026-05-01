@@ -72,6 +72,7 @@ public class Constants {
 
         public static final double HOOD_ALLOWED_ERROR = 2.5;
         public static final double RPM_ALLOWED_ERROR = 400;
+        public static final double SHUTTLE_RPM_ALLOWED_ERROR = 800;
 
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
@@ -158,6 +159,7 @@ public class Constants {
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
         public static final double ALLOWED_ERROR = 8;
+        public static final double SHUTTLE_ALLOWED_ERROR = 10;
         public static final double TRACKING_THRESHOLD = 67.0;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;

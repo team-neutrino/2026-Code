@@ -94,7 +94,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.0
+                              "waitTime": 0.75
                             }
                           },
                           {
@@ -165,7 +165,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Up Slant Entrance"
+                              "pathName": "Copy of Copy of Depot Up Slant Entrance"
                             }
                           },
                           {
@@ -185,6 +185,31 @@
                                   }
                                 }
                               ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "noDrive"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 2.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
                             }
                           }
                         ]
