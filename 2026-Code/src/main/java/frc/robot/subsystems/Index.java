@@ -172,21 +172,10 @@ public class Index extends SubsystemBase {
 
     public Command shuttle() {
         return run(() -> {
-            boolean inOpposingAlliance = swerve.inOpposingZone();
-
-            if (shooterArbiter.getCondition(shooterConditions.TURRET_ANGLE_CORRECT) && !swerve.willShuttleIntoNet()) {
-                if (inOpposingAlliance) {
-                    if (shooterArbiter.getCondition(shooterConditions.SHOOTER_SPEED_CORRECT)) {
-                        m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-                        m_kickerMotorVoltage = KICKER_VOLTAGE;
-                    } else {
-                        m_spindexerMotorVoltage = 0.0;
-                        m_kickerMotorVoltage = 0.0;
-                    }
-                } else {
-                    m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-                    m_kickerMotorVoltage = KICKER_VOLTAGE;
-                }
+            if (shooterArbiter.getCondition(shooterConditions.TURRET_ANGLE_CORRECT) && !swerve.willShuttleIntoNet()
+                    && shooterArbiter.getCondition(shooterConditions.SHOOTER_SPEED_CORRECT)) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+                m_kickerMotorVoltage = KICKER_VOLTAGE;
             } else {
                 m_spindexerMotorVoltage = 0.0;
                 m_kickerMotorVoltage = 0.0;
