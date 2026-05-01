@@ -131,7 +131,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "Depot Slant Intake"
+                                    "pathName": "Copy of Depot Slant Intake"
                                   }
                                 }
                               ]
@@ -141,25 +141,6 @@
                             "type": "named",
                             "data": {
                               "name": "deployAndRunIntake"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "race",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "path",
-                            "data": {
-                              "pathName": "Depot Side Return"
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "shakeHopper"
                             }
                           }
                         ]
