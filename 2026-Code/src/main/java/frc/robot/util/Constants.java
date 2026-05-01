@@ -272,6 +272,7 @@ public class Constants {
     public static class SwerveConstants {
         public static final double BEACH_DEBOUNCE_TIME = 0.3;
         public static final double SLEW_LIMIT = 4.0;
+        public static final double LOW_SLEW_LIMIT = 1.0;
         public static final double GYRO_SCALAR_Z = -5.3;
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 6.0; // 1.5 * Math.PI
