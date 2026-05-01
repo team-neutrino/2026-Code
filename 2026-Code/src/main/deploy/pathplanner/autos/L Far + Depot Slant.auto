@@ -89,7 +89,26 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Depot Up Slant Entrance"
+                              "pathName": "Copy of Depot Up Slant Entrance"
+                            }
+                          },
+                          {
+                            "type": "sequential",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 3.0
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "shakeHopper"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
@@ -108,7 +127,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 3.5
+                              "waitTime": 4.5
                             }
                           },
                           {

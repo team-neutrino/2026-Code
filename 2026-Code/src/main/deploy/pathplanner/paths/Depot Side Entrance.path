@@ -36,7 +36,7 @@
       "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 0.75,
-        "maxAcceleration": 1.0,
+        "maxAcceleration": 0.1,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -55,13 +55,13 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.25,
+    "velocity": 0.0,
     "rotation": 90.0
   },
   "reversed": false,
   "folder": "Other",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 3.0,
     "rotation": 135.0
   },
   "useDefaultConstraints": true
