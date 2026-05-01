@@ -44,6 +44,7 @@ import frc.robot.util.MatchState;
 public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
+    private SlewRateLimiter m_slowSlewLimit = new SlewRateLimiter(LOW_SLEW_LIMIT, -LOW_SLEW_LIMIT, 0);
     private Debouncer m_beachDebouncer = new Debouncer(BEACH_DEBOUNCE_TIME, DebounceType.kRising);
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose = Pose2d.kZero;
@@ -340,7 +341,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
             double magnitude = Math.hypot(forward, left) * (SLOW_MAX_SPEED);
-            magnitude = m_slewLimit.calculate(magnitude);
+            magnitude = m_slowSlewLimit.calculate(magnitude);
             checkEngageBrake(forward, left, rotation);
 
             if (m_brakeEngaged) {
@@ -360,7 +361,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
             double magnitude = Math.hypot(forward, left) * (SLOWEST_MAX_SPEED);
-            magnitude = m_slewLimit.calculate(magnitude);
+            magnitude = m_slowSlewLimit.calculate(magnitude);
             checkEngageBrake(forward, left, rotation);
 
             if (m_brakeEngaged) {
