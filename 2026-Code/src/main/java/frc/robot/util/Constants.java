@@ -10,6 +10,7 @@ import java.util.Optional;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest.NativeSwerveRequest;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
@@ -272,7 +273,8 @@ public class Constants {
     public static class SwerveConstants {
         public static final double BEACH_DEBOUNCE_TIME = 0.3;
         public static final double SLEW_LIMIT = 4.0;
-        public static final double LOW_SLEW_LIMIT = 1.0;
+        public static final double LOW_SLEW_LIMIT = 0.3;
+        public static final double ROTATION_LOW_SLEW_LIMIT = 1;
         public static final double GYRO_SCALAR_Z = -5.3;
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 6.0; // 1.5 * Math.PI
