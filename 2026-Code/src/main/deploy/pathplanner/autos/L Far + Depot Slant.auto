@@ -100,6 +100,31 @@
                       "data": {
                         "commands": [
                           {
+                            "type": "named",
+                            "data": {
+                              "name": "noDrive"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 4.0
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
                             "type": "sequential",
                             "data": {
                               "commands": [
@@ -132,22 +157,9 @@
                             }
                           },
                           {
-                            "type": "sequential",
+                            "type": "named",
                             "data": {
-                              "commands": [
-                                {
-                                  "type": "wait",
-                                  "data": {
-                                    "waitTime": 4.0
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "shakeHopper"
-                                  }
-                                }
-                              ]
+                              "name": "shakeHopper"
                             }
                           }
                         ]
