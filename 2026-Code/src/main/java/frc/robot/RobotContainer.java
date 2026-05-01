@@ -61,6 +61,7 @@ public class RobotContainer {
     m_driverController.start().whileTrue(swerve.resetYaw());
     m_driverController.leftTrigger().whileTrue(swerve.slowSwerveDrive(m_driverController));
     m_driverController.rightTrigger().whileTrue(swerve.slowestSwerveDrive(m_driverController));
+    m_driverController.rightBumper().whileTrue(index.noKickAndSpin());
 
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.b().whileTrue(SuperstructureFactory.shuttle());
