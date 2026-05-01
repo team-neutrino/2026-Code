@@ -33,6 +33,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
@@ -52,6 +53,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     private double joystickVx;
     private double joystickVy;
     MatchState matchState = new MatchState();
+    BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -121,6 +123,10 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public boolean notBeached() {
         return m_beachDebouncer.calculate(isUpright());
+    }
+
+    public double getAcceleration() {
+        return Math.sqrt(Math.pow(accelerometer.getX(), 2) + Math.pow(accelerometer.getY(), 2));
     }
 
     /**
@@ -284,8 +290,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public boolean isNotMovingTooFastOrTurning() {
-        return getSpeedMetersPerSecond() < SHOOT_WHILE_MOVING_THRESHOLD
-                && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD;
+        return getSpeedMetersPerSecond() < SHOOT_WHILE_MOVING_VELOCITY_THRESHOLD
+                && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD
+                && getAcceleration() < SHOOT_WHILE_MOVING_ACCELERATION_THRESHOLD;
     }
 
     private void configurePathPlanner() {
