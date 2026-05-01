@@ -175,7 +175,7 @@
                                 {
                                   "type": "wait",
                                   "data": {
-                                    "waitTime": 1.75
+                                    "waitTime": 2.0
                                   }
                                 },
                                 {
@@ -202,25 +202,6 @@
                                   "type": "path",
                                   "data": {
                                     "pathName": "Depot Slant Intake"
-                                  }
-                                },
-                                {
-                                  "type": "race",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 0.25
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "noDrive"
-                                        }
-                                      }
-                                    ]
                                   }
                                 }
                               ]
