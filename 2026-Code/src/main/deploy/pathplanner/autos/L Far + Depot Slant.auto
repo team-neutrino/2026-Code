@@ -108,7 +108,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 4.0
+                              "waitTime": 3.5
                             }
                           },
                           {
@@ -131,7 +131,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "Copy of Depot Slant Intake"
+                                    "pathName": "Depot Slant Intake"
                                   }
                                 }
                               ]
@@ -141,6 +141,32 @@
                             "type": "named",
                             "data": {
                               "name": "deployAndRunIntake"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "sequential",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "Depot Side Return"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "shakeHopper"
                             }
                           }
                         ]
