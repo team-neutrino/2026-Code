@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(m_autonomousCommand);
         }
+        m_robotContainer.teleopInit();
     }
 
     @Override

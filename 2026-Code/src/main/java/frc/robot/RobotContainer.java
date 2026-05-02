@@ -61,6 +61,7 @@ public class RobotContainer {
     m_driverController.start().whileTrue(swerve.resetYaw());
     m_driverController.leftTrigger().whileTrue(swerve.slowSwerveDrive(m_driverController));
     m_driverController.rightTrigger().whileTrue(swerve.slowestSwerveDrive(m_driverController));
+    m_driverController.rightBumper().whileTrue(index.noKickAndSpin());
 
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.b().whileTrue(SuperstructureFactory.shuttle());
@@ -86,7 +87,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("shooterDefault", shooter.autonDefaultCommand());
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
     NamedCommands.registerCommand("Unbeach", swerve.unbeach());
-    NamedCommands.registerCommand("shakeHopper", IntakeFactory.shakeHopper().repeatedly());
+    NamedCommands.registerCommand("shakeHopper", IntakeFactory.autonShakeHopper().repeatedly());
   }
 
   public Command getAutonomousCommand() {
@@ -104,5 +105,9 @@ public class RobotContainer {
     }
 
     return auto;
+  }
+
+  public void teleopInit() {
+    intake.setTeleopCurrentLimit();
   }
 }

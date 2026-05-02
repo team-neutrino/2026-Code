@@ -27,9 +27,11 @@ public class Intake extends SubsystemBase {
     private TalonFXConfiguration m_deployMotorConfig = new TalonFXConfiguration();
     private final CurrentLimitsConfigs m_rollerCurrentLimitConfig = new CurrentLimitsConfigs();
     private final CurrentLimitsConfigs m_deployCurrentLimitConfig = new CurrentLimitsConfigs();
+    private final CurrentLimitsConfigs m_autonDeployCurrentLimitConfig = new CurrentLimitsConfigs();
     private double m_targetAngle;
     private boolean m_isDeployed = false;
     private boolean m_isShaking = false;
+    private boolean m_hasSetAutonCurrentLimit = false;
     private final PositionVoltage m_deployPositionControl = new PositionVoltage(0);
     private final VoltageOut m_rollerVoltageControl = new VoltageOut(0);
 
@@ -41,6 +43,10 @@ public class Intake extends SubsystemBase {
         m_rollerCurrentLimitConfig.withSupplyCurrentLimit(ROLLER_CURRENT_LIMIT)
                 .withSupplyCurrentLimitEnable(true)
                 .withStatorCurrentLimit(ROLLER_CURRENT_LIMIT)
+                .withStatorCurrentLimitEnable(true);
+        m_autonDeployCurrentLimitConfig.withSupplyCurrentLimit(AUTON_DEPLOY_CURRENT_LIMIT)
+                .withSupplyCurrentLimitEnable(true)
+                .withStatorCurrentLimit(AUTON_DEPLOY_CURRENT_LIMIT)
                 .withStatorCurrentLimitEnable(true);
         m_deployMotorConfig.CurrentLimits = m_deployCurrentLimitConfig;
         m_rollerMotorConfig.CurrentLimits = m_rollerCurrentLimitConfig;
@@ -60,6 +66,22 @@ public class Intake extends SubsystemBase {
 
         Follower followRequest = new Follower(ROLLER_MOTOR_ID, MotorAlignmentValue.Opposed);
         m_rollerFollowerMotor.setControl(followRequest);
+    }
+
+    public void setAutonCurrentLimit() {
+        if (!m_hasSetAutonCurrentLimit) {
+            m_deployMotorConfig.CurrentLimits = m_autonDeployCurrentLimitConfig;
+            m_deployMotor.getConfigurator().apply(m_deployMotorConfig);
+            m_hasSetAutonCurrentLimit = true;
+        }
+    }
+
+    public void setTeleopCurrentLimit() {
+        if (m_hasSetAutonCurrentLimit) {
+            m_deployMotorConfig.CurrentLimits = m_deployCurrentLimitConfig;
+            m_deployMotor.getConfigurator().apply(m_deployMotorConfig);
+            m_hasSetAutonCurrentLimit = false;
+        }
     }
 
     public double getMotorAngle() {
@@ -120,6 +142,12 @@ public class Intake extends SubsystemBase {
             m_isShaking = true;
             m_targetAngle = targetAngle;
             m_rollerMotorVoltage = speed;
+        });
+    }
+
+    public Command setCommandAutonCurrentLimit() {
+        return runOnce(() -> {
+            setAutonCurrentLimit();
         });
     }
 
