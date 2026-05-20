@@ -245,7 +245,12 @@ public class Shooter extends SubsystemBase {
      * m_targetShooterRpm.
      */
     public void controlShooterMotor() {
-        m_shooterMotor.setControl(m_shooterVelocityControl.withVelocity(m_targetShooterRpm / 60));
+        System.out.println(m_targetShooterRpm);
+        if (m_targetShooterRpm == 0) {
+            m_shooterMotor.setVoltage(0);
+        } else {
+            m_shooterMotor.setControl(m_shooterVelocityControl.withVelocity(m_targetShooterRpm / 60));
+        }
     }
 
     /**
@@ -332,15 +337,8 @@ public class Shooter extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            double hubDistance = swerve.getFromHubToTurret();
-            if (swerve.inNeutralOrOpposingZone()) {
-                m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
-                m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
-                return;
-            }
-            m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
-            m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
-
+            m_targetShooterRpm = 0;
+            m_targetAngle = 0;
             // Manually tuning hood and speed
             // m_targetShooterRpm = m_tuningSpeed;
             // m_targetAngle = m_tuningAngle;

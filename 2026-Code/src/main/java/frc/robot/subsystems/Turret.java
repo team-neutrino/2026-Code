@@ -106,18 +106,6 @@ public class Turret extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (GlobalConstants.RED_ALLIANCE.isPresent()) {
-            updateWrap();
-            m_adjustedTargetAngle = getAdjustedTargetAngle();
-
-            final double fieldRelativeTargetAngle = Subsystems.swerve.getFieldRelativeTargetAngle();
-            final double translationRate = calculateTurretAngleDifference(fieldRelativeTargetAngle,
-                    m_previousFieldRelativeTargetAngle) * 50;
-            m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
-            final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
-
-            adjustTurret(m_adjustedTargetAngle, translationRate, rotationRate);
-        }
         shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
     }
 
@@ -203,7 +191,7 @@ public class Turret extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            m_targetAngle = calculateRobotRelativeTargetAngle();
+            m_targetAngle = 0;
         });
     }
 
