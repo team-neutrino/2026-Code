@@ -245,7 +245,6 @@ public class Shooter extends SubsystemBase {
      * m_targetShooterRpm.
      */
     public void controlShooterMotor() {
-        System.out.println(m_targetShooterRpm);
         if (m_targetShooterRpm == 0) {
             m_shooterMotor.setVoltage(0);
         } else {

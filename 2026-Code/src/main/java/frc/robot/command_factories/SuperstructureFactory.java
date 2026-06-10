@@ -22,7 +22,7 @@ public class SuperstructureFactory {
     }
 
     public static Command feedAndShoot() {
-        return index.feedShooter().alongWith(shooter.runShooterAndHood(2000, 10));
+        return index.feedShooter().alongWith(shooter.runShooterAndHood(2000, 10)).alongWith(turret.setTargetAngleCommand(0));
     }
 
     public static Command shootAndReverseKicker() {
