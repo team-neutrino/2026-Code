@@ -9,7 +9,8 @@ public class Person {
     private boolean m_isEmployed;
     private double m_height;
 
-    public Person(String p_name, List<String> p_nicknames, int p_age, double p_height, boolean p_isEmployed) {
+    public Person(String p_name, List<String> p_nicknames, 
+        int p_age, double p_height, boolean p_isEmployed) {
         m_name = p_name;
         m_nicknames = p_nicknames;
         m_age = p_age;
@@ -39,6 +40,8 @@ public class Person {
 
     public static void main(String[] args) {
         Person Siwon = new Person("Siwon", List.of("Seoul Sister", "Triple S"), 15, 8.2, false);
-        System.out.println("Name: " + Siwon.getName() + ", nicknames: " + Siwon.getNickname() + ", age: " + Siwon.getAge() + ", height: " + Siwon.getHeight() + " ft" + ", employed: " + Siwon.isEmployed());
+        System.out.println("Name: " + Siwon.getName() + ", nicknames: " + Siwon.getNickname() + ", age: " + 
+            Siwon.getAge() + ", height: " + Siwon.getHeight() + " ft" + ", employed: " + Siwon.isEmployed());
     }
 }
+
