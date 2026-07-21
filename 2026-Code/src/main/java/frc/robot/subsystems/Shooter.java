@@ -22,6 +22,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import static frc.robot.util.Subsystems.swerve;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -248,6 +249,7 @@ public class Shooter extends SubsystemBase {
         if (m_targetShooterRpm == 0) {
             m_shooterMotor.setVoltage(0);
         } else {
+            m_targetShooterRpm = MathUtil.clamp(m_targetShooterRpm, 0, 2000);
             m_shooterMotor.setControl(m_shooterVelocityControl.withVelocity(m_targetShooterRpm / 60));
         }
     }
