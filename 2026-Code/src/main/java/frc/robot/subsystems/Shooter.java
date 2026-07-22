@@ -26,6 +26,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Shooter extends SubsystemBase {
     private final CANBus m_CANbus = RioConstants.RIO_BUS;
@@ -237,6 +238,14 @@ public class Shooter extends SubsystemBase {
         m_hoodMotor.setControl(m_hoodPositionControl.withPosition(getSafeAngle(m_targetAngle) / 360));
     }
 
+    public Command manualControlHoodMotor(CommandXboxController joystick) {
+        return run(() -> {
+            double magnitude = -joystick.getLeftY();
+            m_targetAngle = MathUtil.clamp(m_targetAngle, 1, 25);
+            m_targetAngle += magnitude;
+        });
+    }
+
     public double getHoodCurrent() {
         return Math.abs(m_hoodMotor.getTorqueCurrent().getValueAsDouble());
     }
@@ -275,6 +284,7 @@ public class Shooter extends SubsystemBase {
 
         controlHoodMotor();
         controlShooterMotor();
+        System.out.println(m_targetAngle);
     }
 
     /**
