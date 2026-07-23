@@ -180,7 +180,7 @@ public class Turret extends SubsystemBase {
     
     public Command manualControlTurret(CommandXboxController joystick) {
         return run(() -> {
-            double magnitude = -joystick.getLeftY();
+            double magnitude = -joystick.getRightX()*1.5;
             m_targetAngle += magnitude;
             m_targetAngle = MathUtil.clamp(m_targetAngle, MIN_WINDUP + 10, MAX_WINDUP - 10);
         });
