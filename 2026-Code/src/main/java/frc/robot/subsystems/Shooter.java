@@ -241,8 +241,8 @@ public class Shooter extends SubsystemBase {
     public Command manualControlHoodMotor(CommandXboxController joystick) {
         return run(() -> {
             double magnitude = -joystick.getLeftY();
-            m_targetAngle = MathUtil.clamp(m_targetAngle, 1, 25);
             m_targetAngle += magnitude;
+            m_targetAngle = MathUtil.clamp(m_targetAngle, 0, MAX_SAFE_HOOD_ANGLE);
         });
     }
 
@@ -284,7 +284,6 @@ public class Shooter extends SubsystemBase {
 
         controlHoodMotor();
         controlShooterMotor();
-        System.out.println(m_targetAngle);
     }
 
     /**
@@ -349,7 +348,7 @@ public class Shooter extends SubsystemBase {
     public Command defaultCommand() {
         return run(() -> {
             m_targetShooterRpm = 0;
-            m_targetAngle = 0;
+            // m_targetAngle = 0;
             // Manually tuning hood and speed
             // m_targetShooterRpm = m_tuningSpeed;
             // m_targetAngle = m_tuningAngle;

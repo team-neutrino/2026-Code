@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.Constants.GlobalConstants;
 import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 import frc.robot.util.Subsystems;
@@ -107,6 +108,7 @@ public class Turret extends SubsystemBase {
     @Override
     public void periodic() {
         shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
+        adjustTurret(m_targetAngle, 0, 0);
     }
 
     public double getCurrentAngle() {
@@ -175,6 +177,14 @@ public class Turret extends SubsystemBase {
                 m_turretPositionControl.withPosition(targetAngle / 360)
                         .withFeedForward(voltageFeedForward(translationRate, rotationRate)));
     }
+    
+    public Command manualControlTurret(CommandXboxController joystick) {
+        return run(() -> {
+            double magnitude = -joystick.getLeftY();
+            m_targetAngle += magnitude;
+            m_targetAngle = MathUtil.clamp(m_targetAngle, MIN_WINDUP + 10, MAX_WINDUP - 10);
+        });
+    }
 
     private void updateWrap() {
         double current = getCurrentAngle();
@@ -191,7 +201,6 @@ public class Turret extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            m_targetAngle = 0;
         });
     }
 
