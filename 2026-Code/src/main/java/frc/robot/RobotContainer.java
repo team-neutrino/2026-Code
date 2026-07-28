@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.command_factories.IntakeFactory;
@@ -11,6 +12,7 @@ import frc.robot.command_factories.SuperstructureFactory;
 import frc.robot.commands.DriveToPoint;
 import frc.robot.generated.Telemetry;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Swerve;
 import frc.robot.util.Subsystems;
 
 import static edu.wpi.first.units.Units.*;
@@ -24,11 +26,17 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import choreo.auto.AutoChooser;
+import choreo.auto.AutoFactory;
+import choreo.auto.AutoRoutine;
+import choreo.auto.AutoTrajectory;
+
 public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
-  private SendableChooser<Command> m_chooser;
+  private AutoFactory autoFactory;
+  private AutoChooser autoChooser;
 
   private Subsystems m_subsystemContainer;
 
@@ -38,15 +46,15 @@ public class RobotContainer {
     configureBindings();
     configureNamedCommands();
 
+    autoChooser = new AutoChooser();
+    autoFactory = new AutoFactory(swerve::getCurrentPose, swerve::resetPose, swerve::followChoreoTrajectory, true, swerve);
+
     swerve.registerTelemetry(logger::telemeterize);
+    autoChooser.addRoutine("Example", () -> example());
+    autoFactory.bind("Marker", intake.silly());
+    SmartDashboard.putData("AutoChooser", autoChooser);
 
-    List<String> autonNames = AutoBuilder.getAllAutoNames();
-    for (String auton : autonNames) {
-      AutoBuilder.buildAuto(auton);
-    }
-
-    m_chooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("AutoChooser", m_chooser);
+    
   }
 
   private void configureDefaultCommands() {
@@ -55,6 +63,25 @@ public class RobotContainer {
     index.setDefaultCommand(index.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
     turret.setDefaultCommand(turret.defaultCommand());
+  }
+
+  public AutoRoutine example() {
+    AutoRoutine routine = autoFactory.newRoutine("New Path");
+    AutoTrajectory neutral = routine.trajectory("NeutralLeft");
+    AutoTrajectory depot = routine.trajectory("Depot");
+    routine.active().onTrue(
+      Commands.sequence(
+        neutral.resetOdometry(),
+        neutral.cmd(),
+        Commands.race(
+          intake.silly(),
+          Commands.waitSeconds(2)
+        ),
+        depot.cmd()
+      )
+    );
+    
+    return routine;
   }
 
   private void configureBindings() {
@@ -97,7 +124,7 @@ public class RobotContainer {
       return new InstantCommand();
     }
     try {
-      auto = m_chooser.getSelected();
+      auto = autoChooser.selectedCommandScheduler();
     } catch (Exception e) {
       // DO NOT CHANGE THE CODE IN THIS CATCH BLOCK
       System.err.println("Caught exception when loading auto");

@@ -10,6 +10,7 @@ import java.util.Optional;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest.NativeSwerveRequest;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
@@ -288,6 +289,12 @@ public class Constants {
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
         public static final double BEACHED_ANGLE = 3.0;
+    }
+
+    public static class AutoConstants {
+        public static final PIDController AUTO_X_CONTROLLER = new PIDController(2, 0, 0);
+        public static final PIDController AUTO_Y_CONTROLLER = new PIDController(2, 0, 0);
+        public static final PIDController AUTO_HEADING_CONTROLLER = new PIDController(2, 0, 0);
     }
 
     public static class DriveToPointConstants {
