@@ -177,12 +177,12 @@ public class Turret extends SubsystemBase {
                 m_turretPositionControl.withPosition(targetAngle / 360)
                         .withFeedForward(voltageFeedForward(translationRate, rotationRate)));
     }
-    
+
     public Command manualControlTurret(CommandXboxController joystick) {
         return run(() -> {
-            double magnitude = -joystick.getRightX()*1.5;
+            double magnitude = -joystick.getRightX() * 1.5;
             m_targetAngle += magnitude;
-            m_targetAngle = MathUtil.clamp(m_targetAngle, MIN_WINDUP + 10, MAX_WINDUP - 10);
+            m_targetAngle = MathUtil.clamp(m_targetAngle, MIN_WINDUP + 20, MAX_WINDUP - 10);
         });
     }
 

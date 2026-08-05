@@ -240,7 +240,7 @@ public class Shooter extends SubsystemBase {
 
     public Command manualControlHoodMotor(CommandXboxController joystick) {
         return run(() -> {
-            double magnitude = -joystick.getLeftY();
+            double magnitude = -joystick.getRightY();
             m_targetAngle += magnitude;
             m_targetAngle = MathUtil.clamp(m_targetAngle, 0, MAX_SAFE_HOOD_ANGLE);
         });
@@ -314,6 +314,19 @@ public class Shooter extends SubsystemBase {
     public Command shootingSpeed(double speed) {
         return run(() -> {
             m_targetShooterRpm = speed;
+        });
+    }
+
+    public Command shootingSpeedJoystick(CommandXboxController joystick) {
+        return run(() -> {
+            double magnitude = -joystick.getLeftY() * 2500;
+            magnitude = MathUtil.clamp(magnitude, 0, 2500);
+            System.out.println(magnitude);
+            if (magnitude != 0) {
+                m_targetShooterRpm = magnitude;
+            } else {
+                m_targetShooterRpm = 1000;
+            }
         });
     }
 

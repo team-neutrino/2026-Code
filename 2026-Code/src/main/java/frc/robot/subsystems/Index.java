@@ -14,6 +14,7 @@ import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.Constants.RioConstants;
 import frc.robot.util.Constants.ShooterConstants.shooterConditions;
 
@@ -155,6 +156,19 @@ public class Index extends SubsystemBase {
         return run(() -> {
             m_spindexerMotorVoltage = INDEXING_VOLTAGE;
             m_kickerMotorVoltage = KICKER_VOLTAGE;
+        });
+    }
+
+    public Command feedShooterJoystick(CommandXboxController joystick) {
+        return run(() -> {
+            double magnitude = -joystick.getLeftY();
+            if (magnitude != 0) {
+                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+                m_kickerMotorVoltage = KICKER_VOLTAGE;
+            } else {
+                m_kickerMotorVoltage = 0;
+                m_spindexerMotorVoltage = 0;
+            }
         });
     }
 

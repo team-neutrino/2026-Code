@@ -6,8 +6,12 @@ package frc.robot.command_factories;
 
 import java.util.List;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
 import static frc.robot.util.Constants.ShooterConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
 import static frc.robot.util.Subsystems.*;
@@ -25,6 +29,10 @@ public class SuperstructureFactory {
         return index.feedShooter().alongWith(shooter.runShooterAndHood(2000, 25));
     }
 
+    public static Command feedAndShootJoystick(CommandXboxController joystick) {
+        return shooter.shootingSpeedJoystick(joystick).alongWith(index.feedShooterJoystick(joystick));
+    }
+
     public static Command shootAndReverseKicker() {
         return index.reverseKicker().alongWith(shooter.shootingSpeed(6000));
     }
@@ -35,7 +43,8 @@ public class SuperstructureFactory {
 
     public static Command unstickYakit() {
         return index.feedShooter()
-                .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE)).alongWith(turret.setTargetAngleCommand(UNSTUCK_ANGLE));
+                .alongWith(shooter.runShooterAndHood(SOFT_SHOT_SPEED, SOFT_SHOT_ANGLE))
+                .alongWith(turret.setTargetAngleCommand(UNSTUCK_ANGLE));
     }
 
     public static Command noShooting() {
@@ -43,11 +52,13 @@ public class SuperstructureFactory {
     }
 
     public static Command outpostProgrammedShot() {
-        return turret.setTargetAngleCommand(OUTPOST_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot()).alongWith(index.feedShooter());
+        return turret.setTargetAngleCommand(OUTPOST_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot())
+                .alongWith(index.feedShooter());
     }
 
     public static Command depotProgrammedShot() {
-        return turret.setTargetAngleCommand(DEPOT_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot()).alongWith(index.feedShooter());
+        return turret.setTargetAngleCommand(DEPOT_PROGRAMMED_SHOT_ANGLE).alongWith(shooter.programmedShot())
+                .alongWith(index.feedShooter());
     }
 
     public static Command DriveToPointFinite(List<Pose2d> poses) {

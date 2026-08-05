@@ -62,20 +62,18 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(swerve.slowSwerveDrive(m_driverController));
     m_driverController.rightTrigger().whileTrue(swerve.slowestSwerveDrive(m_driverController));
 
-    m_buttonController.start().whileTrue(shooter.manualControlHoodMotor(m_buttonController));
-    m_buttonController.povDown().whileTrue(turret.manualControlTurret(m_buttonController));
-    
+    m_buttonController.povDown().whileTrue(shooter.manualControlHoodMotor(m_buttonController));
+    m_buttonController.povLeft().whileTrue(turret.manualControlTurret(m_buttonController));
+
     m_buttonController.a().onTrue(shooter.resetHood());
     m_buttonController.b().whileTrue(SuperstructureFactory.shuttle());
-    m_buttonController.x().whileTrue(SuperstructureFactory.feedAndShoot());
+    m_buttonController.x().whileTrue(SuperstructureFactory.feedAndShootJoystick(m_buttonController));
     m_buttonController.y().whileTrue(index.noKickAndSpin());
     m_buttonController.povUp().toggleOnTrue(IntakeFactory.shakeHopper());
     m_buttonController.leftTrigger().onTrue(IntakeFactory.toggleIntake());
     m_buttonController.rightTrigger().whileTrue(SuperstructureFactory.shootAndReverseKicker());
     m_buttonController.leftBumper().whileTrue(IntakeFactory.runIntake());
     m_buttonController.rightBumper().whileTrue(IntakeFactory.runOuttake());
-    m_buttonController.povRight().whileTrue(SuperstructureFactory.outpostProgrammedShot());
-    m_buttonController.povLeft().whileTrue(SuperstructureFactory.depotProgrammedShot());
     m_buttonController.back().whileTrue(SuperstructureFactory.unstickYakit());
   }
 
