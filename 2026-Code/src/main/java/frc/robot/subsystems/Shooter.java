@@ -57,6 +57,8 @@ public class Shooter extends SubsystemBase {
 
     public double m_tuningSpeed;
 
+    private boolean m_toggle = false;
+
     /**
      * Creates a new Shooter.
      */
@@ -258,7 +260,10 @@ public class Shooter extends SubsystemBase {
         if (m_targetShooterRpm == 0) {
             m_shooterMotor.setVoltage(0);
         } else {
-            m_targetShooterRpm = MathUtil.clamp(m_targetShooterRpm, 0, 2000);
+            if (!m_toggle) {
+                m_targetShooterRpm = MathUtil.clamp(m_targetShooterRpm, 0, 2000);
+            }
+
             m_shooterMotor.setControl(m_shooterVelocityControl.withVelocity(m_targetShooterRpm / 60));
         }
     }
@@ -284,6 +289,7 @@ public class Shooter extends SubsystemBase {
 
         controlHoodMotor();
         controlShooterMotor();
+        System.out.println(shooterArbiter.readyToFire());
     }
 
     /**
@@ -358,9 +364,27 @@ public class Shooter extends SubsystemBase {
         );
     }
 
+    public Command toggleTrue() {
+        return runOnce(() -> {
+            m_toggle = !m_toggle;
+        });
+    }
+
     public Command defaultCommand() {
         return run(() -> {
-            m_targetShooterRpm = 0;
+            if (m_toggle) {
+                double hubDistance = swerve.getFromHubToTurret();
+                if (swerve.inNeutralOrOpposingZone()) {
+                    m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
+                    m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+                    return;
+                }
+                m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
+                m_targetShooterRpm = SPEED_INTERPOLATION.get(hubDistance);
+            } else {
+                m_targetShooterRpm = 0;
+            }
+
             // m_targetAngle = 0;
             // Manually tuning hood and speed
             // m_targetShooterRpm = m_tuningSpeed;

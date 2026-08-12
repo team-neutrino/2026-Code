@@ -59,6 +59,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     m_driverController.start().whileTrue(swerve.resetYaw());
+    m_driverController.x().onTrue(SuperstructureFactory.switchToggle());
     m_driverController.leftTrigger().whileTrue(swerve.slowSwerveDrive(m_driverController));
     m_driverController.rightTrigger().whileTrue(swerve.slowestSwerveDrive(m_driverController));
 

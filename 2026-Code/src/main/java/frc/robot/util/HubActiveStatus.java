@@ -14,15 +14,15 @@ public class HubActiveStatus {
 
     public void update() {
 
-        if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
-            if (GlobalConstants.RED_ALLIANCE.get()) {
-                Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-                        isRedHubActive());
-            } else {
-                Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
-                        isBlueHubActive());
-            }
-        }
+        // if (hasValidGameData() && GlobalConstants.RED_ALLIANCE.isPresent()) {
+        //     if (GlobalConstants.RED_ALLIANCE.get()) {
+        //         Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+        //                 isRedHubActive());
+        //     } else {
+        //         Subsystems.shooterArbiter.setCondition(shooterConditions.HUB_ACTIVE,
+        //                 isBlueHubActive());
+        //     }
+        // }
 
         if (inactiveFirst != null) {
             return;

@@ -42,6 +42,8 @@ public class Turret extends SubsystemBase {
     private final CANcoder m_encoder = new CANcoder(ENCODER_ID, RIO_BUS);
     private final PositionVoltage m_turretPositionControl = new PositionVoltage(0);
 
+    private boolean m_toggle = false;
+
     // Simulation
     private TurretSim m_turretSim;
     private double m_staticFF;
@@ -105,10 +107,31 @@ public class Turret extends SubsystemBase {
         }
     }
 
+    public Command toggleTrue() {
+        return runOnce(() -> {
+            m_toggle = !m_toggle;
+        });
+    }
+
     @Override
     public void periodic() {
+        if (m_toggle) {
+            if (GlobalConstants.RED_ALLIANCE.isPresent()) {
+                updateWrap();
+                m_adjustedTargetAngle = getAdjustedTargetAngle();
+
+                final double fieldRelativeTargetAngle = Subsystems.swerve.getFieldRelativeTargetAngle();
+                final double translationRate = calculateTurretAngleDifference(fieldRelativeTargetAngle,
+                        m_previousFieldRelativeTargetAngle) * 50;
+                m_previousFieldRelativeTargetAngle = fieldRelativeTargetAngle;
+                final double rotationRate = -Math.toDegrees(Subsystems.swerve.getChassisSpeeds().omegaRadiansPerSecond);
+
+                adjustTurret(m_adjustedTargetAngle, translationRate, rotationRate);
+            }
+        } else {
+            adjustTurret(m_targetAngle, 0, 0);
+        }
         shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
-        adjustTurret(m_targetAngle, 0, 0);
     }
 
     public double getCurrentAngle() {
@@ -201,6 +224,10 @@ public class Turret extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
+            if (m_toggle) {
+                m_targetAngle = calculateRobotRelativeTargetAngle();
+            }
+            
         });
     }
 
