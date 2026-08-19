@@ -70,8 +70,8 @@ public class Constants {
         public static final double HOOD_KI = 150.0;
         public static final double HOOD_KD = 0;
 
-        public static final double HOOD_ALLOWED_ERROR = 2.5;
-        public static final double RPM_ALLOWED_ERROR = 400;
+        public static final double HOOD_ALLOWED_ERROR = 0.5;
+        public static final double RPM_ALLOWED_ERROR = 150;
 
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
@@ -81,7 +81,7 @@ public class Constants {
         public static final double CURRENT_SPIKE = 29.0;
         public static final double HOOD_GEAR_RATIO = 105.8239;
         public static final double SHOOT_WHILE_MOVING_VELOCITY_STARTING_THRESHOLD = 1.0;
-        public static final double NOT_TURNING_THRESHOLD = 120;
+        public static final double NOT_TURNING_THRESHOLD = 30;
         public static final double SHOOTER_RPM_NOISE = 0.5;
 
         public static final double SOFT_SHOT_ANGLE = 20;
@@ -97,17 +97,17 @@ public class Constants {
                 Map.entry(0.0, 6.5),
                 Map.entry(1.3, 6.0),
                 Map.entry(2.13, 10.5),
-                Map.entry(3.1, 18.0),
-                Map.entry(3.6, 25.0),
-                Map.entry(4.0, 25.0),
-                Map.entry(20.0, 25.0));
+                Map.entry(3.1, 16.0),
+                Map.entry(3.6, 18.5),
+                Map.entry(4.0, 20.5),
+                Map.entry(20.0, 22.0));
 
         public static final InterpolatingDoubleTreeMap SPEED_INTERPOLATION = InterpolatingDoubleTreeMap.ofEntries(
-                Map.entry(0.0, 2500.0),
-                Map.entry(3.1, 2500.0),
-                Map.entry(3.6, 2500.0),
-                Map.entry(4.54, 3400.0),
-                Map.entry(5.43, 3700.0));
+                Map.entry(0.0, 2700.0),
+                Map.entry(3.1, 2900.0),
+                Map.entry(3.6, 2900.0),
+                Map.entry(4.54, 3200.0),
+                Map.entry(5.43, 3500.0));
 
         // may want to redo the current points in case an error was made
         public static final InterpolatingDoubleTreeMap TIME_OF_FLIGHT = InterpolatingDoubleTreeMap.ofEntries(
@@ -202,7 +202,7 @@ public class Constants {
         public static final double OUTTAKE_VOLTAGE = -10;
 
         public static final double STARTING_POSITION = 0;
-        //public static final double DEPLOYED_POSITION = -14.6;
+        // public static final double DEPLOYED_POSITION = -14.6;
         public static final double DEPLOYED_POSITION = -14.3;
         public static final double INTERMEDIATE_POSITION_1 = -5;
         public static final double INTERMEDIATE_POSITION_2 = -12;
@@ -281,6 +281,7 @@ public class Constants {
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
         public static final double CONVERGENCE_ITERATIONS = 3.0;
         public static final double SHOOT_WHILE_MOVING_THRESHOLD = 2.5;
+        public static final double NOT_MOVING_THRESHOLD = 0.5;
         public static final double ROBOT_WHEEL_OFFSET = 0.276225;
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;

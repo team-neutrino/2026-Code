@@ -287,6 +287,11 @@ public class Swerve extends CommandSwerveDrivetrain {
                 && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD;
     }
 
+    public boolean isNotMovingOrTurning() {
+        return getSpeedMetersPerSecond() < NOT_MOVING_THRESHOLD
+                && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD;
+    }
+
     private void configurePathPlanner() {
         double pTranslation = 2;
         double iTranslation = 0;
@@ -415,9 +420,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     public void periodic() {
         super.periodic();
         if (RED_ALLIANCE.isPresent()) {
-            // shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
-            // shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
-            //         isNotMovingTooFastOrTurning());
+            shooterArbiter.setCondition(shooterConditions.IN_ALLIANCE_ZONE, !inNeutralOrOpposingZone());
+            shooterArbiter.setCondition(shooterConditions.SWERVE_SPEED_CORRECT,
+                    isNotMovingOrTurning());
             hubPose = getYakitTargetPose();
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
         }
