@@ -22,7 +22,7 @@ import frc.robot.commands.DriveToPoint;
 public class SuperstructureFactory {
 
     public static Command switchToggle() {
-        return turret.toggleTrue().alongWith(shooter.toggleTrue());
+        return turret.toggleTrue().alongWith(shooter.toggleTrue()).alongWith(index.toggleTrue());
     }
 
     public static Command shootOnly() {

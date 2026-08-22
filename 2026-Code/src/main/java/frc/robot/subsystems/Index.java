@@ -45,6 +45,8 @@ public class Index extends SubsystemBase {
     private final VoltageOut m_spindexerVoltageControl = new VoltageOut(0);
     private final VoltageOut m_kickerVoltageControl = new VoltageOut(0);
 
+    private boolean m_toggle = false;
+
     public Index() {
         m_indexCurrentLimitConfig.withSupplyCurrentLimit(INDEX_CURRENT_LIMIT)
                 .withSupplyCurrentLimitEnable(true)
@@ -65,6 +67,12 @@ public class Index extends SubsystemBase {
         m_kickerMotor.setNeutralMode(NeutralModeValue.Coast);
 
         m_canandColor.setSettings(m_settings);
+    }
+
+    public Command toggleTrue() {
+        return runOnce(() -> {
+            m_toggle = !m_toggle;
+        });
     }
 
     public double getSpindexerCurrentVoltage() {
@@ -210,7 +218,7 @@ public class Index extends SubsystemBase {
 
     public Command defaultCommand() {
         return run(() -> {
-            if (shooterArbiter.readyToFire()) {
+            if (shooterArbiter.readyToFire() && m_toggle) {
                 m_spindexerMotorVoltage = INDEXING_VOLTAGE;
                 m_kickerMotorVoltage = KICKER_VOLTAGE;
             } else {
