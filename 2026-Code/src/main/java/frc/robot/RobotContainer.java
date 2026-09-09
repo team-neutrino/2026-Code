@@ -46,15 +46,9 @@ public class RobotContainer {
     configureBindings();
     configureNamedCommands();
 
-    autoChooser = new AutoChooser();
-    autoFactory = new AutoFactory(swerve::getCurrentPose, swerve::resetPose, swerve::followChoreoTrajectory, true, swerve);
-
     swerve.registerTelemetry(logger::telemeterize);
-    autoChooser.addRoutine("Example", () -> example());
-    autoFactory.bind("Marker", intake.silly());
-    SmartDashboard.putData("AutoChooser", autoChooser);
 
-    
+    autoChooser.addRoutine("null", null);
   }
 
   private void configureDefaultCommands() {
@@ -63,25 +57,6 @@ public class RobotContainer {
     index.setDefaultCommand(index.defaultCommand());
     swerve.setDefaultCommand(swerve.swerveDefaultCommand(m_driverController));
     turret.setDefaultCommand(turret.defaultCommand());
-  }
-
-  public AutoRoutine example() {
-    AutoRoutine routine = autoFactory.newRoutine("New Path");
-    AutoTrajectory neutral = routine.trajectory("NeutralLeft");
-    AutoTrajectory depot = routine.trajectory("Depot");
-    routine.active().onTrue(
-      Commands.sequence(
-        neutral.resetOdometry(),
-        neutral.cmd(),
-        Commands.race(
-          intake.silly(),
-          Commands.waitSeconds(2)
-        ),
-        depot.cmd()
-      )
-    );
-    
-    return routine;
   }
 
   private void configureBindings() {
@@ -115,23 +90,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("noDrive", swerve.noDrive());
     NamedCommands.registerCommand("Unbeach", swerve.unbeach());
     NamedCommands.registerCommand("shakeHopper", IntakeFactory.autonShakeHopper().repeatedly());
-  }
-
-  public Command getAutonomousCommand() {
-    Command auto;
-
-    if (Subsystems.swerve == null) {
-      return new InstantCommand();
-    }
-    try {
-      auto = autoChooser.selectedCommandScheduler();
-    } catch (Exception e) {
-      // DO NOT CHANGE THE CODE IN THIS CATCH BLOCK
-      System.err.println("Caught exception when loading auto");
-      auto = new PathPlannerAuto("Nothing");
-    }
-
-    return auto;
   }
 
   public void teleopInit() {
