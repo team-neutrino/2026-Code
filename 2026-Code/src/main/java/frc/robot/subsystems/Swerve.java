@@ -298,20 +298,16 @@ public class Swerve extends CommandSwerveDrivetrain {
 
         ChassisSpeeds speeds = sample.getChassisSpeeds();
         speeds.vxMetersPerSecond += AUTO_X_CONTROLLER.calculate(
-                pose.getX(), sample.x
-        );
+                pose.getX(), sample.x);
         speeds.vyMetersPerSecond += AUTO_Y_CONTROLLER.calculate(
-                pose.getY(), sample.y
-        );
+                pose.getY(), sample.y);
         speeds.omegaRadiansPerSecond += AUTO_HEADING_CONTROLLER.calculate(
-                pose.getRotation().getRadians(), sample.heading
-        );
+                pose.getRotation().getRadians(), sample.heading);
 
         setControl(
                 SwerveRequestStash.followTrajectory.withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(sample.moduleForcesX())
-                        .withWheelForceFeedforwardsY(sample.moduleForcesY())
-        );
+                        .withWheelForceFeedforwardsY(sample.moduleForcesY()));
     }
 
     private void configurePathPlanner() {
@@ -464,7 +460,9 @@ public class Swerve extends CommandSwerveDrivetrain {
         public static final SwerveRequest.RobotCentric autonDrive = new SwerveRequest.RobotCentric()
                 .withDriveRequestType(DriveRequestType.Velocity);
 
-        public static final SwerveRequest.ApplyFieldSpeeds followTrajectory = new SwerveRequest.ApplyFieldSpeeds();
+        public static final SwerveRequest.ApplyFieldSpeeds followTrajectory = new SwerveRequest.ApplyFieldSpeeds()
+                .withDesaturateWheelSpeeds(true)
+                .withDriveRequestType(DriveRequestType.Velocity);
 
         public static final SwerveRequest.FieldCentricFacingAngle driveWithVelocity = new SwerveRequest.FieldCentricFacingAngle()
                 .withDriveRequestType(DriveRequestType.Velocity)
