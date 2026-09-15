@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.autos.AutoBase;
 
 public class test {
-    public AutoRoutine example() {
+    public static AutoRoutine example() {
         AutoRoutine routine = AutoBase.autoFactory.newRoutine("New Path");
         AutoTrajectory neutral = routine.trajectory("NeutralLeft");
         AutoTrajectory depot = routine.trajectory("Depot");
