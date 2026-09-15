@@ -8,6 +8,4 @@ public class AutoBase {
             swerve::followChoreoTrajectory,
             true, swerve);
 
-    }
-
 }
