@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.autos.AutoSelector;
 import frc.robot.util.Constants;
 import frc.robot.util.Subsystems;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
+    private AutoSelector m_AutoSelector;
     private RobotContainer m_robotContainer;
 
     /* log and replay timestamp and joystick data */
@@ -29,6 +31,7 @@ public class Robot extends TimedRobot {
 
     public Robot() {
         m_robotContainer = new RobotContainer();
+        m_AutoSelector = new AutoSelector();
         DataLogManager.start("", "", 100);
         DriverStation.startDataLog(DataLogManager.getLog());
     }
@@ -60,7 +63,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        m_autonomousCommand = m_AutoSelector.getAutonomousCommand();
 
         if (m_autonomousCommand != null) {
             CommandScheduler.getInstance().schedule(m_autonomousCommand);

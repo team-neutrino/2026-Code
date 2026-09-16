@@ -35,8 +35,6 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(0);
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
-  private AutoFactory autoFactory;
-  private AutoChooser autoChooser;
 
   private Subsystems m_subsystemContainer;
 
@@ -47,8 +45,6 @@ public class RobotContainer {
     configureNamedCommands();
 
     swerve.registerTelemetry(logger::telemeterize);
-
-    autoChooser.addRoutine("null", null);
   }
 
   private void configureDefaultCommands() {
