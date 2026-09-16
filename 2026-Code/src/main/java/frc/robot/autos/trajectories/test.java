@@ -5,6 +5,8 @@ import choreo.auto.AutoTrajectory;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.autos.AutoBase;
 
+import static frc.robot.util.Subsystems.*;
+
 public class test {
     public static AutoRoutine example() {
         AutoRoutine routine = AutoBase.autoFactory.newRoutine("New Path");
@@ -14,9 +16,16 @@ public class test {
                 Commands.sequence(
                         neutral.resetOdometry(),
                         neutral.cmd(),
+                        swerve.unbeach(),
                         Commands.race(
+                                index.autonDefaultCommand(),
+                                shooter.autonDefaultCommand(),
                                 Commands.waitSeconds(2)),
-                        depot.cmd()));
+                        Commands.race(
+                                depot.cmd(),
+                                index.autonDefaultCommand(),
+                                shooter.autonDefaultCommand()),
+                        swerve.noDrive()));
 
         return routine;
     }
