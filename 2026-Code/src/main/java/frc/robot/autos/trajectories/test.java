@@ -4,6 +4,7 @@ import choreo.auto.AutoRoutine;
 import choreo.auto.AutoTrajectory;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.autos.AutoBase;
+import frc.robot.command_factories.IntakeFactory;
 
 import static frc.robot.util.Subsystems.*;
 
@@ -15,8 +16,11 @@ public class test {
         routine.active().onTrue(
                 Commands.sequence(
                         neutral.resetOdometry(),
-                        neutral.cmd(),
-                        swerve.unbeach(),
+                        Commands.race(
+                              neutral.cmd(),
+                              IntakeFactory.deployAndRunIntake() 
+                        ),
+                        //swerve.unbeach(),
                         Commands.race(
                                 index.autonDefaultCommand(),
                                 shooter.autonDefaultCommand(),
