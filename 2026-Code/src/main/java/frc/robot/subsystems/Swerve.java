@@ -436,6 +436,12 @@ public class Swerve extends CommandSwerveDrivetrain {
             hubPose = getYakitTargetPose();
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
         }
+        if (accelerometer.getX() > 0.5) {
+            System.out.println("X: " + accelerometer.getX());
+        }
+        if (accelerometer.getY() > 0.5) {
+            System.out.println("Y: " + accelerometer.getY());
+        }
     }
 
     public void configureRequestPID() {
