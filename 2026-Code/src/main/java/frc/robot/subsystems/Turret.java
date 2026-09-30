@@ -27,6 +27,7 @@ import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
 import static frc.robot.util.Constants.RioConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
 import static frc.robot.util.Subsystems.shooterArbiter;
+import static frc.robot.util.Subsystems.swerve;
 
 public class Turret extends SubsystemBase {
 
@@ -118,7 +119,12 @@ public class Turret extends SubsystemBase {
 
             adjustTurret(m_adjustedTargetAngle, translationRate, rotationRate);
         }
-        shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
+
+        if (swerve.inNeutralOrOpposingZone()) {
+            shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtShuttleTarget());
+        } else {
+            shooterArbiter.setCondition(shooterConditions.TURRET_ANGLE_CORRECT, isAtTarget());
+        }
     }
 
     public double getCurrentAngle() {
@@ -171,6 +177,15 @@ public class Turret extends SubsystemBase {
             targetAngle = m_adjustedTargetAngle;
         }
         return Math.abs(currentAngle - targetAngle) < ALLOWED_ERROR;
+    }
+
+    public boolean isAtShuttleTarget() {
+        double targetAngle = m_targetAngle;
+        double currentAngle = getCurrentAngle();
+        if (RED_ALLIANCE.isPresent()) {
+            targetAngle = m_adjustedTargetAngle;
+        }
+        return Math.abs(currentAngle - targetAngle) < SHUTTLE_ALLOWED_ERROR;
     }
 
     private double voltageFeedForward(double translationRate, double rotationRate) {

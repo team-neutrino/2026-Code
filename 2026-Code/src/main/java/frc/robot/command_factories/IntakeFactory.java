@@ -22,6 +22,11 @@ public class IntakeFactory {
         return intake.moveIntakeIntermediate(INTERMEDIATE_POSITION_1, INTAKE_VOLTAGE);
     }
 
+    public static Command autonShakeHopper() {
+        return intake.setCommandAutonCurrentLimit()
+                .andThen(intake.moveIntakeIntermediate(INTERMEDIATE_POSITION_1, INTAKE_VOLTAGE));
+    }
+
     public static Command deployAndRunIntake() {
         return intake.deployAndRunIntake(INTAKE_VOLTAGE);
     }

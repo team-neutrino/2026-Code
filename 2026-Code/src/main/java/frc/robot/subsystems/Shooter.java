@@ -205,6 +205,10 @@ public class Shooter extends SubsystemBase {
         return Math.abs(getShooterRPM() - m_targetShooterRpm) <= RPM_ALLOWED_ERROR;
     }
 
+    public boolean atShuttleTargetRPM() {
+        return Math.abs(getShooterRPM() - m_targetShooterRpm) <= SHUTTLE_RPM_ALLOWED_ERROR;
+    }
+
     /**
      * Returns whether or not we are ready to score.
      * 
@@ -264,7 +268,12 @@ public class Shooter extends SubsystemBase {
                 + (1 - SHOOTER_RPM_NOISE) * (m_shooterMotor.getVelocity().getValueAsDouble()
                         * 60.0);
 
-        shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
+        if (swerve.inNeutralOrOpposingZone()) {
+            shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atShuttleTargetRPM());
+        } else {
+            shooterArbiter.setCondition(shooterConditions.SHOOTER_SPEED_CORRECT, atTargetRPM());
+        }
+
         shooterArbiter.setCondition(shooterConditions.HOOD_ANGLE_CORRECT, atTargetPosition());
 
         controlHoodMotor();
@@ -335,7 +344,7 @@ public class Shooter extends SubsystemBase {
             double hubDistance = swerve.getFromHubToTurret();
             if (swerve.inNeutralOrOpposingZone()) {
                 m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);
-                m_targetShooterRpm = DEFAULT_SHOOTING_SPEED;
+                m_targetShooterRpm = LOW_BATTERY_SPEED;
                 return;
             }
             m_targetAngle = HOOD_INTERPOLATION.get(hubDistance);

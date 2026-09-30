@@ -25,7 +25,7 @@
                           {
                             "type": "path",
                             "data": {
-                              "pathName": "Far - 3L"
+                              "pathName": "Far No Beach - 3L"
                             }
                           },
                           {
@@ -99,7 +99,7 @@
                                 {
                                   "type": "wait",
                                   "data": {
-                                    "waitTime": 1.75
+                                    "waitTime": 2.0
                                   }
                                 },
                                 {
@@ -126,25 +126,6 @@
                                   "type": "path",
                                   "data": {
                                     "pathName": "Depot Side Intake"
-                                  }
-                                },
-                                {
-                                  "type": "race",
-                                  "data": {
-                                    "commands": [
-                                      {
-                                        "type": "wait",
-                                        "data": {
-                                          "waitTime": 0.25
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "noDrive"
-                                        }
-                                      }
-                                    ]
                                   }
                                 }
                               ]

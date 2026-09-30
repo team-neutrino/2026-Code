@@ -173,7 +173,7 @@ public class Vision extends SubsystemBase {
             if (better_limelight_found_two_hub_tags) {
                 // limelight.publishDefaultPose();
                 // limelight.publishDefaultYaw();
-                break;
+                continue;
             }
             limelight.updateFusionMegatag();
             limelight.updatePigeonSeed();
@@ -361,7 +361,7 @@ public class Vision extends SubsystemBase {
         /** Determines whether conditions are safe for yaw reseeding. */
         private boolean verifyPigeonSeedUpdate() {
             return estimateMT1 != null
-                    && ((estimateMT1.tagCount > 1) || (estimateMT1.tagCount == 1 && !m_enabled))
+                    && (estimateMT1.tagCount > 1)
                     && Math.abs(swerve.getState().Speeds.omegaRadiansPerSecond) < Math.PI / 4
                     && poseInField(estimateMT1)
                     && swerve.getSpeedMetersPerSecond() < PIGEON_SEED_XY_THRESHOLD

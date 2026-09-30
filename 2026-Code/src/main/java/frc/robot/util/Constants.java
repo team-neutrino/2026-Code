@@ -72,6 +72,7 @@ public class Constants {
 
         public static final double HOOD_ALLOWED_ERROR = 2.5;
         public static final double RPM_ALLOWED_ERROR = 400;
+        public static final double SHUTTLE_RPM_ALLOWED_ERROR = 800;
 
         public static final int SHOOTER_ID = 16;
         public static final int SHOOTER_FOLLOWER_ID = 17;
@@ -88,6 +89,7 @@ public class Constants {
         public static final double SOFT_SHOT_SPEED = 1700;
         public static final double DEFAULT_SHOOTING_SPEED = 3000;
         public static final double PROGRAMMED_SHOT_SPEED = 3730.0;
+        public static final double LOW_BATTERY_SPEED = 1000;
         public static final double UNSTICK = -4000;
 
         public static final double SHUTTLE_SHOOTING_SPEED = 4000;
@@ -157,6 +159,7 @@ public class Constants {
         public static final double ROTOR_TO_SENSOR_RATIO = 12.0 / 56.0;
         public static final double TORQUE_LOAD = 0;
         public static final double ALLOWED_ERROR = 8;
+        public static final double SHUTTLE_ALLOWED_ERROR = 10;
         public static final double TRACKING_THRESHOLD = 67.0;
         public static final double DISCONTINUITY_POINT = 1;
         public static final double ENCODER_MAGNET_OFFSET = 0;
@@ -197,6 +200,7 @@ public class Constants {
 
         public static final double ROLLER_CURRENT_LIMIT = 45;
         public static final double DEPLOY_CURRENT_LIMIT = 45;
+        public static final double AUTON_DEPLOY_CURRENT_LIMIT = 60;
 
         public static final double INTAKE_VOLTAGE = 10;
         public static final double OUTTAKE_VOLTAGE = -10;
@@ -294,7 +298,7 @@ public class Constants {
         public static final double GAIN_SCHEDULE_THRESHOLD = 0.1;
         public static final double GAIN_SCHEDULE_FACTOR_P = 0.5;
 
-        public static final double DRIVE_TO_POINT_P = 3; // tuned up for dtpfinite
+        public static final double DRIVE_TO_POINT_P = 4; // tuned up for dtpfinite
         public static final double DRIVE_TO_POINT_I = 0;
         public static final double DRIVE_TO_POINT_D = 0;
         public static final double MAX_DRIVETOPOINT_SPEED = 5;
@@ -366,10 +370,10 @@ public class Constants {
         public static final List<Pose2d> SHOOT_POSES = List.of(BLUE_SHOOT_TOP, BLUE_SHOOT_BOTTOM, RED_SHOOT_BOTTOM,
                 RED_SHOOT_TOP);
 
-        public static final Pose2d PAST_RED_DEPOT_BUMP = new Pose2d(5.75, 5.75, new Rotation2d(45));
-        public static final Pose2d PAST_RED_OUTPOST_BUMP = new Pose2d(5.75, 2.319326, new Rotation2d(-45));
-        public static final Pose2d PAST_BLUE_DEPOT_BUMP = new Pose2d(10.790988, 5.75, new Rotation2d(-135));
-        public static final Pose2d PAST_BLUE_OUTPOST_BUMP = new Pose2d(10.790988, 2.319326, new Rotation2d(135));
+        public static final Pose2d PAST_RED_DEPOT_BUMP = new Pose2d(6.0, 5.75, new Rotation2d(45));
+        public static final Pose2d PAST_RED_OUTPOST_BUMP = new Pose2d(6.0, 2.319326, new Rotation2d(-45));
+        public static final Pose2d PAST_BLUE_DEPOT_BUMP = new Pose2d(10.540988, 5.75, new Rotation2d(-135));
+        public static final Pose2d PAST_BLUE_OUTPOST_BUMP = new Pose2d(10.540988, 2.319326, new Rotation2d(135));
 
         public static final List<Pose2d> NEUTRAL_ZONE_POSES = List.of(PAST_BLUE_DEPOT_BUMP, PAST_BLUE_OUTPOST_BUMP,
                 PAST_RED_DEPOT_BUMP, PAST_RED_OUTPOST_BUMP);
