@@ -10,7 +10,7 @@ public class HubActiveStatus {
         BLUE
     }
 
-    private Alliance inactiveFirst = null;
+    private Alliance inactiveFirst = Alliance.RED; // temp for practice
 
     public void update() {
 
