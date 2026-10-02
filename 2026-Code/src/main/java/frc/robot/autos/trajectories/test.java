@@ -11,7 +11,7 @@ import static frc.robot.util.Subsystems.*;
 public class test {
     public static AutoRoutine example() {
         AutoRoutine routine = AutoBase.autoFactory.newRoutine("New Path");
-        AutoTrajectory neutral = routine.trajectory("NeutralLeft");
+        AutoTrajectory neutral = routine.trajectory("NeutralLeftAll");
         AutoTrajectory depot = routine.trajectory("Depot");
         routine.active().onTrue(
                 Commands.sequence(
