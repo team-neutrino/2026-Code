@@ -8,7 +8,7 @@ import frc.robot.command_factories.IntakeFactory;
 
 import static frc.robot.util.Subsystems.*;
 
-public class test {
+public class leftDepot {
     public static AutoRoutine example() {
         AutoRoutine routine = AutoBase.autoFactory.newRoutine("New Path");
         AutoTrajectory neutral = routine.trajectory("NeutralLeftAll");
