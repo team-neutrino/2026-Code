@@ -34,7 +34,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
@@ -443,7 +442,6 @@ public class Swerve extends CommandSwerveDrivetrain {
         if (accelerometer.getY() > 0.5) {
             System.out.println("Y: " + accelerometer.getY());
         }
-        System.out.println(DriverStation.getMatchTime());
     }
 
     public void configureRequestPID() {
