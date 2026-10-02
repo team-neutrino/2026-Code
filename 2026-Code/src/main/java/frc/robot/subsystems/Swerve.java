@@ -33,6 +33,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.units.measure.Angle;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.generated.CommandSwerveDrivetrain;
@@ -44,6 +45,9 @@ import frc.robot.util.MatchState;
 public class Swerve extends CommandSwerveDrivetrain {
 
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
+    private SlewRateLimiter m_slowSlewLimit = new SlewRateLimiter(LOW_SLEW_LIMIT, -LOW_SLEW_LIMIT, 0);
+    private SlewRateLimiter m_rotationSlowSlewLimit = new SlewRateLimiter(ROTATION_LOW_SLEW_LIMIT,
+            -ROTATION_LOW_SLEW_LIMIT, 0);
     private Debouncer m_beachDebouncer = new Debouncer(BEACH_DEBOUNCE_TIME, DebounceType.kRising);
     private boolean m_brakeEngaged = false;
     private Pose2d hubPose = Pose2d.kZero;
@@ -51,6 +55,7 @@ public class Swerve extends CommandSwerveDrivetrain {
     private double joystickVx;
     private double joystickVy;
     MatchState matchState = new MatchState();
+    BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
 
     public Swerve() {
         super(TunerConstants.DrivetrainConstants,
@@ -120,6 +125,10 @@ public class Swerve extends CommandSwerveDrivetrain {
 
     public boolean notBeached() {
         return m_beachDebouncer.calculate(isUpright());
+    }
+
+    public double getAcceleration() {
+        return Math.sqrt(Math.pow(accelerometer.getX(), 2) + Math.pow(accelerometer.getY(), 2));
     }
 
     /**
@@ -283,8 +292,9 @@ public class Swerve extends CommandSwerveDrivetrain {
     }
 
     public boolean isNotMovingTooFastOrTurning() {
-        return getSpeedMetersPerSecond() < SHOOT_WHILE_MOVING_THRESHOLD
-                && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD;
+        return getSpeedMetersPerSecond() < SHOOT_WHILE_MOVING_VELOCITY_THRESHOLD
+                && getAngularSpeedDegreesPerSecond() < NOT_TURNING_THRESHOLD
+                && getAcceleration() < SHOOT_WHILE_MOVING_ACCELERATION_THRESHOLD;
     }
 
     private void configurePathPlanner() {
@@ -339,8 +349,10 @@ public class Swerve extends CommandSwerveDrivetrain {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
+            double rotation_magnitude = m_rotationSlowSlewLimit.calculate(rotation * SLOW_MAX_ROTATION_SPEED);
             double magnitude = Math.hypot(forward, left) * (SLOW_MAX_SPEED);
-            magnitude = m_slewLimit.calculate(magnitude);
+            magnitude = inNeutralOrOpposingZone() ? m_slewLimit.calculate(magnitude)
+                    : m_slowSlewLimit.calculate(magnitude);
             checkEngageBrake(forward, left, rotation);
 
             if (m_brakeEngaged) {
@@ -349,7 +361,7 @@ public class Swerve extends CommandSwerveDrivetrain {
                 setControl(SwerveRequestStash.drive
                         .withVelocityY(left * magnitude)
                         .withVelocityX(forward * magnitude)
-                        .withRotationalRate(rotation * SLOW_MAX_ROTATION_SPEED));
+                        .withRotationalRate(rotation_magnitude));
             }
         });
     }
@@ -359,8 +371,11 @@ public class Swerve extends CommandSwerveDrivetrain {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
+            double rotation_magnitude = m_slowSlewLimit.calculate(rotation * SLOWEST_MAX_ROTATION_SPEED);
+            rotation_magnitude = m_rotationSlowSlewLimit.calculate(rotation_magnitude);
             double magnitude = Math.hypot(forward, left) * (SLOWEST_MAX_SPEED);
-            magnitude = m_slewLimit.calculate(magnitude);
+            magnitude = inNeutralOrOpposingZone() ? m_slewLimit.calculate(magnitude)
+                    : m_slowSlewLimit.calculate(magnitude);
             checkEngageBrake(forward, left, rotation);
 
             if (m_brakeEngaged) {
@@ -369,7 +384,7 @@ public class Swerve extends CommandSwerveDrivetrain {
                 setControl(SwerveRequestStash.drive
                         .withVelocityY(left * magnitude)
                         .withVelocityX(forward * magnitude)
-                        .withRotationalRate(rotation * SLOWEST_MAX_ROTATION_SPEED));
+                        .withRotationalRate(rotation_magnitude));
             }
         });
     }
@@ -420,6 +435,12 @@ public class Swerve extends CommandSwerveDrivetrain {
                     isNotMovingTooFastOrTurning());
             hubPose = getYakitTargetPose();
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
+        }
+        if (accelerometer.getX() > 0.5) {
+            System.out.println("X: " + accelerometer.getX());
+        }
+        if (accelerometer.getY() > 0.5) {
+            System.out.println("Y: " + accelerometer.getY());
         }
     }
 
