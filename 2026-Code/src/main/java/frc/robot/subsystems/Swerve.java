@@ -394,8 +394,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
-            double rotation_magnitude = m_slowSlewLimit.calculate(rotation * SLOWEST_MAX_ROTATION_SPEED);
-            rotation_magnitude = m_rotationSlowSlewLimit.calculate(rotation_magnitude);
+            double rotation_magnitude = m_rotationSlowSlewLimit.calculate(rotation * SLOWEST_MAX_ROTATION_SPEED);
             double magnitude = Math.hypot(forward, left) * (SLOWEST_MAX_SPEED);
             magnitude = inNeutralOrOpposingZone() ? m_slewLimit.calculate(magnitude)
                     : m_slowSlewLimit.calculate(magnitude);
