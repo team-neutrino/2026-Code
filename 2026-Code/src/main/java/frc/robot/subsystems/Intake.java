@@ -76,12 +76,6 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    public Command silly() {
-        return run(() -> {
-            System.out.println("works");
-        });
-    }
-
     public void setTeleopCurrentLimit() {
         if (m_hasSetAutonCurrentLimit) {
             m_deployMotorConfig.CurrentLimits = m_deployCurrentLimitConfig;

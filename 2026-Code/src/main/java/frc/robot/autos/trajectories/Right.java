@@ -29,7 +29,7 @@ public class Right {
                         swerve.unbeach(),
                         Commands.race(
                                 swerve.noDrive(),
-                                IntakeFactory.shakeHopper(),
+                                IntakeFactory.autonShakeHopper(),
                                 index.autonDefaultCommand(),
                                 shooter.autonDefaultCommand()
                         )));

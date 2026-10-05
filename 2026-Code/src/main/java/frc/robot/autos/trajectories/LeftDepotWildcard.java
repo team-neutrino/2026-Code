@@ -11,10 +11,10 @@ import frc.robot.command_factories.IntakeFactory;
 
 import static frc.robot.util.Subsystems.*;
 
-public class LeftDepot {
+public class LeftDepotWildcard {
     public static AutoRoutine example() {
         AutoRoutine routine = AutoBase.autoFactory.newRoutine("New Path");
-        AutoTrajectory neutral = routine.trajectory("NeutralLeftAll");
+        AutoTrajectory neutral = routine.trajectory("NeutralLeftAllWild");
         AutoTrajectory depot1 = routine.trajectory("Depot1");
         AutoTrajectory depot2 = routine.trajectory("Depot2");
         routine.active().onTrue(

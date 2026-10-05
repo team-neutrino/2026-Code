@@ -202,7 +202,7 @@ public class Constants {
 
         public static final double ROLLER_CURRENT_LIMIT = 45;
         public static final double DEPLOY_CURRENT_LIMIT = 45;
-        public static final double AUTON_DEPLOY_CURRENT_LIMIT = 65;
+        public static final double AUTON_DEPLOY_CURRENT_LIMIT = 70;
 
         public static final double INTAKE_VOLTAGE = 10;
         public static final double OUTTAKE_VOLTAGE = -10;
