@@ -15,7 +15,7 @@ public class AutoSelector {
 
   public AutoSelector() {
     m_autoChooser.addRoutine("LeftDepot", () -> LeftDepot.example());
-    m_autoChooser.addRoutine("LeftDepotWildcard", () -> LeftDepotWildcard.example());
+    m_autoChooser.addRoutine("LeftDepotSlow", () -> LeftDepotSlow.example());
     m_autoChooser.addRoutine("Right", () -> Right.example());
     m_autoChooser.addRoutine("Nothing", () -> Nothing.example());
 
