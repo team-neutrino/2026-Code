@@ -23,6 +23,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.Debouncer;
@@ -44,6 +45,8 @@ import frc.robot.util.MatchState;
 
 public class Swerve extends CommandSwerveDrivetrain {
 
+    private RobotConfig config = null;
+    private SwerveSetpointGenerator m_setpoint;
     private SlewRateLimiter m_slewLimit = new SlewRateLimiter(SLEW_LIMIT, -Integer.MAX_VALUE, 0);
     private SlewRateLimiter m_slowSlewLimit = new SlewRateLimiter(LOW_SLEW_LIMIT, -LOW_SLEW_LIMIT, 0);
     private SlewRateLimiter m_rotationSlowSlewLimit = new SlewRateLimiter(ROTATION_LOW_SLEW_LIMIT,
@@ -73,6 +76,17 @@ public class Swerve extends CommandSwerveDrivetrain {
         resetRotation(Rotation2d.fromDegrees(getYawDegrees()));
 
         configurePathPlanner();
+
+        try {
+            config = RobotConfig.fromGUISettings();
+        } catch (IOException e) {
+            System.out.println("Failed to instantiate RobotConfig config; IOException");
+            e.printStackTrace();
+        } catch (ParseException e) {
+            System.out.println("Failed to instantiate RobotConfig config; ParseException");
+            e.printStackTrace();
+        }
+        m_setpoint = new SwerveSetpointGenerator(config, 100 * Math.PI);
     }
 
     public double getYaw360() {
@@ -306,17 +320,6 @@ public class Swerve extends CommandSwerveDrivetrain {
         double dRotation = 0;
         PIDConstants translationConstants = new PIDConstants(pTranslation, iTranslation, dTranslation);
         PIDConstants rotationConstants = new PIDConstants(pRotation, iRotation, dRotation);
-
-        RobotConfig config = null;
-        try {
-            config = RobotConfig.fromGUISettings();
-        } catch (IOException e) {
-            System.out.println("Failed to instantiate RobotConfig config; IOException");
-            e.printStackTrace();
-        } catch (ParseException e) {
-            System.out.println("Failed to instantiate RobotConfig config; ParseException");
-            e.printStackTrace();
-        }
 
         AutoBuilder.configure(
                 this::getCurrentPose,
