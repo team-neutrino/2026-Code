@@ -52,8 +52,6 @@ public class Vision extends SubsystemBase {
 
     private boolean m_enabled = false;
     private Timer m_timer = new Timer();
-    private Pose2d m_lastPose = new Pose2d();
-    private Pose2d m_currentPose = new Pose2d();
 
     private Limelight[] limelights;
 
@@ -177,10 +175,10 @@ public class Vision extends SubsystemBase {
             }
             limelight.updateFusionMegatag();
             limelight.updatePigeonSeed();
+            limelight.updateLastPose();
             // limelight.publishPose();
             // limelight.publishYaw();
             better_limelight_found_two_hub_tags = limelight.hasTwoHubTags();
-            m_lastPose = m_currentPose;
         }
     }
 
@@ -213,6 +211,9 @@ public class Vision extends SubsystemBase {
         private DoublePublisher m_yawPub;
         private boolean m_poseZeroWasPublished = false;
         private boolean m_yawZeroWasPublished = false;
+
+        private Pose2d m_lastPose = new Pose2d();
+        private Pose2d m_currentPose = new Pose2d();
 
         /**
          * Constructs a Limelight wrapper.
@@ -375,6 +376,10 @@ public class Vision extends SubsystemBase {
                 swerve.seedYawMT1(estimateMT1.pose.getRotation().getDegrees(), MT1_WEIGHT_YAW);
                 m_timer.restart();
             }
+        }
+
+        public void updateLastPose() {
+            m_lastPose = m_currentPose;
         }
 
         /** Calculates XY measurement standard deviation dynamically. */
