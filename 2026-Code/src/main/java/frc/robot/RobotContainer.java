@@ -1,6 +1,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +21,7 @@ import static frc.robot.util.Subsystems.*;
 
 import java.util.List;
 
+import com.ctre.phoenix6.HootReplay;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -29,10 +31,21 @@ public class RobotContainer {
   private final CommandXboxController m_buttonController = new CommandXboxController(1);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
   private SendableChooser<Command> m_chooser;
+  private String m_filePath = "path";
 
   private Subsystems m_subsystemContainer;
 
   public RobotContainer() {
+
+    if (RobotBase.isSimulation()) {
+      HootReplay.loadFile(m_filePath);
+      if (HootReplay.isFileLoaded()) {
+        System.out.println("Successfully loaded hoot replay");
+      } else {
+        System.out.println("failed bro shucks");
+      }
+    }
+
     m_subsystemContainer = new Subsystems();
     configureDefaultCommands();
     configureBindings();
