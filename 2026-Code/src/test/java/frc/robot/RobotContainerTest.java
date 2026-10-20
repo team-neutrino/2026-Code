@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.autos.AutoSelector;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +22,8 @@ class RobotContainerTest {
 
   @Test
   void testGetAutonomousCommand() {
-    RobotContainer robotContainer = new RobotContainer();
-    Command autoCommand = robotContainer.getAutonomousCommand();
+    AutoSelector autoSelector = new AutoSelector();
+    Command autoCommand = autoSelector.getAutonomousCommand();
     assertNotNull(autoCommand, "Autonomous command should not be null");
   }
 }

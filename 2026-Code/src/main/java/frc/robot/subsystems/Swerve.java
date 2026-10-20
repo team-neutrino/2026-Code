@@ -5,6 +5,7 @@ import static frc.robot.util.Subsystems.shooterArbiter;
 import static frc.robot.util.Constants.FieldMeasurementConstants.*;
 
 import static frc.robot.util.Constants.GlobalConstants.RED_ALLIANCE;
+import static frc.robot.util.Constants.AutoConstants.*;
 import static frc.robot.util.Constants.ShooterConstants.*;
 import static frc.robot.util.Constants.SwerveConstants.*;
 import static frc.robot.util.Constants.TurretConstants.*;
@@ -18,13 +19,16 @@ import com.ctre.phoenix6.configs.GyroTrimConfigs;
 import com.ctre.phoenix6.configs.MountPoseConfigs;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.ctre.phoenix6.swerve.SwerveRequest.ApplyFieldSpeeds;
 import com.ctre.phoenix6.swerve.SwerveRequest.ForwardPerspectiveValue;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -73,6 +77,8 @@ public class Swerve extends CommandSwerveDrivetrain {
         resetRotation(Rotation2d.fromDegrees(getYawDegrees()));
 
         configurePathPlanner();
+
+        AUTO_HEADING_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     public double getYaw360() {
@@ -297,6 +303,23 @@ public class Swerve extends CommandSwerveDrivetrain {
                 && getAcceleration() < SHOOT_WHILE_MOVING_ACCELERATION_THRESHOLD;
     }
 
+    public void followChoreoTrajectory(SwerveSample sample) {
+        Pose2d pose = getCurrentPose();
+
+        ChassisSpeeds speeds = sample.getChassisSpeeds();
+        speeds.vxMetersPerSecond += AUTO_X_CONTROLLER.calculate(
+                pose.getX(), sample.x);
+        speeds.vyMetersPerSecond += AUTO_Y_CONTROLLER.calculate(
+                pose.getY(), sample.y);
+        speeds.omegaRadiansPerSecond += AUTO_HEADING_CONTROLLER.calculate(
+                pose.getRotation().getRadians(), sample.heading);
+
+        setControl(
+                SwerveRequestStash.followTrajectory.withSpeeds(speeds)
+                        .withWheelForceFeedforwardsX(sample.moduleForcesX())
+                        .withWheelForceFeedforwardsY(sample.moduleForcesY()));
+    }
+
     private void configurePathPlanner() {
         double pTranslation = 2;
         double iTranslation = 0;
@@ -371,8 +394,7 @@ public class Swerve extends CommandSwerveDrivetrain {
             double forward = -joystick.getLeftY();
             double left = -joystick.getLeftX();
             double rotation = -joystick.getRightX();
-            double rotation_magnitude = m_slowSlewLimit.calculate(rotation * SLOWEST_MAX_ROTATION_SPEED);
-            rotation_magnitude = m_rotationSlowSlewLimit.calculate(rotation_magnitude);
+            double rotation_magnitude = m_rotationSlowSlewLimit.calculate(rotation * SLOWEST_MAX_ROTATION_SPEED);
             double magnitude = Math.hypot(forward, left) * (SLOWEST_MAX_SPEED);
             magnitude = inNeutralOrOpposingZone() ? m_slewLimit.calculate(magnitude)
                     : m_slowSlewLimit.calculate(magnitude);
@@ -436,12 +458,6 @@ public class Swerve extends CommandSwerveDrivetrain {
             hubPose = getYakitTargetPose();
             m_turretTargetAngle = calculateFieldRelativeTargetAngle();
         }
-        if (accelerometer.getX() > 0.5) {
-            System.out.println("X: " + accelerometer.getX());
-        }
-        if (accelerometer.getY() > 0.5) {
-            System.out.println("Y: " + accelerometer.getY());
-        }
     }
 
     public void configureRequestPID() {
@@ -456,6 +472,10 @@ public class Swerve extends CommandSwerveDrivetrain {
                 .withForwardPerspective(ForwardPerspectiveValue.OperatorPerspective);
 
         public static final SwerveRequest.RobotCentric autonDrive = new SwerveRequest.RobotCentric()
+                .withDriveRequestType(DriveRequestType.Velocity);
+
+        public static final SwerveRequest.ApplyFieldSpeeds followTrajectory = new SwerveRequest.ApplyFieldSpeeds()
+                .withDesaturateWheelSpeeds(true)
                 .withDriveRequestType(DriveRequestType.Velocity);
 
         public static final SwerveRequest.FieldCentricFacingAngle driveWithVelocity = new SwerveRequest.FieldCentricFacingAngle()

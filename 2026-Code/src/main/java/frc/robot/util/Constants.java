@@ -10,6 +10,7 @@ import java.util.Optional;
 import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.swerve.SwerveRequest.NativeSwerveRequest;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -201,7 +202,7 @@ public class Constants {
 
         public static final double ROLLER_CURRENT_LIMIT = 45;
         public static final double DEPLOY_CURRENT_LIMIT = 45;
-        public static final double AUTON_DEPLOY_CURRENT_LIMIT = 60;
+        public static final double AUTON_DEPLOY_CURRENT_LIMIT = 70;
 
         public static final double INTAKE_VOLTAGE = 10;
         public static final double OUTTAKE_VOLTAGE = -10;
@@ -273,15 +274,15 @@ public class Constants {
     public static class SwerveConstants {
         public static final double BEACH_DEBOUNCE_TIME = 0.3;
         public static final double SLEW_LIMIT = 4.0;
-        public static final double LOW_SLEW_LIMIT = 0.4;
+        public static final double LOW_SLEW_LIMIT = 0.5;
         public static final double ROTATION_LOW_SLEW_LIMIT = 1;
-        public static final double GYRO_SCALAR_Z = -5.3;
+        public static final double GYRO_SCALAR_Z = -6.17;
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 6.0; // 1.5 * Math.PI
         public static final double SLOW_MAX_ROTATION_SPEED = 4.0;
         public static final double SLOW_MAX_SPEED = 2.0;
         public static final double SLOWEST_MAX_ROTATION_SPEED = 2.0;
-        public static final double SLOWEST_MAX_SPEED = 0.75;
+        public static final double SLOWEST_MAX_SPEED = 1.25;
         public static final double ROTATIONAL_P = 6.0;
         public static final double AUTO_ALIGN_D = 0.0;
         public static final double JOYSTICK_REST_ALLOWED_ERROR = 0.1;
@@ -292,6 +293,12 @@ public class Constants {
         public static final double BRAKE_ALLOWED_ERROR = 0.05;
         public static final double START_BRAKING_VELOCITY = 0.1;
         public static final double BEACHED_ANGLE = 3.0;
+    }
+
+    public static class AutoConstants {
+        public static final PIDController AUTO_X_CONTROLLER = new PIDController(2, 0, 0);
+        public static final PIDController AUTO_Y_CONTROLLER = new PIDController(2, 0, 0);
+        public static final PIDController AUTO_HEADING_CONTROLLER = new PIDController(2, 0, 0);
     }
 
     public static class DriveToPointConstants {

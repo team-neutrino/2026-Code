@@ -197,14 +197,8 @@ public class Index extends SubsystemBase {
 
     public Command autonDefaultCommand() {
         return run(() -> {
-            if (shooterArbiter.getCondition(shooterConditions.TURRET_ANGLE_CORRECT)
-                    && shooterArbiter.getCondition(shooterConditions.HOOD_ANGLE_CORRECT)) {
                 m_spindexerMotorVoltage = INDEXING_VOLTAGE;
                 m_kickerMotorVoltage = KICKER_VOLTAGE;
-            } else {
-                m_spindexerMotorVoltage = 0.0;
-                m_kickerMotorVoltage = 0.0;
-            }
         });
     }
 }
