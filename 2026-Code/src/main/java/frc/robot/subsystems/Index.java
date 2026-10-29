@@ -197,8 +197,13 @@ public class Index extends SubsystemBase {
 
     public Command autonDefaultCommand() {
         return run(() -> {
-                m_spindexerMotorVoltage = INDEXING_VOLTAGE;
-                m_kickerMotorVoltage = KICKER_VOLTAGE;
+                if (swerve.inNeutralOrOpposingZone()) {
+                    m_spindexerMotorVoltage = 0;
+                    m_kickerMotorVoltage = 0;
+                } else {
+                    m_spindexerMotorVoltage = INDEXING_VOLTAGE;
+                    m_kickerMotorVoltage = KICKER_VOLTAGE; 
+                }
         });
     }
 }

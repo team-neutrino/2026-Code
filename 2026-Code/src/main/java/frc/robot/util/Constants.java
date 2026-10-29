@@ -202,7 +202,7 @@ public class Constants {
 
         public static final double ROLLER_CURRENT_LIMIT = 45;
         public static final double DEPLOY_CURRENT_LIMIT = 45;
-        public static final double AUTON_DEPLOY_CURRENT_LIMIT = 70;
+        public static final double AUTON_DEPLOY_CURRENT_LIMIT = 60;
 
         public static final double INTAKE_VOLTAGE = 10;
         public static final double OUTTAKE_VOLTAGE = -10;
@@ -221,8 +221,8 @@ public class Constants {
     public static class LimelightConstants {
         public static final String LL_FRONT = "limelight-front";
         public static final String LL_BACK = "limelight-back";
-        public static final String LL_LEFT = "limelight-left";
-        public static final String LL_RIGHT = "limelight-right";
+        public static final String LL_LEFT = "limelight-right";
+        public static final String LL_RIGHT = "limelight-left";
 
         // Camera pose offsets in meters
         public static final double FRONT_FORWARD_OFFSET = 0.070646;
@@ -276,7 +276,7 @@ public class Constants {
         public static final double SLEW_LIMIT = 4.0;
         public static final double LOW_SLEW_LIMIT = 0.5;
         public static final double ROTATION_LOW_SLEW_LIMIT = 1;
-        public static final double GYRO_SCALAR_Z = -6.17;
+        public static final double GYRO_SCALAR_Z = -4.54;
         public static final double MAX_SPEED = 5.7;
         public static final double MAX_ROTATION_SPEED = 6.0; // 1.5 * Math.PI
         public static final double SLOW_MAX_ROTATION_SPEED = 4.0;
